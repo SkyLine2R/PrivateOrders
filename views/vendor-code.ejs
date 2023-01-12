@@ -1,0 +1,117 @@
+<% include head %>
+
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    Добавить новый артикул
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Добавление артикула</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <form> <!-- class="was-validated" -->
+            <div class="row gy-5">
+              <div class="col-4">
+                <label for="InputVendorСode" class="form-label">Артикул</label>
+                <input type="text" class="form-control" id="vendorСode" aria-describedby="InputVendorСode" required>
+              </div>
+
+              <div class="col">
+                <label for="name" class="form-label">Наименование</label>
+                <input type="text" class="form-control" id="name" required>
+              </div>
+            </div>
+
+            <div class="row gy-5">
+              <div class="col-3">
+                <label for="unit" class="form-label">Единица измерения</label>
+                <select id="unit" class="form-select" aria-label="м" required>
+                  <option selected>м</option>
+                  <option value="шт.">шт.</option>
+                  <option value="уп.">уп.</option>
+                </select>
+
+
+
+
+                <!--               <label for="unit" class="form-label">Единица измерения</label>
+              <input type="text" class="form-control" id="unit" required> -->
+              </div>
+
+              <div class="col-3">
+                <label for="length" class="form-label">Длина хлыста, м</label>
+                <input type="number" class="form-control" id="length" min="1" max="15" step="0.1">
+              </div>
+
+              <div class="col">
+                <label for="notes" class="form-label">Примечания</label>
+                <input type="text" class="form-control" id="notes">
+              </div>
+
+
+              <div class="form-check" hidden>
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Добавить дублирующий артикул</label>
+                <div id="warning" class="form-text">Такой артикул уже есть в базе. Вы уверены, что хотите добавить ещё
+                  один?
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="submit" class="btn btn-primary">Добавить артикул</button>
+              </div>
+
+              <div class="row">
+                <h5 class="modal-title" id="staticBackdropLabel">Похожие артикулы</h5>
+                <table class="table table-hover" style="margin-left: 10px ">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Артикул</th>
+                      <th scope="col">Наименование</th>
+                      <th scope="col">Ед. изм.</th>
+                      <th scope="col">Дл. хлыста</th>
+                    </tr>
+                  </thead>
+                  <tbody class=".table-hover">
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>345 459</td>
+                      <td>Алюминиевый профиль декоративная крышка для стойки 6000</td>
+                      <td>м</td>
+                      <td>6 м</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td>990 225</td>
+                      <td>Саморез с полукр. головкой 4,2*13 А2</td>
+                      <td>шт</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">3</th>
+                      <td>987225</td>
+                      <td>Саморез с полукр. головкой 4,2*80 А2</td>
+                      <td>шт</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <% include foot %>

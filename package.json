@@ -1,24 +1,16 @@
 {
   "name": "privateorders",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "start": "set NODE_ENV=development&& nodemon  index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "migrate": "knex migrate:latest --knexfile db/knexfile.js",
-    "seed": "knex seed:run --knexfile db/knexfile.js"
+    "start": "node ./bin/www"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.20.1",
-    "bootstrap": "^5.2.3",
-    "ejs": "^3.1.8",
-    "express": "^4.18.2",
-    "knex": "^2.4.0",
-    "nodemon": "^2.0.20",
-    "sqlite3": "^5.1.4"
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1"
   }
 }

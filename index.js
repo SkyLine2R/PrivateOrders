@@ -1,14 +1,16 @@
 const express = require("express");
+const app = express();
 const bodyParser = require("body-parser");
 const fs = require("fs");
-const ejs = require("ejs");
 const Item = require("./db.js");
-const app = express();
 
 app.set("port", process.env.PORT || 3000);
 
 app.use(bodyParser.json()); //поддержка тела запросов в JSON
 app.use(bodyParser.urlencoded({ extended: true })); //поддержка тела запросов в кодировке формы
+
+app.set("view engine", `ejs`);
+
 /* app.use(
   "/css/bootstrap.css",
   express.static("node_modules/bootstrap/dist/css/bootstrap.css")
@@ -23,13 +25,13 @@ app.use(bodyParser.urlencoded({ extended: true })); //поддержка тел�
   },
 });
  */
+app.get("/", function (req, res) {
+  res.render("vendor-code");
+});
+
 app.get("/items", (req, res, err) => {
-  fs.readFile("./views/vendor-code.ejs", (err, res) => {
-    //const template = res.toString();
-    console.log(res.toString());
-    res.end(ejs.render(template /* , { articles: articles } */));
-  });
-  res.setHeader("Content-type", "text/html");
+  res.render("vendor-code", { aaa: "asdfasdf" });
+  //res.setHeader("Content-type", "text/html");
 
   /*     Item.all()
     .then((items) => {

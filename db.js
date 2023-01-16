@@ -15,3 +15,5 @@ module.exports = Item = {
     return db("items").del().where({ id });
   },
 };
+
+module.exports = db;

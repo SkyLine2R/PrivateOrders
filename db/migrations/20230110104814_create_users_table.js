@@ -7,8 +7,8 @@ exports.up = function (knex) {
     table.increments("id").primary(); //id
     table.string("vendorСode", 50); //артикул
     table.string("name", 255).notNullable(); //наименование
-    table.string("unit", 10).notNullable(); //единицы измерения;
-    table.real("length"); //длина хлыста
+    table.string("unit", 20).notNullable(); //единицы измерения;
+    table.real("length"); //длина хлыста / кол-во в упаковке
     table.real("notes"); //примечания
     table.timestamps();
   });

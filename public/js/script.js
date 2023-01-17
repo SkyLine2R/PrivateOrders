@@ -1,15 +1,28 @@
 const fetchUrl = "http://localhost:3000/api/";
 const addArtileButton = document.querySelector("#addArtileButton");
 const tableVendorsCodes = document.querySelector("#tableVendorsCodes");
-let allArtiles = {};
+const inputVendorCode = document.querySelector("#vendorСode");
+const inputItem = document.querySelector("#item");
+const inputUnit = document.querySelector("#unit");
+const inputLength = document.querySelector("#length");
+const inputNotes = document.querySelector("#notes");
 
-addArtileButton.addEventListener("click", () => {
-  loadAllVendorCode();
+//ввод в поле артикул
+inputVendorCode.addEventListener("input", () => {
+  //ввод только допустимых символов в поле артикула
+  inputVendorCode.value = inputVendorCode.value.replace(/[^-*\d\w.\s]/gi, "");
+
+  loadingVendorCodes(inputVendorCode.value.replace(/[^\d\w]/gi, "") || "all");
 });
 
-//загрузить данные обо всех артикулах с сервера
-function loadAllVendorCode() {
-  fetch(`${fetchUrl}vendorcode/all`).then(function (response) {
+//загрузка данных в таблицу артикулов
+addArtileButton.addEventListener("click", () => {
+  loadingVendorCodes("all");
+});
+
+//подгрузка данных с сервера по артикулу
+function loadingVendorCodes(code) {
+  fetch(`${fetchUrl}vendorcode/${code}`).then(function (response) {
     if (response.ok) {
       response.json().then(function (data) {
         if (data.error) {
@@ -20,7 +33,7 @@ function loadAllVendorCode() {
     } else {
       console.log(
         'Network request for "' +
-          product.name +
+          product.item +
           '" image failed with response ' +
           response.status +
           ": " +
@@ -31,25 +44,14 @@ function loadAllVendorCode() {
 }
 
 function reloadTable(data, table) {
-  console.log(data);
-  //let number = 1;
-
   table.innerHTML = data.reduce((output, row, index) => {
     console.log(row.vendorСode);
     return (output += `<tr>
           <th scope="row">${index + 1}</th>
           <td>${row.vendorСode}</td>
-          <td>${row.name}</td>
+          <td>${row.item}</td>
           <td>${row.unit}</td>
           <td>${row.length || "-"}</td>
         </tr>`);
   }, "");
-  /* let output = `<tr>
-          <th scope="row">${number++}</th>
-          <td>${data.vendorCode}</td>
-          <td>${data.name}</td>
-          <td>${data.unit}</td>
-          <td>${data.length}</td>
-        </tr>`; */
-  //table.innerHTML = output;
 }

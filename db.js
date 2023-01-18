@@ -14,7 +14,14 @@ query
 
 module.exports = Item = {
   findVendorСode(vendorСode) {
-    return db("items").whereLike("vendorСode", `%${vendorСode}%`);
+    return db("items")
+      .whereLike("vendorСode", `%${vendorСode}%`)
+      .orderBy("vendorСode");
+  },
+  findItemName(vendorСode) {
+    return db("items")
+      .whereLike("itemName", `%${itemName}%`)
+      .orderBy("itemName");
   },
   create(data) {
     return db("items").insert(data);

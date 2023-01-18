@@ -2,7 +2,7 @@ const fetchUrl = "http://localhost:3000/api/";
 const addArtileButton = document.querySelector("#addArtileButton");
 const tableVendorsCodes = document.querySelector("#tableVendorsCodes");
 const inputVendorCode = document.querySelector("#vendorСode");
-const inputItem = document.querySelector("#item");
+const inputItemName = document.querySelector("#itemName");
 const inputUnit = document.querySelector("#unit");
 const inputLength = document.querySelector("#length");
 const inputNotes = document.querySelector("#notes");
@@ -10,9 +10,20 @@ const inputNotes = document.querySelector("#notes");
 //ввод в поле артикул
 inputVendorCode.addEventListener("input", () => {
   //ввод только допустимых символов в поле артикула
-  inputVendorCode.value = inputVendorCode.value.replace(/[^-*\d\w.\s]/gi, "");
+  if (!inputItemName.value) {
+    inputVendorCode.value = inputVendorCode.value.replace(/[^-*\d\w.\s]/gi, "");
+    //подгрузка данных
+    loadingVendorCodes(inputVendorCode.value.replace(/[^\d\w]/gi, "") || "all");
+  }
+});
 
-  loadingVendorCodes(inputVendorCode.value.replace(/[^\d\w]/gi, "") || "all");
+inputItemName.addEventListener("input", () => {
+  //ввод только допустимых символов в поле наименования
+  if (!inputVendorCode.value) {
+    //inputVendorCode.value = inputVendorCode.value.replace(/[^-*\d\w.\s]/gi, "");
+    //подгрузка данных
+    loadingVendorCodes(inputVendorCode.value.replace(/[^\d\w]/gi, "") || "all");
+  }
 });
 
 //загрузка данных в таблицу артикулов
@@ -49,7 +60,7 @@ function reloadTable(data, table) {
     return (output += `<tr>
           <th scope="row">${index + 1}</th>
           <td>${row.vendorСode}</td>
-          <td>${row.item}</td>
+          <td>${row.itemName}</td>
           <td>${row.unit}</td>
           <td>${row.length || "-"}</td>
         </tr>`);

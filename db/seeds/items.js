@@ -13,7 +13,8 @@ exports.seed = function (knex) {
       return knex("items").insert([
         {
           id: 1,
-          vendorСode: "010703",
+          tags: "010703 алюминиевый профиль закладная деталь для стойки",
+          vendorCode: "010703",
           itemName: "Алюминиевый профиль закладная деталь для стойки",
           unit: "м / хл.",
           length: "6",
@@ -22,7 +23,8 @@ exports.seed = function (knex) {
         },
         {
           id: 2,
-          vendorСode: "432254",
+          tags: "432254 алюминиевый профиль стойка 149мм",
+          vendorCode: "432254",
           itemName: "Алюминиевый профиль стойка 149мм",
           unit: "м / хл.",
           length: "4.6",
@@ -31,7 +33,8 @@ exports.seed = function (knex) {
         },
         {
           id: 3,
-          vendorСode: "990117",
+          tags: "990117 саморез с пот. головкой 4,2*16 а2",
+          vendorCode: "990117",
           itemName: "Саморез с пот. головкой 4,2*16 А2",
           unit: "шт. / уп.",
           length: "100",

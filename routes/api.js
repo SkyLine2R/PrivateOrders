@@ -2,20 +2,26 @@ var express = require("express");
 var router = express.Router();
 
 //получить все артикулы
-router.get("/vendorcode/:number", function (req, res, next) {
-  const request = req.params.number == "all" ? "" : `%${req.params.number}%`;
+router.get("/vendorcode/:vendorCode", requestToDb);
+router.get("/itemname/:itemname", requestToDb);
+router.get("/filter/:tags", requestToDb);
 
-  Item.findVendorСode(request)
+//Отправка обратного ответа на запрос данных
+function requestToDb(req, res, next) {
+  const column = Object.keys(req.params)[0];
+  console.log(column);
+  console.log(req.params[column]);
+  Item.findRecords(req.params[column], column)
     .then((items) => {
       return res.json(items);
     })
     .catch((err) => {
       console.error(err);
       return res.json({
-        error: false,
+        error: true,
         message: "Ошибка при получении данных...",
       });
     });
-});
+}
 
 module.exports = router;

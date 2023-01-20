@@ -1,5 +1,5 @@
 const fetchUrl = "http://localhost:3000/api/";
-const addArtileButton = document.querySelector("#addArtileButton");
+const buttonAddVendorCode = document.querySelector("#buttonAddVendorCode");
 const tableVendorsCodes = document.querySelector("#tableVendorsCodes");
 const inputVendorCode = document.querySelector("#vendorСode");
 const inputItemName = document.querySelector("#itemName");
@@ -7,33 +7,49 @@ const inputUnit = document.querySelector("#unit");
 const inputLength = document.querySelector("#length");
 const inputNotes = document.querySelector("#notes");
 
-//ввод в поле артикул
+//ввод в поле артикул - автообновление таблицы
 inputVendorCode.addEventListener("input", () => {
-  //ввод только допустимых символов в поле артикула
+  //убрать запрещённые символы из поля и урезать строку
+  inputVendorCode.value = inputVendorCode.value
+    .substring(0, 19)
+    .replace(/[^-*\d\w.\s]/gi, "");
+
+  //если не введены данные в поле "наименование" - применяем фильтр для таблицы
   if (!inputItemName.value) {
-    inputVendorCode.value = inputVendorCode.value.replace(/[^-*\d\w.\s]/gi, "");
-    //подгрузка данных
-    loadingVendorCodes(inputVendorCode.value.replace(/[^\d\w]/gi, "") || "all");
+    //в запросе отправляем только латиницу и цифры, все остальные знаки - заменить на маску %
+    loadingItemFromDb(
+      "vendorcode",
+      inputVendorCode.value.replace(/[^\d\w]/gi, "%25") || "%25"
+    );
   }
 });
 
 inputItemName.addEventListener("input", () => {
-  //ввод только допустимых символов в поле наименования
+  //убрать запрещённые символы из поля и урезать строку
+  inputItemName.value = inputItemName.value
+    .substring(0, 255)
+    .replace(/[^-*\d\wа-яё.\s]/gi, "");
+
   if (!inputVendorCode.value) {
-    //inputVendorCode.value = inputVendorCode.value.replace(/[^-*\d\w.\s]/gi, "");
     //подгрузка данных
-    loadingVendorCodes(inputVendorCode.value.replace(/[^\d\w]/gi, "") || "all");
+    loadingItemFromDb(
+      "itemName",
+      inputItemName.value.replace(/[^\d\wа-яё]/gi, "%25") || "%25"
+    );
   }
 });
 
-//загрузка данных в таблицу артикулов
-addArtileButton.addEventListener("click", () => {
-  loadingVendorCodes("all");
+//открыть окно добавления артикула
+buttonAddVendorCode.addEventListener("click", () => {
+  loadingItemFromDb("vendorcode", "%25");
 });
 
 //подгрузка данных с сервера по артикулу
-function loadingVendorCodes(code) {
-  fetch(`${fetchUrl}vendorcode/${code}`).then(function (response) {
+function loadingItemFromDb(column, code) {
+  //
+  console.log(`${fetchUrl + column}/${code}`);
+  //
+  fetch(`${fetchUrl + column}/${code}`).then(function (response) {
     if (response.ok) {
       response.json().then(function (data) {
         if (data.error) {
@@ -44,7 +60,9 @@ function loadingVendorCodes(code) {
     } else {
       console.log(
         'Network request for "' +
-          product.item +
+          fetchUrl +
+          column +
+          code +
           '" image failed with response ' +
           response.status +
           ": " +
@@ -56,10 +74,9 @@ function loadingVendorCodes(code) {
 
 function reloadTable(data, table) {
   table.innerHTML = data.reduce((output, row, index) => {
-    console.log(row.vendorСode);
     return (output += `<tr>
           <th scope="row">${index + 1}</th>
-          <td>${row.vendorСode}</td>
+          <td>${row.vendorCode}</td>
           <td>${row.itemName}</td>
           <td>${row.unit}</td>
           <td>${row.length || "-"}</td>

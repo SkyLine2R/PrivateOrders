@@ -13,10 +13,10 @@ query
   }); */
 
 module.exports = Item = {
-  findVendorСode(vendorСode) {
-    return db("items")
-      .whereLike("vendorСode", `%${vendorСode}%`)
-      .orderBy("vendorСode");
+  findRecords(value, column) {
+    console.log(column + " " + value);
+    console.log(db);
+    return db("items").whereLike(column, `%${value}%`).orderBy(column);
   },
   findItemName(vendorСode) {
     return db("items")

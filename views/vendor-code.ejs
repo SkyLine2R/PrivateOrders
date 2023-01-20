@@ -3,7 +3,7 @@
 
   </div>
   <!-- Button trigger modal -->
-  <button id='addArtileButton' type="button" class="btn btn-primary" data-bs-toggle="modal"
+  <button id='buttonAddVendorCode' type="button" class="btn btn-primary" data-bs-toggle="modal"
     data-bs-target="#staticBackdrop">
     Добавить новый артикул
   </button>
@@ -64,9 +64,17 @@
                 </div>
               </div>
 
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                <button type="submit" class="btn btn-primary">Добавить артикул</button>
+              <div class="modal-footer ">
+                <div class="col align-self-end">
+                  <label for="tagsField" class="form-label">Фильтр</label>
+                  <input type="text" class="form-control" id="tagsField"
+                    placeholder="Введите артикул, размер или наименование">
+                </div>
+
+                <div class="align-self-end">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                  <button type="submit" class="btn btn-primary">Добавить артикул</button>
+                </div>
               </div>
 
               <div class="row">
@@ -83,8 +91,7 @@
                     </tr>
                   </thead>
                   <tbody id="tableVendorsCodes" class=".table-hover">
-
-                    <tr>
+                    <!--                     <tr>
                       <th scope="row">1</th>
                       <td>345 459</td>
                       <td>Алюминиевый профиль декоративная крышка для стойки 6000</td>
@@ -104,7 +111,7 @@
                       <td>Саморез с полукр. головкой 4,2*80 А2</td>
                       <td>шт</td>
                       <td></td>
-                    </tr>
+                    </tr> -->
 
                   </tbody>
                 </table>

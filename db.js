@@ -13,10 +13,13 @@ query
   }); */
 
 module.exports = Item = {
+  //выборка записей для фильтра по маске
   findRecords(value, column) {
     console.log(column + " " + value);
-    console.log(db);
-    return db("items").whereLike(column, `%${value}%`).orderBy(column);
+    return db("items")
+      .whereLike(column, `%${value}%`)
+      .orWhereLike(column, `%${value.split("%").reverse().join("%")}%`)
+      .orderBy(column);
   },
   findItemName(vendorСode) {
     return db("items")

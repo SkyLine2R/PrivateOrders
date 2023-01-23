@@ -4,12 +4,11 @@ var router = express.Router();
 //получить все артикулы
 router.get("/vendorcode/:vendorCode", requestToDb);
 router.get("/itemname/:itemname", requestToDb);
-router.get("/filter/:tags", requestToDb);
+router.get("/filter/:tags", requestToDb); //запрос в поле фильтра
 
-//Отправка обратного ответа на запрос данных
+//Отправка ответа на запрос данных в поле фильтра
 function requestToDb(req, res, next) {
   const column = Object.keys(req.params)[0];
-  console.log(column);
   console.log(req.params[column]);
   Item.findRecords(req.params[column], column)
     .then((items) => {

@@ -40,9 +40,9 @@ inputItemName.addEventListener("input", () => {
 
 inputLength.addEventListener("input", () => {
   //ограничить длину ввода
-  if (inputLength.value) {
+  if (+inputLength.value.length > 6) {
     console.log(inputLength.value);
-    inputLength.value = inputLength.value.substring(0, 5);
+    inputLength.value = inputLength.value.substring(0, 6);
   }
 });
 

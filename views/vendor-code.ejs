@@ -19,7 +19,7 @@
         </div>
 
         <div class="modal-body">
-          <form> <!-- class="was-validated" -->
+          <form name='formForInputItem'> <!-- class="was-validated" -->
             <div class="row gy-5">
               <div class="col-4">
                 <label for="inputVendorCode" class="form-label">Артикул</label>
@@ -41,14 +41,34 @@
                   <option value="шт. / уп.">шт. / уп.</option>
                   <option value="м / уп.">м / уп.</option>
                 </select>
+                <!-- <div col-1>
+                <div>
+                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    м / хл.
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                  <label class="form-check-label" for="flexRadioDefault2">
+                    шт. / уп.
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                  <label class="form-check-label" for="flexRadioDefault2">
+                    м / уп.
+                  </label>
+                </div>
+              </div> -->
 
                 <!--               <label for="unit" class="form-label">Единица измерения</label>
               <input type="text" class="form-control" id="unit" required> -->
               </div>
 
               <div class="col-3">
-                <label for="inputLength" class="form-label">Длина хлыста</label>
-                <input type="number" class="form-control" id="inputLength" min="1" max="15" step="0.1">
+                <label for="inputLength" class="form-label">Кол-во ед. в хл. | уп.</label>
+                <input type="number" class="form-control" id="inputLength" min="1" max="10000" step="0.1">
               </div>
 
               <div class="col">
@@ -74,7 +94,7 @@
 
                 <div class="align-self-end">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                  <button type="submit" class="btn btn-primary">Добавить артикул</button>
+                  <button id="submitToBase" type="submit" class="btn btn-primary">Добавить артикул</button>
                 </div>
               </div>
 
@@ -88,7 +108,7 @@
                       <th scope="col">Артикул</th>
                       <th scope="col">Наименование</th>
                       <th scope="col">Ед. изм.</th>
-                      <th scope="col">Дл. хлыста</th>
+                      <th scope="col">В хл. | уп.</th>
                     </tr>
                   </thead>
                   <tbody id="tableVendorsCodes" class=".table-hover">

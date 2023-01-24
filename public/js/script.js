@@ -6,8 +6,49 @@ const inputItemName = document.querySelector("#inputItemName");
 const inputUnit = document.querySelector("#inputUnit");
 const inputLength = document.querySelector("#inputLength");
 const inputNotes = document.querySelector("#inputNotes");
-//debugger;
-//ввод в поле артикул - автообновление таблицы
+const submitToBase = document.querySelector("#submitToBase");
+
+submitToBase.addEventListener("click", (e) => {
+  e.preventDefault();
+  console.log(new FormData(window.formForInputItem.JSON));
+  console.log(fetchUrl + "addItem");
+  //попробовать перебирать элементы формы для конвертации json, возможно переименовать элементы ввода в валидные имена как в БД чтобы было меньше преобразований
+  if (
+    inputVendorCode.value &&
+    inputItemName.value &&
+    inputUnit.value &&
+    inputLength.value
+  ) {
+  }
+
+  const sendData = JSON.stringify({ vendorCode: inputVendorCode.value });
+
+  fetch(fetchUrl + "addItem", {
+    method: "POST",
+    headers: { "Content-Type": "application/json;charset=utf-8" },
+    body: sendData,
+  }).then(function (response) {
+    if (response.ok) {
+      alert("Отправлено");
+      response.json().then(function (data) {
+        if (data.error) {
+          alert(data.message);
+        }
+        reloadTable(data, tableVendorsCodes);
+      });
+    } else {
+      console.log(
+        "Network request for /addItem" +
+          '" image failed with response ' +
+          response.status +
+          ": " +
+          response.statusText
+      );
+    }
+  });
+});
+
+//ввод в поле артикул - автообновление таблицы //debugger;
 inputVendorCode.addEventListener("input", () => {
   //убрать запрещённые символы из поля и урезать строку
   inputVendorCode.value = inputVendorCode.value
@@ -25,9 +66,16 @@ inputVendorCode.addEventListener("input", () => {
 });
 inputItemName.addEventListener("input", () => {
   //убрать запрещённые символы из поля и урезать строку
-  inputItemName.value = inputItemName.value
-    .replace(/[^-+*\d\wа-я.,/\s]/gi, "")
-    .substring(0, 255);
+  inputItemName.value = textAdapting(
+    inputItemName.value,
+    "[^-+*dwа-яё.,/s]",
+    "",
+    255
+  );
+
+  /*   inputItemName.value = inputItemName.value
+    .replace(/[^-+*\d\wа-яё.,/\s]/gi, "")
+    .substring(0, 255); */
 
   if (!inputVendorCode.value) {
     //подгрузка данных
@@ -37,6 +85,19 @@ inputItemName.addEventListener("input", () => {
     );
   }
 });
+
+function textAdapting(
+  string,
+  stringToReplaceRegExp,
+  replaceString,
+  maxLenghtForString
+) {
+  return string
+    .replace("ё", "е")
+    .replace("Ё", "Е")
+    .replace(`/${stringToReplaceRegExp}/gi`, replaceString)
+    .substring(0, maxLenghtForString);
+}
 
 inputLength.addEventListener("input", () => {
   //ограничить длину ввода

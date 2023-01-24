@@ -15,11 +15,11 @@ app.set("port", process.env.PORT || 3000);
 app.set("view engine", "ejs");
 
 app.use(logger("dev"));
+app.use(express.static(path.join(__dirname, "public")));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
-
 app.use("/", require("./routes/index"));
 app.use("/users", require("./routes/users"));
 app.use("/items", require("./routes/items"));
@@ -27,7 +27,7 @@ app.use("/api", require("./routes/api"));
 
 // catch 404 and forward to error handler
 /* app.use(function (req, res, next) {
-  next(createError(404));
+  next(createError(404)); 
 }); */
 
 // error handler

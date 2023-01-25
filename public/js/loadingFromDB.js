@@ -1,3 +1,0 @@
-class inputField {
-  constructor(inputField, )
-}

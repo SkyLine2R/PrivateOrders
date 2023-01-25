@@ -1,3 +1,7 @@
+//
+console.log(window.location.pathname);
+import testDataFromForm from "./js/testDataFromForm.js";
+
 const fetchUrl = "http://localhost:3000/api/";
 const buttonAddVendorCode = document.querySelector("#buttonAddVendorCode");
 const tableVendorsCodes = document.querySelector("#tableVendorsCodes");
@@ -10,8 +14,16 @@ const submitToBase = document.querySelector("#submitToBase");
 
 submitToBase.addEventListener("click", (e) => {
   e.preventDefault();
-  console.log(new FormData(window.formForInputItem.JSON));
-  console.log(fetchUrl + "addItem");
+  const formValue = JSON.stringify(
+    Object.fromEntries(new FormData(window.formForInputItem))
+  );
+
+  console.log(formValue);
+  formValue.map((element) => {
+    console.log(element);
+  });
+  testDataFromForm(testFormForInputItem, formValue);
+  //console.log(formValue.get("inputItemName"));
   //попробовать перебирать элементы формы для конвертации json, возможно переименовать элементы ввода в валидные имена как в БД чтобы было меньше преобразований
   if (
     inputVendorCode.value &&
@@ -21,7 +33,10 @@ submitToBase.addEventListener("click", (e) => {
   ) {
   }
 
-  const sendData = JSON.stringify({ vendorCode: inputVendorCode.value });
+  const sendData = JSON.stringify({
+    vendorCode: inputVendorCode.value,
+    ItemName: inputItemName.value,
+  });
 
   fetch(fetchUrl + "addItem", {
     method: "POST",
@@ -52,7 +67,7 @@ submitToBase.addEventListener("click", (e) => {
 inputVendorCode.addEventListener("input", () => {
   //убрать запрещённые символы из поля и урезать строку
   inputVendorCode.value = inputVendorCode.value
-    .replace(/[^-*а-яё.,/\d\w\s]/gi, "")
+    .replace(/[^-+*а-яё.,"/\d\w\s]/gi, "")
     .substring(0, 19);
   //если не введены данные в поле "наименование" - применяем фильтр для таблицы
   if (!inputItemName.value) {

@@ -10,7 +10,7 @@ exports.up = function (knex) {
     table.string("itemName", 255).notNullable(); //наименование
     table.string("unit", 15).notNullable(); //единицы измерения;
     table.real("length").notNullable(); //длина хлыста или кол-во в упаковке
-    table.real("notes"); //примечания
+    table.real("notes", 300); //примечания
     table.timestamps();
   });
 };

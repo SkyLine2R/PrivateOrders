@@ -9,8 +9,8 @@ exports.up = function (knex) {
     table.string("vendorCode", 20); //артикул
     table.string("itemName", 255).notNullable(); //наименование
     table.string("unit", 15).notNullable(); //единицы измерения;
-    table.real("length").notNullable(); //длина хлыста или кол-во в упаковке
-    table.real("notes", 300); //примечания
+    table.real("quantity").notNullable(); //длина хлыста или кол-во в упаковке
+    table.real("notes", 200); //примечания
     table.timestamps();
   });
 };

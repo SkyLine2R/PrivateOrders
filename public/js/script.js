@@ -1,6 +1,4 @@
-//
-console.log(window.location.pathname);
-import testDataFromForm from "./js/testDataFromForm.js";
+//import testDataFromForm from "./js/testDataFromForm.js";
 
 const fetchUrl = "http://localhost:3000/api/";
 const buttonAddVendorCode = document.querySelector("#buttonAddVendorCode");
@@ -8,35 +6,22 @@ const tableVendorsCodes = document.querySelector("#tableVendorsCodes");
 const inputVendorCode = document.querySelector("#inputVendorCode");
 const inputItemName = document.querySelector("#inputItemName");
 const inputUnit = document.querySelector("#inputUnit");
-const inputLength = document.querySelector("#inputLength");
+const inputQuantity = document.querySelector("#inputQuantity");
 const inputNotes = document.querySelector("#inputNotes");
-const submitToBase = document.querySelector("#submitToBase");
+const submitToDB = document.querySelector("#submitToDB");
 
-submitToBase.addEventListener("click", (e) => {
+//открыть окно добавления артикула
+buttonAddVendorCode.addEventListener("click", () => {
+  loadingItemFromDb("filter", "%25");
+});
+
+submitToDB.addEventListener("click", (e) => {
   e.preventDefault();
   const formValue = JSON.stringify(
     Object.fromEntries(new FormData(window.formForInputItem))
   );
 
-  console.log(formValue);
-  formValue.map((element) => {
-    console.log(element);
-  });
-  testDataFromForm(testFormForInputItem, formValue);
-  //console.log(formValue.get("inputItemName"));
-  //попробовать перебирать элементы формы для конвертации json, возможно переименовать элементы ввода в валидные имена как в БД чтобы было меньше преобразований
-  if (
-    inputVendorCode.value &&
-    inputItemName.value &&
-    inputUnit.value &&
-    inputLength.value
-  ) {
-  }
-
-  const sendData = JSON.stringify({
-    vendorCode: inputVendorCode.value,
-    ItemName: inputItemName.value,
-  });
+  console.log(testDataFromForm(testFormForInputItem, formValue));
 
   fetch(fetchUrl + "addItem", {
     method: "POST",
@@ -65,10 +50,11 @@ submitToBase.addEventListener("click", (e) => {
 
 //ввод в поле артикул - автообновление таблицы //debugger;
 inputVendorCode.addEventListener("input", () => {
-  //убрать запрещённые символы из поля и урезать строку
-  inputVendorCode.value = inputVendorCode.value
-    .replace(/[^-+*а-яё.,"/\d\w\s]/gi, "")
-    .substring(0, 19);
+  inputVendorCode.value = textСorrectionInField(
+    testFormForInputItem.vendorCode,
+    inputVendorCode.value
+  );
+
   //если не введены данные в поле "наименование" - применяем фильтр для таблицы
   if (!inputItemName.value) {
     //в запросе отправляем только буквы и цифры, все остальные знаки - заменить на маску %
@@ -80,17 +66,10 @@ inputVendorCode.addEventListener("input", () => {
   }
 });
 inputItemName.addEventListener("input", () => {
-  //убрать запрещённые символы из поля и урезать строку
-  inputItemName.value = textAdapting(
-    inputItemName.value,
-    "[^-+*dwа-яё.,/s]",
-    "",
-    255
+  inputItemName.value = textСorrectionInField(
+    testFormForInputItem.itemName,
+    inputItemName.value
   );
-
-  /*   inputItemName.value = inputItemName.value
-    .replace(/[^-+*\d\wа-яё.,/\s]/gi, "")
-    .substring(0, 255); */
 
   if (!inputVendorCode.value) {
     //подгрузка данных
@@ -101,36 +80,29 @@ inputItemName.addEventListener("input", () => {
   }
 });
 
-function textAdapting(
-  string,
-  stringToReplaceRegExp,
-  replaceString,
-  maxLenghtForString
-) {
-  return string
-    .replace("ё", "е")
-    .replace("Ё", "Е")
-    .replace(`/${stringToReplaceRegExp}/gi`, replaceString)
-    .substring(0, maxLenghtForString);
-}
+inputQuantity.addEventListener("input", () => {
+  inputItemName.value = textСorrectionInField(
+    testFormForInputItem.quantity,
+    inputItemName.value
+  );
 
-inputLength.addEventListener("input", () => {
-  //ограничить длину ввода
-  if (+inputLength.value.length > 6) {
-    console.log(inputLength.value);
-    inputLength.value = inputLength.value.substring(0, 6);
+  if (+inputQuantity.value.length > 6) {
+    console.log(inputQuantity.value);
+    inputQuantity.value = inputQuantity.value.substring(0, 6);
   }
+});
+
+inputNotes.addEventListener("input", () => {
+  inputNotes.value = textСorrectionInField(
+    testFormForInputItem.notes,
+    inputNotes.value
+  );
 });
 
 //Добавление данных в поля input кликами по таблице
 tableVendorsCodes.addEventListener("click", (e) => {
   if (e.target.className)
     window["input" + e.target.className].value = e.target.textContent;
-});
-
-//открыть окно добавления артикула
-buttonAddVendorCode.addEventListener("click", () => {
-  loadingItemFromDb("filter", "%25");
 });
 
 function loadingItemFromDb(column, code) {
@@ -175,4 +147,13 @@ function reloadTable(data, table) {
           <th scope="row">Нет подобных артикулов</th>
         </tr>`;
   }
+}
+
+function textСorrectionInField(refObj, fieldValue) {
+  //Убираем запрещённые символы и обрезаем строку
+  return fieldValue
+    .replace("ё", "е")
+    .replace("Ё", "Е")
+    .replace(new RegExp(`[^${refObj.regularExp}]`, "gi"), "")
+    .substring(0, refObj.maxlength - 1);
 }

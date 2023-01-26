@@ -1,37 +1,60 @@
-export function testDataFromForm(refObj, jsonData) {
+function testDataFromForm(refObj, jsonData) {
+  //Функция проверки переданных значений.
+  //Принимает объект с параметрами проверки и JSON с данными
+  //Если всё норм - возвращает объект c данными, нет - объект с массивом ошибок
   const testObj = JSON.parse(jsonData);
+  const errArr = [];
+
   for (let key in refObj) {
-    console.log(refObj[key]);
-    console.log(testObj[key]);
+    if (refObj[key].required && !testObj[key]) {
+      errArr.push(
+        `Поле "${refObj[key].description}" должно содержать значение.`
+      );
+    }
+    console.log(`ключ ${key}. Значение ключа ${testObj[key]}  `);
+
+    if (refObj[key].containsNumber) {
+      if (+testObj[key] < refObj[key].min || +testObj[key] > refObj[key].max)
+        errArr.push(
+          `Значение "${refObj[key].description}" должно быть положительным числом в диапазоне от ${refObj[key].min} до ${refObj[key].max}.`
+        );
+    } else if (testObj[key].length > refObj[key].maxlength) {
+      errArr.push(
+        `Значение "${refObj[key].description}" должно быть короче ${refObj[key].maxlength} символов.`
+      );
+    }
   }
+  return errArr.length ? { errors: errArr } : testObj;
 }
 
-export const testFormForInputItem = {
+//Объект для проверки значений при заполнении артикула
+
+const testFormForInputItem = {
   vendorCode: {
     required: true,
     maxlength: 20,
-    isNumber: false,
+    containsNumber: false,
     description: "артикул изделия",
-    regularExp: '-+*а-яё.,"/dws',
+    regularExp: 'а-яё\\-+/()#*.,"\\d\\w\\s',
   },
   itemName: {
     required: true,
     maxlength: 255,
-    isNumber: false,
+    containsNumber: false,
     description: "наименование изделия",
-    regularExp: '-+*а-яё.,"/dws',
+    regularExp: 'а-яё\\-+#№/()%:;*.,"\\d\\w\\s',
   },
   unit: {
     required: true,
     maxlength: 15,
-    isNumber: false,
+    containsNumber: false,
     description: "единицы измерения",
-    regularExp: "а-яё.,-/dws",
+    regularExp: "а-яё.,/-\\d\\w\\s",
   },
-  length: {
+  quantity: {
     required: true,
     maxlength: 5,
-    isNumber: true,
+    containsNumber: true,
     min: 0.1,
     max: 5000,
     description: "количество единиц в хлысте или упаковке",
@@ -39,8 +62,9 @@ export const testFormForInputItem = {
   },
   notes: {
     required: false,
-    maxlength: 300,
-    isNumber: false,
+    maxlength: 200,
+    containsNumber: false,
     description: "примечания",
+    regularExp: 'а-яё\\-+#№/()%:;*.,"\\d\\w\\s',
   },
 };

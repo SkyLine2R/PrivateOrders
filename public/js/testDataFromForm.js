@@ -11,8 +11,6 @@ function testDataFromForm(refObj, jsonData) {
         `Поле "${refObj[key].description}" должно содержать значение.`
       );
     }
-    console.log(`ключ ${key}. Значение ключа ${testObj[key]}  `);
-
     if (refObj[key].containsNumber) {
       if (+testObj[key] < refObj[key].min || +testObj[key] > refObj[key].max)
         errArr.push(

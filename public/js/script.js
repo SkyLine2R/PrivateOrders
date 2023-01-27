@@ -9,6 +9,8 @@ const inputUnit = document.querySelector("#inputUnit");
 const inputQuantity = document.querySelector("#inputQuantity");
 const inputNotes = document.querySelector("#inputNotes");
 const submitToDB = document.querySelector("#submitToDB");
+//регулярка для быстрого фильтра по артикулам
+const regExpForFilter = new RegExp("[^а-яё\\d\\w]", "gi");
 
 //открыть окно добавления артикула
 buttonAddVendorCode.addEventListener("click", () => {
@@ -20,9 +22,7 @@ submitToDB.addEventListener("click", (e) => {
   const formValue = JSON.stringify(
     Object.fromEntries(new FormData(window.formForInputItem))
   );
-
   console.log(testDataFromForm(testFormForInputItem, formValue));
-
   fetch(fetchUrl + "addItem", {
     method: "POST",
     headers: { "Content-Type": "application/json;charset=utf-8" },
@@ -48,37 +48,39 @@ submitToDB.addEventListener("click", (e) => {
   });
 });
 
-//ввод в поле артикул - автообновление таблицы //debugger;
+//ввод в поле "артикул"
 inputVendorCode.addEventListener("input", () => {
+  //автокоррекция вводимых данных
   inputVendorCode.value = textСorrectionInField(
     testFormForInputItem.vendorCode,
     inputVendorCode.value
   );
-
-  //если не введены данные в поле "наименование" - применяем фильтр для таблицы
-  if (!inputItemName.value) {
-    //в запросе отправляем только буквы и цифры, все остальные знаки - заменить на маску %
-    loadingItemFromDb(
-      "filter",
-      inputVendorCode.value.replace(/[^а-яё\d\w]/gi, "%25").toLowerCase() ||
-        "%25"
-    );
-  }
+  autoFilterForInputs(inputVendorCode.value, inputItemName.value);
 });
+
+//ввод в поле "наименование"
 inputItemName.addEventListener("input", () => {
   inputItemName.value = textСorrectionInField(
     testFormForInputItem.itemName,
     inputItemName.value
   );
 
-  if (!inputVendorCode.value) {
-    //подгрузка данных
+  autoFilterForInputs(inputVendorCode.value, inputItemName.value);
+});
+
+function autoFilterForInputs(field1, field2) {
+  const reqFilter =
+    (field1 || field2).replace(regExpForFilter, "%25").toLowerCase() || "%25";
+
+  //если введены данные в два поля - фильтр не используем
+  if (!(field1 && field2)) {
     loadingItemFromDb(
       "filter",
-      inputItemName.value.replace(/[^\d\wа-яё]/gi, "%25").toLowerCase() || "%25"
+      //оставляем в запросе только буквы и цифры, знаки и пробелы заменяем на маску  "любые символы - %"
+      (field1 || field2).replace(regExpForFilter, "%25").toLowerCase() || "%25"
     );
   }
-});
+}
 
 inputQuantity.addEventListener("input", () => {
   inputItemName.value = textСorrectionInField(
@@ -105,7 +107,8 @@ tableVendorsCodes.addEventListener("click", (e) => {
     window["input" + e.target.className].value = e.target.textContent;
 });
 
-function loadingItemFromDb(column, code) {
+function loadingItemFromDb(column, code, func) {
+  console.log(column, code);
   //подгрузка данных с сервера (столбец где искать данные и строка запроса)
   fetch(`${fetchUrl + column}/${code}`).then(function (response) {
     if (response.ok) {

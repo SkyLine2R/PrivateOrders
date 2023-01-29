@@ -5,23 +5,42 @@
   "main": "index.js",
   "scripts": {
     "start": "set NODE_ENV=development&& nodemon  index.js",
+    "build": "webpack -w",
     "test": "echo \"Error: no test specified\" && exit 1",
     "migrate": "knex migrate:latest --knexfile db/knexfile.js",
-    "seed": "knex seed:run --knexfile db/knexfile.js"
+    "seed": "knex seed:run --knexfile db/knexfile.js",
+    "wds": "webpack-dev-server --config webpack.dev.config.js",
+    "server": "webpack serve"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/core": "^7.20.12",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/preset-env": "^7.20.2",
+    "babel": "^6.23.0",
+    "babel-loader": "^9.1.2",
     "body-parser": "^1.20.1",
     "bootstrap": "^5.2.3",
     "cookie-parser": "^1.4.6",
+    "css-loader": "^6.7.3",
     "ejs": "^3.1.8",
     "express": "^4.18.2",
     "http-errors": "^2.0.0",
     "knex": "^2.4.0",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.20",
-    "sqlite3": "^5.1.4"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-hot-loader": "^4.13.1",
+    "sqlite3": "^5.1.4",
+    "style-loader": "^3.3.1",
+    "wds": "^0.13.2",
+    "webpack": "^5.75.0",
+    "webpack-dev-server": "^4.11.1"
+  },
+  "devDependencies": {
+    "webpack-cli": "^5.0.1"
   }
 }

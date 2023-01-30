@@ -23,6 +23,13 @@ function requestToDb(req, res, next) {
     });
 }
 
+{
+  table: "str";
+  column: "str";
+  forFilter: true;
+  reqString: "str";
+}
+
 /* function requestToDb(req, res, next) {
   const column = Object.keys(req.params)[0];
   Item.findRecords(req.params[column], column)

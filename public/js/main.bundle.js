@@ -1,4 +1,13 @@
+/*
+ * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
 /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./client/loadingItemFromDb.js":
@@ -7,48 +16,17 @@
   \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "loadingItemFromDb": () => (/* binding */ loadingItemFromDb),
-/* harmony export */   "reloadTable": () => (/* binding */ reloadTable)
-/* harmony export */ });
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"loadingItemFromDb\": () => (/* binding */ loadingItemFromDb),\n/* harmony export */   \"reloadTable\": () => (/* binding */ reloadTable),\n/* harmony export */   \"savingItemToDb\": () => (/* binding */ savingItemToDb)\n/* harmony export */ });\n\nconst fetchUrl = \"http://localhost:3000/api/\";\nfunction loadingItemFromDb(column, code, func) {\n  //подгрузка данных с сервера (столбец где искать данные и строка запроса)\n  console.log(`${fetchUrl + column}/${code}`);\n  fetch(`${fetchUrl + column}/${code}`).then(function (response) {\n    if (response.ok) {\n      response.json().then(function (data) {\n        if (data.error) {\n          //\n          // добавить функцию вывода окна с сообщением об ошибке\n          // вместо вывода в таблицу\n          reloadTable({\n            error: \"Ошибка получения данных!\" + data.error.message\n          }, tableVendorsCodes);\n        }\n        reloadTable(data, tableVendorsCodes);\n      });\n    } else {\n      //\n      // также добавить функцию вывода окна с сообщением об ошибке\n      console.log('Сетевой запрос \"' + fetchUrl + column + code + '\" завершился с ошибкой. Сообщение ' + response.status + \": \" + response.statusText);\n    }\n  });\n}\nfunction savingItemToDb(table, data) {\n  fetch(fetchUrl + \"addItem\", {\n    method: \"POST\",\n    headers: {\n      \"Content-Type\": \"application/json;charset=utf-8\"\n    },\n    body: sendData\n  }).then(function (response) {\n    if (response.ok) {\n      alert(\"Отправлено\");\n      response.json().then(function (data) {\n        if (data.error) {\n          alert(data.message);\n        }\n        reloadTable(data, tableVendorsCodes);\n      });\n    } else {\n      console.log(\"Network request for /addItem\" + '\" image failed with response ' + response.status + \": \" + response.statusText);\n    }\n  });\n}\nfunction reloadTable(data, table) {\n  if (data.error) {\n    table.innerHTML = `<tr>\n          <th scope=\"row\">${data.error}</th>\n        </tr>`;\n  }\n  //Обновление таблицы с артикулами\n  if (data.length) {\n    table.innerHTML = data.reduce((output, row, index) => {\n      return output += `<tr>\n          <th scope=\"row\">${index + 1}</th>\n          <td class='vendorCode'>${row.vendorCode}</td>\n          <td class='itemName'>${row.itemName}</td>\n          <td class='unit'>${row.unit}</td>\n          <td class='quantity'>${row.quantity}</td>\n        </tr>`;\n    }, \"\");\n  } else {\n    table.innerHTML = `<tr>\n          <th scope=\"row\">Нет подобных артикулов</th>\n        </tr>`;\n  }\n}\n\n/* \r\n// Пример отправки POST запроса:\r\nasync function postData(url = '', data = {}) {\r\n  // Default options are marked with *\r\n  const response = await fetch(url, {\r\n    method: 'POST', // *GET, POST, PUT, DELETE, etc.\r\n    mode: 'cors', // no-cors, *cors, same-origin\r\n    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached\r\n    credentials: 'same-origin', // include, *same-origin, omit\r\n    headers: {\r\n      'Content-Type': 'application/json'\r\n      // 'Content-Type': 'application/x-www-form-urlencoded',\r\n    },\r\n    redirect: 'follow', // manual, *follow, error\r\n    referrerPolicy: 'no-referrer', // no-referrer, *client\r\n    body: JSON.stringify(data) // body data type must match \"Content-Type\" header\r\n  });\r\n  return await response.json(); // parses JSON response into native JavaScript objects\r\n}\r\n\r\npostData('https://example.com/answer', { answer: 42 })\r\n  .then((data) => {\r\n    console.log(data); // JSON data parsed by `response.json()` call\r\n  }); */\n\n/*   Отправка запроса с учётными данными\r\nЧтобы браузеры могли отправлять запрос с учётными данными (даже для cross-origin запросов), добавьте credentials: 'include' в объект init, передаваемый вами в метод fetch():\r\n\r\nfetch('https://example.com', {\r\n  credentials: 'include'\r\n})\r\nCopy to Clipboard\r\nЕсли вы хотите отправлять запрос с учётными данными только если URL принадлежит одному источнику (origin) что и вызывающий его скрипт, добавьте credentials: 'same-origin'.\r\n\r\n// Вызывающий скрипт принадлежит источнику 'https://example.com'\r\n\r\nfetch('https://example.com', {\r\ncredentials: 'same-origin'\r\n})\r\nCopy to Clipboard\r\nНапротив, чтобы быть уверенным, что учётные данные не передаются с запросом, используйте credentials: 'omit':\r\n\r\nfetch('https://example.com', {\r\ncredentials: 'omit'\r\n}) */\n\n//# sourceURL=webpack://privateorders/./client/loadingItemFromDb.js?");
 
+/***/ }),
 
-const fetchUrl = "http://localhost:3000/api/";
-function loadingItemFromDb(column, code, func) {
-  //подгрузка данных с сервера (столбец где искать данные и строка запроса)
-  fetch(`${fetchUrl + column}/${code}`).then(function (response) {
-    if (response.ok) {
-      response.json().then(function (data) {
-        if (data.error) {
-          alert(data.message);
-        }
-        reloadTable(data, tableVendorsCodes);
-      });
-    } else {
-      console.log('Network request for "' + fetchUrl + column + code + '" image failed with response ' + response.status + ": " + response.statusText);
-    }
-  });
-}
-function reloadTable(data, table) {
-  //Обновление таблицы с артикулами
-  if (data.length) {
-    table.innerHTML = data.reduce((output, row, index) => {
-      return output += `<tr>
-          <th scope="row">${index + 1}</th>
-          <td class='vendorCode'>${row.vendorCode}</td>
-          <td class='itemName'>${row.itemName}</td>
-          <td class='unit'>${row.unit}</td>
-          <td class='quantity'>${row.quantity}</td>
-        </tr>`;
-    }, "");
-  } else {
-    table.innerHTML = `<tr>
-          <th scope="row">Нет подобных артикулов</th>
-        </tr>`;
-  }
-}
+/***/ "./client/script.js":
+/*!**************************!*\
+  !*** ./client/script.js ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _components_items_db_schema_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/items-db_schema.js */ \"./components/items-db_schema.js\");\n/* harmony import */ var _components_testing_data_from_input_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/testing-data-from-input.js */ \"./components/testing-data-from-input.js\");\n/* harmony import */ var _loadingItemFromDb_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./loadingItemFromDb.js */ \"./client/loadingItemFromDb.js\");\n //объект для проверки ввода\n //функция для проверки ввода\n //загрузка данных с БД\nconst buttonAddVendorCode = document.querySelector(\"#buttonAddVendorCode\");\nconst tableVendorsCodes = document.querySelector(\"#tableVendorsCodes\");\nconst inputVendorCode = document.querySelector(\"#inputVendorCode\");\nconst inputItemName = document.querySelector(\"#inputItemName\");\nconst inputUnit = document.querySelector(\"#inputUnit\");\nconst inputQuantity = document.querySelector(\"#inputQuantity\");\nconst inputNotes = document.querySelector(\"#inputNotes\");\nconst submitToDB = document.querySelector(\"#submitToDB\");\n//регулярка для быстрого фильтра по артикулам\nconst regExpForFilter = new RegExp(\"[^а-яё\\\\d\\\\w]\", \"gi\");\n//открыть окно добавления артикула\n\nbuttonAddVendorCode.addEventListener(\"click\", () => {\n  (0,_loadingItemFromDb_js__WEBPACK_IMPORTED_MODULE_2__.loadingItemFromDb)(\"filter\", \"%25\");\n});\nsubmitToDB.addEventListener(\"click\", e => {\n  e.preventDefault();\n  const formValue = JSON.stringify(Object.fromEntries(new FormData(window.formForInputItem)));\n  const verifiedData = (0,_components_testing_data_from_input_js__WEBPACK_IMPORTED_MODULE_1__.testDataFromForm)(_components_items_db_schema_js__WEBPACK_IMPORTED_MODULE_0__.testFormForInputItem, formValue);\n  if (verifiedData.hasOwnProperty(\"errors\")) {\n    //добавить функцию вывода предупреждения warningFunc()\n\n    alert(\"Проверьте правильность заполнения формы.\" + verifiedData.errors);\n  } else {\n    // проверить нет ли такого артикула в базе.\n\n    console.log(fetchUrl + \"addItem\");\n    savingItemToDb(\"items\", verifiedData);\n  }\n});\n\n//ввод в поле \"артикул\"\ninputVendorCode.addEventListener(\"input\", () => {\n  //автокоррекция вводимых данных\n  console.log(_components_items_db_schema_js__WEBPACK_IMPORTED_MODULE_0__.testFormForInputItem);\n  inputVendorCode.value = textСorrectionInField(_components_items_db_schema_js__WEBPACK_IMPORTED_MODULE_0__.testFormForInputItem.vendorCode, inputVendorCode.value);\n  autoFilterForInputs(inputVendorCode.value, inputItemName.value);\n});\n\n//ввод в поле \"наименование\"\ninputItemName.addEventListener(\"input\", () => {\n  inputItemName.value = textСorrectionInField(_components_items_db_schema_js__WEBPACK_IMPORTED_MODULE_0__.testFormForInputItem.itemName, inputItemName.value);\n  autoFilterForInputs(inputVendorCode.value, inputItemName.value);\n});\nfunction autoFilterForInputs(field1, field2) {\n  //оставляем в запросе только буквы и цифры,\n  // знаки и пробелы заменяем на маску \"любые символы - %\"\n  const reqFilter = (field1 || field2).replace(regExpForFilter, \"%25\").toLowerCase() || \"%25\";\n\n  //если введены данные в два поля - фильтр не используем\n  if (!(field1 && field2)) {\n    (0,_loadingItemFromDb_js__WEBPACK_IMPORTED_MODULE_2__.loadingItemFromDb)(\"filter\", reqFilter);\n  }\n}\n//ввод количества\ninputQuantity.addEventListener(\"input\", () => {\n  inputItemName.value = textСorrectionInField(_components_items_db_schema_js__WEBPACK_IMPORTED_MODULE_0__.testFormForInputItem.quantity, inputItemName.value);\n  if (inputQuantity.value.length > 6) {\n    inputQuantity.value = inputQuantity.value.substring(0, 6);\n  }\n});\n//ввод примечаний\ninputNotes.addEventListener(\"input\", () => {\n  inputNotes.value = textСorrectionInField(_components_items_db_schema_js__WEBPACK_IMPORTED_MODULE_0__.testFormForInputItem.notes, inputNotes.value);\n});\n\n//Перенос данных в поля input кликами по соответствующим полям в таблице\ntableVendorsCodes.addEventListener(\"click\", e => {\n  if (e.target.className) window[\"input\" + e.target.className[0].toUpperCase() + e.target.className.slice(1)].value = e.target.textContent;\n});\nfunction textСorrectionInField(refObj, fieldValue) {\n  //Убираем запрещённые символы и обрезаем строку\n  return fieldValue.replace(\"ё\", \"е\").replace(\"Ё\", \"Е\").replace(new RegExp(`[^${refObj.regularExp}]`, \"gi\"), \"\").substring(0, refObj.maxlength - 1);\n}\n\n//# sourceURL=webpack://privateorders/./client/script.js?");
 
 /***/ }),
 
@@ -58,52 +36,7 @@ function reloadTable(data, table) {
   \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "testFormForInputItem": () => (/* binding */ testFormForInputItem)
-/* harmony export */ });
-//Объект для проверки значений введённых пользователем - в таблицу 'items'
-
-const testFormForInputItem = {
-  vendorCode: {
-    required: true,
-    maxlength: 20,
-    containsNumber: false,
-    description: "артикул изделия",
-    regularExp: 'а-яё\\-+/()#*.,"\\d\\w\\s'
-  },
-  itemName: {
-    required: true,
-    maxlength: 255,
-    containsNumber: false,
-    description: "наименование изделия",
-    regularExp: 'а-яё\\-+#№/()%:;*.,"\\d\\w\\s'
-  },
-  unit: {
-    required: true,
-    maxlength: 15,
-    containsNumber: false,
-    description: "единицы измерения",
-    regularExp: "а-яё.,/-\\d\\w\\s"
-  },
-  quantity: {
-    required: true,
-    maxlength: 5,
-    containsNumber: true,
-    min: 0.1,
-    max: 5000,
-    description: "количество единиц в хлысте или упаковке",
-    regularExp: ".,/d"
-  },
-  notes: {
-    required: false,
-    maxlength: 200,
-    containsNumber: false,
-    description: "примечания",
-    regularExp: 'а-яё\\-+#№/()%:;*.,"\\d\\w\\s'
-  }
-};
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"testFormForInputItem\": () => (/* binding */ testFormForInputItem)\n/* harmony export */ });\n//Объект для проверки значений введённых пользователем - в таблицу 'items'\n\nconst testFormForInputItem = {\n  vendorCode: {\n    required: true,\n    maxlength: 20,\n    containsNumber: false,\n    description: \"артикул изделия\",\n    regularExp: 'а-яё\\\\-+/()#*.,\"\\\\d\\\\w\\\\s'\n  },\n  itemName: {\n    required: true,\n    maxlength: 255,\n    containsNumber: false,\n    description: \"наименование изделия\",\n    regularExp: 'а-яё\\\\-+#№/()%:;*.,\"\\\\d\\\\w\\\\s'\n  },\n  unit: {\n    required: true,\n    maxlength: 15,\n    containsNumber: false,\n    description: \"единицы измерения\",\n    regularExp: \"а-яё.,/-\\\\d\\\\w\\\\s\"\n  },\n  quantity: {\n    required: true,\n    maxlength: 5,\n    containsNumber: true,\n    min: 0.1,\n    max: 5000,\n    description: \"количество единиц в хлысте или упаковке\",\n    regularExp: \".,/d\"\n  },\n  notes: {\n    required: false,\n    maxlength: 200,\n    containsNumber: false,\n    description: \"примечания\",\n    regularExp: 'а-яё\\\\-+#№/()%:;*.,\"\\\\d\\\\w\\\\s'\n  }\n};\n\n//# sourceURL=webpack://privateorders/./components/items-db_schema.js?");
 
 /***/ }),
 
@@ -111,29 +44,9 @@ const testFormForInputItem = {
 /*!***********************************************!*\
   !*** ./components/testing-data-from-input.js ***!
   \***********************************************/
-/***/ ((module) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-module.exports = function testDataFromForm(refObj, jsonData) {
-  //Функция проверки переданных значений.
-  //Принимает объект refObj с параметрами проверки и jsonData с данными
-  //Если всё норм - возвращает объект c данными, нет - объект с массивом ошибок
-
-  const testObj = JSON.parse(jsonData);
-  const errArr = [];
-  for (let key in refObj) {
-    if (refObj[key].required && !testObj[key]) {
-      errArr.push(`Поле "${refObj[key].description}" должно содержать значение.`);
-    }
-    if (refObj[key].containsNumber) {
-      if (+testObj[key] < refObj[key].min || +testObj[key] > refObj[key].max) errArr.push(`Значение "${refObj[key].description}" должно быть положительным числом в диапазоне от ${refObj[key].min} до ${refObj[key].max}.`);
-    } else if (testObj[key].length > refObj[key].maxlength) {
-      errArr.push(`Значение "${refObj[key].description}" должно быть короче ${refObj[key].maxlength} символов.`);
-    }
-  }
-  return errArr.length ? {
-    errors: errArr
-  } : testObj;
-};
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"testDataFromForm\": () => (/* binding */ testDataFromForm)\n/* harmony export */ });\n\n//module.exports =\nfunction testDataFromForm(refObj, jsonData) {\n  //Функция проверки переданных значений.\n  //Принимает объект refObj с параметрами проверки и jsonData с данными\n  //Если всё норм - возвращает объект c данными, нет - объект с массивом ошибок\n\n  const testObj = JSON.parse(jsonData);\n  const errArr = [];\n  for (let key in refObj) {\n    if (refObj[key].required && !testObj[key]) {\n      errArr.push(`Поле \"${refObj[key].description}\" должно содержать значение.`);\n    }\n    if (refObj[key].containsNumber) {\n      if (+testObj[key] < refObj[key].min || +testObj[key] > refObj[key].max) errArr.push(`Значение \"${refObj[key].description}\" должно быть положительным числом в диапазоне от ${refObj[key].min} до ${refObj[key].max}.`);\n    } else if (testObj[key].length > refObj[key].maxlength) {\n      errArr.push(`Значение \"${refObj[key].description}\" должно быть короче ${refObj[key].maxlength} символов.`);\n    }\n  }\n  return errArr.length ? {\n    errors: errArr\n  } : testObj;\n}\n\n//# sourceURL=webpack://privateorders/./components/testing-data-from-input.js?");
 
 /***/ })
 
@@ -164,18 +77,6 @@ module.exports = function testDataFromForm(refObj, jsonData) {
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
-/******/ 			__webpack_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -205,106 +106,11 @@ module.exports = function testDataFromForm(refObj, jsonData) {
 /******/ 	})();
 /******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
-(() => {
-"use strict";
-/*!**************************!*\
-  !*** ./client/script.js ***!
-  \**************************/
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_items_db_schema_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/items-db_schema.js */ "./components/items-db_schema.js");
-/* harmony import */ var _components_testing_data_from_input_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/testing-data-from-input.js */ "./components/testing-data-from-input.js");
-/* harmony import */ var _components_testing_data_from_input_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_components_testing_data_from_input_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _loadingItemFromDb_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./loadingItemFromDb.js */ "./client/loadingItemFromDb.js");
- //объект для проверки ввода
- //функция для проверки ввода
- //загрузка данных с БД
-
-const buttonAddVendorCode = document.querySelector("#buttonAddVendorCode");
-const tableVendorsCodes = document.querySelector("#tableVendorsCodes");
-const inputVendorCode = document.querySelector("#inputVendorCode");
-const inputItemName = document.querySelector("#inputItemName");
-const inputUnit = document.querySelector("#inputUnit");
-const inputQuantity = document.querySelector("#inputQuantity");
-const inputNotes = document.querySelector("#inputNotes");
-const submitToDB = document.querySelector("#submitToDB");
-//регулярка для быстрого фильтра по артикулам
-const regExpForFilter = new RegExp("[^а-яё\\d\\w]", "gi");
-
-//открыть окно добавления артикула
-buttonAddVendorCode.addEventListener("click", () => {
-  (0,_loadingItemFromDb_js__WEBPACK_IMPORTED_MODULE_2__.loadingItemFromDb)("filter", "%25");
-});
-submitToDB.addEventListener("click", e => {
-  e.preventDefault();
-  const formValue = JSON.stringify(Object.fromEntries(new FormData(window.formForInputItem)));
-  console.log((0,_components_testing_data_from_input_js__WEBPACK_IMPORTED_MODULE_1__.testDataFromForm)(_components_items_db_schema_js__WEBPACK_IMPORTED_MODULE_0__.testFormForInputItem, formValue));
-  fetch(fetchUrl + "addItem", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json;charset=utf-8"
-    },
-    body: sendData
-  }).then(function (response) {
-    if (response.ok) {
-      alert("Отправлено");
-      response.json().then(function (data) {
-        if (data.error) {
-          alert(data.message);
-        }
-        reloadTable(data, tableVendorsCodes);
-      });
-    } else {
-      console.log("Network request for /addItem" + '" image failed with response ' + response.status + ": " + response.statusText);
-    }
-  });
-});
-
-//ввод в поле "артикул"
-inputVendorCode.addEventListener("input", () => {
-  //автокоррекция вводимых данных
-  console.log(_components_items_db_schema_js__WEBPACK_IMPORTED_MODULE_0__.testFormForInputItem);
-  inputVendorCode.value = textСorrectionInField(_components_items_db_schema_js__WEBPACK_IMPORTED_MODULE_0__.testFormForInputItem.vendorCode, inputVendorCode.value);
-  autoFilterForInputs(inputVendorCode.value, inputItemName.value);
-});
-
-//ввод в поле "наименование"
-inputItemName.addEventListener("input", () => {
-  inputItemName.value = textСorrectionInField(_components_items_db_schema_js__WEBPACK_IMPORTED_MODULE_0__.testFormForInputItem.itemName, inputItemName.value);
-  autoFilterForInputs(inputVendorCode.value, inputItemName.value);
-});
-function autoFilterForInputs(field1, field2) {
-  const reqFilter = (field1 || field2).replace(regExpForFilter, "%25").toLowerCase() || "%25";
-  //если введены данные в два поля - фильтр не используем
-  if (!(field1 && field2)) {
-    (0,_loadingItemFromDb_js__WEBPACK_IMPORTED_MODULE_2__.loadingItemFromDb)("filter",
-    //оставляем в запросе только буквы и цифры, знаки и пробелы заменяем на маску  "любые символы - %"
-    (field1 || field2).replace(regExpForFilter, "%25").toLowerCase() || "%25");
-  }
-}
-//ввод количества
-inputQuantity.addEventListener("input", () => {
-  inputItemName.value = textСorrectionInField(_components_items_db_schema_js__WEBPACK_IMPORTED_MODULE_0__.testFormForInputItem.quantity, inputItemName.value);
-  if (+inputQuantity.value.length > 6) {
-    console.log(inputQuantity.value);
-    inputQuantity.value = inputQuantity.value.substring(0, 6);
-  }
-});
-//ввод примечаний
-inputNotes.addEventListener("input", () => {
-  inputNotes.value = textСorrectionInField(_components_items_db_schema_js__WEBPACK_IMPORTED_MODULE_0__.testFormForInputItem.notes, inputNotes.value);
-});
-
-//Перенос данных в поля input кликами по соответствующим полям в таблице
-tableVendorsCodes.addEventListener("click", e => {
-  if (e.target.className) window["input" + e.target.className[0].toUpperCase() + e.target.className.slice(1)].value = e.target.textContent;
-});
-function textСorrectionInField(refObj, fieldValue) {
-  //Убираем запрещённые символы и обрезаем строку
-  return fieldValue.replace("ё", "е").replace("Ё", "Е").replace(new RegExp(`[^${refObj.regularExp}]`, "gi"), "").substring(0, refObj.maxlength - 1);
-}
-})();
-
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module can't be inlined because the eval devtool is used.
+/******/ 	var __webpack_exports__ = __webpack_require__("./client/script.js");
+/******/ 	
 /******/ })()
 ;

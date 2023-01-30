@@ -4,7 +4,6 @@ module.exports = {
   mode: "development",
   stats: { colors: true, reasons: true },
   entry: { main: path.resolve(__dirname, "./client/script.js") },
-  devtool: true,
 
   output: {
     path: path.resolve(__dirname, "./public/js"),

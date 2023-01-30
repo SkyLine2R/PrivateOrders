@@ -1,12 +1,49 @@
-export { loadingItemFromDb };
-export { reloadTable };
+export { loadingItemFromDb, savingItemToDb, reloadTable };
 
 const fetchUrl = "http://localhost:3000/api/";
 
 function loadingItemFromDb(column, code, func) {
   //подгрузка данных с сервера (столбец где искать данные и строка запроса)
+  console.log(`${fetchUrl + column}/${code}`);
   fetch(`${fetchUrl + column}/${code}`).then(function (response) {
     if (response.ok) {
+      response.json().then(function (data) {
+        if (data.error) {
+          //
+          // добавить функцию вывода окна с сообщением об ошибке
+          // вместо вывода в таблицу
+          reloadTable(
+            { error: "Ошибка получения данных!" + data.error.message },
+            tableVendorsCodes
+          );
+        }
+        reloadTable(data, tableVendorsCodes);
+      });
+    } else {
+      //
+      // также добавить функцию вывода окна с сообщением об ошибке
+      console.log(
+        'Сетевой запрос "' +
+          fetchUrl +
+          column +
+          code +
+          '" завершился с ошибкой. Сообщение ' +
+          response.status +
+          ": " +
+          response.statusText
+      );
+    }
+  });
+}
+
+function savingItemToDb(table, data) {
+  fetch(fetchUrl + "addItem", {
+    method: "POST",
+    headers: { "Content-Type": "application/json;charset=utf-8" },
+    body: sendData,
+  }).then(function (response) {
+    if (response.ok) {
+      alert("Отправлено");
       response.json().then(function (data) {
         if (data.error) {
           alert(data.message);
@@ -15,10 +52,7 @@ function loadingItemFromDb(column, code, func) {
       });
     } else {
       console.log(
-        'Network request for "' +
-          fetchUrl +
-          column +
-          code +
+        "Network request for /addItem" +
           '" image failed with response ' +
           response.status +
           ": " +
@@ -29,6 +63,11 @@ function loadingItemFromDb(column, code, func) {
 }
 
 function reloadTable(data, table) {
+  if (data.error) {
+    table.innerHTML = `<tr>
+          <th scope="row">${data.error}</th>
+        </tr>`;
+  }
   //Обновление таблицы с артикулами
   if (data.length) {
     table.innerHTML = data.reduce((output, row, index) => {
@@ -46,3 +85,49 @@ function reloadTable(data, table) {
         </tr>`;
   }
 }
+
+/* 
+// Пример отправки POST запроса:
+async function postData(url = '', data = {}) {
+  // Default options are marked with *
+  const response = await fetch(url, {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *same-origin, omit
+    headers: {
+      'Content-Type': 'application/json'
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    redirect: 'follow', // manual, *follow, error
+    referrerPolicy: 'no-referrer', // no-referrer, *client
+    body: JSON.stringify(data) // body data type must match "Content-Type" header
+  });
+  return await response.json(); // parses JSON response into native JavaScript objects
+}
+
+postData('https://example.com/answer', { answer: 42 })
+  .then((data) => {
+    console.log(data); // JSON data parsed by `response.json()` call
+  }); */
+
+/*   Отправка запроса с учётными данными
+Чтобы браузеры могли отправлять запрос с учётными данными (даже для cross-origin запросов), добавьте credentials: 'include' в объект init, передаваемый вами в метод fetch():
+
+fetch('https://example.com', {
+  credentials: 'include'
+})
+Copy to Clipboard
+Если вы хотите отправлять запрос с учётными данными только если URL принадлежит одному источнику (origin) что и вызывающий его скрипт, добавьте credentials: 'same-origin'.
+
+// Вызывающий скрипт принадлежит источнику 'https://example.com'
+
+fetch('https://example.com', {
+credentials: 'same-origin'
+})
+Copy to Clipboard
+Напротив, чтобы быть уверенным, что учётные данные не передаются с запросом, используйте credentials: 'omit':
+
+fetch('https://example.com', {
+credentials: 'omit'
+}) */

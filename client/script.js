@@ -11,8 +11,8 @@ const inputNotes = document.querySelector("#inputNotes");
 const submitToDB = document.querySelector("#submitToDB");
 //регулярка для быстрого фильтра по артикулам
 const regExpForFilter = new RegExp("[^а-яё\\d\\w]", "gi");
-
 //открыть окно добавления артикула
+
 buttonAddVendorCode.addEventListener("click", () => {
   loadingItemFromDb("filter", "%25");
 });
@@ -22,30 +22,18 @@ submitToDB.addEventListener("click", (e) => {
   const formValue = JSON.stringify(
     Object.fromEntries(new FormData(window.formForInputItem))
   );
-  console.log(testDataFromForm(testFormForInputItem, formValue));
-  fetch(fetchUrl + "addItem", {
-    method: "POST",
-    headers: { "Content-Type": "application/json;charset=utf-8" },
-    body: sendData,
-  }).then(function (response) {
-    if (response.ok) {
-      alert("Отправлено");
-      response.json().then(function (data) {
-        if (data.error) {
-          alert(data.message);
-        }
-        reloadTable(data, tableVendorsCodes);
-      });
-    } else {
-      console.log(
-        "Network request for /addItem" +
-          '" image failed with response ' +
-          response.status +
-          ": " +
-          response.statusText
-      );
-    }
-  });
+  const verifiedData = testDataFromForm(testFormForInputItem, formValue);
+
+  if (verifiedData.hasOwnProperty("errors")) {
+    //добавить функцию вывода предупреждения warningFunc()
+
+    alert("Проверьте правильность заполнения формы." + verifiedData.errors);
+  } else {
+    // проверить нет ли такого артикула в базе.
+
+    console.log(fetchUrl + "addItem");
+    savingItemToDb("items", verifiedData);
+  }
 });
 
 //ввод в поле "артикул"
@@ -70,15 +58,14 @@ inputItemName.addEventListener("input", () => {
 });
 
 function autoFilterForInputs(field1, field2) {
+  //оставляем в запросе только буквы и цифры,
+  // знаки и пробелы заменяем на маску "любые символы - %"
   const reqFilter =
     (field1 || field2).replace(regExpForFilter, "%25").toLowerCase() || "%25";
+
   //если введены данные в два поля - фильтр не используем
   if (!(field1 && field2)) {
-    loadingItemFromDb(
-      "filter",
-      //оставляем в запросе только буквы и цифры, знаки и пробелы заменяем на маску  "любые символы - %"
-      (field1 || field2).replace(regExpForFilter, "%25").toLowerCase() || "%25"
-    );
+    loadingItemFromDb("filter", reqFilter);
   }
 }
 //ввод количества
@@ -88,8 +75,7 @@ inputQuantity.addEventListener("input", () => {
     inputItemName.value
   );
 
-  if (+inputQuantity.value.length > 6) {
-    console.log(inputQuantity.value);
+  if (inputQuantity.value.length > 6) {
     inputQuantity.value = inputQuantity.value.substring(0, 6);
   }
 });

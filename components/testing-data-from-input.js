@@ -1,4 +1,6 @@
-module.exports = function testDataFromForm(refObj, jsonData) {
+export { testDataFromForm };
+//module.exports =
+function testDataFromForm(refObj, jsonData) {
   //Функция проверки переданных значений.
   //Принимает объект refObj с параметрами проверки и jsonData с данными
   //Если всё норм - возвращает объект c данными, нет - объект с массивом ошибок
@@ -24,4 +26,4 @@ module.exports = function testDataFromForm(refObj, jsonData) {
     }
   }
   return errArr.length ? { errors: errArr } : testObj;
-};
+}

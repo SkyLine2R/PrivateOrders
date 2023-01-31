@@ -6,9 +6,12 @@ router.get("/vendorcode/:vendorCode", requestToDb); //будет приём за
 router.get("/itemname/:itemname", requestToDb);
 router.get("/filter/:tags", requestToDb); //приём запросов с полей фильтра
 router.post("/addItem", (req, res) => {});
+router.post("/api", (req, res) => {
+  console.log(req.body);
+});
 //Отправка ответа на запрос данных в поле фильтра
 function requestToDb(req, res, next) {
-  //console.log(req.body);
+  console.log(req.body);
 
   const column = Object.keys(req.params)[0];
   Item.findRecords(req.params[column], column)

@@ -1,11 +1,30 @@
+// Запросы отправляемые на API:
+// type: save, load, filter
+// table: таблица для сохранения или выборки
+//
+// fields: {поля с данными во вложенном объекте для сохранения}
+
 export { loadingItemFromDb, savingItemToDb, reloadTable };
 
 const fetchUrl = "http://localhost:3000/api/";
 
-function loadingItemFromDb(column, code, func) {
+async function loadingItemFromDb(reqType, code, func) {
+  //запрос переделанный на POST
+  // Default options are marked with *
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    referrerPolicy: "no-referrer",
+    body: JSON.stringify(data),
+  });
+
+  console.log(await response.json()); // parses JSON response into native JavaScript objects
+
   //подгрузка данных с сервера (столбец где искать данные и строка запроса)
-  console.log(`${fetchUrl + column}/${code}`);
-  fetch(`${fetchUrl + column}/${code}`).then(function (response) {
+  console.log(`${fetchUrl + reqType}/${code}`);
+  fetch(`${fetchUrl + reqType}/${code}`).then(function (response) {
     if (response.ok) {
       response.json().then(function (data) {
         if (data.error) {
@@ -25,7 +44,7 @@ function loadingItemFromDb(column, code, func) {
       console.log(
         'Сетевой запрос "' +
           fetchUrl +
-          column +
+          reqType +
           code +
           '" завершился с ошибкой. Сообщение ' +
           response.status +

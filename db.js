@@ -14,17 +14,18 @@ query
 
 module.exports = Item = {
   //выборка записей для фильтра по маске
-  findRecords(value, column) {
-    console.log(column + " " + value);
-    return db("items")
-      .whereLike(column, `%${value}%`)
-      .orWhereLike(column, `%${value.split("%").reverse().join("%")}%`)
+  //
+  filterRecords({ table, column, data }) {
+    console.log(table + " " + column + " " + `%${data}%`);
+    return db(table)
+      .whereLike(column, `%${data}%`)
+      .orWhereLike(column, `%${data.split("%").reverse().join("%")}%`)
       .orderBy(column);
   },
-  findItemName(vendorСode) {
-    return db("items")
-      .whereLike("itemName", `%${itemName}%`)
-      .orderBy("itemName");
+
+  findEntry({ table, column, data }) {
+    console.log(data);
+    return db(table).whereLike(column, data).orderBy(column);
   },
   create(data) {
     return db("items").insert(data);

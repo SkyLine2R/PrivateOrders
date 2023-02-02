@@ -1,6 +1,9 @@
 import { testFormForInputItem } from "../components/items-db_schema.js"; //объект для проверки ввода
 import { testDataFromForm } from "../components/testing-data-from-input.js"; //функция для проверки ввода
-import { loadingItemFromDb } from "./loadingItemFromDb.js"; //загрузка данных с БД
+
+import { reloadTable } from "../client/tables"; //функция для проверки ввода
+
+import { loadingItemFromDb, reqToDb } from "./loadingItemFromDb.js"; //загрузка данных с БД
 const buttonAddVendorCode = document.querySelector("#buttonAddVendorCode");
 const tableVendorsCodes = document.querySelector("#tableVendorsCodes");
 const inputVendorCode = document.querySelector("#inputVendorCode");
@@ -14,9 +17,15 @@ const regExpForFilter = new RegExp("[^а-яё\\d\\w]", "gi");
 //открыть окно добавления артикула
 
 buttonAddVendorCode.addEventListener("click", () => {
-  loadingItemFromDb("filter", "%25");
+  reqToDb({
+    type: "getFilteredVendorCodes",
+    table: "items",
+    column: "vendorCode",
+    data: "",
+  }).then((items) => reloadTable(tableVendorsCodes, items));
 });
 
+//добавить артикул в БД
 submitToDB.addEventListener("click", (e) => {
   e.preventDefault();
   const formValue = JSON.stringify(
@@ -29,17 +38,25 @@ submitToDB.addEventListener("click", (e) => {
 
     alert("Проверьте правильность заполнения формы." + verifiedData.errors);
   } else {
+    reqToDb({
+      type: "findEntry",
+      table: "items",
+      column: "vendorCode",
+      data: verifiedData.vendorCode,
+    }).then((items) => {
+      console.log(items);
+      alert(items);
+    });
+
     // проверить нет ли такого артикула в базе.
 
-    console.log(fetchUrl + "addItem");
-    savingItemToDb("items", verifiedData);
+    reqToDb("items", verifiedData);
   }
 });
 
 //ввод в поле "артикул"
 inputVendorCode.addEventListener("input", () => {
   //автокоррекция вводимых данных
-  console.log(testFormForInputItem);
   inputVendorCode.value = textСorrectionInField(
     testFormForInputItem.vendorCode,
     inputVendorCode.value
@@ -61,11 +78,16 @@ function autoFilterForInputs(field1, field2) {
   //оставляем в запросе только буквы и цифры,
   // знаки и пробелы заменяем на маску "любые символы - %"
   const reqFilter =
-    (field1 || field2).replace(regExpForFilter, "%25").toLowerCase() || "%25";
+    (field1 || field2).replace(regExpForFilter, "%").toLowerCase() || "";
 
   //если введены данные в два поля - фильтр не используем
   if (!(field1 && field2)) {
-    loadingItemFromDb("filter", reqFilter);
+    reqToDb({
+      type: "getFilteredVendorCodes",
+      table: "items",
+      column: `${field1 ? "vendorCode" : "tags"}`,
+      data: reqFilter,
+    }).then((items) => reloadTable(tableVendorsCodes, items));
   }
 }
 //ввод количества

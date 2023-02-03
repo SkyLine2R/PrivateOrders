@@ -1,6 +1,7 @@
 const knexConfig = require("./db/knexfile");
 const db = require("knex")(knexConfig[process.env.NODE_ENV]);
-
+const testFormForInputItem = require("./components/items-db_schema.js"); //объект для проверки ввода
+const testDataFromForm = require("./components/testing-data-from-input.js"); //функция для проверки ввода
 //тестировщик запросов к БД
 /* const query = db("items").whereLike("vendorСode", "%99%");
 query
@@ -27,8 +28,9 @@ module.exports = Item = {
     console.log(data);
     return db(table).whereLike(column, data).orderBy(column);
   },
-  create(data) {
-    return db("items").insert(data);
+  addEntry(data) {
+    console.log(data);
+    return { sucsess: true }; //db("items").insert(data);
   },
   delete(id) {
     return db("items").del().where({ id });

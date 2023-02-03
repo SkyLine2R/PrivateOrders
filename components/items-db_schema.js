@@ -1,7 +1,7 @@
 //Объект для проверки значений введённых пользователем - в таблицу 'items'
-export { testFormForInputItem };
+//export { testFormForInputItem };
 
-const testFormForInputItem = {
+module.exports = testFormForInputItem = {
   vendorCode: {
     required: true,
     maxlength: 20,

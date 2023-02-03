@@ -48,9 +48,9 @@ router.post("/", (req, res) => {
         });
       });
   }
-  /*
+
   //Обработка записи объекта в БД
-  if (req.body.type === "addEntryToDB") {
+  /*   if (req.body.type === "addEntry") {
     Items.filterRecords(req.body)
       .then((items) => res.json(items))
       .catch((err) => {

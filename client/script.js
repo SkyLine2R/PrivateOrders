@@ -1,9 +1,10 @@
-import { testFormForInputItem } from "../components/items-db_schema.js"; //объект для проверки ввода
-import { testDataFromForm } from "../components/testing-data-from-input.js"; //функция для проверки ввода
+// Для проверки ввода в формы
+const testDataFromForm = require("../components/testing-data-from-input.js");
+const testFormForInputItem = require("../components/items-db_schema.js");
 
-import { reloadTable } from "../client/tables"; //функция для проверки ввода
+import { reloadTable } from "../client/tables"; //функция для обновления таблицы
+import { reqToDb } from "./loadingItemFromDb.js"; //запросы к БД
 
-import { loadingItemFromDb, reqToDb } from "./loadingItemFromDb.js"; //загрузка данных с БД
 const buttonAddVendorCode = document.querySelector("#buttonAddVendorCode");
 const tableVendorsCodes = document.querySelector("#tableVendorsCodes");
 const inputVendorCode = document.querySelector("#inputVendorCode");
@@ -35,22 +36,42 @@ submitToDB.addEventListener("click", (e) => {
 
   if (verifiedData.hasOwnProperty("errors")) {
     //добавить функцию вывода предупреждения warningFunc()
-
-    alert("Проверьте правильность заполнения формы." + verifiedData.errors);
+    alert("Ошибка при добавлении данных. " + verifiedData.errors);
   } else {
     reqToDb({
       type: "findEntry",
       table: "items",
       column: "vendorCode",
       data: verifiedData.vendorCode,
-    }).then((items) => {
-      console.log(items);
-      alert(items);
+    }).then((item) => {
+      console.log("Получено: " + item[0].vendorCode);
+      // если в базе есть подобный артикул - уточнить нужно ли добавлять
+      // или сразу добавить, если артикула нет в базе
+      // добавить нормальное модальное окно с вопросом
+      // и вывод уведомления об успехе или отмене добавления
+      let confirmation =
+        (item[0].vendorCode &&
+        confirm(
+          "В базе уже есть подобный артикул:" +
+            item[0].vendorCode +
+            item[0].itemName +
+            "Вы уверены, что хотите добавить ещё один?"
+        )
+          ? true
+          : false) && true;
+
+      if (confirmation) {
+        reqToDb({
+          type: "addEntry",
+          table: "items",
+          data: verifiedData,
+        }).then((item) => {
+          console.log(item);
+        });
+      }
     });
 
-    // проверить нет ли такого артикула в базе.
-
-    reqToDb("items", verifiedData);
+    /* reqToDb("items", verifiedData); */
   }
 });
 

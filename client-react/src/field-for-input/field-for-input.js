@@ -8,7 +8,8 @@ export default function FieldForInput(props) {
 
   useEffect(() => {
     event.target.value = value;
-    console.log(value);
+    //console.log(id);
+    console.log(props.label);
   });
 
   return (
@@ -21,9 +22,9 @@ export default function FieldForInput(props) {
       autoComplete="off"
     >
       <TextField
-        id="outlined-basic"
-        variant="outlined"
+        id={props.id}
         label={props.label}
+        variant="outlined"
         onChange={(event) => {
           setValue(event.target.value);
         }}

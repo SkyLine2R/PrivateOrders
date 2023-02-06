@@ -1,8 +1,16 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 
-export default function BasicTextFields(props) {
+export default function FieldForInput(props) {
+  const [value, setValue] = useState("");
+
+  useEffect(() => {
+    event.target.value = value;
+    console.log(value);
+  });
+
   return (
     <Box
       component="form"
@@ -12,9 +20,25 @@ export default function BasicTextFields(props) {
       noValidate
       autoComplete="off"
     >
-      <TextField id="outlined-basic" variant="outlined" label={props.label} />
+      <TextField
+        id="outlined-basic"
+        variant="outlined"
+        label={props.label}
+        onChange={(event) => {
+          setValue(event.target.value);
+        }}
+      />
     </Box>
   );
+}
+
+function textСorrectionInField(refObj, fieldValue) {
+  //Убираем запрещённые символы и обрезаем строку
+  return fieldValue
+    .replace("ё", "е")
+    .replace("Ё", "Е")
+    .replace(new RegExp(`[^${refObj.regularExp}]`, "gi"), "")
+    .substring(0, refObj.maxlength - 1);
 }
 
 /* label = "Артикул"; */

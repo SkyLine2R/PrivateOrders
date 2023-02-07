@@ -2,28 +2,17 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid, ruRU } from "@mui/x-data-grid";
 import itemsDB from "../../../components/items-db_schema.js";
-console.log(itemsDB);
-const columns = [];
+
+const columns = [
+  { field: "number", headerName: "#", width: 50, editable: false },
+];
 for (let item in itemsDB) {
-  columns.push(item.table);
+  itemsDB[item].table["field"] = "" + item;
+
+  columns.push(itemsDB[item].table);
 }
 
-console.log(columns);
-
 /* const columns = [
-  { field: "id", headerName: "ID", width: 90 },
-  {
-    field: "firstName",
-    headerName: "First name",
-    width: 150,
-    editable: true,
-  },
-  {
-    field: "lastName",
-    headerName: "Last name",
-    width: 150,
-    editable: true,
-  },
   {
     field: "age",
     headerName: "Age",
@@ -43,15 +32,27 @@ console.log(columns);
 ]; */
 
 const rows = [
-  { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-  { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-  { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
+  {
+    id: 1,
+    vendorCode: "010703",
+    itemName: "Алюминиевый профиль закладная деталь для стойки",
+    unit: "1",
+    quantity: "6",
+  },
+  {
+    id: 2,
+    vendorCode: "432254",
+    itemName: "Алюминиевый профиль стойка 149мм",
+    unit: "1",
+    quantity: "4.6",
+  },
+  {
+    id: 3,
+    vendorCode: "990117",
+    itemName: "Саморез с пот. головкой 4,2*16 А2",
+    unit: "2",
+    quantity: "100",
+  },
 ];
 
 export default function DataGridTable() {
@@ -61,12 +62,21 @@ export default function DataGridTable() {
         rows={rows}
         columns={columns}
         pageSize={5}
-        rowsPerPageOptions={[50]}
+        rowsPerPageOptions={[10]}
         /* checkboxSelection */
         /* disableSelectionOnClick */
         experimentalFeatures={{ newEditingApi: true }}
         localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
+        /* density={"compact"} */
+        onCellClick={(GridCellParams) => {
+          alert(GridCellParams);
+        }}
       />
     </Box>
   );
 }
+
+/* function(params: GridCellParams, event: MuiEvent<React.MouseEvent>, details: GridCallbackDetails) => void
+params: Со всеми свойствами из GridCellParams .
+событие: объект события.
+details: Дополнительные сведения об этом обратном вызове. */

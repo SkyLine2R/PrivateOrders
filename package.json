@@ -24,6 +24,7 @@
     "@emotion/styled": "^11.10.5",
     "@fontsource/roboto": "^4.5.8",
     "@mui/material": "^5.11.7",
+    "@mui/x-data-grid": "^5.17.22",
     "babel": "^6.23.0",
     "babel-loader": "^9.1.2",
     "body-parser": "^1.20.1",

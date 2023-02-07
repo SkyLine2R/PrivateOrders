@@ -2,15 +2,16 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import itemsDB from "../../../components/items-db_schema.js";
 
 export default function FieldForInput(props) {
-  const [value, setValue] = useState("");
-
-  useEffect(() => {
-    event.target.value = value;
-    //console.log(id);
-    console.log(props.label);
-  });
+  //Убираем "запрещённые" символы и обрезаем строку
+  const textСorrectionInField = (refObj, fieldValue) =>
+    fieldValue
+      .replace("ё", "е")
+      .replace("Ё", "Е")
+      .replace(new RegExp(`[^${refObj.regularExp}]`, "gi"), "")
+      .substring(0, refObj.maxlength);
 
   return (
     <Box
@@ -26,26 +27,14 @@ export default function FieldForInput(props) {
         label={props.label}
         variant="outlined"
         onChange={(event) => {
-          setValue(event.target.value);
+          event.target.value = textСorrectionInField(
+            itemsDB[event.target.id],
+            event.target.value
+          );
         }}
       />
     </Box>
   );
-}
-
-function textСorrectionInField(refObj, fieldValue) {
-  //Убираем запрещённые символы и обрезаем строку
-  return fieldValue
-    .replace("ё", "е")
-    .replace("Ё", "Е")
-    .replace(new RegExp(`[^${refObj.regularExp}]`, "gi"), "")
-    .substring(0, refObj.maxlength - 1);
-}
-
-/* label = "Артикул"; */
-
-{
-  /* <TextField id="standard-basic" label="Standard" variant="standard" />; */
 }
 
 /* 

@@ -6,11 +6,9 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import ReactVirtualizedTable from "../vendor-code-table/vendor-code-table.js";
+import DataGrid from "../vendor-code-table/vendor-code-table.js";
 import EditVendorCodeForm from "../edit-vendor-code-form/edit-vendor-code-form.js";
 import Box from "@mui/material/Box";
-
-import UnitInput from "../unit-input/unit-input.js";
 
 export default function FormDialog() {
   const [open, setOpen] = React.useState(false);
@@ -37,13 +35,12 @@ export default function FormDialog() {
         <DialogTitle>Добавление нового артикула</DialogTitle>
         <DialogContent>
           <EditVendorCodeForm />
+
           <Box sx={{ mt: 5 }}>
-            <ReactVirtualizedTable />
+            <DialogContentText>Артикулы в базе</DialogContentText>
+
+            <DataGrid />
           </Box>
-          {/*           <DialogContentText>
-            To subscribe to this website, please enter your email address here.
-            We will send updates occasionally.
-          </DialogContentText> */}
         </DialogContent>
 
         <DialogActions>

@@ -14,13 +14,13 @@ export default function EditVendorCodeForm() {
         <Grid xs={8}>
           <FieldForInput id="itemName" label="Наименование" />
         </Grid>
-        <Grid xs={3}>
+        <Grid xs={2.5}>
           <SelectItemUnit id="unit" label="Единицы измерения" />
         </Grid>
         <Grid xs={3}>
           <FieldForInput id="quantity" label="Кол-во ед. в хл. | уп." />
         </Grid>
-        <Grid xs={6}>
+        <Grid xs={6.5}>
           <FieldForInput id="notes" label="Примечания" />
         </Grid>
       </Grid>

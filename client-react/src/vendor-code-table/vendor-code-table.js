@@ -9,7 +9,7 @@ const columns = [
   {
     field: "number",
     headerName: "#",
-    width: 50,
+    width: 40,
     editable: false,
     type: "number",
     valueGetter: (index) => index.value, //добавление номеров в первую графу
@@ -79,9 +79,10 @@ export default function DataGridTable() {
         experimentalFeatures={{ newEditingApi: true }}
         localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
         /* density={"compact"} */
-        onCellClick={(GridCellParams, event, GridCallbackDetails) => {
+        /* onCellClick={(GridCellParams, event, GridCallbackDetails) => {
+          dispatch(action);
           console.log(GridCellParams);
-        }}
+        }} */
       />
     </Box>
   );

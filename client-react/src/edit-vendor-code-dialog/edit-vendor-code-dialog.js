@@ -9,9 +9,18 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DataGrid from "../vendor-code-table/vendor-code-table.js";
 import EditVendorCodeForm from "../edit-vendor-code-form/edit-vendor-code-form.js";
 import Box from "@mui/material/Box";
+import { useReducer } from "react";
 
 export default function FormDialog() {
+  const initialState = "";
+  const action = {
+    type: "updateData",
+  };
+  function reducer(e) {
+    console.log(e);
+  }
   const [open, setOpen] = React.useState(false);
+  const [state, dispatch] = useReducer(action, initialState);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -31,15 +40,24 @@ export default function FormDialog() {
         maxWidth={"md"}
         open={open}
         onClose={handleClose}
+        onClick={(e) => {
+          console.log(e);
+          dispatch(action);
+        }}
       >
         <DialogTitle>Добавление нового артикула</DialogTitle>
-        <DialogContent>
+        <DialogContent /* onClick={(e) => console.log(e)} */>
           <EditVendorCodeForm />
 
           <Box sx={{ mt: 5 }}>
             <DialogContentText>Артикулы в базе</DialogContentText>
 
-            <DataGrid />
+            <DataGrid
+              onCellClick={(GridCellParams, event, GridCallbackDetails) => {
+                dispatch(action);
+                console.log(GridCellParams);
+              }}
+            />
           </Box>
         </DialogContent>
 

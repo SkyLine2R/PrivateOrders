@@ -9,7 +9,7 @@ module.exports = testFormForInputItem = {
     regularExp: 'а-яё\\-+/()#*.,"\\d\\w\\s',
     table: {
       headerName: "Артикул",
-      width: 100,
+      width: 90,
       editable: false,
     },
   },
@@ -21,7 +21,7 @@ module.exports = testFormForInputItem = {
     regularExp: 'а-яё\\-+#№/()%:;*.,"\\d\\w\\s',
     table: {
       headerName: "Наименование",
-      width: 280,
+      width: 330,
       editable: false,
     },
   },
@@ -32,7 +32,7 @@ module.exports = testFormForInputItem = {
     regularExp: "а-яё.,/-\\d\\w\\s",
     table: {
       headerName: "Ед. изм.",
-      width: 100,
+      width: 80,
       editable: false,
       align: "center",
     },
@@ -56,7 +56,7 @@ module.exports = testFormForInputItem = {
   },
   notes: {
     required: false,
-    maxlength: 200,
+    maxlength: 180,
     containsNumber: false,
     description: "примечания",
     regularExp: 'а-яё\\-+#№/()%:;*.,"\\d\\w\\s',

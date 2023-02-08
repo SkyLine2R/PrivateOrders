@@ -2,13 +2,21 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid, ruRU } from "@mui/x-data-grid";
 import itemsDB from "../../../components/items-db_schema.js";
+const unitForInput = itemsDB.unit.unitArr;
 
+//Подготовка столбцов и заголовков таблицы
 const columns = [
-  { field: "number", headerName: "#", width: 50, editable: false },
+  {
+    field: "number",
+    headerName: "#",
+    width: 50,
+    editable: false,
+    type: "number",
+    valueGetter: (index) => index.value, //добавление номеров в первую графу
+  },
 ];
 for (let item in itemsDB) {
   itemsDB[item].table["field"] = "" + item;
-
   columns.push(itemsDB[item].table);
 }
 
@@ -36,21 +44,21 @@ const rows = [
     id: 1,
     vendorCode: "010703",
     itemName: "Алюминиевый профиль закладная деталь для стойки",
-    unit: "1",
+    unit: "м / хл.",
     quantity: "6",
   },
   {
     id: 2,
     vendorCode: "432254",
     itemName: "Алюминиевый профиль стойка 149мм",
-    unit: "1",
+    unit: "м / хл.",
     quantity: "4.6",
   },
   {
     id: 3,
     vendorCode: "990117",
     itemName: "Саморез с пот. головкой 4,2*16 А2",
-    unit: "2",
+    unit: "шт. / уп.",
     quantity: "100",
   },
 ];
@@ -59,17 +67,20 @@ export default function DataGridTable() {
   return (
     <Box sx={{ height: 450, width: "100%" }}>
       <DataGrid
-        rows={rows}
+        rows={rows.map((item, index) => {
+          item.number = index + 1;
+          return item;
+        }, "")}
         columns={columns}
-        pageSize={5}
+        pageSize={10}
         rowsPerPageOptions={[10]}
         /* checkboxSelection */
         /* disableSelectionOnClick */
         experimentalFeatures={{ newEditingApi: true }}
         localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
         /* density={"compact"} */
-        onCellClick={(GridCellParams) => {
-          alert(GridCellParams);
+        onCellClick={(GridCellParams, event, GridCallbackDetails) => {
+          console.log(GridCellParams);
         }}
       />
     </Box>

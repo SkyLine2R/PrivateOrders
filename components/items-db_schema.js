@@ -1,6 +1,5 @@
-//Объект для проверки значений введённых пользователем - в таблицу 'items'
+//Объект для заполнения хедеров таблицы и проверки значений введённых пользователем (таблица и добавление новых артикулов)
 //export { testFormForInputItem };
-
 module.exports = testFormForInputItem = {
   vendorCode: {
     required: true,
@@ -28,15 +27,16 @@ module.exports = testFormForInputItem = {
   },
   unit: {
     required: true,
-    maxlength: 5,
-    containsNumber: true,
+    maxlength: 10,
     description: "единицы измерения",
     regularExp: "а-яё.,/-\\d\\w\\s",
     table: {
       headerName: "Ед. изм.",
       width: 100,
       editable: false,
+      align: "center",
     },
+    unitArr: ["м / хл.", "шт. / уп.", "м / уп."],
   },
   quantity: {
     required: true,

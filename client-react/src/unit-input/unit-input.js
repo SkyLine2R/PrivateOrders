@@ -4,12 +4,9 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { unit } from "../../../components/items-db_schema.js";
 
-const unitForInput = [
-  { id: 1, label: "м / хл." },
-  { id: 2, label: "шт. / уп." },
-  { id: 3, label: "м / уп." },
-];
+const unitForInput = unit.unitArr;
 
 export default function SelectItemUnit(props) {
   const [unit, setUnit] = React.useState("");
@@ -22,10 +19,10 @@ export default function SelectItemUnit(props) {
     <Box sx={{ mt: 1, width: "auto", minWidth: "100%" }}>
       <FormControl fullWidth>
         <InputLabel id={props.id}>{props.label}</InputLabel>
-        <Select value={unit || 1} label={props.label} onChange={handleChange}>
+        <Select value={unit || 0} label={props.label} onChange={handleChange}>
           {[
-            unitForInput.map((item) => (
-              <MenuItem value={item.id}>{item.label}</MenuItem>
+            unitForInput.map((item, index) => (
+              <MenuItem value={index}>{item}</MenuItem>
             )),
           ]}
         </Select>

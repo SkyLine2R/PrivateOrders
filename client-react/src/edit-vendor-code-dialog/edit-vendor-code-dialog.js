@@ -11,20 +11,32 @@ import EditVendorCodeForm from "../edit-vendor-code-form/edit-vendor-code-form.j
 import Box from "@mui/material/Box";
 import { useReducer } from "react";
 
-const initialState = "";
-const appReducer = (state, event) => {
-  console.log("state:" + state);
-  console.log("event:" + event);
-  return {
-    state1: reducer1(state.state1, event),
-    state2: reducer2(state.state2, event),
-  };
+const initialState = {
+  counter: 0,
 };
-const action = () => appReducer.state2;
+const action = {
+  type: "increase",
+};
 
 export default function FormDialog() {
   const [open, setOpen] = React.useState(false);
-  const [state, dispatch] = useReducer(action, initialState);
+
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  function reducer(state, action) {
+    let newState;
+    switch (action.type) {
+      case "increase":
+        newState = { counter: state.counter + 1 };
+        break;
+      case "descrease":
+        newState = { counter: state.counter - 1 };
+        break;
+      default:
+        throw new Error();
+    }
+    return newState;
+  }
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -36,6 +48,7 @@ export default function FormDialog() {
 
   return (
     <div>
+      {state.counter}
       <Button variant="contained" onClick={handleClickOpen}>
         + Добавить новый артикул
       </Button>
@@ -47,11 +60,10 @@ export default function FormDialog() {
       >
         <DialogTitle>Добавление нового артикула</DialogTitle>
         <DialogContent
-          onClick={(e) => {
-            /*             console.log(e.target.title);
-            console.log(e.target); */
-            dispatch(appReducer);
-          }}
+        /*           onClick={(e) => {
+            console.log(e.target.title);
+            dispatch(action);
+          }} */
         >
           <EditVendorCodeForm />
 

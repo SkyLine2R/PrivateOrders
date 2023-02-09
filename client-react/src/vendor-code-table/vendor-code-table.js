@@ -81,6 +81,7 @@ export default function DataGridTable() {
         /* density={"compact"} */
         /* onCellClick={(GridCellParams, event, GridCallbackDetails) => {
           dispatch(action);
+
           console.log(GridCellParams);
         }} */
       />

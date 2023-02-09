@@ -11,14 +11,18 @@ import EditVendorCodeForm from "../edit-vendor-code-form/edit-vendor-code-form.j
 import Box from "@mui/material/Box";
 import { useReducer } from "react";
 
-export default function FormDialog() {
-  const initialState = "";
-  const action = {
-    type: "updateData",
+const initialState = "";
+const appReducer = (state, event) => {
+  console.log("state:" + state);
+  console.log("event:" + event);
+  return {
+    state1: reducer1(state.state1, event),
+    state2: reducer2(state.state2, event),
   };
-  function reducer(e) {
-    console.log(e);
-  }
+};
+const action = () => appReducer.state2;
+
+export default function FormDialog() {
   const [open, setOpen] = React.useState(false);
   const [state, dispatch] = useReducer(action, initialState);
 
@@ -40,24 +44,21 @@ export default function FormDialog() {
         maxWidth={"md"}
         open={open}
         onClose={handleClose}
-        onClick={(e) => {
-          console.log(e);
-          dispatch(action);
-        }}
       >
         <DialogTitle>Добавление нового артикула</DialogTitle>
-        <DialogContent /* onClick={(e) => console.log(e)} */>
+        <DialogContent
+          onClick={(e) => {
+            /*             console.log(e.target.title);
+            console.log(e.target); */
+            dispatch(appReducer);
+          }}
+        >
           <EditVendorCodeForm />
 
           <Box sx={{ mt: 5 }}>
             <DialogContentText>Артикулы в базе</DialogContentText>
 
-            <DataGrid
-              onCellClick={(GridCellParams, event, GridCallbackDetails) => {
-                dispatch(action);
-                console.log(GridCellParams);
-              }}
-            />
+            <DataGrid />
           </Box>
         </DialogContent>
 

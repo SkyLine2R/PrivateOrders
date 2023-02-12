@@ -9,34 +9,15 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DataGrid from "../vendor-code-table/vendor-code-table.js";
 import EditVendorCodeForm from "../edit-vendor-code-form/edit-vendor-code-form.js";
 import Box from "@mui/material/Box";
-import { useReducer } from "react";
+import FieldForInput from "../field-for-input/field-for-input.js";
 
-const initialState = {
-  counter: 0,
-};
-const action = {
-  type: "increase",
-};
+import { useSelector, useDispatch } from "react-redux";
+import { textСorrectionInField, liveFilter } from "../slice";
 
-export default function FormDialog() {
+export default function FormDialog(props) {
   const [open, setOpen] = React.useState(false);
-
-  const [state, dispatch] = useReducer(reducer, initialState);
-
-  function reducer(state, action) {
-    let newState;
-    switch (action.type) {
-      case "increase":
-        newState = { counter: state.counter + 1 };
-        break;
-      case "descrease":
-        newState = { counter: state.counter - 1 };
-        break;
-      default:
-        throw new Error();
-    }
-    return newState;
-  }
+  const inputVendorCode = useSelector((state) => state.vendorCode);
+  const dispatch = useDispatch();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -48,7 +29,6 @@ export default function FormDialog() {
 
   return (
     <div>
-      {state.counter}
       <Button variant="contained" onClick={handleClickOpen}>
         + Добавить новый артикул
       </Button>
@@ -60,12 +40,31 @@ export default function FormDialog() {
       >
         <DialogTitle>Добавление нового артикула</DialogTitle>
         <DialogContent
-        /*           onClick={(e) => {
-            console.log(e.target.title);
-            dispatch(action);
-          }} */
+          label="Артикул"
+          onChange={(event) => {
+            console.log("event onChange in input field");
+            dispatch(textСorrectionInField());
+            //event.target.value = textСorrectionInField(
+            //itemsDB[event.target.id],
+            //event.target.value
+            //);
+          }}
         >
-          <EditVendorCodeForm />
+          <EditVendorCodeForm
+            vendorCodeInput={
+              <FieldForInput
+                id="vendorCode"
+                onChange={(event) => {
+                  console.log("event onChange in input field");
+                  dispatch(textСorrectionInField());
+                  //event.target.value = textСorrectionInField(
+                  //itemsDB[event.target.id],
+                  //event.target.value
+                  //);
+                }}
+              />
+            }
+          />
 
           <Box sx={{ mt: 5 }}>
             <DialogContentText>Артикулы в базе</DialogContentText>

@@ -4,12 +4,14 @@ import Grid from "@mui/material/Unstable_Grid2";
 import SelectItemUnit from "../unit-input/unit-input.js";
 import FieldForInput from "../field-for-input/field-for-input.js";
 
-export default function EditVendorCodeForm() {
+export default function EditVendorCodeForm(props) {
   return (
     <FormGroup>
       <Grid container spacing={2}>
         <Grid xs={4}>
-          <FieldForInput id="vendorCode" label="Артикул" />
+          {props.vendorCodeInput}
+          {/*           <FieldForInput id="vendorCode" label="Артикул" val={props.counter} />
+           */}{" "}
         </Grid>
         <Grid xs={8}>
           <FieldForInput id="itemName" label="Наименование" />

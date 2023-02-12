@@ -1,8 +1,10 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import itemsDB from "../../../components/items-db_schema.js";
+//import "./../edit-vendor-code-dialog/edit-vendor-code-dialog.js";
+//import * as constant from "../edit-vendor-code-dialog/edit-vendor-code-dialog.js";
 
 export default function FieldForInput(props) {
   //Убираем "запрещённые" символы и обрезаем строку

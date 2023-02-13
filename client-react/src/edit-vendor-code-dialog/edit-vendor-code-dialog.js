@@ -18,6 +18,7 @@ export default function FormDialog(props) {
   const [open, setOpen] = React.useState(false);
   const inputVendorCode = useSelector((state) => state.vendorCode);
   const dispatch = useDispatch();
+  console.log(inputVendorCode);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -32,38 +33,18 @@ export default function FormDialog(props) {
       <Button variant="contained" onClick={handleClickOpen}>
         + Добавить новый артикул
       </Button>
-      <Dialog
-        fullWidth={true}
-        maxWidth={"md"}
-        open={open}
-        onClose={handleClose}
-      >
+      <Dialog fullWidth maxWidth="md" open={open} onClose={handleClose}>
         <DialogTitle>Добавление нового артикула</DialogTitle>
-        <DialogContent
-          label="Артикул"
-          onChange={(event) => {
-            console.log("event onChange in input field");
-            dispatch(textСorrectionInField());
-            //event.target.value = textСorrectionInField(
-            //itemsDB[event.target.id],
-            //event.target.value
-            //);
-          }}
-        >
+        <DialogContent label="Артикул">
           <EditVendorCodeForm
-            vendorCodeInput={
-              <FieldForInput
-                id="vendorCode"
-                onChange={(event) => {
-                  console.log("event onChange in input field");
-                  dispatch(textСorrectionInField());
-                  //event.target.value = textСorrectionInField(
-                  //itemsDB[event.target.id],
-                  //event.target.value
-                  //);
-                }}
-              />
-            }
+            onChange={(e) => {
+              console.log("event onChange in input field");
+              dispatch(textСorrectionInField(e));
+              // event.target.value = textСorrectionInField(
+              // itemsDB[event.target.id],
+              // event.target.value
+              // );
+            }}
           />
 
           <Box sx={{ mt: 5 }}>

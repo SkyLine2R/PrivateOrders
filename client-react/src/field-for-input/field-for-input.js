@@ -1,13 +1,20 @@
 import * as React from "react";
-import { useContext, useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+// import { useContext, useState, useEffect } from "react";
+// import { textСorrectionInField, liveFilter } from "../slice";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import itemsDB from "../../../components/items-db_schema.js";
-//import "./../edit-vendor-code-dialog/edit-vendor-code-dialog.js";
-//import * as constant from "../edit-vendor-code-dialog/edit-vendor-code-dialog.js";
+// import itemsDB from "../../../components/items-db_schema.js";
+// import "./../edit-vendor-code-dialog/edit-vendor-code-dialog.js";
+// import * as constant from "../edit-vendor-code-dialog/edit-vendor-code-dialog.js";
 
 export default function FieldForInput(props) {
-  //Убираем "запрещённые" символы и обрезаем строку
+  const inputVendorCode = useSelector((state) => state.vendorCode);
+  console.log(inputVendorCode);
+
+  const dispatch = useDispatch();
+
+  // Убираем "запрещённые" символы и обрезаем строку
   const textСorrectionInField = (refObj, fieldValue) =>
     fieldValue
       .replace("ё", "е")
@@ -27,13 +34,23 @@ export default function FieldForInput(props) {
       <TextField
         id={props.id}
         label={props.label}
+        value={inputVendorCode}
         variant="outlined"
-        onChange={(event) => {
+        /*         onChange={(event) => {
           event.target.value = textСorrectionInField(
             itemsDB[event.target.id],
             event.target.value
           );
-        }}
+        }} */
+
+        /*        onChange={(event) => {
+          console.log("event onChange in input field");
+          dispatch(liveFilter());
+          //event.target.value = textСorrectionInField(
+          //itemsDB[event.target.id],
+          //event.target.value
+          //);
+        }} */
       />
     </Box>
   );

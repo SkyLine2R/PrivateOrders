@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import inputReducer from "./slice.js";
-console.log(inputReducer);
+import inputReducer from "./slice";
+
 export default configureStore({
-  reducer: { input: inputReducer },
+  reducer: inputReducer,
 });

@@ -4,11 +4,11 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { unit } from "../../../components/items-db_schema.js";
+import { unit as arrWithUnit } from "../../../components/items-db_schema";
 
-const unitForInput = unit.unitArr;
+const unitForSelect = arrWithUnit.unitArr;
 
-export default function SelectItemUnit(props) {
+export default function SelectItemUnit({ props }) {
   const [unit, setUnit] = React.useState("");
 
   const handleChange = (event) => {
@@ -21,7 +21,7 @@ export default function SelectItemUnit(props) {
         <InputLabel id={props.id}>{props.label}</InputLabel>
         <Select value={unit || 0} label={props.label} onChange={handleChange}>
           {[
-            unitForInput.map((item, index) => (
+            unitForSelect.map((item, index) => (
               <MenuItem value={index}>{item}</MenuItem>
             )),
           ]}

@@ -1,17 +1,29 @@
 import * as React from "react";
 import FormGroup from "@mui/material/FormGroup";
 import Grid from "@mui/material/Unstable_Grid2";
-import SelectItemUnit from "../unit-input/unit-input.js";
-import FieldForInput from "../field-for-input/field-for-input.js";
-
-export default function EditVendorCodeForm(props) {
+import { useSelector, useDispatch } from "react-redux";
+import SelectItemUnit from "../unit-input/unit-input";
+import FieldForInput from "../field-for-input/field-for-input";
+import { textСorrectionInField, liveFilter } from "../slice";
+export default function EditVendorCodeForm() {
+  const inputVendorCode = useSelector((state) => state.vendorCode);
+  const dispatch = useDispatch();
   return (
-    <FormGroup>
+    <FormGroup
+      /* onClick={(e)=> console.log(e.target)} */
+      onChange={(event) => {
+        console.log("event onChange in input field");
+        console.log(event.target.value);
+        dispatch(textСorrectionInField(event.target.value));
+        // event.target.value = textСorrectionInField(
+        // itemsDB[event.target.id],
+        // event.target.value
+        // );
+      }}
+    >
       <Grid container spacing={2}>
         <Grid xs={4}>
-          {props.vendorCodeInput}
-          {/*           <FieldForInput id="vendorCode" label="Артикул" val={props.counter} />
-           */}{" "}
+          <FieldForInput id="vendorCode" label="Артикул" />
         </Grid>
         <Grid xs={8}>
           <FieldForInput id="itemName" label="Наименование" />

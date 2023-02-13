@@ -3,11 +3,14 @@ import { createSlice } from "@reduxjs/toolkit";
 export const inputSlice = createSlice({
   name: "input",
   initialState: {
-    vendorCode: 0,
+    vendorCode: "",
   },
   reducers: {
-    textСorrectionInField: (state) => {
-      state.vendorCode += 5;
+    textСorrectionInField: (state, target) => {
+      console.log(target.payload);
+      console.log(state);
+
+      return { ...state, vendorCode: target.payload };
     },
     liveFilter: (state) => {
       state.vendorCode -= 3;
@@ -18,4 +21,4 @@ export const inputSlice = createSlice({
 export const { textСorrectionInField, liveFilter } = inputSlice.actions;
 
 export default inputSlice.reducer;
-//console.log(inputSlice.reducer);
+// console.log(inputSlice.reducer);

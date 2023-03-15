@@ -18,8 +18,8 @@ export default function SelectItemUnit({ props }) {
   return (
     <Box sx={{ mt: 1, width: "auto", minWidth: "100%" }}>
       <FormControl fullWidth>
-        <InputLabel id={props.id}>{props.label}</InputLabel>
-        <Select value={unit || 0} label={props.label} onChange={handleChange}>
+        <InputLabel id="{props.id}">123{/* {props.label} */}</InputLabel>
+        <Select value={unit || 0} label="{props.label}" onChange={handleChange}>
           {[
             unitForSelect.map((item, index) => (
               <MenuItem value={index}>{item}</MenuItem>

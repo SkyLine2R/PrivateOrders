@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 const createError = require("http-errors");
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -10,7 +12,7 @@ const app = express();
 app.set("port", process.env.PORT || 3000);
 
 // view engine setup
-//app.set("views", path.join(__dirname, "views"));
+// app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 app.use(logger("dev"));
@@ -32,7 +34,7 @@ app.use("/api", require("./routes/api"));
 }); */
 
 // error handler
-app.use(function (err, req, res, next) {
+app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
@@ -61,7 +63,7 @@ app.post("/items", (req, res, next) => {
         message: "Ошибка при добавлении артикула...",
       });
     });
-}); //добавить артикул
+}); // добавить артикул
 
 app.listen(app.get("port"), () => {
   console.log("App started on port", app.get("port"));
@@ -69,7 +71,7 @@ app.listen(app.get("port"), () => {
 
 module.exports = app;
 
-//стр85
-//стр235
-//стр91
-//https://developer.mozilla.org/ru/docs/Learn/Server-side/Express_Nodejs/Tutorial_local_library_website
+// стр85
+// стр235
+// стр91
+// https://developer.mozilla.org/ru/docs/Learn/Server-side/Express_Nodejs/Tutorial_local_library_website

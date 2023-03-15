@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
 // import { useContext, useState, useEffect } from "react";
 // import { textСorrectionInField, liveFilter } from "../slice";
+import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 // import itemsDB from "../../../components/items-db_schema.js";
@@ -12,7 +14,7 @@ export default function FieldForInput(props) {
   const inputVendorCode = useSelector((state) => state.vendorCode);
   console.log(inputVendorCode);
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   // Убираем "запрещённые" символы и обрезаем строку
   const textСorrectionInField = (refObj, fieldValue) =>
@@ -21,7 +23,7 @@ export default function FieldForInput(props) {
       .replace("Ё", "Е")
       .replace(new RegExp(`[^${refObj.regularExp}]`, "gi"), "")
       .substring(0, refObj.maxlength);
-
+  console.log(props);
   return (
     <Box
       component="form"
@@ -55,6 +57,11 @@ export default function FieldForInput(props) {
     </Box>
   );
 }
+
+FieldForInput.propTypes = {
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+};
 
 /* 
 

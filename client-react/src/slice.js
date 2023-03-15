@@ -13,6 +13,7 @@ export const inputSlice = createSlice({
       return { ...state, vendorCode: target.payload };
     },
     liveFilter: (state) => {
+      // eslint-disable-next-line no-param-reassign
       state.vendorCode -= 3;
     },
   },

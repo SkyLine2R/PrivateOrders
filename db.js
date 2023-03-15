@@ -1,8 +1,14 @@
+/* eslint-disable no-useless-concat */
+/* eslint-disable prefer-template */
+/* eslint-disable no-undef */
+/* eslint-disable no-multi-assign */
 const knexConfig = require("./db/knexfile");
+// eslint-disable-next-line import/order
 const db = require("knex")(knexConfig[process.env.NODE_ENV]);
-const testFormForInputItem = require("./components/items-db_schema.js"); //объект для проверки ввода
-const testDataFromForm = require("./components/testing-data-from-input.js"); //функция для проверки ввода
-//тестировщик запросов к БД
+
+// const testFormForInputItem = require("./components/items-db_schema.js"); //объект для проверки ввода
+// const testDataFromForm = require("./components/testing-data-from-input.js"); //функция для проверки ввода
+// тестировщик запросов к БД
 /* const query = db("items").whereLike("vendorСode", "%99%");
 query
   .then((items) => {
@@ -14,7 +20,7 @@ query
   }); */
 
 module.exports = Item = {
-  //выборка записей для фильтра по маске
+  // выборка записей для фильтра по маске
   //
   filterRecords({ table, column, data }) {
     console.log(table + " " + column + " " + `%${data}%`);
@@ -30,11 +36,11 @@ module.exports = Item = {
   },
   addEntry(data) {
     console.log(data);
-    return { sucsess: true }; //db("items").insert(data);
+    return { sucsess: true }; // db("items").insert(data);
   },
   delete(id) {
     return db("items").del().where({ id });
   },
 };
 
-//module.exports = db;
+// module.exports = db;

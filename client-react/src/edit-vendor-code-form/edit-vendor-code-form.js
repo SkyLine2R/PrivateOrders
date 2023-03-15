@@ -5,15 +5,17 @@ import Grid from "@mui/material/Unstable_Grid2";
 import { useSelector, useDispatch } from "react-redux";
 import SelectItemUnit from "../unit-input/unit-input";
 import FieldForInput from "../field-for-input/field-for-input";
-import { textСorrectionInField, liveFilter } from "../slice";
+// import { textСorrectionInField, liveFilter } from "../slice";
 
 export default function EditVendorCodeForm() {
   const inputVendorCode = useSelector((state) => state.vendorCode);
-  const dispatch = useDispatch();
+  const inputItemName = useSelector((state) => state.vendorCode);
+
+  // const dispatch = useDispatch();
   return (
     <FormGroup
-      /* onClick={(e)=> console.log(e.target)} */
-      onChange={(event) => {
+    /* onClick={(e)=> console.log(e.target)} */
+    /*       onChange={(event) => {
         console.log("event onChange in input field");
         console.log(event.target.value);
         dispatch(textСorrectionInField(event.target.value));
@@ -21,14 +23,22 @@ export default function EditVendorCodeForm() {
         // itemsDB[event.target.id],
         // event.target.value
         // );
-      }}
+      }} */
     >
       <Grid container spacing={2}>
         <Grid xs={4}>
-          <FieldForInput id="vendorCode" label="Артикул" />
+          <FieldForInput
+            id="vendorCode"
+            label="Артикул"
+            value={inputVendorCode}
+          />
         </Grid>
         <Grid xs={8}>
-          <FieldForInput id="itemName" label="Наименование" />
+          <FieldForInput
+            id="itemName"
+            label="Наименование"
+            value={inputItemName}
+          />
         </Grid>
         <Grid xs={2.5}>
           <SelectItemUnit id="unit" label="Единицы измерения" />

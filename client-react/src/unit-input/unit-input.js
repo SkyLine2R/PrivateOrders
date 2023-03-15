@@ -8,18 +8,21 @@ import { unit as arrWithUnit } from "../../../components/items-db_schema";
 
 const unitForSelect = arrWithUnit.unitArr;
 
-export default function SelectItemUnit({ props }) {
+export default function SelectItemUnit(props) {
   const [unit, setUnit] = React.useState("");
 
-  const handleChange = (event) => {
+  /*   const handleChange = (event) => {
     setUnit(event.target.value);
-  };
+  }; */
 
   return (
     <Box sx={{ mt: 1, width: "auto", minWidth: "100%" }}>
       <FormControl fullWidth>
-        <InputLabel id="{props.id}">123{/* {props.label} */}</InputLabel>
-        <Select value={unit || 0} label="{props.label}" onChange={handleChange}>
+        <InputLabel id={props.id}>{props.label}</InputLabel>
+        <Select
+          value={unit || 0}
+          label={props.label} /* onChange={handleChange} */
+        >
           {[
             unitForSelect.map((item, index) => (
               <MenuItem value={index}>{item}</MenuItem>

@@ -40,14 +40,14 @@ export default function FormDialog(props) {
         <DialogTitle>Добавление нового артикула</DialogTitle>
         <DialogContent label="Артикул">
           <EditVendorCodeForm
-            onChange={(e) => {
+          /*             onChange={(e) => {
               console.log("event onChange in input field");
-              dispatch(textСorrectionInField(e));
+              //dispatch(textСorrectionInField(e));
               // event.target.value = textСorrectionInField(
               // itemsDB[event.target.id],
               // event.target.value
               // );
-            }}
+            }} */
           />
 
           <Box sx={{ mt: 5 }}>

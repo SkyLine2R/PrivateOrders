@@ -1,8 +1,9 @@
 /* eslint-disable no-unused-vars */
 import * as React from "react";
-import { useSelector, useDispatch } from "react-redux";
 // import { useContext, useState, useEffect } from "react";
-// import { textСorrectionInField, liveFilter } from "../slice";
+import { textСorrectionInField, liveFilter } from "../slice";
+import { useSelector, useDispatch } from "react-redux";
+
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -11,19 +12,18 @@ import TextField from "@mui/material/TextField";
 // import * as constant from "../edit-vendor-code-dialog/edit-vendor-code-dialog.js";
 
 export default function FieldForInput(props) {
-  const inputVendorCode = useSelector((state) => state.vendorCode);
-  console.log(inputVendorCode);
+  //const inputVendorCode = useSelector((state) => state.vendorCode);
+  //console.log(inputVendorCode);
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   // Убираем "запрещённые" символы и обрезаем строку
-  const textСorrectionInField = (refObj, fieldValue) =>
+  /*   const textСorrectionInField = (refObj, fieldValue) =>
     fieldValue
       .replace("ё", "е")
       .replace("Ё", "Е")
       .replace(new RegExp(`[^${refObj.regularExp}]`, "gi"), "")
-      .substring(0, refObj.maxlength);
-  console.log(props);
+      .substring(0, refObj.maxlength); */
   return (
     <Box
       component="form"
@@ -36,14 +36,15 @@ export default function FieldForInput(props) {
       <TextField
         id={props.id}
         label={props.label}
-        value={inputVendorCode}
+        //value={}
         variant="outlined"
-        /*         onChange={(event) => {
-          event.target.value = textСorrectionInField(
+        onChange={(event) => {
+          dispatch(textСorrectionInField(event.target.value));
+          /*           event.target.value = textСorrectionInField(
             itemsDB[event.target.id],
             event.target.value
-          );
-        }} */
+          ); */
+        }}
 
         /*        onChange={(event) => {
           console.log("event onChange in input field");
@@ -53,7 +54,9 @@ export default function FieldForInput(props) {
           //event.target.value
           //);
         }} */
-      />
+      >
+        props.value
+      </TextField>
     </Box>
   );
 }

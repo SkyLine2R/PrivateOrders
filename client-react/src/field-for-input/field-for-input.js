@@ -14,8 +14,7 @@ import { textСorrectionInField, liveFilter } from "../slice";
 
 export default function FieldForInput(props) {
   const dispatch = useDispatch();
-  console.log(props);
-
+  const val = useSelector((state) => state[props.id]);
   // Убираем "запрещённые" символы и обрезаем строку
   /*   const textСorrectionInField = (refObj, fieldValue) =>
     fieldValue
@@ -35,14 +34,19 @@ export default function FieldForInput(props) {
       <TextField
         id={props.id}
         label={props.label}
-        // value={}
         variant="outlined"
+        value={val}
         onChange={(event) => {
-          dispatch(textСorrectionInField(event.target.value));
+          dispatch(
+            textСorrectionInField({
+              value: event.target.value,
+              fieldId: props.id,
+            })
+          );
         }}
-      >
-        qwe
-      </TextField>
+      />
+      {/*         {props.val}
+      </TextField> */}
     </Box>
   );
 }

@@ -1,20 +1,18 @@
+/* eslint-disable no-param-reassign */
 import { createSlice } from "@reduxjs/toolkit";
 
 export const inputSlice = createSlice({
   name: "inputField",
   initialState: {
     vendorCode: "",
-    itemName: "87",
+    itemName: "",
     unit: "м / хл.",
     quantity: "1",
     notes: "",
   },
   reducers: {
-    textСorrectionInField: (state = initialState, target) => {
-      console.log(target);
-      console.log("state");
-      console.log(state);
-      return { ...state, vendorCode: target.payload };
+    textСorrectionInField: (state, target) => {
+      state[target.payload.fieldId] = target.payload.value;
     },
     liveFilter: (state) => {
       // eslint-disable-next-line no-param-reassign

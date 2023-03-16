@@ -1,15 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const inputSlice = createSlice({
-  name: "input",
+  name: "inputField",
   initialState: {
     vendorCode: "",
+    itemName: "87",
+    unit: "м / хл.",
+    quantity: "1",
+    notes: "",
   },
   reducers: {
-    textСorrectionInField: (state, target) => {
-      console.log(target.payload);
+    textСorrectionInField: (state = initialState, target) => {
+      console.log(target);
+      console.log("state");
       console.log(state);
-
       return { ...state, vendorCode: target.payload };
     },
     liveFilter: (state) => {

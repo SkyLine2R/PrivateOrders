@@ -1,5 +1,4 @@
 // Объект для заполнения хедеров таблицы и проверки значений введённых пользователем (таблица и добавление новых артикулов)
-// export { testFormForInputItem };
 // eslint-disable-next-line no-multi-assign, no-undef
 module.exports = testFormForInputItem = {
   vendorCode: {

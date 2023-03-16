@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import * as React from "react";
 import Button from "@mui/material/Button";
 // import TextField from "@mui/material/TextField";
@@ -20,8 +21,7 @@ import EditVendorCodeForm from "../edit-vendor-code-form/edit-vendor-code-form";
 export default function FormDialog(props) {
   const [open, setOpen] = React.useState(false);
   const inputVendorCode = useSelector((state) => state.vendorCode);
-  const dispatch = useDispatch();
-  console.log(inputVendorCode);
+  // const dispatch = useDispatch();
 
   const handleClickOpen = () => {
     setOpen(true);

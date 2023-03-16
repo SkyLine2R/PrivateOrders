@@ -1,4 +1,4 @@
-//export { testDataFromForm };
+// export { testDataFromForm };
 
 function isObjectEmpty(value) {
   return (
@@ -8,13 +8,13 @@ function isObjectEmpty(value) {
 }
 
 function testDataFromForm(refObj, jsonData) {
-  //Функция проверки переданных значений.
-  //Принимает объект refObj с параметрами проверки и jsonData с данными
-  //Если всё норм - возвращает объект c данными, нет - объект с массивом ошибок
+  // Функция проверки переданных значений.
+  // Принимает объект refObj с параметрами проверки и jsonData с данными
+  // Если всё норм - возвращает объект c данными, нет - объект с массивом ошибок
 
   const testObj = JSON.parse(jsonData);
   const errArr = [];
-  //Проверить объекты на пустоту, если норм - проверить правильность заполнения полей
+  // Проверить объекты на пустоту, если норм - проверить правильность заполнения полей
   if (!isObjectEmpty(refObj) && !isObjectEmpty(testObj)) {
     for (let key in refObj) {
       if (refObj[key].required && !testObj[key]) {

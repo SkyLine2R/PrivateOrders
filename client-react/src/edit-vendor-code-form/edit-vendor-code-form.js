@@ -8,9 +8,9 @@ import FieldForInput from "../field-for-input/field-for-input";
 // import { textСorrectionInField, liveFilter } from "../slice";
 
 export default function EditVendorCodeForm() {
-  const inputVendorCode = useSelector((state) => state.vendorCode);
-  const inputItemName = useSelector((state) => state.vendorCode);
-
+  const vendorCode = useSelector((state) => state.vendorCode);
+  const itemName = useSelector((state) => state.itemName);
+  console.log("itemName " + itemName);
   // const dispatch = useDispatch();
   return (
     <FormGroup
@@ -27,18 +27,10 @@ export default function EditVendorCodeForm() {
     >
       <Grid container spacing={2}>
         <Grid xs={4}>
-          <FieldForInput
-            id="vendorCode"
-            label="Артикул"
-            value={inputVendorCode}
-          />
+          <FieldForInput id="vendorCode" label="Артикул" value={vendorCode} />
         </Grid>
         <Grid xs={8}>
-          <FieldForInput
-            id="itemName"
-            label="Наименование"
-            value={inputItemName}
-          />
+          <FieldForInput id="itemName" label="Наименование" value={itemName} />
         </Grid>
         <Grid xs={2.5}>
           <SelectItemUnit id="unit" label="Единицы измерения" />

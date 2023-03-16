@@ -1,21 +1,20 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-unused-vars */
 import * as React from "react";
 // import { useContext, useState, useEffect } from "react";
-import { textСorrectionInField, liveFilter } from "../slice";
-import { useSelector, useDispatch } from "react-redux";
-
-import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
+import { useSelector, useDispatch } from "react-redux";
+import PropTypes from "prop-types";
 import TextField from "@mui/material/TextField";
+import { textСorrectionInField, liveFilter } from "../slice";
 // import itemsDB from "../../../components/items-db_schema.js";
 // import "./../edit-vendor-code-dialog/edit-vendor-code-dialog.js";
 // import * as constant from "../edit-vendor-code-dialog/edit-vendor-code-dialog.js";
 
 export default function FieldForInput(props) {
-  //const inputVendorCode = useSelector((state) => state.vendorCode);
-  //console.log(inputVendorCode);
-
   const dispatch = useDispatch();
+  console.log(props);
 
   // Убираем "запрещённые" символы и обрезаем строку
   /*   const textСorrectionInField = (refObj, fieldValue) =>
@@ -36,26 +35,13 @@ export default function FieldForInput(props) {
       <TextField
         id={props.id}
         label={props.label}
-        //value={}
+        // value={}
         variant="outlined"
         onChange={(event) => {
           dispatch(textСorrectionInField(event.target.value));
-          /*           event.target.value = textСorrectionInField(
-            itemsDB[event.target.id],
-            event.target.value
-          ); */
         }}
-
-        /*        onChange={(event) => {
-          console.log("event onChange in input field");
-          dispatch(liveFilter());
-          //event.target.value = textСorrectionInField(
-          //itemsDB[event.target.id],
-          //event.target.value
-          //);
-        }} */
       >
-        props.value
+        qwe
       </TextField>
     </Box>
   );
@@ -65,6 +51,8 @@ FieldForInput.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
 };
+
+// export default React.memo(FieldForInput);
 
 /* 
 

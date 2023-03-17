@@ -6,11 +6,14 @@ export const inputSlice = createSlice({
   initialState: {
     vendorCode: "",
     itemName: "",
-    unit: "м / хл.",
+    unit: "0",
     quantity: "1",
     notes: "",
   },
   reducers: {
+    changeValue: (state, target) => {
+      state[target.payload.fieldId] = target.payload.value;
+    },
     textСorrectionInField: (state, target) => {
       state[target.payload.fieldId] = target.payload.value;
     },
@@ -21,7 +24,8 @@ export const inputSlice = createSlice({
   },
 });
 
-export const { textСorrectionInField, liveFilter } = inputSlice.actions;
+export const { textСorrectionInField, liveFilter, changeValue } =
+  inputSlice.actions;
 
 export default inputSlice.reducer;
 // console.log(inputSlice.reducer);

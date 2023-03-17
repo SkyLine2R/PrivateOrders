@@ -1,3 +1,5 @@
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
 // export { testDataFromForm };
 
 function isObjectEmpty(value) {
@@ -16,7 +18,7 @@ function testDataFromForm(refObj, jsonData) {
   const errArr = [];
   // Проверить объекты на пустоту, если норм - проверить правильность заполнения полей
   if (!isObjectEmpty(refObj) && !isObjectEmpty(testObj)) {
-    for (let key in refObj) {
+    for (const key in refObj) {
       if (refObj[key].required && !testObj[key]) {
         errArr.push(
           `Поле "${refObj[key].description}" должно содержать значение.`

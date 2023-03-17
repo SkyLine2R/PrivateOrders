@@ -20,7 +20,7 @@ import EditVendorCodeForm from "../edit-vendor-code-form/edit-vendor-code-form";
 // eslint-disable-next-line no-unused-vars
 export default function FormDialog(props) {
   const [open, setOpen] = React.useState(false);
-  const inputVendorCode = useSelector((state) => state.vendorCode);
+  // const inputVendorCode = useSelector((state) => state.vendorCode);
   // const dispatch = useDispatch();
 
   const handleClickOpen = () => {

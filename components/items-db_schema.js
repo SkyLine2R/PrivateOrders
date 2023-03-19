@@ -6,7 +6,7 @@ module.exports = testFormForInputItem = {
     maxlength: 20,
     containsNumber: false,
     description: "артикул изделия",
-    regularExp: 'а-яё\\-+/()#*.,"\\d\\w\\s',
+    regularExp: '[а-яё\\-+/()#*.,"\\d\\w\\s]+',
     table: {
       headerName: "Артикул",
       width: 90,
@@ -18,7 +18,7 @@ module.exports = testFormForInputItem = {
     maxlength: 255,
     containsNumber: false,
     description: "наименование изделия",
-    regularExp: 'а-яё\\-+#№/()%:;*.,"\\d\\w\\s',
+    regularExp: '[а-яё\\-+#№/()%:;*.,"\\d\\w\\s]+',
     table: {
       headerName: "Наименование",
       width: 330,
@@ -28,8 +28,9 @@ module.exports = testFormForInputItem = {
   unit: {
     required: true,
     maxlength: 10,
+    containsNumber: true,
     description: "единицы измерения",
-    regularExp: "а-яё.,/-\\d\\w\\s",
+    regularExp: "[0-9]+",
     table: {
       headerName: "Ед. изм.",
       width: 80,
@@ -40,12 +41,12 @@ module.exports = testFormForInputItem = {
   },
   quantity: {
     required: true,
-    maxlength: 5,
+    maxlength: 6,
     containsNumber: true,
     min: 0.1,
     max: 5000,
     description: "количество единиц в хлысте или упаковке",
-    regularExp: ".,\\d",
+    regularExp: "\\d+[.,]?\\d{0,3}",
     table: {
       headerName: "Кол-во ед. в хл. | уп.",
       width: 150,
@@ -59,7 +60,7 @@ module.exports = testFormForInputItem = {
     maxlength: 180,
     containsNumber: false,
     description: "примечания",
-    regularExp: 'а-яё\\-+#№/()%:;*.,"\\d\\w\\s',
+    regularExp: '[а-яё\\-+#№/()%:;*.,?"\\d\\w\\s]*',
     table: {
       headerName: "Примечания",
       width: 150,

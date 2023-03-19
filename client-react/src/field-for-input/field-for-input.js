@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-unused-vars */
@@ -6,21 +7,30 @@ import Box from "@mui/material/Box";
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import TextField from "@mui/material/TextField";
-import { changeValue } from "../slice";
-// import itemsDB from "../../../components/items-db_schema.js";
-// import "./../edit-vendor-code-dialog/edit-vendor-code-dialog.js";
-// import * as constant from "../edit-vendor-code-dialog/edit-vendor-code-dialog.js";
+import { changeValue, fetchVendorCodes } from "../slice";
+import testFormForInputItem from "../../../components/items-db_schema";
 
 export default function FieldForInput(props) {
   const dispatch = useDispatch();
   const val = useSelector((state) => state[props.id]);
-  // Убираем "запрещённые" символы и обрезаем строку
-  const textСorrectionInField = (refObj, fieldValue) =>
-    fieldValue
+
+  if (props.id === "vendorCode" || props.id === "itemName")
+    React.useEffect(() => {
+      dispatch(fetchVendorCodes());
+    });
+
+  // Убираем "запрещённые" символы и обрезаем строку по регулярке из items-db-schema
+  const textСorrectionInField = (refObj, fieldValue) => {
+    const str = fieldValue
       .replace("ё", "е")
       .replace("Ё", "Е")
-      .replace(new RegExp(`[^${refObj.regularExp}]`, "gi"), "")
-      .substring(0, refObj.maxlength);
+      .match(new RegExp(refObj.regularExp, "gi")) || [""];
+
+    return (
+      refObj.containsNumber ? str[0].replace(",", ".") : str[0]
+    ).substring(0, refObj.maxlength);
+  };
+
   return (
     <Box
       component="form"
@@ -38,7 +48,10 @@ export default function FieldForInput(props) {
         onChange={(event) => {
           dispatch(
             changeValue({
-              value: event.target.value,
+              value: textСorrectionInField(
+                testFormForInputItem[props.id],
+                event.target.value
+              ),
               fieldId: props.id,
             })
           );

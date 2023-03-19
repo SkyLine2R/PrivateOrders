@@ -26,7 +26,7 @@ buttonAddVendorCode.addEventListener("click", () => {
   }).then((items) => reloadTable(tableVendorsCodes, items));
 });
 
-//добавить артикул в БД
+// добавить артикул в БД
 submitToDB.addEventListener("click", (e) => {
   e.preventDefault();
   const formValue = JSON.stringify(
@@ -35,7 +35,7 @@ submitToDB.addEventListener("click", (e) => {
   const verifiedData = testDataFromForm(testFormForInputItem, formValue);
 
   if (verifiedData.hasOwnProperty("errors")) {
-    //добавить функцию вывода предупреждения warningFunc()
+    // добавить функцию вывода предупреждения warningFunc()
     alert("Ошибка при добавлении данных. " + verifiedData.errors);
   } else {
     reqToDb({
@@ -96,12 +96,12 @@ inputItemName.addEventListener("input", () => {
 });
 
 function autoFilterForInputs(field1, field2) {
-  //оставляем в запросе только буквы и цифры,
+  // оставляем в запросе только буквы и цифры,
   // знаки и пробелы заменяем на маску "любые символы - %"
   const reqFilter =
     (field1 || field2).replace(regExpForFilter, "%").toLowerCase() || "";
 
-  //если введены данные в два поля - фильтр не используем
+  // если введены данные в два поля - фильтр не используем
   if (!(field1 && field2)) {
     reqToDb({
       type: "getFilteredVendorCodes",

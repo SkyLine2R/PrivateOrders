@@ -1,45 +1,15 @@
+/* eslint-disable no-restricted-syntax */
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid, ruRU } from "@mui/x-data-grid";
-import itemsDB from "../../../components/items-db_schema.js";
-const unitForInput = itemsDB.unit.unitArr;
+import { useSelector, useDispatch } from "react-redux";
 
-//Подготовка столбцов и заголовков таблицы
-const columns = [
-  {
-    field: "number",
-    headerName: "#",
-    width: 40,
-    editable: false,
-    type: "number",
-    valueGetter: (index) => index.value, //добавление номеров в первую графу
-  },
-];
-for (let item in itemsDB) {
-  itemsDB[item].table["field"] = "" + item;
-  columns.push(itemsDB[item].table);
-}
+import itemsDB from "../../../components/items-db_schema";
+// const unitForInput = itemsDB.unit.unitArr;
 
-/* const columns = [
-  {
-    field: "age",
-    headerName: "Age",
-    type: "number",
-    width: 110,
-    editable: true,
-  },
-  {
-    field: "fullName",
-    headerName: "Full name",
-    description: "This column has a value getter and is not sortable.",
-    sortable: false,
-    width: 160,
-    valueGetter: (params) =>
-      `${params.row.firstName || ""} ${params.row.lastName || ""}`,
-  },
-]; */
-
-const rows = [
+// Подготовка столбцов и заголовков таблицы
+// eslint-disable-next-line no-unused-vars
+const testRows = [
   {
     id: 1,
     vendorCode: "010703",
@@ -64,6 +34,35 @@ const rows = [
 ];
 
 export default function DataGridTable() {
+  const columns = [
+    {
+      field: "number",
+      headerName: "#",
+      width: 40,
+      editable: false,
+      type: "number",
+      valueGetter: (index) => index.value, // добавление номеров в первую графу
+    },
+  ];
+
+  const val = useSelector((state) => state.vendorCodesArr);
+
+  // eslint-disable-next-line guard-for-in, no-restricted-syntax
+  for (const item in itemsDB) {
+    itemsDB[item].table.field = item;
+    columns.push(itemsDB[item].table);
+  }
+
+  const rowsName = Object.keys(itemsDB);
+
+  const rows = val.map((item) => {
+    const obj = { id: item.id };
+    for (const key of rowsName) {
+      obj[key] = item[key];
+    }
+    return obj;
+  });
+
   return (
     <Box sx={{ height: 450, width: "100%" }}>
       <DataGrid

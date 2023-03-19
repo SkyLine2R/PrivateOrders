@@ -11,7 +11,6 @@ import Box from "@mui/material/Box";
 
 import { useSelector, useDispatch } from "react-redux";
 // eslint-disable-next-line no-unused-vars
-import { textСorrectionInField, liveFilter } from "../slice";
 
 import DataGrid from "../vendor-code-table/vendor-code-table";
 import EditVendorCodeForm from "../edit-vendor-code-form/edit-vendor-code-form";

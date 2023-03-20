@@ -44,7 +44,6 @@ export const fetchVendorCodes = createAsyncThunk(
       if (JSON.stringify(prevReq) === JSON.stringify(fetchObj)) {
         return null;
       }
-      console.log(fetchObj);
       const response = await fetch(fetchUrlAPI, {
         method: "POST",
         headers: { "Content-Type": "application/json;charset=utf-8" },
@@ -77,6 +76,11 @@ export const inputSlice = createSlice({
     changeValue: (state, target) => {
       state[target.payload.fieldId] = target.payload.value;
     },
+    copyPasteValue: (state, target) => {
+      state[target.payload.fieldId] = state.vendorCodesArr.find(
+        (item) => item.id === target.payload.id
+      )[target.payload.fieldId];
+    },
   },
   extraReducers: {
     [fetchVendorCodes.pending]: (state) => {
@@ -94,7 +98,6 @@ export const inputSlice = createSlice({
   },
 });
 
-export const { liveFilter, changeValue } = inputSlice.actions;
+export const { changeValue, copyPasteValue } = inputSlice.actions;
 
 export default inputSlice.reducer;
-// console.log(inputSlice.reducer);

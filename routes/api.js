@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const Items = require("../db");
 
+console.log(Items);
+
 router.post("/addEntry", (req, res) => {
   // Обработка записи объекта в БД
   console.log("Входящий запрос на добавление в БД: " + req.body.type);

@@ -27,7 +27,7 @@ module.exports = testFormForInputItem = {
   },
   unit: {
     required: true,
-    maxlength: 10,
+    maxlength: 3,
     containsNumber: true,
     description: "единицы измерения",
     regularExp: "[0-9]+",

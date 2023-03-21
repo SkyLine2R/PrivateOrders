@@ -18,6 +18,19 @@ const initialState = {
   error: null,
 };
 
+/* export const submitVendorCode = createAsyncThunk(
+  'inputField/submitVendorCodes', {
+    async (_, rejectWithValue, getState) => {
+      try{
+
+      }catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+) */
+
+/* const serverRequest = function (obj) */
+
 export const fetchVendorCodes = createAsyncThunk(
   "inputField/fetchVendorCodes",
   async (_, { rejectWithValue, getState }) => {
@@ -44,6 +57,7 @@ export const fetchVendorCodes = createAsyncThunk(
       if (JSON.stringify(prevReq) === JSON.stringify(fetchObj)) {
         return null;
       }
+
       const response = await fetch(fetchUrlAPI, {
         method: "POST",
         headers: { "Content-Type": "application/json;charset=utf-8" },

@@ -2,9 +2,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const fetchUrlAPI = "http://localhost:3000/api";
-
-// регулярка для запроса быстрого фильтра по артикулам
-const regExpForFilter = /[^а-яё\d\w]/gi;
+const regExpForFilter = /[^а-яё\d\w]/gi; // регулярка для запроса быстрого фильтра по артикулам
 
 const initialState = {
   vendorCode: "",
@@ -18,62 +16,54 @@ const initialState = {
   error: null,
 };
 
-/* export const submitVendorCode = createAsyncThunk(
-  'inputField/submitVendorCodes', {
-    async (_, rejectWithValue, getState) => {
-      try{
-
-      }catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-) */
-
-/* const serverRequest = function (obj) */
-
-export const fetchVendorCodes = createAsyncThunk(
-  "inputField/fetchVendorCodes",
-  async (_, { rejectWithValue, getState }) => {
+export const serverRequest = createAsyncThunk(
+  "api/serverRequest",
+  async (fetchObj, { rejectWithValue }) => {
     try {
-      // оставляем для запроса только буквы и цифры,
-      // знаки и пробелы заменяем на маску "любые символы - %"
-      // если введены данные в два поля (артикул и название) - фильтр не используем
-
-      const { vendorCode, itemName, prevReq } = getState();
-
-      if (vendorCode && itemName) return null;
-
-      const fetchObj = {
-        type: "getFilteredVendorCodes",
-        table: "items",
-        column: `${vendorCode ? "vendorCode" : "tags"}`,
-        data: `${
-          (vendorCode || itemName)
-            .replace(regExpForFilter, "%")
-            .toLowerCase() || ""
-        }`,
-      };
-
-      if (JSON.stringify(prevReq) === JSON.stringify(fetchObj)) {
-        return null;
-      }
-
       const response = await fetch(fetchUrlAPI, {
         method: "POST",
         headers: { "Content-Type": "application/json;charset=utf-8" },
         referrerPolicy: "no-referrer",
         body: JSON.stringify(fetchObj),
       });
-
       if (!response.ok) {
         throw new Error("Ошибка получения данных с сервера");
       }
-
       const respData = await response.json();
       return { vendorCodesArr: respData, prevReq: fetchObj };
     } catch (error) {
       return rejectWithValue(error.message);
     }
+  }
+);
+
+export const fetchVendorCodes = createAsyncThunk(
+  "inputField/fetchVendorCodes",
+  async (_, { rejectWithValue, getState, dispatch }) => {
+    // запрос с фильтром
+    // оставляем для запроса только буквы и цифры,
+    // остальное заменяем на маску "любые символы - "%"
+    // если введены данные в два поля (артикул и название) - фильтр не используем
+
+    const { vendorCode, itemName, prevReq } = getState();
+    if (vendorCode && itemName) return null;
+
+    const fetchObj = {
+      type: "getFilteredVendorCodes",
+      table: "items",
+      column: `${vendorCode ? "vendorCode" : "tags"}`,
+      data: `${
+        (vendorCode || itemName).replace(regExpForFilter, "%").toLowerCase() ||
+        ""
+      }`,
+    };
+
+    if (JSON.stringify(prevReq) === JSON.stringify(fetchObj)) {
+      return null;
+    }
+    const resp = await dispatch(serverRequest(fetchObj));
+
+    return resp.error ? null : { ...resp };
   }
 );
 
@@ -97,18 +87,18 @@ export const inputSlice = createSlice({
     },
   },
   extraReducers: {
-    [fetchVendorCodes.pending]: (state) => {
+    [serverRequest.pending]: (state) => {
       state.status = "loading";
       state.error = null;
     },
-    [fetchVendorCodes.fulfilled]: (state, action) => {
+    [serverRequest.fulfilled]: (state, action) => {
       state.status = "resolved";
       if (action.payload) {
         state.vendorCodesArr = action.payload.vendorCodesArr;
         state.prevReq = action.payload.prevReq;
       }
     },
-    [fetchVendorCodes.rejected]: setError,
+    [serverRequest.rejected]: setError,
   },
 });
 

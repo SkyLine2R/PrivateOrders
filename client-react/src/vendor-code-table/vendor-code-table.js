@@ -32,14 +32,17 @@ export default function DataGridTable() {
   }
 
   const rowsName = Object.keys(itemsDB);
+  let rows = [];
 
-  const rows = vendorCodesArr.map((item) => {
-    const obj = { id: item.id };
-    for (const key of rowsName) {
-      obj[key] = item[key];
-    }
-    return obj;
-  });
+  if (vendorCodesArr) {
+    rows = vendorCodesArr.map((item) => {
+      const obj = { id: item.id };
+      for (const key of rowsName) {
+        obj[key] = item[key];
+      }
+      return obj;
+    });
+  }
 
   return (
     <Box sx={{ height: 450, width: "100%" }}>

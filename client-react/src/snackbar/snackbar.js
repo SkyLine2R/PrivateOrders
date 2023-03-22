@@ -8,11 +8,14 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export default function CustomizedSnackbars() {
+export default function CustomizedSnackbars(props) {
   const [open, setOpen] = React.useState(false);
   const { status, error } = { ...useSelector((state) => state.error) };
+  //setOpen(true);
+  const error1 = "Fetching error";
+  console.log(props);
 
-  console.log(status);
+  const align = { vertical: "bottom", horizontal: "right" };
 
   const handleClick = () => {
     setOpen(true);
@@ -25,15 +28,26 @@ export default function CustomizedSnackbars() {
     setOpen(false);
   };
 
+  // Cars.js
+  /* const mapStateToProps = state => ({
+  cars: state.cars
+})
+export default connect(mapStateToProps)(Cars) */
+
   if (status === "rejected") {
-    setOpen(true);
+    handleClick();
   }
 
   return (
     <Stack spacing={2} sx={{ width: "100%" }}>
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{ ...align }}
+      >
         <Alert severity="error" onClose={handleClose} sx={{ width: "100%" }}>
-          {error}
+          {error1}
         </Alert>
       </Snackbar>
     </Stack>

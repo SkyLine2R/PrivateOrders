@@ -39,7 +39,7 @@ export const serverRequest = createAsyncThunk(
 
 export const fetchVendorCodes = createAsyncThunk(
   "inputField/fetchVendorCodes",
-  async (_, { rejectWithValue, getState, dispatch }) => {
+  async (_, { getState, dispatch }) => {
     // запрос с фильтром
     // оставляем для запроса только буквы и цифры,
     // остальное заменяем на маску "любые символы - "%"

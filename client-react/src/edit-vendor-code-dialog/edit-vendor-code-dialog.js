@@ -38,16 +38,7 @@ export default function FormDialog(props) {
       <Dialog fullWidth maxWidth="md" open={open} onClose={handleClose}>
         <DialogTitle>Добавление нового артикула</DialogTitle>
         <DialogContent label="Артикул">
-          <EditVendorCodeForm
-          /*             onChange={(e) => {
-              console.log("event onChange in input field");
-              //dispatch(textСorrectionInField(e));
-              // event.target.value = textСorrectionInField(
-              // itemsDB[event.target.id],
-              // event.target.value
-              // );
-            }} */
-          />
+          <EditVendorCodeForm />
 
           <Box sx={{ mt: 5 }}>
             <DialogContentText>Артикулы в базе</DialogContentText>

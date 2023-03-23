@@ -2,51 +2,46 @@ import * as React from "react";
 import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { snackOpen, snackClose } from "../slice";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export default function CustomizedSnackbars(props) {
-  const [open, setOpen] = React.useState(false);
-  const { status, error } = { ...useSelector((state) => state.error) };
-  //setOpen(true);
-  const error1 = "Fetching error";
-  console.log(props);
+export default function CustomizedSnackbars() {
+  const dispatch = useDispatch();
+  // const [open, setOpen] = React.useState(false);
+  const snackState = {
+    ...useSelector((state) => state.snackbars),
+  };
 
+  console.log(snackState);
+
+  const error1 = "Fetching error";
   const align = { vertical: "bottom", horizontal: "right" };
 
-  const handleClick = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpen(false);
-  };
-
-  // Cars.js
-  /* const mapStateToProps = state => ({
-  cars: state.cars
-})
-export default connect(mapStateToProps)(Cars) */
-
-  if (status === "rejected") {
-    handleClick();
-  }
+  /*   const open = () => {
+    dispatch(snackOpen);
+  }; */
+  /* 
+  const close = () => {
+    dispatch(snackClose);
+  }; */
 
   return (
     <Stack spacing={2} sx={{ width: "100%" }}>
       <Snackbar
-        open={open}
+        open={() => snackState.setOpen}
         autoHideDuration={6000}
-        onClose={handleClose}
+        onClose={() => dispatch(snackClose)}
         anchorOrigin={{ ...align }}
       >
-        <Alert severity="error" onClose={handleClose} sx={{ width: "100%" }}>
+        <Alert
+          severity="error"
+          onClose={() => dispatch(snackClose)}
+          sx={{ width: "100%" }}
+        >
           {error1}
         </Alert>
       </Snackbar>

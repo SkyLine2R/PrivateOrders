@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const fetchUrlAPI = "http://localhost:3000/api";
+const fetchUrlAPI = "http://localhofst:3000/api";
 const regExpForFilter = /[^а-яё\d\w]/gi; // регулярка для запроса быстрого фильтра по артикулам
 
 const initialState = {
@@ -14,6 +14,7 @@ const initialState = {
   prevReq: { req: false },
   status: null,
   error: null,
+  snackbars: { setOpen: false },
 };
 
 export const serverRequest = createAsyncThunk(
@@ -70,6 +71,7 @@ export const fetchVendorCodes = createAsyncThunk(
 const setError = (state, action) => {
   state.status = "rejected";
   state.error = action.payload;
+  state.snackbars.setOpen = true;
 };
 
 export const inputSlice = createSlice({
@@ -84,6 +86,12 @@ export const inputSlice = createSlice({
       state[target.payload.fieldId] = state.vendorCodesArr.find(
         (item) => item.id === target.payload.id
       )[target.payload.fieldId];
+    },
+    snackOpen: (state) => {
+      state.snackbars.setOpen = true;
+    },
+    snackClose: (state) => {
+      state.snackbars.setOpen = false;
     },
   },
   extraReducers: {
@@ -102,6 +110,7 @@ export const inputSlice = createSlice({
   },
 });
 
-export const { changeValue, copyPasteValue } = inputSlice.actions;
+export const { changeValue, copyPasteValue, snackOpen, snackClose } =
+  inputSlice.actions;
 
 export default inputSlice.reducer;

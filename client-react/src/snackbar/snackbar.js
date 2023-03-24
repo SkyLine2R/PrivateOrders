@@ -11,7 +11,6 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 export default function CustomizedSnackbars() {
   const dispatch = useDispatch();
-  // const [open, setOpen] = React.useState(false);
   const snackState = {
     ...useSelector((state) => state.snackbars),
   };
@@ -21,18 +20,10 @@ export default function CustomizedSnackbars() {
   const error1 = "Fetching error";
   const align = { vertical: "bottom", horizontal: "right" };
 
-  /*   const open = () => {
-    dispatch(snackOpen);
-  }; */
-  /* 
-  const close = () => {
-    dispatch(snackClose);
-  }; */
-
   return (
     <Stack spacing={2} sx={{ width: "100%" }}>
       <Snackbar
-        open={() => snackState.setOpen}
+        open={snackState.setOpen}
         autoHideDuration={6000}
         onClose={() => dispatch(snackClose)}
         anchorOrigin={{ ...align }}

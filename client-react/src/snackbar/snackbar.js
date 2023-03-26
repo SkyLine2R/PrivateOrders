@@ -1,48 +1,40 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import * as React from "react";
 import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { useSelector, useDispatch } from "react-redux";
-import { snackOpen, snackClose } from "../slice";
+import { closeSnack } from "../slice";
 
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
+const Alert = React.forwardRef((props, ref) => (
+  <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
+));
 
 export default function CustomizedSnackbars() {
   const dispatch = useDispatch();
-  // const [open, setOpen] = React.useState(false);
+
   const snackState = {
     ...useSelector((state) => state.snackbars),
   };
 
-  console.log(snackState);
-
-  const error1 = "Fetching error";
-  const align = { vertical: "bottom", horizontal: "right" };
-
-  /*   const open = () => {
-    dispatch(snackOpen);
-  }; */
-  /* 
-  const close = () => {
-    dispatch(snackClose);
-  }; */
+  const onClose = () => dispatch(closeSnack());
 
   return (
     <Stack spacing={2} sx={{ width: "100%" }}>
       <Snackbar
-        open={() => snackState.setOpen}
+        open={snackState.open}
         autoHideDuration={6000}
-        onClose={() => dispatch(snackClose)}
-        anchorOrigin={{ ...align }}
+        onClose={onClose}
+        message={<p>Проверка</p>}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       >
         <Alert
-          severity="error"
-          onClose={() => dispatch(snackClose)}
+          style={{ whiteSpace: "pre-line" }}
+          severity={snackState.severity}
+          onClose={onClose}
           sx={{ width: "100%" }}
         >
-          {error1}
+          {snackState.message}
         </Alert>
       </Snackbar>
     </Stack>

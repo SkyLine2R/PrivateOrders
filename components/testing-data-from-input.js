@@ -9,17 +9,16 @@ function isObjectEmpty(value) {
   );
 }
 
-function testDataFromForm(refObj, jsonData) {
+function testDataFromForm(refObj, testObj) {
   // Функция проверки переданных значений.
-  // Принимает объект refObj с параметрами проверки и jsonData с данными
+  // Принимает объект refObj с параметрами проверки и объект с данными
   // Если всё норм - возвращает объект c данными, нет - объект с массивом ошибок
 
-  const testObj = JSON.parse(jsonData);
   const errArr = [];
   // Проверить объекты на пустоту, если норм - проверить правильность заполнения полей
   if (!isObjectEmpty(refObj) && !isObjectEmpty(testObj)) {
     for (const key in refObj) {
-      if (refObj[key].required && !testObj[key]) {
+      if (refObj[key].required && testObj[key].trim() === "") {
         errArr.push(
           `Поле "${refObj[key].description}" должно содержать значение.`
         );

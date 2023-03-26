@@ -8,8 +8,12 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Box from "@mui/material/Box";
-
 import { useSelector, useDispatch } from "react-redux";
+
+import testSendData from "../../../components/testing-data-from-input";
+import dbSchema from "../../../components/items-db_schema";
+import { sendNewVendorCode } from "../slice";
+
 // eslint-disable-next-line no-unused-vars
 
 import DataGrid from "../vendor-code-table/vendor-code-table";
@@ -19,16 +23,18 @@ import EditVendorCodeForm from "../edit-vendor-code-form/edit-vendor-code-form";
 // eslint-disable-next-line no-unused-vars
 export default function FormDialog(props) {
   const [open, setOpen] = React.useState(false);
-  // const inputVendorCode = useSelector((state) => state.vendorCode);
-  // const dispatch = useDispatch();
-
+  const stateData = useSelector((state) => state);
+  const dispatch = useDispatch();
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = (e) => {
+    console.log("Закрыть");
+    dispatch(sendNewVendorCode(dbSchema));
     setOpen(false);
   };
+  const addVendorCode = () => {};
 
   return (
     <div>

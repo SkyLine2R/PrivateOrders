@@ -29,11 +29,15 @@ export default function FormDialog(props) {
     setOpen(true);
   };
 
-  const handleClose = (e) => {
-    console.log("Закрыть");
-    dispatch(sendNewVendorCode(dbSchema));
+  const handleClose = () => {
     setOpen(false);
   };
+
+  const handleAddNewArticle = () => {
+    dispatch(sendNewVendorCode(dbSchema));
+    /* if (stateData.) */
+  };
+
   const addVendorCode = () => {};
 
   return (
@@ -55,7 +59,7 @@ export default function FormDialog(props) {
 
         <DialogActions>
           <Button onClick={handleClose}>Отмена</Button>
-          <Button onClick={handleClose}>Добавить</Button>
+          <Button onClick={handleAddNewArticle}>Добавить</Button>
         </DialogActions>
       </Dialog>
     </div>

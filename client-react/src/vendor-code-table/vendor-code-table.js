@@ -3,15 +3,24 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid, ruRU } from "@mui/x-data-grid";
 import { useSelector, useDispatch } from "react-redux";
-import { copyPasteValue } from "../slice";
+import { copyPasteValue, fetchVendorCodes } from "../slice";
 
 import itemsDB from "../../../components/items-db_schema";
+
 // const unitForInput = itemsDB.unit.unitArr;
 
 // Подготовка столбцов и заголовков таблицы
 // eslint-disable-next-line no-unused-vars
-
 export default function DataGridTable() {
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state);
+  const { vendorCodesArr } = state;
+
+  React.useEffect(
+    () => dispatch(fetchVendorCodes()),
+    [dispatch, state.vendorCode, state.itemName]
+  );
+
   const columns = [
     {
       field: "number",
@@ -22,11 +31,10 @@ export default function DataGridTable() {
       valueGetter: (index) => index.value, // добавление номеров в первую графу
     },
   ];
-  const dispatch = useDispatch();
-  const vendorCodesArr = useSelector((state) => state.vendorCodesArr);
 
   // eslint-disable-next-line guard-for-in, no-restricted-syntax
   for (const item in itemsDB) {
+    console.log("перерисовка заголовков");
     itemsDB[item].table.field = item;
     columns.push(itemsDB[item].table);
   }

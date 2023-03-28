@@ -7,17 +7,12 @@ import Box from "@mui/material/Box";
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import TextField from "@mui/material/TextField";
-import { changeValue, fetchVendorCodes } from "../slice";
+import { changeValue } from "../slice";
 import testFormForInputItem from "../../../components/items-db_schema";
 
 export default function FieldForInput(props) {
   const dispatch = useDispatch();
   const val = useSelector((state) => state[props.id]);
-
-  if (props.id === "vendorCode" || props.id === "itemName")
-    React.useEffect(() => {
-      dispatch(fetchVendorCodes());
-    });
 
   // Убираем "запрещённые" символы и обрезаем строку по регулярке из items-db-schema
   const textСorrectionInField = (refObj, fieldValue) => {

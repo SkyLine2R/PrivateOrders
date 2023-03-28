@@ -58,8 +58,8 @@ export const fetchVendorCodes = createAsyncThunk(
     // остальное заменяем на маску "любые символы - "%"
     // если введены данные в два поля (артикул и название) - фильтр не используем
     const { vendorCode, itemName, prevReq } = getState();
-
     if (vendorCode && itemName) return null;
+    console.log("Автофильтр из базы");
 
     const fetchObj = {
       type: "getFilteredVendorCodes",

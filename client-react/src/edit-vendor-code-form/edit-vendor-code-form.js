@@ -1,10 +1,19 @@
 import * as React from "react";
 import FormGroup from "@mui/material/FormGroup";
 import Grid from "@mui/material/Unstable_Grid2";
+import { useSelector, useDispatch } from "react-redux";
 import SelectItemUnit from "../unit-input/unit-input";
 import FieldForInput from "../field-for-input/field-for-input";
+import { fetchVendorCodes } from "../slice";
 
 export default function EditVendorCodeForm() {
+  const dispatch = useDispatch();
+  const state = useSelector((myState) => myState);
+  // при изменении артикула или наименования - запрос на сервер
+  React.useEffect(
+    () => dispatch(fetchVendorCodes()),
+    [dispatch, state.vendorCode, state.itemName]
+  );
   return (
     <FormGroup>
       <Grid container spacing={2}>

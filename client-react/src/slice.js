@@ -3,7 +3,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import testSendData from "../../components/testing-data-from-input";
 
 const fetchUrlAPI = "http://localhost:3000/api";
-const regExpForFilter = /[^а-яё\d\w]/gi; // регулярка для запроса быстрого фильтра по артикулам
 
 const initialState = {
   vendorCode: "",
@@ -12,10 +11,11 @@ const initialState = {
   quantity: "1",
   notes: "",
   vendorCodesArr: [],
-  prevReq: { req: false },
+  prevReq: {},
   status: null,
   error: null,
   snackbars: { open: false, severity: "info", message: null },
+  lastVendorCodeId: null,
 };
 
 const setSnackbar = (state, severity, message) => {
@@ -44,7 +44,8 @@ const serverRequest = createAsyncThunk(
         throw new Error("Ошибка получения данных с сервера");
       }
       const respData = await response.json();
-      return { vendorCodesArr: respData, prevReq: fetchObj };
+
+      return { data: respData, prevReq: fetchObj };
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -53,28 +54,28 @@ const serverRequest = createAsyncThunk(
 
 export const fetchVendorCodes = createAsyncThunk(
   "api/fetchVendorCodes",
-  async (_, { getState, dispatch }) => {
+  async (_, { getState, dispatch, rejectWithValue, rejected }) => {
     // запрос с фильтром оставляем для запроса только буквы и цифры,
     // остальное заменяем на маску "любые символы - "%"
     // если введены данные в два поля (артикул и название) - фильтр не используем
     const { vendorCode, itemName, prevReq } = getState();
-    if (vendorCode && itemName) return null;
-    console.log("Автофильтр из базы");
+    if (vendorCode && itemName) return rejected();
 
     const fetchObj = {
       type: "getFilteredVendorCodes",
-      table: "items",
-      column: `${vendorCode ? "vendorCode" : "tags"}`,
-      data: `${
-        (vendorCode || itemName).replace(regExpForFilter, "%").toLowerCase() ||
-        ""
-      }`,
+      data: {
+        table: "items",
+        column: `${vendorCode ? "vendorCode" : "itemName"}`,
+        string: vendorCode || itemName || "",
+      },
     };
     if (JSON.stringify(prevReq) === JSON.stringify(fetchObj)) {
-      return null;
+      return rejected();
     }
     const resp = await dispatch(serverRequest(fetchObj));
-    return resp.error ? null : { ...resp };
+    return resp.payload.data.error
+      ? rejectWithValue(resp.payload.error)
+      : resp.payload;
   }
 );
 
@@ -82,29 +83,44 @@ export const sendNewVendorCode = createAsyncThunk(
   "inputField/sendNewVendorCodes",
   async (dbSchema, { getState, dispatch, rejectWithValue }) => {
     // отправка нового артикула для записи в БД
-    // подберём из State ключи нового артикула, которые должны отправиться в базу, согласно схемы
-    // И проверим объект на правильность заполнения
-    const state = getState();
-    const keys = Object.keys(dbSchema);
-    const objVendorCode = keys.reduce(
-      (obj, key) => ({ ...obj, [key]: state[key] }),
-      {}
-    );
-    const data = testSendData(dbSchema, objVendorCode);
+    try {
+      const state = getState();
+      const keys = Object.keys(dbSchema);
+      // подберём согласно схемы из State ключи нового артикула,
+      // которые должны отправиться в базу
+      const objVendorCode = keys.reduce(
+        (obj, key) => ({ ...obj, [key]: state[key] }),
+        {}
+      );
+      const data = testSendData(dbSchema, objVendorCode);
 
-    if (data.errors)
-      return rejectWithValue(`Данные не сохранены.\n${data.errors.join("\n")}`);
+      if (data.error) {
+        return rejectWithValue(
+          `Данные не отправлены.\n${data.error.join("\n")}`
+        );
+      }
 
-    const fetchObj = {
-      type: "addNewVendorCode",
-      data: { ...data },
-    };
+      const fetchObj = {
+        type: "addNewVendorCode",
+        data,
+      };
 
-    if (JSON.stringify(state.prevReq) === JSON.stringify(fetchObj)) {
-      return null;
+      if (JSON.stringify(state.prevReq) === JSON.stringify(fetchObj)) {
+        return rejectWithValue("");
+      }
+      const resp = await dispatch(serverRequest(fetchObj));
+      return resp.payload.data.error
+        ? rejectWithValue(
+            `Ошибка при добавлении данных на сервере\n${resp.payload.data.error.join(
+              "\n"
+            )}`
+          )
+        : resp.payload.data;
+    } catch (error) {
+      return rejectWithValue(
+        "При проверке и отправке данных возникла ошибка :("
+      );
     }
-    const resp = await dispatch(serverRequest(fetchObj));
-    return resp.error ? null : { ...resp };
   }
 );
 
@@ -126,22 +142,39 @@ export const inputSlice = createSlice({
     },
   },
   extraReducers: {
-    [serverRequest.pending]: (state) => {
+    [serverRequest.pending]: (state, action) => {
+      state.prevReq = action.meta.arg;
       state.status = "loading";
       state.error = null;
     },
-    [serverRequest.fulfilled]: (state, action) => {
+    [serverRequest.fulfilled]: (state) => {
       state.status = "resolved";
-      if (action.payload) {
-        state.vendorCodesArr = action.payload.vendorCodesArr;
-        state.prevReq = action.payload.prevReq;
-        setSnackbar(state, "success", "Данные обновлены");
-      }
     },
     [serverRequest.rejected]: setError,
 
+    [fetchVendorCodes.fulfilled]: (state, action) => {
+      setSnackbar(
+        state,
+        "success",
+        action.payload.data.length
+          ? "Артикулы обновлены"
+          : "В базе нет подобных артикулов"
+      );
+      state.vendorCodesArr = action.payload.data || [];
+    },
+    [sendNewVendorCode.pending]: (state) => {
+      state.lastVendorCodeId = null;
+    },
+    [sendNewVendorCode.fulfilled]: (state, action) => {
+      setSnackbar(
+        state,
+        "success",
+        `Успех! Артикул "${action.payload.vendorCode}" добавлен в базу данных!`
+      );
+      state.lastVendorCodeId = action.payload.id[0];
+    },
     [sendNewVendorCode.rejected]: (state, action) => {
-      setSnackbar(state, "warning", action.payload);
+      if (action.payload) setSnackbar(state, "warning", action.payload);
     },
   },
 });

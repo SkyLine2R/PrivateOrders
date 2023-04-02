@@ -12,28 +12,25 @@ const Alert = React.forwardRef((props, ref) => (
 
 export default function CustomizedSnackbars() {
   const dispatch = useDispatch();
-  const snackState = {
-    ...useSelector((state) => state.snackbars),
-  };
+  const { open, severity, message } = useSelector((state) => state.snackbars);
 
   const onClose = () => dispatch(closeSnack());
 
   return (
     <Stack spacing={2} sx={{ width: "100%" }}>
       <Snackbar
-        open={snackState.open}
+        open={open}
         autoHideDuration={6000}
         onClose={onClose}
-        message={<p>Проверка</p>}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       >
         <Alert
           style={{ whiteSpace: "pre-line" }}
-          severity={snackState.severity}
+          severity={severity}
           onClose={onClose}
           sx={{ width: "100%" }}
         >
-          {snackState.message}
+          {message}
         </Alert>
       </Snackbar>
     </Stack>

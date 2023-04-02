@@ -15,26 +15,37 @@ function testDataFromForm(refObj, testObj) {
   // Если всё норм - возвращает объект c данными, нет - объект с массивом ошибок
 
   const errArr = [];
-  // Проверить объекты на пустоту, если норм - проверить правильность заполнения полей
-  if (!isObjectEmpty(refObj) && !isObjectEmpty(testObj)) {
-    for (const key in refObj) {
-      if (refObj[key].required && testObj[key].trim() === "") {
+  if (isObjectEmpty(refObj) && isObjectEmpty(testObj)) {
+    return errArr;
+  }
+  for (const key in refObj) {
+    if (
+      refObj[key].required &&
+      (!Object.prototype.hasOwnProperty.call(testObj, key) ||
+        `${testObj[key]}`.trim() === "")
+    ) {
+      errArr.push(
+        `Поле "${refObj[key].description}" должно содержать значение.`
+      );
+    }
+
+    if (Object.prototype.hasOwnProperty.call(testObj, key)) {
+      if (
+        (refObj[key].containsNumber && +testObj[key] < refObj[key].min) ||
+        +testObj[key] > refObj[key].max
+      )
         errArr.push(
-          `Поле "${refObj[key].description}" должно содержать значение.`
+          `Значение "${refObj[key].description}" должно быть положительным числом в диапазоне от ${refObj[key].min} до ${refObj[key].max}.`
         );
-      }
-      if (refObj[key].containsNumber) {
-        if (+testObj[key] < refObj[key].min || +testObj[key] > refObj[key].max)
-          errArr.push(
-            `Значение "${refObj[key].description}" должно быть положительным числом в диапазоне от ${refObj[key].min} до ${refObj[key].max}.`
-          );
-      } else if (testObj[key].length > refObj[key].maxlength) {
+
+      if (`${testObj[key]}`.length > refObj[key].maxlength) {
         errArr.push(
           `Значение "${refObj[key].description}" должно быть короче ${refObj[key].maxlength} символов.`
         );
       }
     }
-  } else errArr.push("Не удалось проверить данные формы");
-  return errArr.length ? { errors: errArr } : testObj;
+  }
+
+  return errArr.length ? { error: errArr } : testObj;
 }
 module.exports = testDataFromForm;

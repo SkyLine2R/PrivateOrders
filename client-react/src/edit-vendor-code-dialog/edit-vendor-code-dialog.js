@@ -8,22 +8,17 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Box from "@mui/material/Box";
-import { useSelector, useDispatch } from "react-redux";
-
-import testSendData from "../../../components/testing-data-from-input";
+import { useDispatch, useSelector } from "react-redux";
 import dbSchema from "../../../components/items-db_schema";
 import { sendNewVendorCode } from "../slice";
 
-// eslint-disable-next-line no-unused-vars
-
 import DataGrid from "../vendor-code-table/vendor-code-table";
 import EditVendorCodeForm from "../edit-vendor-code-form/edit-vendor-code-form";
-// import FieldForInput from "../field-for-input/field-for-input";
 
-// eslint-disable-next-line no-unused-vars
-export default function FormDialog(props) {
+export default function FormDialog() {
+  const lastVendorCodeId = useSelector((myState) => myState.lastVendorCodeId);
+
   const [open, setOpen] = React.useState(false);
-  const stateData = useSelector((state) => state);
   const dispatch = useDispatch();
   const handleClickOpen = () => {
     setOpen(true);
@@ -35,10 +30,8 @@ export default function FormDialog(props) {
 
   const handleAddNewArticle = () => {
     dispatch(sendNewVendorCode(dbSchema));
-    /* if (stateData.) */
   };
-
-  const addVendorCode = () => {};
+  // const addVendorCode = () => {};
 
   return (
     <div>

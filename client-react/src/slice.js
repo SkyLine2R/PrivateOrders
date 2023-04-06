@@ -5,6 +5,7 @@ import testSendData from "../../components/testing-data-from-input";
 const fetchUrlAPI = "http://localhost:3000/api";
 
 const initialState = {
+  modalWindowVendorCodeOpen: false,
   vendorCode: "",
   itemName: "",
   unit: "0",
@@ -129,6 +130,9 @@ export const inputSlice = createSlice({
   initialState,
 
   reducers: {
+    setModalWindowVendorCodeOpen: (state) => {
+      state.modalWindowVendorCodeOpen = !state.modalWindowVendorCodeOpen;
+    },
     changeValue: (state, target) => {
       state[target.payload.fieldId] = target.payload.value;
     },
@@ -172,6 +176,12 @@ export const inputSlice = createSlice({
         `Успех! Артикул "${action.payload.vendorCode}" добавлен в базу данных!`
       );
       state.lastVendorCodeId = action.payload.id[0];
+      state.modalWindowVendorCodeOpen = false;
+      state.vendorCode = "";
+      state.itemName = "";
+      state.unit = 0;
+      state.quantity = 0;
+      state.notes = "";
     },
     [sendNewVendorCode.rejected]: (state, action) => {
       if (action.payload) setSnackbar(state, "warning", action.payload);
@@ -179,7 +189,12 @@ export const inputSlice = createSlice({
   },
 });
 
-export const { changeValue, copyPasteValue, setSnack, closeSnack } =
-  inputSlice.actions;
+export const {
+  setModalWindowVendorCodeOpen,
+  changeValue,
+  copyPasteValue,
+  setSnack,
+  closeSnack,
+} = inputSlice.actions;
 
 export default inputSlice.reducer;

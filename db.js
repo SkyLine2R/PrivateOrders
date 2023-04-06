@@ -53,7 +53,11 @@ module.exports = Items = {
     }`;
 
     return {
-      id: await db("items").insert({ ...obj, tags }),
+      id: await db("items").insert({
+        ...obj,
+        tags,
+        created_at: Date.now(),
+      }),
       vendorCode: obj.vendorCode,
     };
   },

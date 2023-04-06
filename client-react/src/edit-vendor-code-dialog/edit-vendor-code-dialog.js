@@ -1,7 +1,5 @@
-/* eslint-disable no-unused-vars */
 import * as React from "react";
 import Button from "@mui/material/Button";
-// import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -10,35 +8,36 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Box from "@mui/material/Box";
 import { useDispatch, useSelector } from "react-redux";
 import dbSchema from "../../../components/items-db_schema";
-import { sendNewVendorCode } from "../slice";
+import { setModalWindowVendorCodeOpen, sendNewVendorCode } from "../slice";
 
 import DataGrid from "../vendor-code-table/vendor-code-table";
 import EditVendorCodeForm from "../edit-vendor-code-form/edit-vendor-code-form";
 
 export default function FormDialog() {
-  const lastVendorCodeId = useSelector((myState) => myState.lastVendorCodeId);
-
-  const [open, setOpen] = React.useState(false);
+  const modalWindowVendorCodeOpen = useSelector(
+    (state) => state.modalWindowVendorCodeOpen
+  );
   const dispatch = useDispatch();
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleClickOpenClose = () => {
+    dispatch(setModalWindowVendorCodeOpen());
   };
 
   const handleAddNewArticle = () => {
     dispatch(sendNewVendorCode(dbSchema));
   };
-  // const addVendorCode = () => {};
 
   return (
     <div>
-      <Button variant="contained" onClick={handleClickOpen}>
+      <Button variant="contained" onClick={handleClickOpenClose}>
         + Добавить новый артикул
       </Button>
-      <Dialog fullWidth maxWidth="md" open={open} onClose={handleClose}>
+      <Dialog
+        fullWidth
+        maxWidth="md"
+        open={modalWindowVendorCodeOpen}
+        onClose={handleClickOpenClose}
+      >
         <DialogTitle>Добавление нового артикула</DialogTitle>
         <DialogContent label="Артикул">
           <EditVendorCodeForm />
@@ -51,7 +50,7 @@ export default function FormDialog() {
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleClose}>Отмена</Button>
+          <Button onClick={handleClickOpenClose}>Отмена</Button>
           <Button onClick={handleAddNewArticle}>Добавить</Button>
         </DialogActions>
       </Dialog>

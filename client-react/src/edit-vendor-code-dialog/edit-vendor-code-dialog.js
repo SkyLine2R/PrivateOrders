@@ -8,6 +8,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Box from "@mui/material/Box";
 import { useDispatch, useSelector } from "react-redux";
 import dbSchema from "../../../components/items-db_schema";
+
 import { setModalWindowVendorCodeOpen, sendNewVendorCode } from "../slice";
 
 import DataGrid from "../vendor-code-table/vendor-code-table";
@@ -22,7 +23,6 @@ export default function FormDialog() {
   const handleClickOpenClose = () => {
     dispatch(setModalWindowVendorCodeOpen());
   };
-
   const handleAddNewArticle = () => {
     dispatch(sendNewVendorCode(dbSchema));
   };
@@ -45,7 +45,7 @@ export default function FormDialog() {
           <Box sx={{ mt: 5 }}>
             <DialogContentText>Артикулы в базе</DialogContentText>
 
-            <DataGrid />
+            <DataGrid itemsDB={dbSchema} />
           </Box>
         </DialogContent>
 

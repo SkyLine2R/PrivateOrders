@@ -175,7 +175,7 @@ export const inputSlice = createSlice({
         "success",
         `Успех! Артикул "${action.payload.vendorCode}" добавлен в базу данных!`
       );
-      state.lastVendorCodeId = action.payload.id[0];
+      [state.lastVendorCodeId] = [...action.payload.id];
       state.modalWindowVendorCodeOpen = false;
       state.vendorCode = "";
       state.itemName = "";

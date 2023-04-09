@@ -7,8 +7,6 @@ import { DataGrid, ruRU } from "@mui/x-data-grid";
 import { useSelector, useDispatch } from "react-redux";
 import { copyPasteValue } from "../slice";
 
-import itemsDB from "../../../components/items-db_schema";
-
 // нормализация данных для таблицы
 function normalizeRowsData(items, vendorCodesArr) {
   const rowsName = Object.keys(items);
@@ -54,20 +52,23 @@ function colNaming(items) {
   return columns;
 }
 
-export default function DataGridTable() {
+export default function DataGridTable(props) {
+  const dispatch = useDispatch();
+
   const [colNameState, setColNameState] = React.useState([]); // наименования столбцов
   const [rowsDataState, setRowsDataState] = React.useState([]); // содержимое таблицы
-
-  const dispatch = useDispatch();
   const { prevReq, vendorCodesArr } = useSelector((st) => st);
 
+  const { itemsDB } = { ...props }; // itemsDB - схема и размерность столбцов
+
   // именовать столбцы только при монтировании
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   React.useEffect(() => setColNameState(colNaming(itemsDB)), []);
 
   // нормализация данных, если был новый запрос на сервер
   React.useEffect(
     () => setRowsDataState(normalizeRowsData(itemsDB, vendorCodesArr)),
-    [vendorCodesArr, prevReq]
+    [vendorCodesArr, prevReq, itemsDB]
   );
 
   return (
@@ -89,7 +90,7 @@ export default function DataGridTable() {
             })
           );
         }}
-        /* density={"compact"} */
+        density="compact"
         /* onCellClick={(GridCellParams, event, GridCallbackDetails) => {
           dispatch(action);
         }} */

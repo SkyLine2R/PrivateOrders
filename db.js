@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-useless-concat */
 /* eslint-disable prefer-template */
 /* eslint-disable no-undef */

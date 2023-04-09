@@ -2,7 +2,7 @@ const path = require("path");
 
 module.exports = {
   mode: "development",
-  devtool: "eval-cheap-source-map",
+  devtool: "source-map",
   stats: { colors: true, reasons: true },
   entry: { main: path.resolve(__dirname, "./client-react/src/index.js") },
   //entry: { main: path.resolve(__dirname, "./client/script.js") },

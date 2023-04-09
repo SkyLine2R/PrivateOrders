@@ -22,9 +22,8 @@ const Items = require("../db");
   }
 }); */
 
+// eslint-disable-next-line consistent-return
 router.post("/", (req, res) => {
-  console.log(req.body.data);
-
   switch (req.body.type) {
     case "getFilteredVendorCodes": // запрос поиска данных для автофильтра "Артикул"/"Наименование"
       Items.filterRecords(req.body.data)

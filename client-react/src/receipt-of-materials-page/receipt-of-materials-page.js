@@ -1,24 +1,17 @@
 import * as React from "react";
+import Grid from "@mui/material/Unstable_Grid2";
 
 import DataGrid from "../vendor-code-table/vendor-code-table";
-import SearchAppBar from "../../search-app-bar/search-app-bar";
-import Grid from "@mui/material/Unstable_Grid2";
+import dbSchema from "../../../components/items-db_schema";
 
 export default function ReceiptOfMaterials() {
   return (
     <Grid container rowSpacing={1} spacing={2}>
-      <Grid xs={5}>
-        <Grid>
-          <DataGrid />
-        </Grid>
-
-        <Grid>
-          <SearchAppBar />
-        </Grid>
+      <Grid xs={6}>
+        <DataGrid itemsDB={dbSchema} />
       </Grid>
-
-      <Grid xs={7}>
-        <DataGrid />
+      <Grid xs={6}>
+        <DataGrid itemsDB={dbSchema} />
       </Grid>
     </Grid>
   );

@@ -6,13 +6,13 @@ import CustomizedSnackbars from "./snackbar/snackbar";
 import ReceiptOfMaterials from "./receipt-of-materials-page/receipt-of-materials-page";
 
 import BasicTabs from "./tabs/tabs";
-import SearchAppBar from "../search-app-bar/search-app-bar";
+import MenuAppBar from "./menu-app-bar/menu-app-bar";
 
 export default function App() {
   return (
     <Router>
       <CustomizedSnackbars />
-      <SearchAppBar />
+      <MenuAppBar />
       <header>
         <ul>
           <li>

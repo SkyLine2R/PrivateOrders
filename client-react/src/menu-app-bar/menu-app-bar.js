@@ -2,48 +2,28 @@ import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormGroup from "@mui/material/FormGroup";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import Button from "@mui/material/Button";
-import StorageIcon from "@mui/material/StorageIcon";
+import { Link as RouterLink } from "react-router-dom";
 
-const pages = ["Склад", "Поступления", "Списания"];
+const pages = [
+  { name: "Материал на складе", link: "material" },
+  { name: "Приход", link: "receipt" },
+  { name: "Расход", link: "outgo" },
+];
+
+const LinkBehavior = React.forwardRef((props, ref) => (
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  <RouterLink ref={ref} to="/" {...props} role={undefined} />
+));
 
 export default function MenuAppBar() {
-  return (
-    <div>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6">Учет складских материалов</Typography>
-          <Button color="inherit" startIcon={<StorageIcon />}>
-            Склад
-          </Button>
-          <Button color="inherit" startIcon={<ArrowDownwardIcon />}>
-            Приход
-          </Button>
-          <Button color="inherit" startIcon={<ArrowUpwardIcon />}>
-            Расход
-          </Button>
-          <IconButton color="inherit" aria-label="account">
-            {/*             <AccountCircleIcon />
-             */}{" "}
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
-
-  /* const [auth, setAuth] = React.useState(true);
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  // eslint-disable-next-line no-unused-vars
+  const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleMenu = (event) => {
@@ -54,16 +34,9 @@ export default function MenuAppBar() {
     setAnchorEl(null);
   };
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="absolute">
+      <AppBar position="static">
         <Toolbar>
           <IconButton
             size="large"
@@ -74,34 +47,24 @@ export default function MenuAppBar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Photos
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <Menu
-              id="menu-appbar-nav"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            {pages.map((page) => (
+              <Button
+                component={LinkBehavior}
+                to={page.link}
+                key={page.link}
+                sx={{
+                  color: "white",
+                  mr: 2,
+                  fontSize: "22px",
+                  fontFamily: "monospace",
+                  fontWeight: 700,
+                }}
+              >
+                {page.name}
+              </Button>
+            ))}
           </Box>
           {auth && (
             <div>
@@ -116,7 +79,7 @@ export default function MenuAppBar() {
                 <AccountCircle />
               </IconButton>
               <Menu
-                id="menu-appbar-auth"
+                id="menu-appbar"
                 anchorEl={anchorEl}
                 anchorOrigin={{
                   vertical: "top",
@@ -130,13 +93,13 @@ export default function MenuAppBar() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Настройки</MenuItem>
-                <MenuItem onClick={handleClose}>Выйти из аккаунта</MenuItem>
+                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>My account</MenuItem>
               </Menu>
             </div>
           )}
         </Toolbar>
       </AppBar>
     </Box>
-  ); */
+  );
 }

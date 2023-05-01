@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import EditVendorCodeDialog from "./edit-vendor-code-dialog/edit-vendor-code-dialog";
 import CustomizedSnackbars from "./snackbar/snackbar";
@@ -13,25 +13,11 @@ export default function App() {
     <Router>
       <CustomizedSnackbars />
       <MenuAppBar />
-      <header>
-        <ul>
-          <li>
-            <Link to="/">Начало начал</Link>
-          </li>
-          <li>
-            <Link to="/receipt">Поступление материалов</Link>
-          </li>
-
-          <li>
-            <Link to="/receipt">Материалы на складе</Link>
-          </li>
-        </ul>
-      </header>
       <main>
         <Routes>
           <Route path="/receipt" element={<EditVendorCodeDialog />} />
           <Route
-            path="/"
+            path="/material"
             element={
               <BasicTabs
                 tab1="Здесь будут запасы материала на складе"

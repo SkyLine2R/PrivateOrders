@@ -60,5 +60,3 @@ FieldForInput.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
 };
-
-// export default React.memo(FieldForInput);

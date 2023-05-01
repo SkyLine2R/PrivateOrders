@@ -28,6 +28,9 @@ app.use("/", require("./routes/index"));
 app.use("/items", require("./routes/items"));
 app.use("/api", require("./routes/api"));
 
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public/index.html"));
+});
 // catch 404 and forward to error handler
 /* app.use(function (req, res, next) {
   next(createError(404)); 

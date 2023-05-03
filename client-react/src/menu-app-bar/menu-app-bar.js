@@ -11,7 +11,7 @@ import Menu from "@mui/material/Menu";
 import { Link as RouterLink } from "react-router-dom";
 
 const pages = [
-  { name: "Материал на складе", link: "material" },
+  { name: "Материал на складе", link: "stock" },
   { name: "Приход", link: "receipt" },
   { name: "Расход", link: "outgo" },
 ];

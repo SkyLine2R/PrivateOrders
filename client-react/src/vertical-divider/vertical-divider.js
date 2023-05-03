@@ -1,10 +1,8 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
-import MuiGrid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Unstable_Grid2";
 import DataGrid from "../vendor-code-table/vendor-code-table";
-import SearchAppBar from "../../search-app-bar/search-app-bar";
 
 /* const Grid = styled(MuiGrid)(({ theme }) => ({
   width: "100%",

@@ -47,7 +47,7 @@ export default function BasicTabs(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const { tab1, tab2, tab3 } = { ...props };
+  const { tab1, tab2, tab3, tabLabel1, tabLabel2, tabLabel3 } = { ...props };
   return (
     <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -56,8 +56,8 @@ export default function BasicTabs(props) {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Материал на складе" {...a11yProps(0)} />
-          <Tab label="Поступление материала" {...a11yProps(1)} />
+          <Tab label={tabLabel1} {...a11yProps(0)} />
+          <Tab label={tabLabel2} {...a11yProps(1)} />
           <Tab label="Списание материала" {...a11yProps(2)} />
         </Tabs>
       </Box>

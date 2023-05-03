@@ -7,7 +7,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Box from "@mui/material/Box";
 import { useDispatch, useSelector } from "react-redux";
-import dbSchema from "../../../components/items-db_schema";
+import dbSchemaItems from "../../../components/items-db_schema";
 
 import { setModalWindowVendorCodeOpen, sendNewVendorCode } from "../slice";
 
@@ -24,7 +24,7 @@ export default function FormDialog() {
     dispatch(setModalWindowVendorCodeOpen());
   };
   const handleAddNewArticle = () => {
-    dispatch(sendNewVendorCode(dbSchema));
+    dispatch(sendNewVendorCode(dbSchemaItems));
   };
 
   return (
@@ -45,7 +45,7 @@ export default function FormDialog() {
           <Box sx={{ mt: 5 }}>
             <DialogContentText>Артикулы в базе</DialogContentText>
 
-            <DataGrid itemsDB={dbSchema} />
+            <DataGrid itemsDB={dbSchemaItems} />
           </Box>
         </DialogContent>
 

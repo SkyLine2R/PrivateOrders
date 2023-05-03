@@ -72,7 +72,7 @@ export default function DataGridTable(props) {
   );
 
   return (
-    <Box sx={{ height: 450, width: "100%" }}>
+    <Box sx={{ height: "82vh", width: "100%" }}>
       <DataGrid
         rows={rowsDataState}
         columns={colNameState}

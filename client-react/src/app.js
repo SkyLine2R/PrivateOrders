@@ -1,11 +1,10 @@
 import * as React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import EditVendorCodeDialog from "./edit-vendor-code-dialog/edit-vendor-code-dialog";
 import CustomizedSnackbars from "./snackbar/snackbar";
-import ReceiptOfMaterials from "./receipt-of-materials-page/receipt-of-materials-page";
+import MovementOfMaterials from "./movement-of-materials-page/movement-of-materials-page";
 
-import BasicTabs from "./tabs/tabs";
+import Stock from "./stock-of-materials/stock-of-materials";
 import MenuAppBar from "./menu-app-bar/menu-app-bar";
 
 export default function App() {
@@ -15,16 +14,14 @@ export default function App() {
       <MenuAppBar />
       <main>
         <Routes>
-          <Route path="/receipt" element={<EditVendorCodeDialog />} />
           <Route
-            path="/material"
-            element={
-              <BasicTabs
-                tab1="Здесь будут запасы материала на складе"
-                tab2={ReceiptOfMaterials()}
-              />
-            }
+            path="/receipt"
+            type="receipt"
+            element={<MovementOfMaterials />}
           />
+          <Route path="/stock" element={<Stock />} />
+
+          <Route path="/outgo" type="outgo" element={<MovementOfMaterials />} />
         </Routes>
       </main>
     </Router>

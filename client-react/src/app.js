@@ -7,6 +7,34 @@ import MovementOfMaterials from "./movement-of-materials-page/movement-of-materi
 import Stock from "./stock-of-materials/stock-of-materials";
 import MenuAppBar from "./menu-app-bar/menu-app-bar";
 
+// тестовые данные. Заменятся состояние из Redux
+const openDocuments = {
+  receipt: [
+    {
+      documentName: "Товарная накладная",
+      documentNumber: "УД 564-01",
+      documentDate: "01.12.2023",
+    },
+    {
+      documentName: "Без документа (по файлу)",
+      documentNumber: "б/н",
+      documentDate: "07.10.2022",
+    },
+  ],
+  outgo: [
+    {
+      documentName: "Цеховая",
+      documentNumber: "55",
+      documentDate: "04.12.2023",
+    },
+    {
+      documentName: "Вывозная",
+      documentNumber: "184",
+      documentDate: "21.05.2022",
+    },
+  ],
+};
+
 export default function App() {
   return (
     <Router>
@@ -14,14 +42,25 @@ export default function App() {
       <MenuAppBar />
       <main>
         <Routes>
+          <Route path="/stock" element={<Stock />} />
           <Route
             path="/receipt"
-            type="receipt"
-            element={<MovementOfMaterials />}
+            element={
+              <MovementOfMaterials
+                type="receipt"
+                openDocuments={[...openDocuments.receipt]}
+              />
+            }
           />
-          <Route path="/stock" element={<Stock />} />
-
-          <Route path="/outgo" type="outgo" element={<MovementOfMaterials />} />
+          <Route
+            path="/outgo"
+            element={
+              <MovementOfMaterials
+                type="outgo"
+                openDocuments={[...openDocuments.outgo]}
+              />
+            }
+          />
         </Routes>
       </main>
     </Router>

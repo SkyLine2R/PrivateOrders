@@ -47,7 +47,7 @@ export default function BasicTabs(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const { tab1, tab2, tab3, tabLabel1, tabLabel2, tabLabel3 } = { ...props };
+  const { tab1, tab2, tab3, tabLabel1, tabLabel2 } = { ...props };
   return (
     <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>

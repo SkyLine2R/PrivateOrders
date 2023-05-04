@@ -8,10 +8,10 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 
-// import Tabs from "../tabs/tabs";
 import DataGrid from "../vendor-code-table/vendor-code-table";
 import dbSchemaDocument from "../../../components/document-db_schema";
 import EditVendorCodeDialog from "../edit-vendor-code-dialog/edit-vendor-code-dialog";
+import CloseIconButton from "../Icon-buttons/Close-icon-button";
 
 const tabs = {
   tabLabel: {
@@ -24,7 +24,12 @@ const createTabs = (doc, index) => (
   <Tab
     label={`${doc.documentName} №${doc.documentNumber}`}
     value={`${index + 1}`}
+    icon={<CloseIconButton />}
+    iconPosition="end"
     key={`${index + 1}`}
+    sx={{
+      minHeight: "52px",
+    }}
   />
 );
 
@@ -38,7 +43,6 @@ const createTabPanels = (doc, index) => (
 // если элементы не будут добавляться - убрать "обёртку" Box
 export default function MovementOfMaterials({ type, openDocuments }) {
   const [value, setValue] = React.useState("1");
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };

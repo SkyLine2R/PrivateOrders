@@ -5,7 +5,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid, ruRU } from "@mui/x-data-grid";
 import { useSelector, useDispatch } from "react-redux";
-import { copyPasteValue } from "../slice";
+import { copyPasteValue } from "../Store/slice";
 
 // нормализация данных для таблицы
 function normalizeRowsData(items, vendorCodesArr) {

@@ -49,7 +49,6 @@ export default function App() {
               <MovementOfMaterials
                 type="receipt"
                 openDocuments={[...openDocuments.receipt]}
-                openTab={0} // последняя открытая вкладка
               />
             }
           />
@@ -59,7 +58,6 @@ export default function App() {
               <MovementOfMaterials
                 type="outgo"
                 openDocuments={[...openDocuments.outgo]}
-                openTab={0} // последняя открытая вкладка
               />
             }
           />

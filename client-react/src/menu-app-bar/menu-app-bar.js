@@ -12,8 +12,9 @@ import { Link as RouterLink } from "react-router-dom";
 
 const pages = [
   { name: "Материал на складе", link: "stock" },
-  { name: "Приход", link: "receipt" },
-  { name: "Расход", link: "outgo" },
+  { name: "Поступления", link: "receipt" },
+  { name: "Списания", link: "outgo" },
+  { name: "Отчёты", link: "reports" },
 ];
 
 const LinkBehavior = React.forwardRef((props, ref) => (

@@ -8,7 +8,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { changeValue } from "../slice";
+import { changeValue } from "../Store/slice";
 
 import { unit as arrWithUnit } from "../../../components/items-db_schema";
 

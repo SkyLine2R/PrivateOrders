@@ -7,7 +7,7 @@ import MovementOfMaterials from "./movement-of-materials-page/movement-of-materi
 import Stock from "./stock-of-materials/stock-of-materials";
 import MenuAppBar from "./menu-app-bar/menu-app-bar";
 
-// тестовые данные. Заменятся состояние из Redux
+// тестовые данные. Заменятся состоянием из Redux
 const openDocuments = {
   receipt: [
     {
@@ -49,6 +49,7 @@ export default function App() {
               <MovementOfMaterials
                 type="receipt"
                 openDocuments={[...openDocuments.receipt]}
+                openTab={0} // последняя открытая вкладка
               />
             }
           />
@@ -58,6 +59,7 @@ export default function App() {
               <MovementOfMaterials
                 type="outgo"
                 openDocuments={[...openDocuments.outgo]}
+                openTab={0} // последняя открытая вкладка
               />
             }
           />

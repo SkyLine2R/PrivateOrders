@@ -7,11 +7,11 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import CloseIcon from "@mui/icons-material/Close";
 
 import DataGrid from "../vendor-code-table/vendor-code-table";
 import dbSchemaDocument from "../../../components/document-db_schema";
 import EditVendorCodeDialog from "../edit-vendor-code-dialog/edit-vendor-code-dialog";
-import CloseIconButton from "../Icon-buttons/Close-icon-button";
 
 const tabs = {
   tabLabel: {
@@ -24,7 +24,20 @@ const createTabs = (doc, index) => (
   <Tab
     label={`${doc.documentName} №${doc.documentNumber}`}
     value={`${index + 1}`}
-    icon={<CloseIconButton />}
+    icon={
+      <CloseIcon
+        id={`${index + 1}`}
+        onClick={() => alert("Добавить код закрытия вкладки")}
+        onMouseEnter={(e) => {
+          e.target.style.transform = "scale(1.2) rotate(3deg)";
+          e.target.style.opacity = "0.7";
+        }}
+        onMouseLeave={(e) => {
+          e.target.style.transform = "scale(1)";
+          e.target.style.opacity = "1";
+        }}
+      />
+    }
     iconPosition="end"
     key={`${index + 1}`}
     sx={{

@@ -7,7 +7,7 @@ exports.up = function (knex) {
     table.increments("id").primary(); // id
     table.string("tags", 460).notNullable(); // ключевые слова для поиска
     table.string("vendorCode", 20).notNullable(); // артикул
-    table.string("itemName", 255).notNullable(); / /наименование
+    table.string("itemName", 255).notNullable(); // наименование
     table.integer("unit", 3).notNullable(); // единицы измерения
     table.real("quantity").notNullable(); // длина хлыста или кол-во в упаковке
     table.string("notes", 180); // примечания

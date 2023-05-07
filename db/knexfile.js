@@ -10,7 +10,14 @@ module.exports = {
     connection: {
       filename: path.join(__dirname, "db.sqlite3"),
     },
-
+    pool: {
+      afterCreate: (conn, done) => {
+        conn.loadExtension(`${__dirname}/modules/unicode`, (err) => {
+          if (err) throw new Error(`Модуль поиска Unicode: ${err}`);
+          done(null, conn);
+        });
+      },
+    },
     migrations: {
       tableName: "knex_migrations",
     },

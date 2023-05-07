@@ -9,10 +9,8 @@ import Box from "@mui/material/Box";
 import { useDispatch, useSelector } from "react-redux";
 import dbSchemaItems from "../../../components/items-db_schema";
 
-import {
-  setModalWindowVendorCodeOpen,
-  sendNewVendorCode,
-} from "../Store/slice";
+import sendNewVendorCode from "../Store/sendNewVendorCode";
+import { setModalWindowVendorCodeOpen } from "../Store/slice";
 
 import DataGrid from "../vendor-code-table/vendor-code-table";
 import EditVendorCodeForm from "../edit-vendor-code-form/edit-vendor-code-form";

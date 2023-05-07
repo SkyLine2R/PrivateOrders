@@ -13,7 +13,7 @@ const testDataFromForm = require("./components/testing-data-from-input"); // ф�
 const regExpForFilter = /[^а-яё\d\w]/gi; // регулярка для запроса быстрого фильтра по артикулам
 
 // тестировщик запросов к БД
-/* const query = db("items").whereLike("vendorСode", "%99%");
+/* const query = db("items").whereLike("tags", "%ПРОфИЛЬ%");
 query
   .then((items) => {
     console.log(items);
@@ -26,39 +26,27 @@ query
 module.exports = Items = {
   // выборка записей для автофильтра
   filterRecords({ table, column, string }) {
-    console.log(table);
-    console.log("выборка для автофильтра");
-    const searchColumn = column === "vendorCode" ? "vendorCode" : "tags";
-    const searchData = `%${string}%`
-      .replace(regExpForFilter, "%")
-      .toLowerCase();
+    const searchData = `%${string}%`.replace(regExpForFilter, "%");
+
     return db(table)
-      .whereLike(searchColumn, `%${searchData}%`)
-      .orWhereLike(
-        searchColumn,
-        `%${searchData.split("%").reverse().join("%")}%`
-      )
-      .orderBy(searchColumn);
+      .whereLike(column, `%${searchData}%`)
+      .orWhereLike(column, `%${searchData.split("%").reverse().join("%")}%`)
+      .orWhereLike("notes", `%${searchData}%`)
+      .orderBy(column, "asc");
   },
 
   findEntry({ table, searchColumn, searchData }) {
     console.log(searchData);
     return db(table).whereLike(searchColumn, searchData).orderBy(searchColumn);
   },
+
   async addEntry(insertData) {
     const obj = await testDataFromForm(dbSchemaVendorCode, insertData.data);
+
     if (obj.error) return obj;
 
-    const tags = `${obj.vendorCode.toLowerCase()} ${obj.itemName.toLowerCase()} ${
-      obj.notes.toLowerCase() || ""
-    }`;
-
     return {
-      id: await db("items").insert({
-        ...obj,
-        tags,
-        created_at: Date.now(),
-      }),
+      id: await db("items").insert(obj),
       vendorCode: obj.vendorCode,
     };
   },

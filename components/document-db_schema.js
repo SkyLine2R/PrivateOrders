@@ -55,7 +55,7 @@ const testFormForDocument = {
     },
   },
 
-  documentAuthor: {
+  createdBy: {
     required: true,
     maxlength: 3,
     containsNumber: true,

@@ -3,10 +3,8 @@
  * @returns { Promise<void> }
  */
 
-exports.seed = function (knex) {
-  // Deletes ALL existing entries
-
-  return knex("items")
+exports.seed = (knex) =>
+  knex("items")
     .del()
     .then(() =>
       knex("items").insert([
@@ -37,19 +35,20 @@ exports.seed = function (knex) {
       ])
     )
     .then(() =>
-      knex("users").insert([
-        {
-          name: "admin",
-          login: "admin",
-          pass: "admin",
-          privelegies: "10",
-        },
-        {
-          name: "Олег Василенко",
-          login: "oleg",
-          pass: "123",
-          privelegies: "5",
-        },
-      ])
+      knex("users")
+        .del()
+        .insert([
+          {
+            name: "admin",
+            login: "admin",
+            pass: "admin",
+            privelegies: "10",
+          },
+          {
+            name: "Олег Василенко",
+            login: "oleg",
+            pass: "123",
+            privelegies: "5",
+          },
+        ])
     );
-};

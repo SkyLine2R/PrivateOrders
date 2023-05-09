@@ -7,6 +7,8 @@ import MovementOfMaterials from "./movement-of-materials-page/movement-of-materi
 import Stock from "./stock-of-materials/stock-of-materials";
 import MenuAppBar from "./menu-app-bar/menu-app-bar";
 
+import Login from "./login-form/login-form";
+
 // тестовые данные. Заменятся состоянием из Redux
 const openDocuments = {
   receipt: [
@@ -42,6 +44,8 @@ export default function App() {
       <MenuAppBar />
       <main>
         <Routes>
+          <Route path="/login" element={<Login />} />
+
           <Route path="/stock" element={<Stock />} />
           <Route
             path="/receipt"
@@ -52,6 +56,7 @@ export default function App() {
               />
             }
           />
+
           <Route
             path="/outgo"
             element={

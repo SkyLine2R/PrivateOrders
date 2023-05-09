@@ -1,14 +1,14 @@
 const express = require("express");
 
 const router = express.Router();
-const Items = require("../db");
-
+const db = require("../controller/db");
+const editAccounts = require("../controller/registration-user");
 /* router.post("/addEntry", (req, res) => {
   // Обработка записи объекта в БД
   console.log("Входящий запрос на добавление в БД: " + req.body.type);
-  if (req.body.type === "getItems") {
-    Items.filterRecords(req.body)
-      .then((items) => res.json(items))
+  if (req.body.type === "getDB") {
+    DB.filterRecords(req.body)
+      .then((DB) => res.json(DB))
       .catch(() =>
         res.json({
           error: "Ошибка доступа к базе данных.",
@@ -26,7 +26,7 @@ const Items = require("../db");
 router.post("/", (req, res) => {
   switch (req.body.type) {
     case "getFilteredVendorCodes": // запрос поиска данных для автофильтра "Артикул"/"Наименование"
-      Items.filterRecords(req.body.data)
+      db.filterRecords(req.body.data)
         .then((items) => res.json(items))
         .catch((err) =>
           res.json({
@@ -35,7 +35,7 @@ router.post("/", (req, res) => {
         );
       break;
     case "addNewVendorCode": // запрос на добавление артикула в БД
-      Items.addEntry(req.body)
+      db.addEntry(req.body)
         .then((result) => {
           res.json(result);
         })
@@ -50,6 +50,10 @@ router.post("/", (req, res) => {
         error: "Ошибка в запросе к БД",
       });
   }
+});
+
+router.post("/admin", (req, res) => {
+  req.body.type;
 });
 
 module.exports = router;

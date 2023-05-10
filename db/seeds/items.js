@@ -1,3 +1,5 @@
+const bcrypt = require("bcrypt");
+
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
@@ -41,13 +43,13 @@ exports.seed = (knex) =>
           {
             name: "admin",
             login: "admin",
-            pass: "admin",
+            pass: bcrypt.hashSync("admin", 10),
             privelegies: "10",
           },
           {
             name: "Олег Василенко",
             login: "oleg",
-            pass: "123",
+            pass: bcrypt.hashSync("123456", 10),
             privelegies: "5",
           },
         ])

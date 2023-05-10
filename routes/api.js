@@ -1,7 +1,7 @@
 const express = require("express");
 
 const router = express.Router();
-const db = require("../controller/db");
+const DB = require("../controller/db");
 const editAccounts = require("../controller/registration-user");
 /* router.post("/addEntry", (req, res) => {
   // Обработка записи объекта в БД
@@ -23,10 +23,40 @@ const editAccounts = require("../controller/registration-user");
 }); */
 
 // eslint-disable-next-line consistent-return
+router.post("/users", (req, res) => {
+  // добавить проверку прав доступа
+  switch (req.body.type) {
+    case "getUser":
+      DB.findEntries(req.body.data)
+        .then(({ id, login, userName }) => res.json({ id, login, userName }))
+        .catch((err) =>
+          res.json({
+            error: `Ошибка доступа к базе данных \n ${err}`,
+          })
+        );
+      break;
+    default:
+      return res.json({
+        error: "Ошибка в запросе к БД",
+      });
+    case "getAllUsers":
+  }
+});
+
+function DBreq(reqName, data, fieldsArr) {
+  DB[reqName](data)
+    .then((resData) => ({
+      ...fieldsArr.map((field) => ({ field: resData[field] })),
+    }))
+    .catch((err) => ({
+      error: `Ошибка доступа к базе данных \n ${err}`,
+    }));
+}
+
 router.post("/", (req, res) => {
   switch (req.body.type) {
     case "getFilteredVendorCodes": // запрос поиска данных для автофильтра "Артикул"/"Наименование"
-      db.filterRecords(req.body.data)
+      DB.filterRecords(req.body.data)
         .then((items) => res.json(items))
         .catch((err) =>
           res.json({
@@ -35,7 +65,7 @@ router.post("/", (req, res) => {
         );
       break;
     case "addNewVendorCode": // запрос на добавление артикула в БД
-      db.addEntry(req.body)
+      DB.addEntry(req.body)
         .then((result) => {
           res.json(result);
         })

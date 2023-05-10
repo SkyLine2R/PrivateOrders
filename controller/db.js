@@ -44,8 +44,7 @@ module.exports = DB = {
   },
 
   // строгий поиск записей по строке
-  findEntries({ table, searchColumn, searchData }) {
-    console.log(searchData);
+  findOne({ table, searchColumn, searchData }) {
     return db(table).where(searchColumn, searchData);
   },
 

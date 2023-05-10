@@ -44,8 +44,12 @@ module.exports = DB = {
   },
 
   // строгий поиск записей по строке
-  findOne({ table, searchColumn, searchData }) {
+  async findEntry({ table, searchColumn, searchData }) {
     return db(table).where(searchColumn, searchData);
+  },
+
+  async addEntry1({ table, dataObj }) {
+    return db(table).insert(dataObj);
   },
 
   async addEntry(insertData) {

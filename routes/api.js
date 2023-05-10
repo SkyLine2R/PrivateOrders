@@ -2,7 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 const DB = require("../controller/db");
-const editAccounts = require("../controller/registration-user");
+const authController = require("../controller/auth");
 /* router.post("/addEntry", (req, res) => {
   // Обработка записи объекта в БД
   console.log("Входящий запрос на добавление в БД: " + req.body.type);
@@ -26,20 +26,18 @@ const editAccounts = require("../controller/registration-user");
 router.post("/users", (req, res) => {
   // добавить проверку прав доступа
   switch (req.body.type) {
-    case "getUser":
-      DB.findEntries(req.body.data)
-        .then(({ id, login, userName }) => res.json({ id, login, userName }))
-        .catch((err) =>
-          res.json({
-            error: `Ошибка доступа к базе данных \n ${err}`,
-          })
-        );
-      break;
+    case "add":
+      return authController.addUser(req.body.data);
+    case "get":
+      return res.json("В процессе допила");
+    case "getAll":
+      return res.json("В процессе допила");
+    case "edit":
+      return res.json("В процессе допила");
     default:
       return res.json({
         error: "Ошибка в запросе к БД",
       });
-    case "getAllUsers":
   }
 });
 

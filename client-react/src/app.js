@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import CustomizedSnackbars from "./snackbar/snackbar";
 import MovementOfMaterials from "./movement-of-materials-page/movement-of-materials-page";
 
-import Stock from "./stock-of-materials/stock-of-materials";
+import Stock from "./stock-of-materials-page/stock-of-materials-page";
 import MenuAppBar from "./menu-app-bar/menu-app-bar";
 
 import Login from "./login-form/login-form";

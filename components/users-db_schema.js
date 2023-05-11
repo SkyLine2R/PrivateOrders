@@ -1,4 +1,16 @@
 const testFormForUsers = {
+  login: {
+    required: true,
+    maxlength: 15,
+    containsNumber: false,
+    description: "логин",
+    regularExp: "[\\w\\-#/():.\\d\\s]+",
+    table: {
+      headerName: "Логин",
+      width: 120,
+      editable: false,
+    },
+  },
   name: {
     required: true,
     maxlength: 40,
@@ -11,18 +23,6 @@ const testFormForUsers = {
       editable: false,
     },
   },
-  login: {
-    required: true,
-    maxlength: 15,
-    containsNumber: false,
-    description: "логин",
-    regularExp: "[\\w\\-#/():.\\d\\s]+",
-    table: {
-      headerName: "Логин",
-      width: 90,
-      editable: false,
-    },
-  },
   pass: {
     required: true,
     maxlength: 15,
@@ -31,7 +31,7 @@ const testFormForUsers = {
     regularExp: '[\\-+/()#*.,_|\\"\\d\\w\\s]+',
     table: {
       headerName: "Пароль",
-      width: 90,
+      width: 0,
       editable: false,
     },
   },
@@ -41,11 +41,11 @@ const testFormForUsers = {
     containsNumber: true,
     min: 1,
     max: 999,
-    description: "уровень доступа",
+    description: "права доступа",
     regularExp: "\\d+",
     table: {
-      headerName: "Уровень доступа",
-      width: 50,
+      headerName: "Права доступа",
+      width: 150,
       editable: false,
       type: "number",
       align: "center",
@@ -53,12 +53,12 @@ const testFormForUsers = {
   },
   createdAt: {
     required: false,
-    maxlength: 180,
+    maxlength: 200,
     containsNumber: false,
-    description: "дата создания",
+    description: "дата регистрации",
     regularExp: '[а-яё\\-+#№/()%:;*.,?"\\d\\w\\s]*',
     table: {
-      headerName: "Создан",
+      headerName: "Зарегистрирован",
       width: 150,
       editable: false,
     },

@@ -54,18 +54,18 @@ export default function Stock() {
   const [menuPlace, setMenuPlace] = React.useState({ x: 0, y: 0 });
 
   const toggleMenu = (GridCellParams, { clientX, clientY }) => {
-    console.log(clientX);
     setMenuPlace(menuPlace.x ? { x: 0, y: 0 } : { x: clientX, y: clientY });
   };
+
+  const closeMenu = () => {
+    if (menuPlace.x) setMenuPlace({ x: 0, y: 0 });
+  };
+
   return (
-    <Container
-      maxWidth="md"
-      sx={{ margin: "20px auto" }} /* onClick={toggleMenu} */
-    >
+    <Container maxWidth="md" sx={{ margin: "20px auto" }} onClick={closeMenu}>
       <DataGrid
         dbSchema={dbSchemaUsers}
         dataArr={testData}
-        onCellClick={toggleMenu}
         onCellClick={toggleMenu}
       />
       <SpeedDialMenu menuPlace={menuPlace} actions={menuActions} />

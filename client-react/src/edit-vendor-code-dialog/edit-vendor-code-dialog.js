@@ -54,7 +54,6 @@ export default function FormDialog() {
               prevReq={prevReq}
               dataArr={vendorCodesArr}
               onCellClick={(gridCellParams) => {
-                console.log(gridCellParams);
                 dispatch(
                   copyPasteValue({
                     id: gridCellParams.id,

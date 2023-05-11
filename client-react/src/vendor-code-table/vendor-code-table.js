@@ -7,47 +7,6 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid, ruRU } from "@mui/x-data-grid";
 
-export default function DataGridTable({
-  dbSchema,
-  prevReq,
-  dataArr,
-  onCellClick,
-}) {
-  console.log(onCellClick);
-  const [colNameState, setColNameState] = React.useState([]); // наименования столбцов
-  const [rowsDataState, setRowsDataState] = React.useState([]); // содержимое таблицы
-
-  // при монтировании озаглавить столбцы
-  React.useEffect(() => setColNameState(colNaming(dbSchema)), [dbSchema]);
-
-  // нормализация данных, если был новый запрос на сервер
-  React.useEffect(
-    () => setRowsDataState(normalizeRowsData(dbSchema, dataArr)),
-    [dataArr, prevReq, dbSchema]
-  );
-  console.log("Обновление таблицы");
-
-  return (
-    <Box sx={{ height: "82vh", width: "100%" }}>
-      <DataGrid
-        rows={rowsDataState}
-        columns={colNameState}
-        pageSize={50}
-        rowsPerPageOptions={[50]}
-        /* checkboxSelection */
-        /* disableSelectionOnClick */
-        experimentalFeatures={{ newEditingApi: true }}
-        localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
-        density="compact"
-        /* onCellClick={(GridCellParams, event, GridCallbackDetails) => {
-          dispatch(action);
-        }} */
-        onCellClick={onCellClick}
-      />
-    </Box>
-  );
-}
-
 // именование столбцов
 function colNaming(items) {
   const columns = [
@@ -89,6 +48,46 @@ function normalizeRowsData(items, dataArr) {
   }));
 
   return rowsData;
+}
+
+export default function DataGridTable({
+  dbSchema,
+  prevReq,
+  dataArr,
+  onCellClick,
+}) {
+  const [colNameState, setColNameState] = React.useState([]); // наименования столбцов
+  const [rowsDataState, setRowsDataState] = React.useState([]); // содержимое таблицы
+
+  // при монтировании озаглавить столбцы
+  React.useEffect(() => setColNameState(colNaming(dbSchema)), [dbSchema]);
+
+  // нормализация данных, если был новый запрос на сервер
+  React.useEffect(
+    () => setRowsDataState(normalizeRowsData(dbSchema, dataArr)),
+    [dataArr, prevReq, dbSchema]
+  );
+  console.log("Обновление таблицы");
+
+  return (
+    <Box sx={{ height: "82vh", width: "100%" }}>
+      <DataGrid
+        rows={rowsDataState}
+        columns={colNameState}
+        pageSize={50}
+        rowsPerPageOptions={[50]}
+        /* checkboxSelection */
+        /* disableSelectionOnClick */
+        experimentalFeatures={{ newEditingApi: true }}
+        localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
+        density="compact"
+        /* onCellClick={(GridCellParams, event, GridCallbackDetails) => {
+          dispatch(action);
+        }} */
+        onCellClick={onCellClick}
+      />
+    </Box>
+  );
 }
 
 /* function(params: GridCellParams, event: MuiEvent<React.MouseEvent>, details: GridCallbackDetails) => void

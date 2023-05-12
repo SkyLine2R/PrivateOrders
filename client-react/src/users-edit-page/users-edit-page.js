@@ -10,11 +10,11 @@ import DataGrid from "../vendor-code-table/vendor-code-table";
 import SpeedDialMenu from "../speed-dial-menu/speed-dial-menu";
 import dbSchemaUsers from "../../../components/users-db_schema";
 
-const menuActions = [
+const allMenuActions = [
   {
     icon: <PersonRemove />,
     name: "deleteUser",
-    tooltipTitle: "Удалить пользователя",
+    tooltipTitle: "Отключить аккаунт пользователя",
   },
   {
     icon: <AdminPanelSettings />,
@@ -50,25 +50,51 @@ const testData = [
   },
 ];
 
-export default function Stock() {
+export default function UsersEditPage() {
   const [menuPlace, setMenuPlace] = React.useState({ x: 0, y: 0 });
+  const [menuActions, setMenuActions] = React.useState(allMenuActions);
 
-  const toggleMenu = (GridCellParams, { clientX, clientY }) => {
-    setMenuPlace(menuPlace.x ? { x: 0, y: 0 } : { x: clientX, y: clientY });
+  const toggleMenuInDataGrid = ({ id }, e) => {
+    e.stopPropagation();
+    setMenuPlace(
+      menuPlace.x
+        ? { x: 0, y: 0, id: undefined }
+        : { x: e.clientX, y: e.clientY, id }
+    );
+    setMenuActions(allMenuActions);
   };
 
-  const closeMenu = () => {
-    if (menuPlace.x) setMenuPlace({ x: 0, y: 0 });
+  const toggleMenuInContainer = ({ clientX, clientY }) => {
+    setMenuPlace(
+      menuPlace.x
+        ? { x: 0, y: 0, id: undefined }
+        : { x: clientX, y: clientY, id: undefined }
+    );
+    setMenuActions([allMenuActions[3]]);
+  };
+
+  const menuSelect = (e, e2) => {
+    console.log(`e`);
+    console.log(`e2`);
   };
 
   return (
-    <Container maxWidth="md" sx={{ margin: "20px auto" }} onClick={closeMenu}>
+    <Container
+      maxWidth="md"
+      sx={{ margin: "20px auto" }}
+      onClick={toggleMenuInContainer}
+    >
       <DataGrid
         dbSchema={dbSchemaUsers}
         dataArr={testData}
-        onCellClick={toggleMenu}
+        onCellClick={toggleMenuInDataGrid}
       />
-      <SpeedDialMenu menuPlace={menuPlace} actions={menuActions} />
+      <SpeedDialMenu
+        menuPlace={menuPlace}
+        actions={menuActions}
+        onClickFunc={menuSelect}
+        anchorEl={UsersEditPage}
+      />
     </Container>
   );
 }

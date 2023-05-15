@@ -7,7 +7,10 @@ const fetchVendorCodes = createAsyncThunk(
     // запрос с фильтром оставляем для запроса только буквы и цифры,
     // остальное заменяем на маску "любые символы - "%"
     // если введены данные в два поля (артикул и название) - фильтр не используем
-    const { vendorCode, itemName, prevReq } = getState();
+    const { inputFields, request } = getState();
+    const { vendorCode, itemName } = inputFields;
+    const { prevReq } = request;
+
     if (vendorCode && itemName) return rejected();
 
     const fetchObj = {

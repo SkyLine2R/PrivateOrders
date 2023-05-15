@@ -14,15 +14,15 @@ import { unit as arrWithUnit } from "../../../components/items-db_schema";
 
 const unitForSelect = arrWithUnit.unitArr;
 
-export default function SelectItemUnit(props) {
-  const val = useSelector((state) => state[props.id]);
+export default function SelectItemUnit({ label, id }) {
+  const val = useSelector((state) => state.inputFields[id]);
   const dispatch = useDispatch();
 
   const handleChange = (event) => {
     dispatch(
       changeValue({
         value: event.target.value,
-        fieldId: props.id,
+        fieldId: id,
       })
     );
   };
@@ -30,8 +30,8 @@ export default function SelectItemUnit(props) {
   return (
     <Box sx={{ mt: 1, width: "auto", minWidth: "100%" }}>
       <FormControl fullWidth>
-        <InputLabel id={props.id}>{props.label}</InputLabel>
-        <Select value={val} label={props.label} onChange={handleChange}>
+        <InputLabel id={id}>{label}</InputLabel>
+        <Select value={val} label={label} onChange={handleChange}>
           {[
             unitForSelect.map((item, index) => (
               <MenuItem value={index}>{item}</MenuItem>

@@ -1,13 +1,10 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable react/forbid-prop-types */
-/* eslint-disable no-param-reassign */
-/* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid, ruRU } from "@mui/x-data-grid";
 
-// именование столбцов
+// Столбец с нумерацией
 function colNaming(items) {
   const columns = [
     {
@@ -19,7 +16,9 @@ function colNaming(items) {
     },
   ];
   // добавление заголовков из схемы БД
+  // eslint-disable-next-line guard-for-in
   for (const item in items) {
+    // eslint-disable-next-line no-param-reassign
     items[item].table.field = item;
     if (+items[item].table.width !== 0) columns.push(items[item].table);
   }
@@ -50,12 +49,7 @@ function normalizeRowsData(items, dataArr) {
   return rowsData;
 }
 
-export default function DataGridTable({
-  dbSchema,
-  prevReq,
-  dataArr,
-  onCellClick,
-}) {
+function DataGridTable({ dbSchema, prevReq, dataArr, onCellClick }) {
   const [colNameState, setColNameState] = React.useState([]); // наименования столбцов
   const [rowsDataState, setRowsDataState] = React.useState([]); // содержимое таблицы
 
@@ -67,7 +61,6 @@ export default function DataGridTable({
     () => setRowsDataState(normalizeRowsData(dbSchema, dataArr)),
     [dataArr, prevReq, dbSchema]
   );
-  console.log("Обновление таблицы");
 
   return (
     <Box sx={{ height: "82vh", width: "100%" }}>
@@ -90,6 +83,7 @@ export default function DataGridTable({
   );
 }
 
+export default React.memo(DataGridTable);
 /* function(params: GridCellParams, event: MuiEvent<React.MouseEvent>, details: GridCallbackDetails) => void
 params: Со всеми свойствами из GridCellParams .
 событие: объект события.

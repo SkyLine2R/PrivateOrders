@@ -1,31 +1,10 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import TextField from "@mui/material/TextField";
-import { changeValue } from "../Store/slice";
-import testFormForInputItem from "../../../components/items-db_schema";
 
-export default function FieldForInput(props) {
-  const dispatch = useDispatch();
-  const val = useSelector((state) => state[props.id]);
-
-  // Убираем "запрещённые" символы и обрезаем строку по регулярке из items-db-schema
-  const textСorrectionInField = (refObj, fieldValue) => {
-    const str = fieldValue
-      .replace("ё", "е")
-      .replace("Ё", "Е")
-      .match(new RegExp(refObj.regularExp, "gi")) || [""];
-
-    return (
-      refObj.containsNumber ? str[0].replace(",", ".") : str[0]
-    ).substring(0, refObj.maxlength);
-  };
-
+export default function FieldForInput({ id, label, value, onChangeVal }) {
   return (
     <Box
       component="form"
@@ -36,21 +15,11 @@ export default function FieldForInput(props) {
       autoComplete="off"
     >
       <TextField
-        id={props.id}
-        label={props.label}
+        id={id}
+        label={label}
+        value={value}
+        onChange={onChangeVal}
         variant="outlined"
-        value={val}
-        onChange={(event) => {
-          dispatch(
-            changeValue({
-              value: textСorrectionInField(
-                testFormForInputItem[props.id],
-                event.target.value
-              ),
-              fieldId: props.id,
-            })
-          );
-        }}
       />
     </Box>
   );
@@ -59,4 +28,10 @@ export default function FieldForInput(props) {
 FieldForInput.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  value: PropTypes.string,
+  onChangeVal: PropTypes.func.isRequired,
+};
+
+FieldForInput.defaultProps = {
+  value: "",
 };

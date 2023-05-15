@@ -6,7 +6,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Box from "@mui/material/Box";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 
 import dbSchemaItems from "../../../components/items-db_schema";
 
@@ -18,9 +18,8 @@ import DataGrid from "../vendor-code-table/vendor-code-table";
 import EditVendorCodeForm from "../edit-vendor-code-form/edit-vendor-code-form";
 
 export default function FormDialog() {
-  const modalWindowVendorCodeOpen = useSelector(
-    (state) => state.modalWindowVendorCodeOpen
-  );
+  console.log("обновление модального окна");
+  const { modalWindowVendorCodeOpen } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const handleClickOpenClose = () => {
@@ -29,7 +28,9 @@ export default function FormDialog() {
   const handleAddNewArticle = () => {
     dispatch(sendNewVendorCode(dbSchemaItems));
   };
-  const { prevReq, vendorCodesArr } = useSelector((st) => st);
+  const { vendorCodesArr } = useSelector((st) => st, shallowEqual);
+
+  const { prevReq } = useSelector((st) => st.request, shallowEqual);
 
   return (
     <div>

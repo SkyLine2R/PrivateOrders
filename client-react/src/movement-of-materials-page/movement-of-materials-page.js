@@ -9,7 +9,7 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import CloseIcon from "@mui/icons-material/Close";
 
-import DataGrid from "../vendor-code-table/vendor-code-table";
+import DataGrid from "../data-grid-table/data-grid-table";
 import dbSchemaDocument from "../../../components/document-db_schema";
 import EditVendorCodeDialog from "../edit-vendor-code-dialog/edit-vendor-code-dialog";
 

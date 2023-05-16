@@ -6,7 +6,7 @@ import AdminPanelSettings from "@mui/icons-material/AdminPanelSettings";
 import ManageAccounts from "@mui/icons-material/ManageAccounts";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 
-import DataGrid from "../vendor-code-table/vendor-code-table";
+import DataGrid from "../data-grid-table/data-grid-table";
 import SpeedDialMenu from "../speed-dial-menu/speed-dial-menu";
 import dbSchemaUsers from "../../../components/users-db_schema";
 

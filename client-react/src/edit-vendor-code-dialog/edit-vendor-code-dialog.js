@@ -14,7 +14,7 @@ import sendNewVendorCode from "../Store/sendNewVendorCode";
 
 import { setModalWindowVendorCodeOpen, copyPasteValue } from "../Store/slice";
 
-import DataGrid from "../vendor-code-table/vendor-code-table";
+import DataGrid from "../data-grid-table/data-grid-table";
 import EditVendorCodeForm from "../edit-vendor-code-form/edit-vendor-code-form";
 
 export default function FormDialog() {

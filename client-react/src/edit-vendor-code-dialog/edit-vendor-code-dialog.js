@@ -16,7 +16,6 @@ import DataGrid from "../data-grid-table/data-grid-table";
 import EditVendorCodeForm from "../edit-vendor-code-form/edit-vendor-code-form";
 
 export default function FormDialog() {
-  console.log("обновление модального окна");
   const { modalWindowVendorCodeOpen } = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -27,8 +26,6 @@ export default function FormDialog() {
     dispatch(sendNewVendorCode(dbSchemaItems));
   };
   const { vendorCodesArr } = useSelector((st) => st, shallowEqual);
-
-  const { prevReq } = useSelector((st) => st.request, shallowEqual);
 
   return (
     <div>
@@ -50,7 +47,6 @@ export default function FormDialog() {
 
             <DataGrid
               dbSchema={dbSchemaItems}
-              prevReq={prevReq}
               dataArr={vendorCodesArr}
               onCellClick={(gridCellParams) => {
                 dispatch(

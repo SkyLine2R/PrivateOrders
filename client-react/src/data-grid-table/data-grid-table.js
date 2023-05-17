@@ -49,7 +49,7 @@ function normalizeRowsData(items, dataArr) {
   return rowsData;
 }
 
-function DataGridTable({ dbSchema, prevReq, dataArr, onCellClick }) {
+function DataGridTable({ dbSchema, dataArr, onCellClick }) {
   const [colNameState, setColNameState] = React.useState([]); // наименования столбцов
   const [rowsDataState, setRowsDataState] = React.useState([]); // содержимое таблицы
 
@@ -59,7 +59,7 @@ function DataGridTable({ dbSchema, prevReq, dataArr, onCellClick }) {
   // нормализация данных, если был новый запрос на сервер
   React.useEffect(
     () => setRowsDataState(normalizeRowsData(dbSchema, dataArr)),
-    [dataArr, prevReq, dbSchema]
+    [dataArr, dbSchema]
   );
 
   return (

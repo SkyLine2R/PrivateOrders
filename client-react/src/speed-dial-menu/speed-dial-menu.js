@@ -5,11 +5,11 @@ import SpeedDial from "@mui/material/SpeedDial";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
 
-export default function SpeedDialMenu({ menuPlace, actions, onClickFunc }) {
-  const { x, y, id } = menuPlace;
+export default function SpeedDialMenu({ menuParams, onClickFunc }) {
+  const { x, y, hidden, actions } = menuParams;
   return (
     <Box
-      hidden={!x}
+      hidden={hidden}
       sx={{
         position: "fixed",
         left: `${x + 45}px`,
@@ -25,6 +25,7 @@ export default function SpeedDialMenu({ menuPlace, actions, onClickFunc }) {
         ariaLabel="SpeedDial basic"
         sx={{ position: "absolute", bottom: 16, right: 16 }}
         icon={<SpeedDialIcon />}
+        onClick={onClickFunc}
       >
         {actions.map((action) => (
           <SpeedDialAction
@@ -33,7 +34,6 @@ export default function SpeedDialMenu({ menuPlace, actions, onClickFunc }) {
             tooltipTitle={action.tooltipTitle}
           />
         ))}
-        onClick={onClickFunc}
       </SpeedDial>
     </Box>
   );

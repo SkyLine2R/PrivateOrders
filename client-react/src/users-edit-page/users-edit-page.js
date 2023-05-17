@@ -51,30 +51,38 @@ const testData = [
 ];
 
 export default function UsersEditPage() {
-  const [menuPlace, setMenuPlace] = React.useState({ x: 0, y: 0 });
+  const [menuParams, setMenuParams] = React.useState({
+    x: 0,
+    y: 0,
+    hidden: true,
+    actions: allMenuActions,
+  });
   const [menuActions, setMenuActions] = React.useState(allMenuActions);
 
   const toggleMenuInDataGrid = ({ id }, e) => {
     e.stopPropagation();
-    setMenuPlace(
-      menuPlace.x
-        ? { x: 0, y: 0, id: undefined }
-        : { x: e.clientX, y: e.clientY, id }
-    );
-    setMenuActions(allMenuActions);
+    setMenuParams({
+      x: e.clientX,
+      y: e.clientY,
+      hidden: !menuParams.hidden,
+      actions: allMenuActions,
+      id,
+    });
   };
 
-  const toggleMenuInContainer = ({ clientX, clientY }) => {
-    setMenuPlace(
-      menuPlace.x
-        ? { x: 0, y: 0, id: undefined }
-        : { x: clientX, y: clientY, id: undefined }
-    );
+  const toggleMenuInContainer = (e) => {
+    setMenuParams({
+      x: e.clientX,
+      y: e.clientY,
+      hidden: !menuParams.hidden,
+      actions: [allMenuActions[3]],
+      id: null,
+    });
     setMenuActions([allMenuActions[3]]);
   };
 
   const menuSelect = (e, e2) => {
-    console.log(`e`);
+    console.log(e);
     console.log(`e2`);
   };
 
@@ -90,10 +98,11 @@ export default function UsersEditPage() {
         onCellClick={toggleMenuInDataGrid}
       />
       <SpeedDialMenu
-        menuPlace={menuPlace}
+        menuParams={menuParams}
         actions={menuActions}
         onClickFunc={menuSelect}
-        anchorEl={UsersEditPage}
+        /*         anchorEl={UsersEditPage}
+         */
       />
     </Container>
   );

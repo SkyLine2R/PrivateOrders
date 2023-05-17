@@ -19,7 +19,7 @@ const sendNewVendorCode = createAsyncThunk(
         {}
       );
       const data = testSendData(dbSchema, objVendorCode);
-      console.log(data);
+
       if (data.error) {
         return rejectWithValue(
           `Данные не отправлены.\n${data.error.join("\n")}`
@@ -37,7 +37,7 @@ const sendNewVendorCode = createAsyncThunk(
       const resp = await dispatch(serverRequest(fetchObj));
       return resp.payload.data.error
         ? rejectWithValue(
-            `Ошибка при добавлении данных на сервере\n${resp.payload.data.error.join(
+            `Ошибка на сервере при добавлении данных\n${resp.payload.data.error.join(
               "\n"
             )}`
           )

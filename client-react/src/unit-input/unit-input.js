@@ -18,10 +18,10 @@ export default function SelectItemUnit({ label, id }) {
   const val = useSelector((state) => state.inputFields[id]);
   const dispatch = useDispatch();
 
-  const handleChange = (event) => {
+  const handleChange = ({ target }) => {
     dispatch(
       changeValue({
-        value: event.target.value,
+        value: target.value,
         fieldId: id,
       })
     );

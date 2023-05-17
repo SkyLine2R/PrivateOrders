@@ -28,7 +28,7 @@ export default function FieldForInput({ id, label, value, onChangeVal }) {
 FieldForInput.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChangeVal: PropTypes.func.isRequired,
 };
 

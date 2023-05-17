@@ -9,9 +9,7 @@ import Box from "@mui/material/Box";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 
 import dbSchemaItems from "../../../components/items-db_schema";
-
 import sendNewVendorCode from "../Store/sendNewVendorCode";
-
 import { setModalWindowVendorCodeOpen, copyPasteValue } from "../Store/slice";
 
 import DataGrid from "../data-grid-table/data-grid-table";

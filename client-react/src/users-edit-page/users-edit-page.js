@@ -51,8 +51,16 @@ const testData = [
 ];
 
 export default function UsersEditPage() {
-  const rootRef = React.useRef(SpeedDialMenu);
-  console.log(rootRef.current);
+  /*   React.useEffect(() => {
+    const handleClick = (e) => {
+      console.log(e.target);
+    };
+    window.addEventListener("click", handleClick);
+    return () => {
+      window.removeEventListener("click", handleClick);
+    };
+  }); */
+
   const [menuParams, setMenuParams] = React.useState({
     x: 0,
     y: 0,
@@ -73,6 +81,8 @@ export default function UsersEditPage() {
   };
 
   const toggleMenuInContainer = (e) => {
+    console.log(e.readyToBoost);
+    if (e.readyToBoost) return [];
     setMenuParams({
       x: e.clientX,
       y: e.clientY,
@@ -84,10 +94,11 @@ export default function UsersEditPage() {
   };
 
   const menuSelect = (e, e2) => {
-    e.stopPropagation();
-
-    if (e.target === rootRef) console.log("Попадание");
+    /*     e.stopPropagation();
+     */
+    e.readyToBoost = "43";
     console.log(e.target);
+    console.log(e.target.closest("button").ariaLabel);
   };
 
   return (

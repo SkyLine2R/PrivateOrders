@@ -27,11 +27,12 @@ export default function SpeedDialMenu({ menuParams, onClickFunc }) {
         icon={<SpeedDialIcon />}
         onClick={onClickFunc}
       >
-        {actions.map((action) => (
+        {actions.map(({ name, icon, tooltipTitle }) => (
           <SpeedDialAction
-            key={action.name}
-            icon={action.icon}
-            tooltipTitle={action.tooltipTitle}
+            key={name}
+            id={name}
+            icon={icon}
+            tooltipTitle={tooltipTitle}
           />
         ))}
       </SpeedDial>

@@ -51,13 +51,15 @@ const testData = [
 ];
 
 export default function UsersEditPage() {
+  const rootRef = React.useRef(SpeedDialMenu);
+  console.log(rootRef.current);
   const [menuParams, setMenuParams] = React.useState({
     x: 0,
     y: 0,
     hidden: true,
     actions: allMenuActions,
   });
-  const [menuActions, setMenuActions] = React.useState(allMenuActions);
+  const [menuActions, setMenuActions] = React.useState(<allMenuActions />);
 
   const toggleMenuInDataGrid = ({ id }, e) => {
     e.stopPropagation();
@@ -82,8 +84,10 @@ export default function UsersEditPage() {
   };
 
   const menuSelect = (e, e2) => {
-    console.log(e);
-    console.log(`e2`);
+    e.stopPropagation();
+
+    if (e.target === rootRef) console.log("Попадание");
+    console.log(e.target);
   };
 
   return (

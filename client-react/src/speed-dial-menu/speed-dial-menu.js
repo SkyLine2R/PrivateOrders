@@ -5,7 +5,7 @@ import SpeedDial from "@mui/material/SpeedDial";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
 
-export default function SpeedDialMenu({ menuParams, onClickFunc }) {
+export default function SpeedDialMenu({ menuParams, onClick, onMouseLeave }) {
   const { x, y, hidden, actions } = menuParams;
   return (
     <Box
@@ -25,7 +25,8 @@ export default function SpeedDialMenu({ menuParams, onClickFunc }) {
         ariaLabel="SpeedDial basic"
         sx={{ position: "absolute", bottom: 16, right: 16 }}
         icon={<SpeedDialIcon />}
-        onClick={onClickFunc}
+        onClick={onClick}
+        onMouseLeave={onMouseLeave}
       >
         {actions.map(({ name, icon, tooltipTitle }) => (
           <SpeedDialAction

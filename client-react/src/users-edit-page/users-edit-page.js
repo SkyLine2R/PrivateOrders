@@ -51,71 +51,78 @@ const testData = [
 ];
 
 export default function UsersEditPage() {
-  /*   React.useEffect(() => {
-    const handleClick = (e) => {
-      console.log(e.target);
-    };
-    window.addEventListener("click", handleClick);
-    return () => {
-      window.removeEventListener("click", handleClick);
-    };
-  }); */
-
   const [menuParams, setMenuParams] = React.useState({
     x: 0,
     y: 0,
     hidden: true,
-    actions: allMenuActions,
+    actions: [],
+    id: "",
   });
-  const [menuActions, setMenuActions] = React.useState(<allMenuActions />);
 
-  const toggleMenuInDataGrid = ({ id }, e) => {
+  const handleMenuInDataGrid = ({ id }, e) => {
     e.stopPropagation();
     setMenuParams({
       x: e.clientX,
       y: e.clientY,
-      hidden: !menuParams.hidden,
+      hidden: false,
       actions: allMenuActions,
       id,
     });
   };
 
-  const toggleMenuInContainer = (e) => {
-    console.log(e.readyToBoost);
-    if (e.readyToBoost) return [];
+  const handleMenuInContainer = (e) => {
     setMenuParams({
       x: e.clientX,
       y: e.clientY,
-      hidden: !menuParams.hidden,
+      hidden: false,
       actions: [allMenuActions[3]],
       id: null,
     });
-    setMenuActions([allMenuActions[3]]);
   };
 
-  const menuSelect = (e, e2) => {
-    /*     e.stopPropagation();
-     */
-    e.readyToBoost = "43";
-    console.log(e.target);
+  const handleOffMenu = () => {
+    setTimeout(
+      () =>
+        setMenuParams({
+          x: 0,
+          y: 0,
+          hidden: true,
+          actions: allMenuActions,
+          id: null,
+        }),
+      300
+    );
+  };
+
+  const handleMenuSelect = (e) => {
+    e.stopPropagation();
+
+    const clickedLabel = e.target.closest("button").ariaLabel;
+
+    const selectMenu = allMenuActions.find(
+      ({ tooltipTitle }) => tooltipTitle === clickedLabel
+    )?.name;
+
     console.log(e.target.closest("button").ariaLabel);
+    console.log(selectMenu);
   };
 
   return (
     <Container
       maxWidth="md"
       sx={{ margin: "20px auto" }}
-      onClick={toggleMenuInContainer}
+      onClick={handleMenuInContainer}
     >
       <DataGrid
         dbSchema={dbSchemaUsers}
         dataArr={testData}
-        onCellClick={toggleMenuInDataGrid}
+        onCellClick={handleMenuInDataGrid}
       />
       <SpeedDialMenu
         menuParams={menuParams}
-        actions={menuActions}
-        onClickFunc={menuSelect}
+        onClick={handleMenuSelect}
+        onMouseLeave={handleOffMenu}
+
         /*         anchorEl={UsersEditPage}
          */
       />

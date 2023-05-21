@@ -69,11 +69,13 @@ export const inputSlice = createSlice({
       );
       [state.lastVendorCodeId] = [...payload.id];
       state.modalWindowVendorCodeOpen = false;
-      state.inputFields.vendorCode = "";
-      state.inputFields.itemName = "";
-      state.inputFields.unit = 0;
-      state.inputFields.quantity = 0;
-      state.inputFieldsnotes = "";
+      state.inputFields = {
+        vendorCode: "",
+        itemName: "",
+        unit: 0,
+        quantity: 0,
+        notes: "",
+      };
     },
     [sendNewVendorCode.rejected]: (state, { payload }) => {
       if (payload) setSnackbar(state, "warning", payload);

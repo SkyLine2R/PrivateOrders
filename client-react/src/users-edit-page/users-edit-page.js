@@ -1,5 +1,6 @@
 import * as React from "react";
 import Container from "@mui/material/Container";
+import { useDispatch } from "react-redux";
 
 import PersonRemove from "@mui/icons-material/PersonRemove";
 import AdminPanelSettings from "@mui/icons-material/AdminPanelSettings";
@@ -9,6 +10,8 @@ import PersonAdd from "@mui/icons-material/PersonAdd";
 import DataGrid from "../data-grid-table/data-grid-table";
 import SpeedDialMenu from "../speed-dial-menu/speed-dial-menu";
 import dbSchemaUsers from "../../../components/users-db_schema";
+
+import fetchUsers from "./fetch-users";
 
 const allMenuActions = [
   {
@@ -106,6 +109,8 @@ export default function UsersEditPage() {
     console.log(e.target.closest("button").ariaLabel);
     console.log(selectMenu);
   };
+  const dispatch = useDispatch();
+  React.useEffect(() => dispatch(fetchUsers()));
 
   return (
     <Container

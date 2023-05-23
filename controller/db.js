@@ -62,6 +62,15 @@ module.exports = DB = {
       vendorCode: obj.vendorCode,
     };
   },
+
+  async getAllEntries(table, columns) {
+    console.log(columns);
+    return await db
+      .column(...columns)
+      .select()
+      .from(table);
+  },
+
   delete(id) {
     return db("items").del().where({ id });
   },

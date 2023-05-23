@@ -23,7 +23,6 @@ async function addUser(req, res) {
     }
 
     const hashPass = await bcrypt.hash(userData.pass, 10);
-
     const resp = await DB.addEntry1("users", { ...userData, pass: hashPass });
 
     return res.json(resp);
@@ -31,7 +30,23 @@ async function addUser(req, res) {
     console.log(e);
     res.status(400).json({ error: "Ошибка при добавлении пользователя" });
   }
-  return "asdfasdf";
 }
 
-module.exports = addUser;
+async function getAllUsers(req, res) {
+  try {
+    const resp = await DB.getAllEntries("users", [
+      "id",
+      "login",
+      "name",
+      "privelegies",
+      "createdAt",
+    ]);
+    return res.json(resp);
+  } catch (e) {
+    console.log(e);
+    res.status(400).json({ error: "Ошибка при получении пользователей" });
+  }
+  return res.status(400).json({ error: "Ошибка при получении пользователей" });
+}
+
+module.exports = { addUser, getAllUsers };

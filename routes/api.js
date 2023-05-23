@@ -31,7 +31,8 @@ router.post("/users", (req, res) => {
     case "get":
       return res.json("В процессе допила");
     case "getAll":
-      return res.json("В процессе допила");
+      console.log("getAll");
+      return authController.getAllUsers(req, res);
     case "edit":
       return res.json("В процессе допила");
     default:

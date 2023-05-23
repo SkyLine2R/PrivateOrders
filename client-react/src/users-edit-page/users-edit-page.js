@@ -54,6 +54,10 @@ const testData = [
 ];
 
 export default function UsersEditPage() {
+  const [error, setError] = React.useState(null);
+  const [isLoaded, setIsLoaded] = React.useState(false);
+  const [users, setUsers] = React.useState([]);
+
   const [menuParams, setMenuParams] = React.useState({
     x: 0,
     y: 0,
@@ -111,6 +115,26 @@ export default function UsersEditPage() {
   };
   const dispatch = useDispatch();
   React.useEffect(() => dispatch(fetchUsers()));
+
+  React.useEffect(() => {
+    fetch("http://localhost:3000/api/users", {
+      method: "POST",
+      headers: { "Content-Type": "application/json;charset=utf-8" },
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify({ type: "getAll" }),
+    }).then(
+      (result) => {
+        setIsLoaded(true);
+        setUsers(result.payload);
+      },
+      (error) => {
+        setIsLoaded(true);
+        setError(error);
+      }
+    );
+  }, []);
+
+  console.log(users);
 
   return (
     <Container

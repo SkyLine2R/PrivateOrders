@@ -1,6 +1,6 @@
 import * as React from "react";
 import Container from "@mui/material/Container";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 import PersonRemove from "@mui/icons-material/PersonRemove";
 import AdminPanelSettings from "@mui/icons-material/AdminPanelSettings";
@@ -36,24 +36,9 @@ const allMenuActions = [
   },
 ];
 
-const testData = [
-  {
-    id: 0,
-    login: "Admin",
-    name: "Администратор Юзеров",
-    privelegies: "10",
-    createdAt: "10/10/2023 01:05:25",
-  },
-  {
-    id: 1,
-    login: "oleg",
-    name: "Олег Василенко",
-    privelegies: "99",
-    createdAt: "11/10/2023 01:05:25",
-  },
-];
-
 export default function UsersEditPage() {
+  const dispatch = useDispatch();
+
   const [error, setError] = React.useState(null);
   const [isLoaded, setIsLoaded] = React.useState(false);
   const [users, setUsers] = React.useState([]);
@@ -65,6 +50,8 @@ export default function UsersEditPage() {
     actions: [],
     id: "",
   });
+
+  React.useEffect(() => dispatch(fetchUsers()), [dispatch]);
 
   const handleMenuInDataGrid = ({ id }, e) => {
     e.stopPropagation();
@@ -113,25 +100,29 @@ export default function UsersEditPage() {
     console.log(e.target.closest("button").ariaLabel);
     console.log(selectMenu);
   };
-  const dispatch = useDispatch();
   React.useEffect(() => dispatch(fetchUsers()));
 
   React.useEffect(() => {
-    fetch("http://localhost:3000/api/users", {
-      method: "POST",
-      headers: { "Content-Type": "application/json;charset=utf-8" },
-      referrerPolicy: "no-referrer",
-      body: JSON.stringify({ type: "getAll" }),
-    }).then(
-      (result) => {
-        setIsLoaded(true);
-        setUsers(result.payload);
-      },
-      (error) => {
-        setIsLoaded(true);
-        setError(error);
+    async function fetching() {
+      const resp = await fetch("http://localhost:3000/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json;charset=utf-8" },
+        referrerPolicy: "no-referrer",
+        body: JSON.stringify({ type: "getAll" }),
+      });
+
+      if (!resp.ok) {
+        const message = `Ошибка получения данных: ${resp.status}`;
+        throw new Error(message);
       }
-    );
+      const data = await resp.json();
+      setIsLoaded(true);
+      setUsers(data);
+    }
+    fetching().catch((err) => {
+      setIsLoaded(true);
+      setError(err);
+    });
   }, []);
 
   console.log(users);
@@ -144,7 +135,7 @@ export default function UsersEditPage() {
     >
       <DataGrid
         dbSchema={dbSchemaUsers}
-        dataArr={testData}
+        dataArr={users}
         onCellClick={handleMenuInDataGrid}
       />
       <SpeedDialMenu

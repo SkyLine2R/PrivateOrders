@@ -76,6 +76,7 @@ export const inputSlice = createSlice({
         quantity: 0,
         notes: "",
       };
+      state.vendorCodesArr = [];
     },
     [sendNewVendorCode.rejected]: (state, { payload }) => {
       if (payload) setSnackbar(state, "warning", payload);

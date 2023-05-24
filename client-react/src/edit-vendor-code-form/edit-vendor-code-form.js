@@ -36,8 +36,7 @@ export default function EditVendorCodeForm() {
     () => dispatch(fetchVendorCodes()),
     [dispatch, vendorCode, itemName]
   );
-  /*   const valFieldsForInput = useSelector((state) => state);
-   */
+
   // Убираем "запрещённые" символы и обрезаем строку по регулярке из items-db-schema
   const textСorrectionInField = (refObj, fieldValue) => {
     const str = fieldValue.match(new RegExp(refObj.regularExp, "gi")) || [""];

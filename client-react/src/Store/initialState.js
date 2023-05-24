@@ -17,6 +17,7 @@ const initialState = {
     prevReq: {},
   },
   lastVendorCodeId: null,
+  users: [],
 };
 
 export default initialState;

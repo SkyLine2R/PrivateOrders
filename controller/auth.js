@@ -41,6 +41,7 @@ async function getAllUsers(req, res) {
       "privelegies",
       "createdAt",
     ]);
+    console.log(resp);
     return res.json(resp);
   } catch (e) {
     console.log(e);

@@ -34,7 +34,7 @@ const sendNewVendorCode = createAsyncThunk(
       if (JSON.stringify(prevReq) === JSON.stringify(fetchObj)) {
         return rejectWithValue("");
       }
-      const resp = await dispatch(serverRequest(fetchObj));
+      const resp = await dispatch(serverRequest({ fetchObj, page: "" }));
       return resp.payload.data.error
         ? rejectWithValue(
             `Ошибка на сервере при добавлении данных\n${resp.payload.data.error.join(

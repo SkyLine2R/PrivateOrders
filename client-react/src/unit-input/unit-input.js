@@ -15,7 +15,7 @@ import { unit as arrWithUnit } from "../../../components/items-db_schema";
 const unitForSelect = arrWithUnit.unitArr;
 
 export default function SelectItemUnit({ label, id }) {
-  const val = useSelector((state) => state.inputFields[id]);
+  const val = useSelector(({ inputSlice }) => inputSlice.inputFields[id]);
   const dispatch = useDispatch();
 
   const handleChange = ({ target }) => {

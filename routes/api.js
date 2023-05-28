@@ -25,6 +25,7 @@ const authController = require("../controller/auth");
 // eslint-disable-next-line consistent-return
 router.post("/users", (req, res) => {
   // добавить проверку прав доступа
+  console.log(req.body.type);
   switch (req.body.type) {
     case "add":
       return authController.addUser(req.body.data);
@@ -53,6 +54,7 @@ function DBreq(reqName, data, fieldsArr) {
 }
 
 router.post("/", (req, res) => {
+  console.log(req);
   switch (req.body.type) {
     case "getFilteredVendorCodes": // запрос поиска данных для автофильтра "Артикул"/"Наименование"
       DB.filterRecords(req.body.data)

@@ -2,47 +2,20 @@ import * as React from "react";
 import Container from "@mui/material/Container";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
-import PersonRemove from "@mui/icons-material/PersonRemove";
-import AdminPanelSettings from "@mui/icons-material/AdminPanelSettings";
-import ManageAccounts from "@mui/icons-material/ManageAccounts";
-import PersonAdd from "@mui/icons-material/PersonAdd";
-
 import DataGrid from "../data-grid-table/data-grid-table";
 import SpeedDialMenu from "../speed-dial-menu/speed-dial-menu";
 import dbSchemaUsers from "../../../components/users-db_schema";
 
-import fetchUsers from "./fetch-users";
-
-const allMenuActions = [
-  {
-    icon: <PersonRemove />,
-    name: "deleteUser",
-    tooltipTitle: "Отключить аккаунт пользователя",
-  },
-  {
-    icon: <AdminPanelSettings />,
-    name: "changePass",
-    tooltipTitle: "Изменить пароль пользователя",
-  },
-  {
-    icon: <ManageAccounts />,
-    name: "changeUser",
-    tooltipTitle: "Изменить данные пользователя",
-  },
-  {
-    icon: <PersonAdd />,
-    name: "addUser",
-    tooltipTitle: "Добавить нового пользователя",
-  },
-];
+import fetchUsers from "../Store/users-fetch";
+import allMenuActions from "./menu-actions";
 
 export default function UsersEditPage() {
   const dispatch = useDispatch();
-
+  const users = useSelector((state) => state, shallowEqual);
   const [error, setError] = React.useState(null);
   const [isLoaded, setIsLoaded] = React.useState(false);
-  const [users, setUsers] = React.useState([]);
-
+  /*   const [users, setUsers] = React.useState([]);
+   */
   const [menuParams, setMenuParams] = React.useState({
     x: 0,
     y: 0,
@@ -51,7 +24,8 @@ export default function UsersEditPage() {
     id: "",
   });
 
-  React.useEffect(() => dispatch(fetchUsers()), [dispatch]);
+  React.useEffect(() => dispatch(fetchUsers()), []);
+  console.log(users);
 
   const handleMenuInDataGrid = ({ id }, e) => {
     e.stopPropagation();
@@ -100,9 +74,8 @@ export default function UsersEditPage() {
     console.log(e.target.closest("button").ariaLabel);
     console.log(selectMenu);
   };
-  React.useEffect(() => dispatch(fetchUsers()));
 
-  React.useEffect(() => {
+  /*   React.useEffect(() => {
     async function fetching() {
       const resp = await fetch("http://localhost:3000/api/users", {
         method: "POST",
@@ -123,9 +96,7 @@ export default function UsersEditPage() {
       setIsLoaded(true);
       setError(err);
     });
-  }, []);
-
-  console.log(users);
+  }, []); */
 
   return (
     <Container

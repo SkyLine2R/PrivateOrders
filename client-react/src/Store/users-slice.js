@@ -1,11 +1,21 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from "@reduxjs/toolkit";
-import initialState from "./initialState";
-import fetchUsers from "./users-fetch";
-import serverRequest from "./serverRequest";
-import sendNewVendorCode from "./sendNewVendorCode";
 
-const setSnackbar = ({ snackbars }, severity, message) => {
+const user = createSlice({
+  name: "user",
+  initialState: { name: "oleg", age: 20 },
+  reducers: {
+    setUserName: (state, action) => {
+      state.name = action.payload;
+    },
+  },
+});
+
+export const { setUserName } = user.actions;
+
+export default user.reducer;
+
+/* const setSnackbar = ({ snackbars }, severity, message) => {
   snackbars.severity = severity;
   snackbars.message = message;
   snackbars.open = true;
@@ -18,23 +28,15 @@ const setError = ({ snackbars }, action) => {
 };
 
 export const usersSlice = createSlice({
-  name: "inputField",
+  name: "inputUserField",
   initialState,
 
   reducers: {
-    setModalWindowVendorCodeOpen: (state) => {
-      state.modalWindowVendorCodeOpen = !state.modalWindowVendorCodeOpen;
+    setModalWindowAddUserOpen: (state) => {
+      state.modalWindowAddUserOpen = !state.modalWindowAddUserOpen;
     },
     changeValue: ({ inputFields }, { payload }) => {
       inputFields[payload.fieldId] = payload.value;
-    },
-    copyPasteValue: ({ vendorCodesArr, inputFields }, { payload }) => {
-      inputFields[payload.fieldId] = vendorCodesArr.find(
-        (item) => item.id === payload.id
-      )[payload.fieldId];
-    },
-    closeSnack: ({ snackbars }) => {
-      snackbars.open = false;
     },
   },
   extraReducers: {
@@ -53,12 +55,12 @@ export const usersSlice = createSlice({
         state,
         "success",
         payload.data.length
-          ? "Пользователи обновлены"
-          : "В базе нет таких пользователей"
+          ? "Список пользователей обновлен"
+          : "В базе нет пользователей"
       );
-      state.vendorCodesArr = payload.data || [];
+      state.users = payload.data || [];
     },
-    [sendNewVendorCode.pending]: (state) => {
+    /*     [sendNewVendorCode.pending]: (state) => {
       state.lastVendorCodeId = null;
     },
     [sendNewVendorCode.fulfilled]: (state, { payload }) => {
@@ -80,16 +82,12 @@ export const usersSlice = createSlice({
     },
     [sendNewVendorCode.rejected]: (state, { payload }) => {
       if (payload) setSnackbar(state, "warning", payload);
-    },
+    }, 
   },
 });
 
-export const {
-  setModalWindowVendorCodeOpen,
-  changeValue,
-  copyPasteValue,
-  setSnack,
-  closeSnack,
-} = usersSlice.actions;
+export const { setModalWindowAddUserOpen, changeValue, setSnack, closeSnack } =
+  usersSlice.actions;
 
 export default usersSlice.reducer;
+ */

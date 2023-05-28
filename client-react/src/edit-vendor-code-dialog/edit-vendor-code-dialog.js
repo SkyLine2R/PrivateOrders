@@ -16,7 +16,9 @@ import DataGrid from "../data-grid-table/data-grid-table";
 import EditVendorCodeForm from "../edit-vendor-code-form/edit-vendor-code-form";
 
 export default function FormDialog() {
-  const { modalWindowVendorCodeOpen } = useSelector((state) => state);
+  const { modalWindowVendorCodeOpen } = useSelector(
+    ({ inputSlice }) => inputSlice
+  );
   const dispatch = useDispatch();
 
   const handleClickOpenClose = () => {
@@ -25,7 +27,10 @@ export default function FormDialog() {
   const handleAddNewArticle = () => {
     dispatch(sendNewVendorCode(dbSchemaItems));
   };
-  const { vendorCodesArr } = useSelector((st) => st, shallowEqual);
+  const { vendorCodesArr } = useSelector(
+    ({ inputSlice }) => inputSlice,
+    shallowEqual
+  );
 
   return (
     <div>

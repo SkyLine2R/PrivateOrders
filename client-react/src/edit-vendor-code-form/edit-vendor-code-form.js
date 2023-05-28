@@ -8,6 +8,7 @@ import FieldForInput from "../field-for-input/field-for-input";
 import fetchVendorCodes from "../Store/fetchVendorCodes";
 
 import { changeValue } from "../Store/slice";
+
 import testFormForInputItem from "../../../components/items-db_schema";
 
 export default function EditVendorCodeForm() {
@@ -18,18 +19,21 @@ export default function EditVendorCodeForm() {
   ); */
 
   const vendorCode = useSelector(
-    (state) => state.inputFields.vendorCode,
+    ({ inputSlice }) => inputSlice.inputFields.vendorCode,
     shallowEqual
   );
   const itemName = useSelector(
-    (state) => state.inputFields.itemName,
+    ({ inputSlice }) => inputSlice.inputFields.itemName,
     shallowEqual
   );
   const quantity = useSelector(
-    (state) => state.inputFields.quantity,
+    ({ inputSlice }) => inputSlice.inputFields.quantity,
     shallowEqual
   );
-  const notes = useSelector((state) => state.inputFields.notes, shallowEqual);
+  const notes = useSelector(
+    ({ inputSlice }) => inputSlice.inputFields.notes,
+    shallowEqual
+  );
 
   // при изменении артикула или наименования - запрос на сервер
   React.useEffect(

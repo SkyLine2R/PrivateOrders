@@ -8,16 +8,12 @@ const initialState = {
     notes: "",
   },
   vendorCodesArr: [],
-  snackbars: {
-    snackbars: { open: false, severity: "info", message: null },
-  },
   request: {
     status: null,
     error: null,
     prevReq: {},
   },
   lastVendorCodeId: null,
-  users: [],
 };
 
 export default initialState;

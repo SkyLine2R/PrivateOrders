@@ -4,7 +4,7 @@ import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { useSelector, useDispatch } from "react-redux";
-import { closeSnack } from "../Store/slice";
+import { closeSnack } from "../Store/slice-snackbar";
 
 const Alert = React.forwardRef((props, ref) => (
   <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
@@ -12,7 +12,7 @@ const Alert = React.forwardRef((props, ref) => (
 
 export default function CustomizedSnackbars() {
   const dispatch = useDispatch();
-  const { open, severity, message } = useSelector((state) => state.snackbars);
+  const { open, severity, message } = useSelector((state) => state);
 
   const onClose = () => dispatch(closeSnack());
 

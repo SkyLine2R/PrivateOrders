@@ -4,6 +4,9 @@ import initialState from "./initialState";
 import fetchVendorCodes from "./fetchVendorCodes";
 import serverRequest from "./serverRequest";
 import sendNewVendorCode from "./sendNewVendorCode";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { setSnackbar } from "./slice-snackbar";
+
 /* const setSnackbar = ({ snackbars }, severity, message) => {
   snackbars.severity = severity;
   snackbars.message = message;
@@ -15,10 +18,11 @@ const setError = ({ snackbars }, action) => {
   snackbars.error = action.payload;
   setSnackbar(snackbars, "error", "Ошибка получения данных с сервера.");
 }; */
+
 /* const setSnackbar = (state, severity, message) => {
   state.snackbar.severity = severity;
-  state.message = message;
-  state.open = true;
+  state.snackbar.message = message;
+  state.snackbar.open = true;
 }; */
 
 const inputSlice = createSlice({
@@ -54,6 +58,8 @@ const inputSlice = createSlice({
         /* setError */
       })
       .addCase(fetchVendorCodes.fulfilled, (state, { payload }) => {
+        // const dispatch = useDispatch();
+
         /*         setSnackbar(
           state,
           "success",
@@ -61,6 +67,7 @@ const inputSlice = createSlice({
             ? "Артикулы обновлены"
             : "В базе нет подобных артикулов"
         ); */
+
         /*         state.snackbar.severity = "success";
         state.snackbar.message = "Артикулы обновлены";
         state.snackbar.open = true; */

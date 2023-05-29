@@ -12,7 +12,6 @@ const serverRequest = createAsyncThunk(
         referrerPolicy: "no-referrer",
         body: JSON.stringify(fetchObj),
       });
-      console.log(response);
       if (!response.ok) {
         throw new Error("Ошибка получения данных с сервера");
       }
@@ -24,5 +23,4 @@ const serverRequest = createAsyncThunk(
     }
   }
 );
-
 export default serverRequest;

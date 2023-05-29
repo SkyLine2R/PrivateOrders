@@ -4,7 +4,6 @@ import initialState from "./initialState";
 import fetchVendorCodes from "./fetchVendorCodes";
 import serverRequest from "./serverRequest";
 import sendNewVendorCode from "./sendNewVendorCode";
-
 /* const setSnackbar = ({ snackbars }, severity, message) => {
   snackbars.severity = severity;
   snackbars.message = message;
@@ -15,6 +14,11 @@ const setError = ({ snackbars }, action) => {
   snackbars.status = "rejected";
   snackbars.error = action.payload;
   setSnackbar(snackbars, "error", "Ошибка получения данных с сервера.");
+}; */
+/* const setSnackbar = (state, severity, message) => {
+  state.snackbar.severity = severity;
+  state.message = message;
+  state.open = true;
 }; */
 
 const inputSlice = createSlice({
@@ -33,57 +37,60 @@ const inputSlice = createSlice({
         (item) => item.id === payload.id
       )[payload.fieldId];
     },
-    /*     closeSnack: ({ snackbars }) => {
-      snackbars.open = false;
-    }, */
   },
-  extraReducers: {
-    [serverRequest.pending]: (state, action) => {
-      console.log(state.request.prevReq);
-      state.request.prevReq = action.meta.arg;
-      state.request.status = "loading";
-      state.request.error = null;
-    },
-    [serverRequest.fulfilled]: ({ request }) => {
-      request.status = "resolved";
-    },
-    /*  [serverRequest.rejected]: setError, */
+  extraReducers: (builder) => {
+    builder
+      .addCase(serverRequest.pending, (state, action) => {
+        state.request.prevReq = action.meta.arg;
+        state.request.status = "loading";
+        state.request.error = null;
+      })
 
-    [fetchVendorCodes.fulfilled]: (state, { payload }) => {
-      console.log("payload");
-      console.log(payload);
-      /*       setSnackbar(
-        state,
-        "success",
-        payload.data.length
-          ? "Артикулы обновлены"
-          : "В базе нет подобных артикулов"
-      ); */
-      state.vendorCodesArr = payload.data || [];
-    },
-    [sendNewVendorCode.pending]: (state) => {
-      state.lastVendorCodeId = null;
-    },
-    [sendNewVendorCode.fulfilled]: (state, { payload }) => {
-      /*       setSnackbar(
+      .addCase(serverRequest.fulfilled, ({ request }) => {
+        request.status = "resolved";
+      })
+      .addCase(serverRequest.rejected, (state) => {
+        /* setError */
+        /* setError */
+      })
+      .addCase(fetchVendorCodes.fulfilled, (state, { payload }) => {
+        /*         setSnackbar(
+          state,
+          "success",
+          payload.data.length
+            ? "Артикулы обновлены"
+            : "В базе нет подобных артикулов"
+        ); */
+        /*         state.snackbar.severity = "success";
+        state.snackbar.message = "Артикулы обновлены";
+        state.snackbar.open = true; */
+
+        state.vendorCodesArr = payload.data || [];
+      })
+      .addCase(sendNewVendorCode.pending, (state) => {
+        state.lastVendorCodeId = null;
+      })
+      .addCase(sendNewVendorCode.fulfilled, (state, { payload }) => {
+        /*       setSnackbar(
         state,
         "success",
         `Артикул "${payload.vendorCode}" добавлен в базу данных!`
       ); */
-      [state.lastVendorCodeId] = [...payload.id];
-      state.modalWindowVendorCodeOpen = false;
-      state.inputFields = {
-        vendorCode: "",
-        itemName: "",
-        unit: 0,
-        quantity: 0,
-        notes: "",
-      };
-      state.vendorCodesArr = [];
-    },
-    /*     [sendNewVendorCode.rejected]: (state, { payload }) => {
-      if (payload) setSnackbar(state, "warning", payload);
-    }, */
+        [state.lastVendorCodeId] = [...payload.id];
+        state.modalWindowVendorCodeOpen = false;
+        state.inputFields = {
+          vendorCode: "",
+          itemName: "",
+          unit: 0,
+          quantity: 0,
+          notes: "",
+        };
+        state.vendorCodesArr = [];
+      })
+
+      .addCase(sendNewVendorCode.rejected, (state, { payload }) => {
+        /* if (payload) setSnackbar(state, "warning", payload); */
+      });
   },
 });
 

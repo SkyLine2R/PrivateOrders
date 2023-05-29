@@ -12,10 +12,7 @@ import allMenuActions from "./menu-actions";
 export default function UsersEditPage() {
   const dispatch = useDispatch();
   const users = useSelector((state) => state, shallowEqual);
-  const [error, setError] = React.useState(null);
-  const [isLoaded, setIsLoaded] = React.useState(false);
-  /*   const [users, setUsers] = React.useState([]);
-   */
+
   const [menuParams, setMenuParams] = React.useState({
     x: 0,
     y: 0,
@@ -25,7 +22,6 @@ export default function UsersEditPage() {
   });
 
   React.useEffect(() => dispatch(fetchUsers()), []);
-  console.log(users);
 
   const handleMenuInDataGrid = ({ id }, e) => {
     e.stopPropagation();

@@ -12,7 +12,7 @@ const Alert = React.forwardRef((props, ref) => (
 
 export default function CustomizedSnackbars() {
   const dispatch = useDispatch();
-  const { open, severity, message } = useSelector((state) => state);
+  const { open, severity, message } = useSelector((state) => state.snackbar);
 
   const onClose = () => dispatch(closeSnack());
 

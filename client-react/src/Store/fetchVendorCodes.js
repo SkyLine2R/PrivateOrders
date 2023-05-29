@@ -22,12 +22,10 @@ const fetchVendorCodes = createAsyncThunk(
       },
     };
 
-    console.log(prevReq);
     if (JSON.stringify(prevReq) === JSON.stringify(fetchObj)) {
       return rejected();
     }
     const resp = await dispatch(serverRequest({ fetchObj, page: "" }));
-    console.log(resp);
 
     return resp.payload.data.error
       ? rejectWithValue(resp.payload.error)

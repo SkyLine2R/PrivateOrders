@@ -13,7 +13,7 @@ import sendNewVendorCode from "../Store/sendNewVendorCode";
 import {
   setModalWindowVendorCodeOpen,
   copyPasteValue,
-} from "../Store/slice-vendor-codes";
+} from "../Store/Slices/slice-vendor-codes";
 
 import DataGrid from "../data-grid-table/data-grid-table";
 import EditVendorCodeForm from "../edit-vendor-code-form/edit-vendor-code-form";

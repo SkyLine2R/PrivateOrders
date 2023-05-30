@@ -7,14 +7,14 @@ const fetchVendorCodes = createAsyncThunk(
     // запрос с фильтром оставляем для запроса только буквы и цифры,
     // остальное заменяем на маску "любые символы - "%"
     // если введены данные в два поля (артикул и название) - фильтр не используем
-    const { inputFields, request } = getState().inputSlice;
+    const { inputFields, request } = getState().vendorCodes;
     const { vendorCode, itemName } = inputFields;
     const { prevReq } = request;
 
     if (vendorCode && itemName) return rejected();
 
     const fetchObj = {
-      type: "getFilteredVendorCodes",
+      type: "getFiltered",
       data: {
         table: "items",
         column: `${vendorCode ? "vendorCode" : "itemName"}`,
@@ -25,7 +25,9 @@ const fetchVendorCodes = createAsyncThunk(
     if (JSON.stringify(prevReq) === JSON.stringify(fetchObj)) {
       return rejected();
     }
-    const resp = await dispatch(serverRequest({ fetchObj, page: "" }));
+    const resp = await dispatch(
+      serverRequest({ fetchObj, page: "vendor-codes" })
+    );
 
     return resp.payload.data.error
       ? rejectWithValue(resp.payload.error)

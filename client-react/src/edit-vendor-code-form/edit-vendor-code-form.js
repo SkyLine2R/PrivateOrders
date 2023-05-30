@@ -5,9 +5,9 @@ import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 import SelectItemUnit from "../unit-input/unit-input";
 import FieldForInput from "../field-for-input/field-for-input";
-import fetchVendorCodes from "../Store/fetchVendorCodes";
 
-import { changeValue } from "../Store/slice-vendor-codes";
+import fetchVendorCodes from "../Store/fetchVendorCodes";
+import { changeValue } from "../Store/Slices/slice-vendor-codes";
 
 import testFormForInputItem from "../../../components/items-db_schema";
 

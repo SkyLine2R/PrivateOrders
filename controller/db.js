@@ -53,7 +53,7 @@ module.exports = DB = {
   },
 
   async addEntry(insertData) {
-    const obj = await testDataFromForm(dbSchemaVendorCode, insertData.data);
+    const obj = await testDataFromForm(dbSchemaVendorCode, insertData);
 
     if (obj.error) return obj;
 
@@ -65,7 +65,7 @@ module.exports = DB = {
 
   async getAllEntries(table, columns) {
     console.log(columns);
-    return await db
+    return db
       .column(...columns)
       .select()
       .from(table);

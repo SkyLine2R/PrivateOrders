@@ -6,12 +6,12 @@ import DataGrid from "../data-grid-table/data-grid-table";
 import SpeedDialMenu from "../speed-dial-menu/speed-dial-menu";
 import dbSchemaUsers from "../../../components/users-db_schema";
 
-import fetchUsers from "../Store/users-fetch";
+import fetchUsers from "../Store/fetchUsers";
 import allMenuActions from "./menu-actions";
 
 export default function UsersEditPage() {
   const dispatch = useDispatch();
-  const users = useSelector((state) => state, shallowEqual);
+  const { usersArr } = useSelector((state) => state.users, shallowEqual);
 
   const [menuParams, setMenuParams] = React.useState({
     x: 0,
@@ -102,7 +102,7 @@ export default function UsersEditPage() {
     >
       <DataGrid
         dbSchema={dbSchemaUsers}
-        dataArr={users}
+        dataArr={usersArr}
         onCellClick={handleMenuInDataGrid}
       />
       <SpeedDialMenu

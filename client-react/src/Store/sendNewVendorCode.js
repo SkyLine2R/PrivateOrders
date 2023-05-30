@@ -3,12 +3,12 @@ import testSendData from "../../../components/testing-data-from-input";
 import serverRequest from "./serverRequest";
 
 const sendNewVendorCode = createAsyncThunk(
-  "inputField/sendNewVendorCodes",
+  "api/sendNewVendorCodes",
   async (dbSchema, { getState, dispatch, rejectWithValue }) => {
     // отправка нового артикула для записи в БД
     try {
-      const { inputFields } = getState();
-      const { prevReq } = getState().request;
+      const { inputFields } = getState().vendorCodes;
+      const { prevReq } = getState().vendorCodes.request;
 
       const keys = Object.keys(dbSchema);
 
@@ -27,14 +27,17 @@ const sendNewVendorCode = createAsyncThunk(
       }
 
       const fetchObj = {
-        type: "addNewVendorCode",
+        type: "add",
         data,
       };
 
       if (JSON.stringify(prevReq) === JSON.stringify(fetchObj)) {
         return rejectWithValue("");
       }
-      const resp = await dispatch(serverRequest({ fetchObj, page: "" }));
+
+      const resp = await dispatch(
+        serverRequest({ fetchObj, page: "vendor-codes" })
+      );
       return resp.payload.data.error
         ? rejectWithValue(
             `Ошибка на сервере при добавлении данных\n${resp.payload.data.error.join(
@@ -44,7 +47,7 @@ const sendNewVendorCode = createAsyncThunk(
         : resp.payload.data;
     } catch (error) {
       return rejectWithValue(
-        "При проверке и отправке данных возникла ошибка :("
+        "При проверке и отправке данных возникла непредвиденная ошибка :("
       );
     }
   }

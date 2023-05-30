@@ -8,14 +8,14 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { changeValue } from "../Store/slice";
+import { changeValue } from "../Store/slice-vendor-codes";
 
 import { unit as arrWithUnit } from "../../../components/items-db_schema";
 
 const unitForSelect = arrWithUnit.unitArr;
 
 export default function SelectItemUnit({ label, id }) {
-  const val = useSelector(({ inputSlice }) => inputSlice.inputFields[id]);
+  const val = useSelector(({ vendorCodes }) => vendorCodes.inputFields[id]);
   const dispatch = useDispatch();
 
   const handleChange = ({ target }) => {

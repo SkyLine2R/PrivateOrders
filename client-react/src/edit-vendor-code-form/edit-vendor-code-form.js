@@ -7,31 +7,15 @@ import SelectItemUnit from "../unit-input/unit-input";
 import FieldForInput from "../field-for-input/field-for-input";
 import fetchVendorCodes from "../Store/fetchVendorCodes";
 
-import { changeValue } from "../Store/slice";
+import { changeValue } from "../Store/slice-vendor-codes";
 
 import testFormForInputItem from "../../../components/items-db_schema";
 
 export default function EditVendorCodeForm() {
   const dispatch = useDispatch();
-  /*   const { vendorCode, itemName, quantity, notes } = useSelector(
-    (state) => state.inputFields,
-    shallowEqual
-  ); */
 
-  const vendorCode = useSelector(
-    ({ inputSlice }) => inputSlice.inputFields.vendorCode,
-    shallowEqual
-  );
-  const itemName = useSelector(
-    ({ inputSlice }) => inputSlice.inputFields.itemName,
-    shallowEqual
-  );
-  const quantity = useSelector(
-    ({ inputSlice }) => inputSlice.inputFields.quantity,
-    shallowEqual
-  );
-  const notes = useSelector(
-    ({ inputSlice }) => inputSlice.inputFields.notes,
+  const { vendorCode, itemName, quantity, notes } = useSelector(
+    ({ vendorCodes }) => vendorCodes.inputFields,
     shallowEqual
   );
 

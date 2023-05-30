@@ -84,6 +84,7 @@ function DataGridTable({ dbSchema, dataArr, onCellClick }) {
 }
 
 export default React.memo(DataGridTable);
+
 /* function(params: GridCellParams, event: MuiEvent<React.MouseEvent>, details: GridCallbackDetails) => void
 params: Со всеми свойствами из GridCellParams .
 событие: объект события.

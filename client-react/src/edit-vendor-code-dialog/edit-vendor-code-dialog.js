@@ -10,14 +10,17 @@ import { useDispatch, useSelector, shallowEqual } from "react-redux";
 
 import dbSchemaItems from "../../../components/items-db_schema";
 import sendNewVendorCode from "../Store/sendNewVendorCode";
-import { setModalWindowVendorCodeOpen, copyPasteValue } from "../Store/slice";
+import {
+  setModalWindowVendorCodeOpen,
+  copyPasteValue,
+} from "../Store/slice-vendor-codes";
 
 import DataGrid from "../data-grid-table/data-grid-table";
 import EditVendorCodeForm from "../edit-vendor-code-form/edit-vendor-code-form";
 
 export default function FormDialog() {
   const { modalWindowVendorCodeOpen } = useSelector(
-    ({ inputSlice }) => inputSlice
+    ({ vendorCodes }) => vendorCodes
   );
   const dispatch = useDispatch();
 
@@ -28,7 +31,7 @@ export default function FormDialog() {
     dispatch(sendNewVendorCode(dbSchemaItems));
   };
   const { vendorCodesArr } = useSelector(
-    ({ inputSlice }) => inputSlice,
+    ({ vendorCodes }) => vendorCodes,
     shallowEqual
   );
 

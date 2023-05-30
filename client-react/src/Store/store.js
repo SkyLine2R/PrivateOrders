@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import inputReducer from "./slice";
+import vendorCodes from "./slice-vendor-codes";
 import snackbar from "./slice-snackbar";
 import usersReducer from "./users-slice";
 
 export default configureStore({
-  reducer: { inputSlice: inputReducer, users: usersReducer, snackbar },
+  reducer: { vendorCodes, users: usersReducer, snackbar },
 });

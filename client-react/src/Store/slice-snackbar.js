@@ -1,20 +1,13 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from "@reduxjs/toolkit";
-import initialStateSnackbar from "./initialState";
 import fetchVendorCodes from "./fetchVendorCodes";
 import serverRequest from "./serverRequest";
 import sendNewVendorCode from "./sendNewVendorCode";
 
-export const setSnackbar = (state, severity, message) => {
+const setSnackbar = (state, severity, message) => {
   state.severity = severity;
   state.message = message;
   state.open = true;
-};
-
-const setError = (state, { payload }) => {
-  state.status = "rejected";
-  state.error = payload;
-  setSnackbar(state, "error", `Ошибка получения данных с сервера \n${payload}`);
 };
 
 const snackbar = createSlice({
@@ -25,11 +18,6 @@ const snackbar = createSlice({
     closeSnack: (state) => {
       state.open = false;
     },
-    /*     setError: (state, action) => {
-      state.status = "rejected";
-      state.error = action.payload;
-      setSnackbar(state, "error", "Ошибка получения данных с сервера.");
-    }, */
   },
   extraReducers: (builder) => {
     builder
@@ -42,9 +30,22 @@ const snackbar = createSlice({
             : "В базе нет подобных артикулов"
         );
       })
-      .addCase(serverRequest.rejected, (state, action) => {
-        setError(state, action);
-        /* setError */
+      .addCase(serverRequest.rejected, (state, { payload }) => {
+        setSnackbar(
+          state,
+          "error",
+          `Ошибка получения данных с сервера \n${payload}`
+        );
+      })
+      .addCase(sendNewVendorCode.fulfilled, (state, { payload }) => {
+        setSnackbar(
+          state,
+          "success",
+          `Артикул "${payload.vendorCode}" добавлен в базу данных!`
+        );
+      })
+      .addCase(sendNewVendorCode.rejected, (state, { payload }) => {
+        setSnackbar(state, "warning", payload);
       });
   },
 });

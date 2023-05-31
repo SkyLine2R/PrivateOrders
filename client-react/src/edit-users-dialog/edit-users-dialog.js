@@ -7,6 +7,9 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Box from "@mui/material/Box";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
+
+import AccessControlElement from "../access-control-element/access-control-element";
+
 import FieldForInput from "../field-for-input/field-for-input";
 import {
   setModalWindowUsersEditOpen,
@@ -64,7 +67,7 @@ export default function FormDialog() {
             value={pass}
             testFormForInputItem={testFormForInputItem}
           />
-
+          <AccessControlElement />
           {/*        <EditVendorCodeForm /> */}
         </DialogContent>
 

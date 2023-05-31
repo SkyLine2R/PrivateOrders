@@ -6,6 +6,8 @@ import fetchUsers from "../fetchUsers";
 const users = createSlice({
   name: "user",
   initialState: {
+    modalWindowUsersEditOpen: false,
+    inputFields: { login: "", name: "", pass: "", privelegies: null },
     usersArr: [],
     request: {
       status: null,
@@ -16,6 +18,12 @@ const users = createSlice({
   reducers: {
     setUserName: (state, action) => {
       state.name = action.payload;
+    },
+    changeValue: ({ inputFields }, { payload }) => {
+      inputFields[payload.fieldId] = payload.value;
+    },
+    setModalWindowUsersEditOpen: (state) => {
+      state.modalWindowUsersEditOpen = !state.modalWindowUsersEditOpen;
     },
   },
   extraReducers: (builder) => {
@@ -58,6 +66,7 @@ const users = createSlice({
   },
 });
 
-export const { setUserName } = users.actions;
+export const { changeValue, setUserName, setModalWindowUsersEditOpen } =
+  users.actions;
 
 export default users.reducer;

@@ -25,24 +25,6 @@ export default function EditVendorCodeForm() {
     [dispatch, vendorCode, itemName]
   );
 
-  // Убираем "запрещённые" символы и обрезаем строку по регулярке из items-db-schema
-  const textСorrectionInField = (refObj, fieldValue) => {
-    const str = fieldValue.match(new RegExp(refObj.regularExp, "gi")) || [""];
-    return (
-      refObj.containsNumber ? str[0].replace(",", ".") : str[0]
-    ).substring(0, refObj.maxlength);
-  };
-
-  const onChangeVal = ({ target }) => {
-    const { value, id } = target;
-    dispatch(
-      changeValue({
-        value: textСorrectionInField(testFormForInputItem[id], value),
-        fieldId: id,
-      })
-    );
-  };
-
   return (
     <FormGroup>
       <Grid container spacing={2}>
@@ -50,16 +32,18 @@ export default function EditVendorCodeForm() {
           <FieldForInput
             id="vendorCode"
             label="Артикул"
-            onChangeVal={onChangeVal}
+            changeValue={changeValue}
             value={vendorCode}
+            testFormForInputItem={testFormForInputItem}
           />
         </Grid>
         <Grid xs={8}>
           <FieldForInput
             id="itemName"
             label="Наименование"
-            onChangeVal={onChangeVal}
+            changeValue={changeValue}
             value={itemName}
+            testFormForInputItem={testFormForInputItem}
           />
         </Grid>
         <Grid xs={2.5}>
@@ -69,16 +53,18 @@ export default function EditVendorCodeForm() {
           <FieldForInput
             id="quantity"
             label="Кол-во ед. в хл. | уп."
-            onChangeVal={onChangeVal}
+            changeValue={changeValue}
             value={quantity}
+            testFormForInputItem={testFormForInputItem}
           />
         </Grid>
         <Grid xs={6.5}>
           <FieldForInput
             id="notes"
             label="Примечания"
-            onChangeVal={onChangeVal}
+            changeValue={changeValue}
             value={notes}
+            testFormForInputItem={testFormForInputItem}
           />
         </Grid>
       </Grid>

@@ -4,14 +4,21 @@ import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 import DataGrid from "../data-grid-table/data-grid-table";
 import SpeedDialMenu from "../speed-dial-menu/speed-dial-menu";
+import EditUsersDialog from "../edit-users-dialog/edit-users-dialog";
+
 import dbSchemaUsers from "../../../components/users-db_schema";
 
 import fetchUsers from "../Store/fetchUsers";
+import { setModalWindowUsersEditOpen } from "../Store/Slices/slice-users";
+
 import allMenuActions from "./menu-actions";
 
 export default function UsersEditPage() {
   const dispatch = useDispatch();
-  const { usersArr } = useSelector((state) => state.users, shallowEqual);
+  const { usersArr, modalWindowUsersEditOpen } = useSelector(
+    (state) => state.users,
+    shallowEqual
+  );
 
   const [menuParams, setMenuParams] = React.useState({
     x: 0,
@@ -21,7 +28,7 @@ export default function UsersEditPage() {
     id: "",
   });
 
-  React.useEffect(() => dispatch(fetchUsers()), []);
+  React.useEffect(() => dispatch(fetchUsers()), [dispatch]);
 
   const handleMenuInDataGrid = ({ id }, e) => {
     e.stopPropagation();
@@ -69,30 +76,14 @@ export default function UsersEditPage() {
 
     console.log(e.target.closest("button").ariaLabel);
     console.log(selectMenu);
-  };
-
-  /*   React.useEffect(() => {
-    async function fetching() {
-      const resp = await fetch("http://localhost:3000/api/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json;charset=utf-8" },
-        referrerPolicy: "no-referrer",
-        body: JSON.stringify({ type: "getAll" }),
-      });
-
-      if (!resp.ok) {
-        const message = `Ошибка получения данных: ${resp.status}`;
-        throw new Error(message);
-      }
-      const data = await resp.json();
-      setIsLoaded(true);
-      setUsers(data);
+    switch (selectMenu) {
+      case "addUser":
+        dispatch(setModalWindowUsersEditOpen());
+        break;
+      default:
+        console.log("nothin");
     }
-    fetching().catch((err) => {
-      setIsLoaded(true);
-      setError(err);
-    });
-  }, []); */
+  };
 
   return (
     <Container
@@ -100,18 +91,20 @@ export default function UsersEditPage() {
       sx={{ margin: "20px auto" }}
       onClick={handleMenuInContainer}
     >
+      {modalWindowUsersEditOpen ? (
+        <EditUsersDialog />
+      ) : (
+        <SpeedDialMenu
+          menuParams={menuParams}
+          onClick={handleMenuSelect}
+          onMouseLeave={handleOffMenu}
+        />
+      )}
+
       <DataGrid
         dbSchema={dbSchemaUsers}
         dataArr={usersArr}
         onCellClick={handleMenuInDataGrid}
-      />
-      <SpeedDialMenu
-        menuParams={menuParams}
-        onClick={handleMenuSelect}
-        onMouseLeave={handleOffMenu}
-
-        /*         anchorEl={UsersEditPage}
-         */
       />
     </Container>
   );

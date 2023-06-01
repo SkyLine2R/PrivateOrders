@@ -6,7 +6,7 @@ import fetchUsers from "../fetchUsers";
 const users = createSlice({
   name: "user",
   initialState: {
-    modalWindowUsersEditOpen: false,
+    modalWindowUsersEditOpen: true,
     inputFields: { login: "", name: "", pass: "", privelegies: null },
     usersArr: [],
     request: {
@@ -20,6 +20,7 @@ const users = createSlice({
       state.name = action.payload;
     },
     changeValue: ({ inputFields }, { payload }) => {
+      console.log(payload);
       inputFields[payload.fieldId] = payload.value;
     },
     setModalWindowUsersEditOpen: (state) => {

@@ -31,24 +31,28 @@ export default function UsersEditPage() {
   React.useEffect(() => dispatch(fetchUsers()), [dispatch]);
 
   const handleMenuInDataGrid = ({ id }, e) => {
-    e.stopPropagation();
-    setMenuParams({
-      x: e.clientX,
-      y: e.clientY,
-      hidden: false,
-      actions: allMenuActions,
-      id,
-    });
+    if (!modalWindowUsersEditOpen) {
+      e.stopPropagation();
+      setMenuParams({
+        x: e.clientX,
+        y: e.clientY,
+        hidden: false,
+        actions: allMenuActions,
+        id,
+      });
+    }
   };
 
   const handleMenuInContainer = (e) => {
-    setMenuParams({
-      x: e.clientX,
-      y: e.clientY,
-      hidden: false,
-      actions: [allMenuActions[3]],
-      id: null,
-    });
+    if (!modalWindowUsersEditOpen) {
+      setMenuParams({
+        x: e.clientX,
+        y: e.clientY,
+        hidden: false,
+        actions: [allMenuActions[3]],
+        id: null,
+      });
+    }
   };
 
   const handleOffMenu = () => {
@@ -73,6 +77,7 @@ export default function UsersEditPage() {
     const selectMenu = allMenuActions.find(
       ({ tooltipTitle }) => tooltipTitle === clickedLabel
     )?.name;
+    handleOffMenu();
 
     console.log(e.target.closest("button").ariaLabel);
     console.log(selectMenu);

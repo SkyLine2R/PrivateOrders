@@ -3,10 +3,13 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Box from "@mui/material/Box";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import Grid from "@mui/material/Unstable_Grid2";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+
+import { useDispatch, useSelector } from "react-redux";
 
 import AccessControlElement from "../access-control-element/access-control-element";
 
@@ -15,10 +18,9 @@ import {
   setModalWindowUsersEditOpen,
   changeValue,
 } from "../Store/Slices/slice-users";
+
 import testFormForInputItem from "../../../components/users-db_schema";
 /* import sendNewUser from "../Store/sendNewUser"; */
-
-import EditVendorCodeForm from "../edit-vendor-code-form/edit-vendor-code-form";
 
 export default function FormDialog() {
   const { login, name, pass, privelegies } = useSelector(
@@ -36,6 +38,10 @@ export default function FormDialog() {
     /* dispatch(sendNewUser(dbSchemaUsers)); */
   };
 
+  const handleChangePrivelegies = (event, newValue) => {
+    console.log(event);
+    changeValue(newValue);
+  };
   return (
     <div>
       <Dialog
@@ -44,32 +50,58 @@ export default function FormDialog() {
         open={modalWindowUsersEditOpen}
         onClose={handleClickOpenClose}
       >
-        <DialogTitle>Добавление нового пользователя</DialogTitle>
-        <DialogContent label="Пользователь">
-          <FieldForInput
-            id="login"
-            label="Логин"
-            changeValue={changeValue}
-            value={login}
-            testFormForInputItem={testFormForInputItem}
-          />
-          <FieldForInput
-            id="name"
-            label="Имя пользователя"
-            changeValue={changeValue}
-            value={name}
-            testFormForInputItem={testFormForInputItem}
-          />
-          <FieldForInput
-            id="pass"
-            label="Пароль"
-            changeValue={changeValue}
-            value={pass}
-            testFormForInputItem={testFormForInputItem}
-          />
-          <AccessControlElement />
-          {/*        <EditVendorCodeForm /> */}
-        </DialogContent>
+        <DialogTitle>Новая учётная запись</DialogTitle>
+        <Grid container spacing={2} sx={{ margin: "0px" }}>
+          <DialogContent label="Пользователь">
+            <Grid xs={12}>
+              <FieldForInput
+                id="login"
+                label="Логин"
+                changeValue={changeValue}
+                value={login}
+                testFormForInputItem={testFormForInputItem}
+              />
+            </Grid>
+            <Grid xs={12}>
+              <FieldForInput
+                id="name"
+                label="Имя пользователя"
+                changeValue={changeValue}
+                value={name}
+                testFormForInputItem={testFormForInputItem}
+              />
+            </Grid>
+            <Grid xs={12}>
+              <FieldForInput
+                id="pass"
+                label="Пароль"
+                changeValue={changeValue}
+                value={pass}
+                testFormForInputItem={testFormForInputItem}
+              />
+            </Grid>
+            <Grid xs={12}>
+              <Box sx={{ paddingTop: "20px" }}>
+                <TextField
+                  id="accessLevel"
+                  label="Уровень доступа учётной записи"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <AccessControlElement
+                          value={privelegies}
+                          change={handleChangePrivelegies}
+                        />
+                      </InputAdornment>
+                    ),
+                    readOnly: true,
+                  }}
+                  variant="outlined"
+                />
+              </Box>
+            </Grid>
+          </DialogContent>
+        </Grid>
 
         <DialogActions>
           <Button onClick={handleClickOpenClose}>Отмена</Button>

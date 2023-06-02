@@ -8,8 +8,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Box from "@mui/material/Box";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 
-import dbSchemaItems from "../../../components/items-db_schema";
-import sendNewVendorCode from "../Store/sendNewVendorCode";
+import dbSchema from "../../../components/items-db_schema";
+import sendNewEntryToDB from "../Store/sendNewEntryToDB";
 import {
   setModalWindowVendorCodeOpen,
   copyPasteValue,
@@ -28,7 +28,7 @@ export default function FormDialog() {
     dispatch(setModalWindowVendorCodeOpen());
   };
   const handleAddNewArticle = () => {
-    dispatch(sendNewVendorCode(dbSchemaItems));
+    dispatch(sendNewEntryToDB({ dbSchema, api: "vendorCodes" }));
   };
   const { vendorCodesArr } = useSelector(
     ({ vendorCodes }) => vendorCodes,
@@ -54,7 +54,7 @@ export default function FormDialog() {
             <DialogContentText>Артикулы в базе</DialogContentText>
 
             <DataGrid
-              dbSchema={dbSchemaItems}
+              dbSchema={dbSchema}
               dataArr={vendorCodesArr}
               onCellClick={(gridCellParams) => {
                 dispatch(

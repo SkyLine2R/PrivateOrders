@@ -26,7 +26,7 @@ const fetchVendorCodes = createAsyncThunk(
       return rejected();
     }
     const resp = await dispatch(
-      serverRequest({ fetchObj, page: "vendor-codes" })
+      serverRequest({ fetchObj, api: "vendorCodes" })
     );
 
     return resp.payload.data.error

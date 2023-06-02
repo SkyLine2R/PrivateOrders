@@ -8,22 +8,20 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
-
 import { useDispatch, useSelector } from "react-redux";
-
-import AccessControlElement from "../access-control-element/access-control-element";
-
 import FieldForInput from "../field-for-input/field-for-input";
+import AccessControlElement from "../access-control-element/access-control-element";
 import {
   setModalWindowUsersEditOpen,
   changeValue,
 } from "../Store/Slices/slice-users";
+import sendNewEntryToDB from "../Store/sendNewEntryToDB";
+import dbSchema from "../../../components/users-db_schema";
 
-import testFormForInputItem from "../../../components/users-db_schema";
 /* import sendNewUser from "../Store/sendNewUser"; */
 
 export default function FormDialog() {
-  const { login, name, pass, privelegies } = useSelector(
+  const { login, name, pass, accessLevel } = useSelector(
     (state) => state.users.inputFields
   );
 
@@ -33,15 +31,15 @@ export default function FormDialog() {
   const handleClickOpenClose = () => {
     dispatch(setModalWindowUsersEditOpen());
   };
-  const handleAddNewUser = () => {
-    console.log("Отправка пользователя");
-    /* dispatch(sendNewUser(dbSchemaUsers)); */
+
+  const handleChangeAccessLevel = (_, newValue) => {
+    dispatch(changeValue({ fieldId: "accessLevel", value: newValue }));
   };
 
-  const handleChangePrivelegies = (event, newValue) => {
-    console.log(event);
-    changeValue(newValue);
+  const handleAddNewUser = () => {
+    dispatch(sendNewEntryToDB({ dbSchema, api: "vendorCodes" }));
   };
+
   return (
     <div>
       <Dialog
@@ -50,7 +48,9 @@ export default function FormDialog() {
         open={modalWindowUsersEditOpen}
         onClose={handleClickOpenClose}
       >
-        <DialogTitle>Новая учётная запись</DialogTitle>
+        <DialogTitle sx={{ paddingLeft: "30px" }}>
+          Новая учётная запись
+        </DialogTitle>
         <Grid container spacing={2} sx={{ margin: "0px" }}>
           <DialogContent label="Пользователь">
             <Grid xs={12}>
@@ -59,7 +59,7 @@ export default function FormDialog() {
                 label="Логин"
                 changeValue={changeValue}
                 value={login}
-                testFormForInputItem={testFormForInputItem}
+                dbSchema={dbSchema}
               />
             </Grid>
             <Grid xs={12}>
@@ -68,7 +68,7 @@ export default function FormDialog() {
                 label="Имя пользователя"
                 changeValue={changeValue}
                 value={name}
-                testFormForInputItem={testFormForInputItem}
+                dbSchema={dbSchema}
               />
             </Grid>
             <Grid xs={12}>
@@ -77,20 +77,20 @@ export default function FormDialog() {
                 label="Пароль"
                 changeValue={changeValue}
                 value={pass}
-                testFormForInputItem={testFormForInputItem}
+                dbSchema={dbSchema}
               />
             </Grid>
             <Grid xs={12}>
               <Box sx={{ paddingTop: "20px" }}>
                 <TextField
                   id="accessLevel"
-                  label="Уровень доступа учётной записи"
+                  label="Уровень доступа для учётной записи"
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
                         <AccessControlElement
-                          value={privelegies}
-                          change={handleChangePrivelegies}
+                          value={accessLevel}
+                          change={handleChangeAccessLevel}
                         />
                       </InputAdornment>
                     ),

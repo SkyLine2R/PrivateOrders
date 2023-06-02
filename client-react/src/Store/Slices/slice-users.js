@@ -2,12 +2,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import serverRequest from "../serverRequest";
 import fetchUsers from "../fetchUsers";
+import sendNewEntryToDB from "../sendNewEntryToDB";
 
 const users = createSlice({
   name: "user",
   initialState: {
     modalWindowUsersEditOpen: true,
-    inputFields: { login: "", name: "", pass: "", privelegies: null },
+    inputFields: { login: "", name: "", pass: "", accessLevel: 0 },
     usersArr: [],
     request: {
       status: null,
@@ -16,11 +17,7 @@ const users = createSlice({
     },
   },
   reducers: {
-    setUserName: (state, action) => {
-      state.name = action.payload;
-    },
     changeValue: ({ inputFields }, { payload }) => {
-      console.log(payload);
       inputFields[payload.fieldId] = payload.value;
     },
     setModalWindowUsersEditOpen: (state) => {
@@ -46,28 +43,27 @@ const users = createSlice({
 
       .addCase(fetchUsers.fulfilled, (state, { payload }) => {
         state.usersArr = payload.data || [];
-      });
-
-    /*       .addCase(sendNewVendorCode.pending, (state) => {
-        state.lastVendorCodeId = null;
       })
 
-      .addCase(sendNewVendorCode.fulfilled, (state, { payload }) => {
-        [state.lastVendorCodeId] = [...payload.id];
-        state.modalWindowVendorCodeOpen = false;
+      .addCase(sendNewEntryToDB.rejected, (state, { payload }) => {
+        if (payload.api !== "users") return;
+        console.log(payload);
+      })
+
+      .addCase(sendNewEntryToDB.fulfilled, (state, { payload }) => {
+        if (payload.api !== "users") return;
+        state.modalWindowUsersEditOpen = false;
         state.inputFields = {
-          vendorCode: "",
-          itemName: "",
-          unit: 0,
-          quantity: 0,
-          notes: "",
+          logi: "",
+          name: "",
+          pass: "",
+          accessLevel: 0,
         };
-        state.vendorCodesArr = [];
-      } ); */
+        state.usersArr = [];
+      });
   },
 });
 
-export const { changeValue, setUserName, setModalWindowUsersEditOpen } =
-  users.actions;
+export const { changeValue, setModalWindowUsersEditOpen } = users.actions;
 
 export default users.reducer;

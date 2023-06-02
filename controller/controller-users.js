@@ -12,13 +12,12 @@ async function getAllUsers(req, res) {
       "id",
       "login",
       "name",
-      "privelegies",
+      "accessLevel",
       "createdAt",
     ]);
     console.log(resp);
     return res.json(resp);
   } catch (e) {
-    console.log(e);
     res
       .status(400)
       .json({ error: "Ошибка БД при получении списка пользователей" });

@@ -52,7 +52,7 @@ function DBreq(reqName, data, fieldsArr) {
     }));
 }
 
-router.post("/vendor-codes", (req, res) => {
+router.post("/vendorCodes", (req, res) => {
   switch (req.body.type) {
     case "getFiltered": // запрос поиска данных для автофильтра "Артикул"/"Наименование"
       DB.filterRecords(req.body.data)

@@ -28,19 +28,19 @@ const testFormForUsers = {
     maxlength: 15,
     containsNumber: false,
     description: "пароль",
-    regularExp: '[\\-+/()#*.,_|\\"\\d\\w\\s]+',
+    regularExp: '[\\~`!@$%^&*?|+/()#.,_=\\"\\d\\w\\s]+',
     table: {
       headerName: "Пароль",
       width: 0,
       editable: false,
     },
   },
-  privelegies: {
+  accessLevel: {
     required: true,
     maxlength: 3,
     containsNumber: true,
     min: 1,
-    max: 999,
+    max: 5,
     description: "права доступа",
     regularExp: "\\d+",
     table: {

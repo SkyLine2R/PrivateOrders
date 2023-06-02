@@ -9,7 +9,7 @@ import FieldForInput from "../field-for-input/field-for-input";
 import fetchVendorCodes from "../Store/fetchVendorCodes";
 import { changeValue } from "../Store/Slices/slice-vendor-codes";
 
-import testFormForInputItem from "../../../components/items-db_schema";
+import dbSchema from "../../../components/items-db_schema";
 
 export default function EditVendorCodeForm() {
   const dispatch = useDispatch();
@@ -34,7 +34,7 @@ export default function EditVendorCodeForm() {
             label="Артикул"
             changeValue={changeValue}
             value={vendorCode}
-            testFormForInputItem={testFormForInputItem}
+            dbSchema={dbSchema}
           />
         </Grid>
         <Grid xs={8}>
@@ -43,7 +43,7 @@ export default function EditVendorCodeForm() {
             label="Наименование"
             changeValue={changeValue}
             value={itemName}
-            testFormForInputItem={testFormForInputItem}
+            dbSchema={dbSchema}
           />
         </Grid>
         <Grid xs={2.5}>
@@ -55,7 +55,7 @@ export default function EditVendorCodeForm() {
             label="Кол-во ед. в хл. | уп."
             changeValue={changeValue}
             value={quantity}
-            testFormForInputItem={testFormForInputItem}
+            dbSchema={dbSchema}
           />
         </Grid>
         <Grid xs={6.5}>
@@ -64,7 +64,7 @@ export default function EditVendorCodeForm() {
             label="Примечания"
             changeValue={changeValue}
             value={notes}
-            testFormForInputItem={testFormForInputItem}
+            dbSchema={dbSchema}
           />
         </Grid>
       </Grid>

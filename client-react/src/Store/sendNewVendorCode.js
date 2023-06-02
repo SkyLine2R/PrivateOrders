@@ -4,7 +4,7 @@ import serverRequest from "./serverRequest";
 
 const sendNewVendorCode = createAsyncThunk(
   "api/sendNewVendorCodes",
-  async (dbSchema, { getState, dispatch, rejectWithValue }) => {
+  async ({ dbSchema, api }, { getState, dispatch, rejectWithValue }) => {
     // отправка нового артикула для записи в БД
     try {
       const { inputFields } = getState().vendorCodes;
@@ -14,11 +14,11 @@ const sendNewVendorCode = createAsyncThunk(
 
       // подберём согласно схемы из State ключи нового артикула,
       // которые должны отправиться в базу
-      const objVendorCode = keys.reduce(
+      const objToSend = keys.reduce(
         (obj, key) => ({ ...obj, [key]: inputFields[key] }),
         {}
       );
-      const data = testSendData(dbSchema, objVendorCode);
+      const data = testSendData(dbSchema, objToSend);
 
       if (data.error) {
         return rejectWithValue(

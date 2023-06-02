@@ -2,7 +2,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import fetchVendorCodes from "../fetchVendorCodes";
 import serverRequest from "../serverRequest";
-import sendNewVendorCode from "../sendNewVendorCode";
+import sendNewEntryToDB from "../sendNewEntryToDB";
 
 const vendorCodes = createSlice({
   name: "vendorCodes",
@@ -60,12 +60,13 @@ const vendorCodes = createSlice({
         state.vendorCodesArr = payload.data || [];
       })
 
-      .addCase(sendNewVendorCode.pending, (state) => {
+      .addCase(sendNewEntryToDB.pending, (state) => {
         state.lastVendorCodeId = null;
       })
 
-      .addCase(sendNewVendorCode.fulfilled, (state, { payload }) => {
-        [state.lastVendorCodeId] = [...payload.id];
+      .addCase(sendNewEntryToDB.fulfilled, (state, { payload }) => {
+        if (payload.api !== "vendorCodes") return;
+        [state.lastVendorCodeId] = [...payload.data.id];
         state.modalWindowVendorCodeOpen = false;
         state.inputFields = {
           vendorCode: "",

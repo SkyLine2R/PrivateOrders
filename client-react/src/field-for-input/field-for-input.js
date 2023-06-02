@@ -11,7 +11,7 @@ export default function FieldForInput({
   label,
   value,
   changeValue,
-  testFormForInputItem,
+  dbSchema,
 }) {
   const dispatch = useDispatch();
 
@@ -26,10 +26,7 @@ export default function FieldForInput({
   const onChangeVal = ({ target }) => {
     dispatch(
       changeValue({
-        value: textСorrectionInField(
-          testFormForInputItem[target.id],
-          target.value
-        ),
+        value: textСorrectionInField(dbSchema[target.id], target.value),
         fieldId: target.id,
       })
     );
@@ -60,7 +57,7 @@ FieldForInput.propTypes = {
   label: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   changeValue: PropTypes.func.isRequired,
-  testFormForInputItem: PropTypes.object.isRequired,
+  dbSchema: PropTypes.object.isRequired,
 };
 
 FieldForInput.defaultProps = {

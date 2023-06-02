@@ -2,7 +2,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import fetchVendorCodes from "../fetchVendorCodes";
 import serverRequest from "../serverRequest";
-import sendNewVendorCode from "../sendNewVendorCode";
+import sendNewEntryToDB from "../sendNewVendorCode";
 
 const setSnackbar = (state, severity, message) => {
   state.severity = severity;
@@ -37,15 +37,17 @@ const snackbar = createSlice({
           `Ошибка получения данных с сервера \n${payload}`
         );
       })
-      .addCase(sendNewVendorCode.fulfilled, (state, { payload }) => {
+      .addCase(sendNewEntryToDB.fulfilled, (state, { payload }) => {
+        if (payload.api !== "vendorCodes") return;
         setSnackbar(
           state,
           "success",
-          `Артикул "${payload.vendorCode}" добавлен в базу данных!`
+          `Артикул "${payload.data.vendorCode}" добавлен в базу данных!`
         );
       })
-      .addCase(sendNewVendorCode.rejected, (state, { payload }) => {
-        setSnackbar(state, "warning", payload);
+      .addCase(sendNewEntryToDB.rejected, (state, { payload }) => {
+        if (payload.api !== "vendorCodes") return;
+        setSnackbar(state, "warning", payload.data);
       });
   },
 });

@@ -7,9 +7,7 @@ const fetchUsers = createAsyncThunk(
     const fetchObj = {
       type: "getAll",
     };
-
-    const resp = await dispatch(serverRequest({ fetchObj, page: "users" }));
-    console.log(resp.payload);
+    const resp = await dispatch(serverRequest({ fetchObj, api: "users" }));
     return resp.payload.data.error
       ? rejectWithValue(resp.payload.error)
       : resp.payload;

@@ -44,13 +44,13 @@ exports.seed = (knex) =>
             name: "admin",
             login: "admin",
             pass: bcrypt.hashSync("admin", 10),
-            privelegies: "10",
+            accessLevel: "5",
           },
           {
             name: "Олег Василенко",
             login: "oleg",
             pass: bcrypt.hashSync("123456", 10),
-            privelegies: "5",
+            accessLevel: "5",
           },
         ])
     );

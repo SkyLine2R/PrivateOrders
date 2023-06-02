@@ -4,9 +4,9 @@ const fetchUrlAPI = "http://localhost:3000/api/";
 
 const serverRequest = createAsyncThunk(
   "api/serverRequest",
-  async ({ fetchObj, page }, { rejectWithValue }) => {
+  async ({ fetchObj, api }, { rejectWithValue }) => {
     try {
-      const response = await fetch(fetchUrlAPI + page, {
+      const response = await fetch(fetchUrlAPI + api, {
         method: "POST",
         headers: { "Content-Type": "application/json;charset=utf-8" },
         referrerPolicy: "no-referrer",

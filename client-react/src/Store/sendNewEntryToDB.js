@@ -8,10 +8,9 @@ const sendNewEntryToDB = createAsyncThunk(
     // отправка нового пользователя для записи в БД
     try {
       const { inputFields } = getState()[api];
-      const { prevReq } = getState()[api].request;
+      const prevReq = getState()[api].request.prevReq.fetchObj;
 
       const keys = Object.keys(dbSchema);
-
       // подберём согласно схемы из State ключи нового артикула,
       // которые должны отправиться в базу
       const objToSend = keys.reduce(
@@ -23,32 +22,35 @@ const sendNewEntryToDB = createAsyncThunk(
       if (data.error) {
         return rejectWithValue({
           api,
-          data: `Данные не отправлены.\n${data.error.join("\n")}`,
+          error: `Данные не отправлены.\n${data.error.join("\n")}`,
         });
       }
-
       const fetchObj = {
         type: "add",
         data,
       };
 
       if (JSON.stringify(prevReq) === JSON.stringify(fetchObj)) {
-        return rejectWithValue("");
+        return rejectWithValue();
       }
 
       const resp = await dispatch(serverRequest({ fetchObj, api }));
+
       return resp.payload.data.error
         ? rejectWithValue({
             api,
-            data: `Ошибка на сервере при добавлении данных\n${resp.payload.data.error.join(
-              "\n"
-            )}`,
+            error: `Не добавлено! Предупреждение от сервера:\n${
+              Array.isArray(resp.payload.data.error)
+                ? resp.payload.data.error.join("\n")
+                : resp.payload.data.error
+            }`,
           })
         : { api, data: resp.payload.data };
     } catch (error) {
       return rejectWithValue({
         api,
-        data: "При проверке и отправке данных возникла непредвиденная ошибка :(",
+        error:
+          "При проверке и отправке данных возникла непредвиденная ошибка :(",
       });
     }
   }

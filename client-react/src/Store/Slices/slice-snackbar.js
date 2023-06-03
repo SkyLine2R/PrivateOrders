@@ -1,8 +1,10 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-param-reassign */
 import { createSlice } from "@reduxjs/toolkit";
-import fetchVendorCodes from "../fetchVendorCodes";
 import serverRequest from "../serverRequest";
-import sendNewEntryToDB from "../sendNewVendorCode";
+import fetchVendorCodes from "../fetchVendorCodes";
+import sendNewEntryToDB from "../sendNewEntryToDB";
+import fetchEntries from "../fetchEntries";
 
 const setSnackbar = (state, severity, message) => {
   state.severity = severity;
@@ -30,6 +32,18 @@ const snackbar = createSlice({
             : "В базе нет подобных артикулов"
         );
       })
+      .addCase(sendNewEntryToDB.rejected, (state, { payload }) => {
+        if (payload?.error) setSnackbar(state, "warning", payload.error);
+      })
+      .addCase(sendNewEntryToDB.fulfilled, (state, { payload }) => {
+        const msg =
+          payload.api === "vendorCodes"
+            ? `Артикул "${payload.data.vendorCode}"`
+            : payload.api === "users"
+            ? `Пользователь "${payload.data}"`
+            : "";
+        setSnackbar(state, "success", `${msg} добавлен в базу данных!`);
+      })
       .addCase(serverRequest.rejected, (state, { payload }) => {
         setSnackbar(
           state,
@@ -37,17 +51,8 @@ const snackbar = createSlice({
           `Ошибка получения данных с сервера \n${payload}`
         );
       })
-      .addCase(sendNewEntryToDB.fulfilled, (state, { payload }) => {
-        if (payload.api !== "vendorCodes") return;
-        setSnackbar(
-          state,
-          "success",
-          `Артикул "${payload.data.vendorCode}" добавлен в базу данных!`
-        );
-      })
-      .addCase(sendNewEntryToDB.rejected, (state, { payload }) => {
-        if (payload.api !== "vendorCodes") return;
-        setSnackbar(state, "warning", payload.data);
+      .addCase(fetchEntries.rejected, (state, { payload }) => {
+        setSnackbar(state, "error", `Ошибка получения данных\n${payload}`);
       });
   },
 });

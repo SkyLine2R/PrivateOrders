@@ -8,7 +8,7 @@ import EditUsersDialog from "../edit-users-dialog/edit-users-dialog";
 
 import dbSchemaUsers from "../../../components/users-db_schema";
 
-import fetchUsers from "../Store/fetchUsers";
+import fetchEntries from "../Store/fetchEntries";
 import { setModalWindowUsersEditOpen } from "../Store/Slices/slice-users";
 
 import allMenuActions from "./menu-actions";
@@ -28,7 +28,7 @@ export default function UsersEditPage() {
     id: "",
   });
 
-  React.useEffect(() => dispatch(fetchUsers()), [dispatch]);
+  React.useEffect(() => dispatch(fetchEntries("users")), [dispatch]);
 
   const handleMenuInDataGrid = ({ id }, e) => {
     if (!modalWindowUsersEditOpen) {

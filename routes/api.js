@@ -24,14 +24,12 @@ const usersController = require("../controller/controller-users");
 
 router.post("/users", (req, res) => {
   // добавить проверку прав доступа
-
   switch (req.body.type) {
     case "add":
-      return usersController.addUser(req.body.data);
+      return usersController.addUser(req, res);
     case "get":
       return res.json("В процессе допила");
     case "getAll":
-      console.log("getAll");
       return usersController.getAllUsers(req, res);
     case "edit":
       return res.json("В процессе допила");

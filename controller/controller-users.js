@@ -15,7 +15,6 @@ async function getAllUsers(req, res) {
       "accessLevel",
       "createdAt",
     ]);
-    console.log(resp);
     return res.json(resp);
   } catch (e) {
     res
@@ -26,7 +25,8 @@ async function getAllUsers(req, res) {
 
 async function addUser(req, res) {
   try {
-    const userData = testingDataFromInput(req.body.data, usersDbSchema);
+    const userData = testingDataFromInput(usersDbSchema, req.body.data);
+
     if (userData.error) return res.json(userData.error);
 
     const candidate = await DB.findEntry({
@@ -35,18 +35,27 @@ async function addUser(req, res) {
       searchData: userData.login,
     });
 
-    if (candidate) {
+    if (candidate.length) {
       return res.json({
         error: "Пользователь с таким логином уже существует",
       });
     }
 
     const hashPass = await bcrypt.hash(userData.pass, 10);
-    const resp = await DB.addEntry1("users", { ...userData, pass: hashPass });
 
-    return res.json(resp);
+    const idUser = await DB.addEntry({
+      table: "users",
+      dataObj: { ...userData, pass: hashPass },
+    });
+
+    const resp = await DB.findEntry({
+      table: "users",
+      searchColumn: "id",
+      searchData: idUser[0],
+    });
+
+    return res.json(resp[0].login);
   } catch (e) {
-    console.log(e);
     res.status(400).json({ error: "Ошибка при добавлении пользователя" });
   }
 }

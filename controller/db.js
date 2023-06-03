@@ -48,11 +48,11 @@ module.exports = DB = {
     return db(table).where(searchColumn, searchData);
   },
 
-  async addEntry1({ table, dataObj }) {
+  async addEntry({ table, dataObj }) {
     return db(table).insert(dataObj);
   },
 
-  async addEntry(insertData) {
+  async addEntry1(insertData) {
     const obj = await testDataFromForm(dbSchemaVendorCode, insertData);
 
     if (obj.error) return obj;

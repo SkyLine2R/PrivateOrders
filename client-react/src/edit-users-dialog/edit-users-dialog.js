@@ -37,7 +37,7 @@ export default function FormDialog() {
   };
 
   const handleAddNewUser = () => {
-    dispatch(sendNewEntryToDB({ dbSchema, api: "vendorCodes" }));
+    dispatch(sendNewEntryToDB({ dbSchema, api: "users" }));
   };
 
   return (

@@ -63,7 +63,6 @@ const vendorCodes = createSlice({
       .addCase(sendNewEntryToDB.pending, (state) => {
         state.lastVendorCodeId = null;
       })
-
       .addCase(sendNewEntryToDB.fulfilled, (state, { payload }) => {
         if (payload.api !== "vendorCodes") return;
         [state.lastVendorCodeId] = [...payload.data.id];

@@ -7,9 +7,9 @@ import PersonAdd from "@mui/icons-material/PersonAdd";
 
 const allMenuActions = [
   {
-    icon: <PersonRemove />,
-    name: "deleteUser",
-    tooltipTitle: "Отключить аккаунт пользователя",
+    icon: <ManageAccounts />,
+    name: "editUser",
+    tooltipTitle: "Изменить данные пользователя",
   },
   {
     icon: <AdminPanelSettings />,
@@ -17,9 +17,9 @@ const allMenuActions = [
     tooltipTitle: "Изменить пароль пользователя",
   },
   {
-    icon: <ManageAccounts />,
-    name: "changeUser",
-    tooltipTitle: "Изменить данные пользователя",
+    icon: <PersonRemove />,
+    name: "disableUser",
+    tooltipTitle: "Отключить аккаунт пользователя",
   },
   {
     icon: <PersonAdd />,

@@ -2,9 +2,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import testSendData from "../../../components/testing-data-from-input";
 import serverRequest from "./serverRequest";
 
-const sendNewEntryToDB = createAsyncThunk(
-  "api/sendNewEntryToDB",
-  async ({ dbSchema, api }, { getState, dispatch, rejectWithValue }) => {
+const sendChangedEntryToDB = createAsyncThunk(
+  "api/sendEditingEntryToDB",
+  async ({ dbSchema, api, type }, { getState, dispatch, rejectWithValue }) => {
     // отправка нового пользователя для записи в БД
     try {
       const { inputFields } = getState()[api];
@@ -22,11 +22,11 @@ const sendNewEntryToDB = createAsyncThunk(
       if (data.error) {
         return rejectWithValue({
           api,
-          error: `Данные не отправлены.\n${data.error.join("\n")}`,
+          error: `Данные не изменены.\n${data.error.join("\n")}`,
         });
       }
       const fetchObj = {
-        type: "add",
+        type,
         data,
       };
 
@@ -36,7 +36,7 @@ const sendNewEntryToDB = createAsyncThunk(
 
       const resp = await dispatch(serverRequest({ fetchObj, api }));
 
-      return resp.payload.data.error
+      return resp.payload?.data?.error
         ? rejectWithValue({
             api,
             error: `Отклонено. Сообщение сервера:\n${
@@ -48,14 +48,12 @@ const sendNewEntryToDB = createAsyncThunk(
         : { api, data: resp.payload.data };
     } catch (error) {
       console.log(error);
-
       return rejectWithValue({
         api,
-        error:
-          "При проверке и отправке данных возникла непредвиденная ошибка :(",
+        error: "При проверке и отправке данных возникла программная ошибка :(",
       });
     }
   }
 );
 
-export default sendNewEntryToDB;
+export default sendChangedEntryToDB;

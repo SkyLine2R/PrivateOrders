@@ -1,3 +1,5 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable react/prop-types */
 import * as React from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -16,11 +18,10 @@ import {
   changeValue,
 } from "../Store/Slices/slice-users";
 import sendNewEntryToDB from "../Store/sendNewEntryToDB";
+import sendChangedEntryToDB from "../Store/sendChangedEntryToDB";
 import dbSchema from "../../../components/users-db_schema";
 
-/* import sendNewUser from "../Store/sendNewUser"; */
-
-export default function FormDialog() {
+export default function FormDialog({ userEditType }) {
   const { login, name, pass, accessLevel } = useSelector(
     (state) => state.users.inputFields
   );
@@ -29,7 +30,7 @@ export default function FormDialog() {
   const dispatch = useDispatch();
 
   const handleClickOpenClose = () => {
-    dispatch(setModalWindowUsersEditOpen());
+    dispatch(setModalWindowUsersEditOpen(userEditType));
   };
 
   const handleChangeAccessLevel = (_, newValue) => {
@@ -38,6 +39,31 @@ export default function FormDialog() {
 
   const handleAddNewUser = () => {
     dispatch(sendNewEntryToDB({ dbSchema, api: "users" }));
+  };
+
+  const handleSendChangedUser = () => {
+    const editDbSchema = { id: null };
+
+    switch (userEditType) {
+      case "editUser":
+        editDbSchema.login = dbSchema.login;
+        editDbSchema.name = dbSchema.name;
+        editDbSchema.accessLevel = dbSchema.accessLevel;
+        break;
+      case "changePass":
+        editDbSchema.pass = dbSchema.pass;
+        break;
+      default:
+        editDbSchema.accessLevel = dbSchema.accessLevel;
+    }
+
+    dispatch(
+      sendChangedEntryToDB({
+        dbSchema: { ...editDbSchema },
+        api: "users",
+        type: userEditType,
+      })
+    );
   };
 
   return (
@@ -49,7 +75,11 @@ export default function FormDialog() {
         onClose={handleClickOpenClose}
       >
         <DialogTitle sx={{ paddingLeft: "30px" }}>
-          Новая учётная запись
+          {userEditType === "addUser"
+            ? "Новая учётная запись"
+            : userEditType === "editUser"
+            ? "Редактирование данных пользователя"
+            : "Смена пароля пользователя"}
         </DialogTitle>
         <Grid container spacing={2} sx={{ margin: "0px" }}>
           <DialogContent label="Пользователь">
@@ -60,52 +90,67 @@ export default function FormDialog() {
                 changeValue={changeValue}
                 value={login}
                 dbSchema={dbSchema}
+                disable={userEditType === "changePass"}
               />
             </Grid>
-            <Grid xs={12}>
-              <FieldForInput
-                id="name"
-                label="Имя пользователя"
-                changeValue={changeValue}
-                value={name}
-                dbSchema={dbSchema}
-              />
-            </Grid>
-            <Grid xs={12}>
-              <FieldForInput
-                id="pass"
-                label="Пароль"
-                changeValue={changeValue}
-                value={pass}
-                dbSchema={dbSchema}
-              />
-            </Grid>
-            <Grid xs={12}>
-              <Box sx={{ paddingTop: "20px" }}>
-                <TextField
-                  id="accessLevel"
-                  label="Уровень доступа для учётной записи"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <AccessControlElement
-                          value={accessLevel}
-                          change={handleChangeAccessLevel}
-                        />
-                      </InputAdornment>
-                    ),
-                    readOnly: true,
-                  }}
-                  variant="outlined"
+            {userEditType === "changePass" ? (
+              ""
+            ) : (
+              <Grid xs={12}>
+                <FieldForInput
+                  id="name"
+                  label="Имя пользователя"
+                  changeValue={changeValue}
+                  value={name}
+                  dbSchema={dbSchema}
                 />
-              </Box>
-            </Grid>
+              </Grid>
+            )}
+            {userEditType === "addUser" || userEditType === "changePass" ? (
+              <Grid xs={12}>
+                <FieldForInput
+                  id="pass"
+                  label="Пароль"
+                  changeValue={changeValue}
+                  value={pass}
+                  dbSchema={dbSchema}
+                />
+              </Grid>
+            ) : null}
+            {userEditType === "changePass" ? (
+              ""
+            ) : (
+              <Grid xs={12}>
+                <Box sx={{ paddingTop: "20px" }}>
+                  <TextField
+                    id="accessLevel"
+                    label="Уровень доступа для учётной записи"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AccessControlElement
+                            value={accessLevel}
+                            change={handleChangeAccessLevel}
+                          />
+                        </InputAdornment>
+                      ),
+                      readOnly: true,
+                    }}
+                    variant="outlined"
+                  />
+                </Box>
+              </Grid>
+            )}
           </DialogContent>
         </Grid>
 
         <DialogActions>
           <Button onClick={handleClickOpenClose}>Отмена</Button>
-          <Button onClick={handleAddNewUser}>Добавить</Button>
+          {userEditType === "addUser" ? (
+            <Button onClick={handleAddNewUser}>Добавить</Button>
+          ) : (
+            <Button onClick={handleSendChangedUser}>Сохранить изменения</Button>
+          )}
         </DialogActions>
       </Dialog>
     </div>

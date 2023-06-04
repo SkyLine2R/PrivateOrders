@@ -7,9 +7,6 @@ const knexConfig = require("../db/knexfile");
 // eslint-disable-next-line import/order
 const db = require("knex")(knexConfig[process.env.NODE_ENV]);
 
-const dbSchemaVendorCode = require("../components/items-db_schema"); // объект для проверки ввода
-const testDataFromForm = require("../components/testing-data-from-input"); // функция для проверки ввода
-
 const regExpForFilter = /[^а-яё\d\w]/gi; // регулярка для запроса быстрого фильтра по артикулам
 
 // -------- тестировщик запросов к БД
@@ -48,23 +45,15 @@ module.exports = DB = {
     return db(table).where(searchColumn, searchData);
   },
 
-  async addEntry({ table, dataObj }) {
-    return db(table).insert(dataObj);
+  async addEntry({ table, dataObj, resp }) {
+    return db(table).returning(resp).insert(dataObj);
   },
 
-  async addEntry1(insertData) {
-    const obj = await testDataFromForm(dbSchemaVendorCode, insertData);
-
-    if (obj.error) return obj;
-
-    return {
-      id: await db("items").insert(obj),
-      vendorCode: obj.vendorCode,
-    };
+  async editEntry({ table, dataObj, resp }) {
+    return db(table).returning(resp).where({ id: dataObj.id }).update(dataObj);
   },
 
   async getAllEntries(table, columns) {
-    console.log(columns);
     return db
       .column(...columns)
       .select()

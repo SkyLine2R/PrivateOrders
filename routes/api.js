@@ -31,8 +31,12 @@ router.post("/users", (req, res) => {
       return res.json("В процессе допила");
     case "getAll":
       return usersController.getAllUsers(req, res);
-    case "edit":
-      return res.json("В процессе допила");
+    case "editUser":
+      return usersController.editUser(req, res);
+    case "changePass":
+      return usersController.changePass(req, res);
+    case "disableUser":
+      return usersController.disableUser(req, res);
     default:
       return res.json({
         error: "Ошибка в запросе к БД",

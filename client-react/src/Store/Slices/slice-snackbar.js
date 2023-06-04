@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import serverRequest from "../serverRequest";
 import fetchVendorCodes from "../fetchVendorCodes";
 import sendNewEntryToDB from "../sendNewEntryToDB";
+import sendChangedEntryToDB from "../sendChangedEntryToDB";
 import fetchEntries from "../fetchEntries";
 
 const setSnackbar = (state, severity, message) => {
@@ -40,7 +41,7 @@ const snackbar = createSlice({
           payload.api === "vendorCodes"
             ? `Артикул "${payload.data.vendorCode}"`
             : payload.api === "users"
-            ? `Пользователь "${payload.data}"`
+            ? `Пользователь "${payload.data.login}"`
             : "";
         setSnackbar(state, "success", `${msg} добавлен в базу данных!`);
       })
@@ -51,8 +52,25 @@ const snackbar = createSlice({
           `Ошибка получения данных с сервера \n${payload}`
         );
       })
+      .addCase(sendChangedEntryToDB.rejected, (state, { payload }) => {
+        if (payload?.error) setSnackbar(state, "warning", payload.error);
+      })
+      .addCase(sendChangedEntryToDB.fulfilled, (state, { payload }) => {
+        const msg =
+          payload.api === "vendorCodes"
+            ? `Данные артикула "${payload.data.vendorCode}"`
+            : payload.api === "users"
+            ? `Данные пользователя "${payload.data.login}"`
+            : "";
+
+        setSnackbar(state, "success", `${msg} обновлены`);
+      })
       .addCase(fetchEntries.rejected, (state, { payload }) => {
-        setSnackbar(state, "error", `Ошибка получения данных\n${payload}`);
+        setSnackbar(
+          state,
+          "error",
+          `Ошибка получения данных\n${payload?.error}`
+        );
       });
   },
 });

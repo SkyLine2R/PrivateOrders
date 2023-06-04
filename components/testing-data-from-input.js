@@ -13,12 +13,12 @@ function testDataFromForm(refObj, testObj) {
   // Функция проверки переданных значений.
   // Принимает объект refObj с параметрами проверки и объект с данными
   // Если всё норм - возвращает объект c данными, нет - объект с массивом ошибок
-
   const errArr = [];
   if (isObjectEmpty(refObj) && isObjectEmpty(testObj)) {
-    return errArr;
+    return errArr.push(`Не удалось проверить данные - получен пустой объект`);
   }
   for (const key in refObj) {
+    if (refObj[key] === null) continue;
     if (
       refObj[key].required &&
       (!Object.prototype.hasOwnProperty.call(testObj, key) ||

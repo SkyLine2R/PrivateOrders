@@ -12,6 +12,7 @@ export default function FieldForInput({
   value,
   changeValue,
   dbSchema,
+  disable,
 }) {
   const dispatch = useDispatch();
 
@@ -47,6 +48,7 @@ export default function FieldForInput({
         value={value}
         onChange={onChangeVal}
         variant="outlined"
+        disabled={disable}
       />
     </Box>
   );

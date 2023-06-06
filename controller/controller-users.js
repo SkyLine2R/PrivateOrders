@@ -24,13 +24,15 @@ async function getAllUsers(req, res) {
 }
 
 async function addUser(req, res) {
+  const table = "users";
+
   try {
     const userData = testingDataFromInput(usersDbSchema, req.body.data);
 
     if (userData.error) return res.json(userData.error);
 
     const candidate = await DB.findEntry({
-      table: "users",
+      table,
       searchColumn: "login",
       searchData: userData.login,
     });
@@ -43,15 +45,14 @@ async function addUser(req, res) {
 
     const hashPass = await bcrypt.hash(userData.pass, 10);
 
-    const { login } = (
+    const login = (
       await DB.addEntry({
-        table: "users",
+        table,
         dataObj: { ...userData, pass: hashPass },
-        resp: ["id", "login"],
+        respCol: "login",
       })
     )[0];
-
-    return res.json({ login });
+    return res.json(login);
   } catch (e) {
     res.status(400).json({ error: "Ошибка при добавлении пользователя" });
   }
@@ -77,16 +78,15 @@ async function editUser(req, res) {
       });
     }
 
-    const { login } = (
+    const login = (
       await DB.editEntry({
         table: "users",
         dataObj: { ...userData },
-        resp: ["id", "login"],
+        respCol: "login",
       })
     )[0];
-    console.log("login");
     console.log(login);
-    return res.json({ login });
+    return res.json(login);
   } catch (e) {
     res.status(400).json({ error: "Ошибка при изменении данных пользователя" });
   }
@@ -103,15 +103,15 @@ async function changePass(req, res) {
 
     const hashPass = await bcrypt.hash(userData.pass, 10);
 
-    const { login } = (
+    const login = (
       await DB.editEntry({
         table: "users",
         dataObj: { ...userData, pass: hashPass },
-        resp: ["id", "login"],
+        respCol: "login",
       })
     )[0];
 
-    return res.json({ login });
+    return res.json(login);
   } catch (e) {
     res.status(400).json({ error: "Ошибка при изменении пароля пользователя" });
   }
@@ -126,15 +126,15 @@ async function disableUser(req, res) {
 
     if (userData.error) return res.json(userData.error);
 
-    const { login } = (
+    const login = (
       await DB.editEntry({
         table: "users",
         dataObj: { ...userData },
-        resp: ["id", "login"],
+        respCol: "login",
       })
     )[0];
 
-    return res.json({ login });
+    return res.json(login);
   } catch (e) {
     res
       .status(400)

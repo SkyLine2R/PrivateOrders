@@ -25,6 +25,7 @@ const snackbar = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchVendorCodes.fulfilled, (state, { payload }) => {
+        if (state.open) return;
         setSnackbar(
           state,
           "success",
@@ -39,9 +40,9 @@ const snackbar = createSlice({
       .addCase(sendNewEntryToDB.fulfilled, (state, { payload }) => {
         const msg =
           payload.api === "vendorCodes"
-            ? `Артикул "${payload.data.vendorCode}"`
+            ? `Артикул "${payload.data?.vendorCode}"`
             : payload.api === "users"
-            ? `Пользователь "${payload.data.login}"`
+            ? `Пользователь "${payload.data?.login}"`
             : "";
         setSnackbar(state, "success", `${msg} добавлен в базу данных!`);
       })

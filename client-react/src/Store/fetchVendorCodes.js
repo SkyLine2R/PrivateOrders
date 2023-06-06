@@ -16,7 +16,6 @@ const fetchVendorCodes = createAsyncThunk(
     const fetchObj = {
       type: "getFiltered",
       data: {
-        table: "items",
         column: `${vendorCode ? "vendorCode" : "itemName"}`,
         string: vendorCode || itemName || "",
       },

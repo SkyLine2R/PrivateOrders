@@ -65,7 +65,8 @@ const vendorCodes = createSlice({
       })
       .addCase(sendNewEntryToDB.fulfilled, (state, { payload }) => {
         if (payload.api !== "vendorCodes") return;
-        [state.lastVendorCodeId] = [...payload.data.id];
+
+        state.lastVendorCodeId = payload.data.id;
         state.modalWindowVendorCodeOpen = false;
         state.inputFields = {
           vendorCode: "",

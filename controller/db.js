@@ -24,8 +24,7 @@ query
 // ------------
 
 module.exports = DB = {
-  // выборка записей для автофильтра
-  filterRecords({ table, column, string }) {
+  /*   filterRecords({ table, column, string }) {
     const searchData = `%${string}%`.replace(regExpForFilter, "%");
 
     return db(table)
@@ -33,26 +32,44 @@ module.exports = DB = {
       .orWhereLike(column, `%${searchData.split("%").reverse().join("%")}%`)
       .orWhereLike("notes", `%${searchData}%`)
       .orderBy(column, "asc");
+  }, */
+
+  // выборка записей для автофильтра //
+  async findEntriesForQuickFilter({ table, column, string, respCol }) {
+    const searchData = `%${string}%`.replace(regExpForFilter, "%");
+    return db(table)
+      .returning(respCol)
+      .whereLike(column, `%${searchData}%`)
+      .orWhereLike(column, `%${searchData.split("%").reverse().join("%")}%`)
+      .orWhereLike("notes", `%${searchData}%`)
+      .orderBy(column, "asc");
   },
-  // не строгий поиск записей по строке
+
+  // не строгий поиск записей по строке //
   findLikeEntrie({ table, searchColumn, searchData }) {
     console.log(searchData);
     return db(table).whereLike(searchColumn, searchData).orderBy(searchColumn);
   },
 
-  // строгий поиск записей по строке
-  async findEntry({ table, searchColumn, searchData }) {
-    return db(table).where(searchColumn, searchData);
+  // строгий поиск записей по строке //
+  async findEntry({ table, searchColumn, searchData, respCol }) {
+    return db(table).returning(respCol).where(searchColumn, searchData);
   },
 
-  async addEntry({ table, dataObj, resp }) {
-    return db(table).returning(resp).insert(dataObj);
+  // добавить запись //
+  async addEntry({ table, dataObj, respCol }) {
+    return db(table).returning(respCol).insert(dataObj);
   },
 
-  async editEntry({ table, dataObj, resp }) {
-    return db(table).returning(resp).where({ id: dataObj.id }).update(dataObj);
+  // редактировать запись //
+  async editEntry({ table, dataObj, respCol }) {
+    return db(table)
+      .returning(respCol)
+      .where({ id: dataObj.id })
+      .update(dataObj);
   },
 
+  // получить все записи //
   async getAllEntries(table, columns) {
     return db
       .column(...columns)
@@ -60,6 +77,7 @@ module.exports = DB = {
       .from(table);
   },
 
+  // удалить запись //
   delete(id) {
     return db("items").del().where({ id });
   },

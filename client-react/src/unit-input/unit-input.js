@@ -10,7 +10,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { changeValue } from "../Store/Slices/slice-vendor-codes";
 
-import { unit as arrWithUnit } from "../../../components/items-db_schema";
+import { unit as arrWithUnit } from "../../../components/vendor-codes-db_schema";
 
 const unitForSelect = arrWithUnit.unitArr;
 

@@ -19,7 +19,7 @@ import {
   setUserEditData,
 } from "../Store/Slices/slice-users";
 
-import allMenuActions from "./menu-actions";
+import allMenuActions from "../components/menu-actions-users";
 
 export default function UsersEditPage() {
   const dispatch = useDispatch();

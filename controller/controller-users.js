@@ -6,15 +6,13 @@ const testingDataFromInput = require("../components/testing-data-from-input");
 
 // class authController {}
 
-async function getAllUsers(req, res) {
+async function getAll(req, res) {
   try {
-    const resp = await DB.getAllEntries("users", [
-      "id",
-      "login",
-      "name",
-      "accessLevel",
-      "createdAt",
-    ]);
+    const resp = await DB.getAllEntries({
+      table: "users",
+      respCol: ["id", "login", "name", "accessLevel", "createdAt"],
+    });
+
     return res.json(resp);
   } catch (e) {
     res
@@ -23,7 +21,7 @@ async function getAllUsers(req, res) {
   }
 }
 
-async function addUser(req, res) {
+async function add(req, res) {
   const table = "users";
 
   try {
@@ -57,7 +55,7 @@ async function addUser(req, res) {
     res.status(400).json({ error: "Ошибка при добавлении пользователя" });
   }
 }
-async function editUser(req, res) {
+async function edit(req, res) {
   try {
     const userData = testingDataFromInput(
       { ...usersDbSchema, pass: null },
@@ -85,7 +83,6 @@ async function editUser(req, res) {
         respCol: "login",
       })
     )[0];
-    console.log(login);
     return res.json(login);
   } catch (e) {
     res.status(400).json({ error: "Ошибка при изменении данных пользователя" });
@@ -117,7 +114,7 @@ async function changePass(req, res) {
   }
 }
 
-async function disableUser(req, res) {
+async function disable(req, res) {
   try {
     const userData = testingDataFromInput(
       { accessLevel: usersDbSchema.accessLevel },
@@ -142,4 +139,4 @@ async function disableUser(req, res) {
   }
 }
 
-module.exports = { addUser, editUser, changePass, disableUser, getAllUsers };
+module.exports = { add, edit, changePass, disable, getAll };

@@ -24,16 +24,6 @@ query
 // ------------
 
 module.exports = DB = {
-  /*   filterRecords({ table, column, string }) {
-    const searchData = `%${string}%`.replace(regExpForFilter, "%");
-
-    return db(table)
-      .whereLike(column, `%${searchData}%`)
-      .orWhereLike(column, `%${searchData.split("%").reverse().join("%")}%`)
-      .orWhereLike("notes", `%${searchData}%`)
-      .orderBy(column, "asc");
-  }, */
-
   // выборка записей для автофильтра //
   async findEntriesForQuickFilter({ table, column, string, respCol }) {
     const searchData = `%${string}%`.replace(regExpForFilter, "%");
@@ -70,9 +60,9 @@ module.exports = DB = {
   },
 
   // получить все записи //
-  async getAllEntries(table, columns) {
+  async getAllEntries({ table, respCol }) {
     return db
-      .column(...columns)
+      .column(...respCol)
       .select()
       .from(table);
   },

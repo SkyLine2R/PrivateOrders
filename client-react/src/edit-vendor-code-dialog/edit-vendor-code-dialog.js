@@ -8,7 +8,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Box from "@mui/material/Box";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 
-import dbSchema from "../../../components/items-db_schema";
+import dbSchema from "../../../components/vendor-codes-db_schema";
 import sendNewEntryToDB from "../Store/sendNewEntryToDB";
 import {
   setModalWindowVendorCodeOpen,

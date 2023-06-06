@@ -7,19 +7,26 @@ const itemsController = require("../controller/controller-items");
 
 router.post("/users", (req, res) => {
   // добавить проверку прав доступа
+  /*   console.log(req.body.type);
+  if (!Object.prototype.hasOwnProperty.call(usersController, req.body.type))
+    return res.json({
+      error: "Ошибка в запросе к БД",
+    });
+  return res.json(usersController[req.body.type](req, res)); */
+
   switch (req.body.type) {
     case "get":
       return res.json("В процессе допила");
     case "getAll":
-      return usersController.getAllUsers(req, res);
+      return usersController.getAll(req, res);
     case "add":
-      return usersController.addUser(req, res);
+      return usersController.add(req, res);
     case "editUser":
-      return usersController.editUser(req, res);
+      return usersController.edit(req, res);
     case "changePass":
       return usersController.changePass(req, res);
     case "disableUser":
-      return usersController.disableUser(req, res);
+      return usersController.disable(req, res);
     default:
       return res.json({
         error: "Ошибка в запросе к БД",
@@ -33,22 +40,6 @@ router.post("/vendorCodes", (req, res) => {
       return itemsController.getFiltered(req, res);
     case "add":
       return itemsController.add(req, res);
-
-    /*     case "add": // запрос на добавление артикула в БД
-      DB.addEntry({
-        table: "items",
-        dataObj: { ...req.body.data, createdBy: 1 },
-        res,
-      }) // createdBy - сделать подстановку имени пользователя
-        .then((result) => {
-          res.json(result);
-        })
-        .catch((err) =>
-          res.json({
-            error: `Ошибка при добавлении нового артикула в базу данных \n ${err}`,
-          })
-        );
-      break; */
     default:
       return res.json({
         error: "Ошибка в запросе к БД",

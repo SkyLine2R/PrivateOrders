@@ -9,7 +9,7 @@ import FieldForInput from "../field-for-input/field-for-input";
 import fetchVendorCodes from "../Store/fetchVendorCodes";
 import { changeValue } from "../Store/Slices/slice-vendor-codes";
 
-import dbSchema from "../../../components/items-db_schema";
+import dbSchema from "../../../components/vendor-codes-db_schema";
 
 export default function EditVendorCodeForm() {
   const dispatch = useDispatch();

@@ -36,6 +36,8 @@ router.post("/users", (req, res) => {
 
 router.post("/vendorCodes", (req, res) => {
   switch (req.body.type) {
+    case "getAll":
+      return itemsController.getAll(req, res);
     case "getFiltered":
       return itemsController.getFiltered(req, res);
     case "add":

@@ -5,6 +5,18 @@ const testingDataFromInput = require("../components/testing-data-from-input");
 
 // class authController {}
 
+async function getAll(req, res) {
+  try {
+    const resp = await DB.getAllEntries({
+      table: "items",
+      respCol: ["id", "vendorCode", "itemName", "unit", "quantity", "notes"],
+    });
+    return res.json(resp);
+  } catch (e) {
+    res.status(400).json({ error: "Ошибка БД при получении артикулов" });
+  }
+}
+
 async function getFiltered(req, res) {
   try {
     const resp = await DB.findEntriesForQuickFilter({
@@ -39,5 +51,6 @@ async function add(req, res) {
 
 module.exports = {
   getFiltered,
+  getAll,
   add,
 };

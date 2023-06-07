@@ -9,6 +9,7 @@ import MenuAppBar from "./menu-app-bar/menu-app-bar";
 
 import Login from "./login-form/login-form";
 import Users from "./edit-users-page/edit-users-page";
+import VendorCodes from "./edit-vendor-code-page/edit-vendor-code-page";
 
 // тестовые данные. Заменятся состоянием из Redux
 const openDocuments = {
@@ -49,6 +50,7 @@ export default function App() {
 
           <Route path="/stock" element={<Stock />} />
           <Route path="/users" element={<Users />} />
+          <Route path="vendor-codes" element={<VendorCodes />} />
           <Route
             path="/receipt"
             element={

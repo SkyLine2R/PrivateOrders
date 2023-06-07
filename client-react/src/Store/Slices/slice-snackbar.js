@@ -66,6 +66,16 @@ const snackbar = createSlice({
 
         setSnackbar(state, "success", `${msg} обновлены`);
       })
+      .addCase(fetchEntries.fulfilled, (state, { payload }) => {
+        if (state.open) return;
+        setSnackbar(
+          state,
+          "success",
+          payload.data.length
+            ? "Загружены обновлённые данные"
+            : "В базе нет таких данных"
+        );
+      })
       .addCase(fetchEntries.rejected, (state, { payload }) => {
         setSnackbar(
           state,

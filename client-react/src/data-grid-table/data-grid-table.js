@@ -6,6 +6,7 @@ import { DataGrid, ruRU } from "@mui/x-data-grid";
 
 // Столбец с нумерацией
 function colNaming(items) {
+  // добавить нумерацию
   const columns = [
     {
       field: "number",

@@ -32,6 +32,7 @@ export default function SpeedDialMenu({ menuParams, onClick, onMouseLeave }) {
           <SpeedDialAction
             key={name}
             id={name}
+            pressed-button={name}
             icon={icon}
             tooltipTitle={tooltipTitle}
           />

@@ -18,10 +18,11 @@ export default function EditItemsPage({
   dataArr,
   allMenuActions,
   dbSchema,
+  setModalWindowOpen,
 }) {
   const dispatch = useDispatch();
 
-  const [menuEditType, setmenuEditType] = React.useState("addUser");
+  const [menuEditType, setMenuEditType] = React.useState("");
   const [menuParams, setMenuParams] = React.useState({
     x: 0,
     y: 0,
@@ -49,7 +50,7 @@ export default function EditItemsPage({
         x: e.clientX,
         y: e.clientY,
         hidden: false,
-        actions: [allMenuActions[3]],
+        actions: [allMenuActions[allMenuActions.length - 1]],
         id: null,
       });
     }
@@ -72,20 +73,18 @@ export default function EditItemsPage({
   const handleMenuSelect = (e) => {
     e.stopPropagation();
 
-    const clickedLabel = e.target.closest("button").ariaLabel;
+    const pressedButton = e.target
+      .closest("button")
+      .getAttribute("pressed-button");
 
-    const selectMenu = allMenuActions.find(
-      ({ tooltipTitle }) => tooltipTitle === clickedLabel
-    )?.name;
     handleOffMenu();
-    console.log(e);
-    console.log(e.target.closest("button").ariaLabel);
-    console.log(selectMenu);
+    setMenuEditType(pressedButton);
 
-    setmenuEditType(selectMenu);
-    const itemData = dataArr.find((item) => item.id === menuParams.id);
+    dispatch(setModalWindowOpen());
 
-    switch (selectMenu) {
+    /* 
+    console.log(pressedButton);
+    switch (pressedButton) {
       case "addUser":
         dispatch(setModalWindowOpen());
         break;
@@ -109,7 +108,7 @@ export default function EditItemsPage({
         break;
       default:
         console.log("nothin");
-    }
+    } */
   };
 
   return (

@@ -39,7 +39,16 @@ const vendorCodes = createSlice({
         (item) => item.id === payload.id
       )[payload.fieldId];
     },
+
+    setEditData: ({ inputFields }, { payload }) => {
+      inputFields.vendorCode = payload.vendorCode;
+      inputFields.itemName = payload.itemName;
+      inputFields.unit = payload.unit;
+      inputFields.quantity = payload.quantity;
+      inputFields.notes = payload.notes;
+    },
   },
+
   extraReducers: (builder) => {
     builder
       .addCase(serverRequest.pending, ({ request }, action) => {
@@ -80,12 +89,15 @@ const vendorCodes = createSlice({
           quantity: 0,
           notes: "",
         };
-        state.vendorCodesArr = [];
       });
   },
 });
 
-export const { setModalWindowVendorCodeOpen, changeValue, copyPasteValue } =
-  vendorCodes.actions;
+export const {
+  setModalWindowVendorCodeOpen,
+  changeValue,
+  copyPasteValue,
+  setEditData,
+} = vendorCodes.actions;
 
 export default vendorCodes.reducer;

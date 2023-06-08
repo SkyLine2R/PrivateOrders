@@ -9,6 +9,7 @@ import DataGrid from "../data-grid-table/data-grid-table";
 import SpeedDialMenu from "../speed-dial-menu/speed-dial-menu";
 import sendChangedEntryToDB from "../Store/sendChangedEntryToDB";
 import fetchEntries from "../Store/fetchEntries";
+import { setEditData } from "../Store/Slices/slice-vendor-codes";
 
 export default function EditItemsPage({
   headerText,
@@ -77,9 +78,14 @@ export default function EditItemsPage({
       .closest("button")
       .getAttribute("pressed-button");
 
-    handleOffMenu();
     setMenuEditType(pressedButton);
 
+    if (pressedButton === "delete") return alert("Функция в разработке");
+    if (pressedButton === "edit") {
+      // заполнить форуму
+      dispatch(setEditData(dataArr.find((item) => item.id === menuParams.id)));
+    }
+    handleOffMenu();
     dispatch(setModalWindowOpen());
 
     /* 
@@ -131,7 +137,7 @@ export default function EditItemsPage({
         </Typography>
       </Box>
       {modalWindowOpen ? (
-        <EditDialog menuEditType={menuEditType} userId={menuParams.id} />
+        <EditDialog menuEditType={menuEditType} itemId={menuParams.id} />
       ) : (
         <SpeedDialMenu
           menuParams={menuParams}

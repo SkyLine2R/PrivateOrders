@@ -10,8 +10,6 @@ import dbSchema from "../../../components/vendor-codes-db_schema";
 
 import { setModalWindowVendorCodeOpen } from "../Store/Slices/slice-vendor-codes";
 
-import sendChangedEntryToDB from "../Store/sendChangedEntryToDB";
-
 import fetchEntries from "../Store/fetchEntries";
 
 export default function EditVendorCodePage() {

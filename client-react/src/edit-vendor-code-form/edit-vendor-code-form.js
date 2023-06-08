@@ -1,28 +1,19 @@
 import * as React from "react";
 import FormGroup from "@mui/material/FormGroup";
 import Grid from "@mui/material/Unstable_Grid2";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { useSelector, shallowEqual } from "react-redux";
 
 import SelectItemUnit from "../unit-input/unit-input";
 import FieldForInput from "../field-for-input/field-for-input";
 
-import fetchVendorCodes from "../Store/fetchVendorCodes";
 import { changeValue } from "../Store/Slices/slice-vendor-codes";
 
 import dbSchema from "../../../components/vendor-codes-db_schema";
 
 export default function EditVendorCodeForm() {
-  const dispatch = useDispatch();
-
   const { vendorCode, itemName, quantity, notes } = useSelector(
     ({ vendorCodes }) => vendorCodes.inputFields,
     shallowEqual
-  );
-
-  // при изменении артикула или наименования - запрос на сервер
-  React.useEffect(
-    () => dispatch(fetchVendorCodes()),
-    [dispatch, vendorCode, itemName]
   );
 
   return (

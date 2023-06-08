@@ -42,6 +42,8 @@ router.post("/vendorCodes", (req, res) => {
       return itemsController.getFiltered(req, res);
     case "add":
       return itemsController.add(req, res);
+    case "edit":
+      return itemsController.edit(req, res);
     default:
       return res.json({
         error: "Ошибка в запросе к БД",

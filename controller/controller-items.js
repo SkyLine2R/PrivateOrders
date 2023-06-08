@@ -49,8 +49,33 @@ async function add(req, res) {
   }
 }
 
+async function edit(req, res) {
+  try {
+    console.log(req.body.data);
+    const itemData = testingDataFromInput(
+      { ...itemsDbSchema, id: null },
+      req.body.data
+    );
+
+    if (itemData.error) return res.json(itemData.error);
+
+    const item = (
+      await DB.editEntry({
+        table: "items",
+        dataObj: { ...itemData, createdBy: 1 }, // добавить подстановку ID редактировавшего
+        respCol: ["id", "vendorCode"],
+      })
+    )[0];
+    console.log(item);
+    return res.json(item);
+  } catch (e) {
+    res.status(400).json({ error: "Ошибка при изменении данных артикула" });
+  }
+}
+
 module.exports = {
   getFiltered,
   getAll,
   add,
+  edit,
 };

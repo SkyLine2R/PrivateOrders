@@ -14,10 +14,7 @@ import sendChangedEntryToDB from "../Store/sendChangedEntryToDB";
 
 import fetchEntries from "../Store/fetchEntries";
 
-import {
-  setModalWindowUsersEditOpen,
-  setUserEditData,
-} from "../Store/Slices/slice-users";
+import { setModalWindowUsersEditOpen } from "../Store/Slices/slice-users";
 
 import allMenuActions from "../components/menu-actions-users";
 
@@ -99,16 +96,8 @@ export default function UsersEditPage() {
       case "addUser":
         dispatch(setModalWindowUsersEditOpen());
         break;
-      case "editUser":
-        dispatch(setUserEditData(userData));
-        dispatch(setModalWindowUsersEditOpen());
-        break;
-      case "changePass":
-        dispatch(setUserEditData(userData));
-        dispatch(setModalWindowUsersEditOpen());
-        break;
       case "disableUser":
-        dispatch(setUserEditData({ ...userData, accessLevel: 1 }));
+        dispatch(setModalWindowUsersEditOpen({ ...userData, accessLevel: 1 }));
         dispatch(
           sendChangedEntryToDB({
             dbSchema: { id: null, accessLevel: dbSchema.accessLevel },
@@ -116,9 +105,10 @@ export default function UsersEditPage() {
             type: "disableUser",
           })
         );
+        dispatch(setModalWindowUsersEditOpen());
         break;
       default:
-        console.log("nothin");
+        dispatch(setModalWindowUsersEditOpen(userData));
     }
   };
 

@@ -9,7 +9,6 @@ import DataGrid from "../data-grid-table/data-grid-table";
 import SpeedDialMenu from "../speed-dial-menu/speed-dial-menu";
 import sendChangedEntryToDB from "../Store/sendChangedEntryToDB";
 import fetchEntries from "../Store/fetchEntries";
-import { setEditData } from "../Store/Slices/slice-vendor-codes";
 
 export default function EditItemsPage({
   headerText,
@@ -81,41 +80,23 @@ export default function EditItemsPage({
     setMenuEditType(pressedButton);
 
     if (pressedButton === "delete") return alert("Функция в разработке");
-    if (pressedButton === "edit") {
-      // заполнить форуму
-      dispatch(setEditData(dataArr.find((item) => item.id === menuParams.id)));
-    }
-    handleOffMenu();
+    if (pressedButton === "edit")
+      return dispatch(
+        setModalWindowOpen(dataArr.find((item) => item.id === menuParams.id))
+      );
     dispatch(setModalWindowOpen());
-
-    /* 
-    console.log(pressedButton);
-    switch (pressedButton) {
-      case "addUser":
-        dispatch(setModalWindowOpen());
-        break;
-      case "editUser":
-        dispatch(setUserEditData(userData));
-        dispatch(setModalWindowOpen());
-        break;
-      case "changePass":
-        dispatch(setUserEditData(userData));
-        dispatch(setModalWindowOpen());
-        break;
-      case "disableUser":
-        dispatch(setUserEditData({ ...userData, accessLevel: 1 }));
-        dispatch(
-          sendChangedEntryToDB({
-            dbSchema: { id: null, accessLevel: dbSchema.accessLevel },
-            api: "users",
-            type: "disableUser",
-          })
-        );
-        break;
-      default:
-        console.log("nothin");
-    } */
+    return handleOffMenu();
   };
+
+  /*   const handleSendChangeItem = () => {
+    dispatch(
+      sendChangedEntryToDB({
+        dbSchema: { ...dbSchema, id: null },
+        api: "vendorCodes",
+        type: "edit",
+      })
+    );
+  }; */
 
   return (
     <Container

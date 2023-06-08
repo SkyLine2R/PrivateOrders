@@ -4,12 +4,28 @@ import fetchVendorCodes from "../fetchVendorCodes";
 import fetchEntries from "../fetchEntries";
 import serverRequest from "../serverRequest";
 import sendNewEntryToDB from "../sendNewEntryToDB";
+import sendChangedEntryToDB from "../sendChangedEntryToDB";
+
+const successSending = (state, payload) => {
+  if (payload.api !== "vendorCodes") return;
+
+  state.lastVendorCodeId = payload.data.id;
+  state.modalWindowVendorCodeOpen = false;
+  state.inputFields = {
+    vendorCode: "",
+    itemName: "",
+    unit: 0,
+    quantity: 0,
+    notes: "",
+  };
+};
 
 const vendorCodes = createSlice({
   name: "vendorCodes",
   initialState: {
     modalWindowVendorCodeOpen: false,
     inputFields: {
+      id: null,
       vendorCode: "",
       itemName: "",
       unit: "0",
@@ -26,7 +42,13 @@ const vendorCodes = createSlice({
   },
 
   reducers: {
-    setModalWindowVendorCodeOpen: (state) => {
+    setModalWindowVendorCodeOpen: (state, { payload }) => {
+      state.inputFields.id = payload?.id || "";
+      state.inputFields.vendorCode = payload?.vendorCode || "";
+      state.inputFields.itemName = payload?.itemName || "";
+      state.inputFields.unit = payload?.unit || 0;
+      state.inputFields.quantity = payload?.quantity || 1;
+      state.inputFields.notes = payload?.notes || "";
       state.modalWindowVendorCodeOpen = !state.modalWindowVendorCodeOpen;
     },
 
@@ -38,14 +60,6 @@ const vendorCodes = createSlice({
       inputFields[payload.fieldId] = vendorCodesArr.find(
         (item) => item.id === payload.id
       )[payload.fieldId];
-    },
-
-    setEditData: ({ inputFields }, { payload }) => {
-      inputFields.vendorCode = payload.vendorCode;
-      inputFields.itemName = payload.itemName;
-      inputFields.unit = payload.unit;
-      inputFields.quantity = payload.quantity;
-      inputFields.notes = payload.notes;
     },
   },
 
@@ -77,27 +91,18 @@ const vendorCodes = createSlice({
       .addCase(sendNewEntryToDB.pending, (state) => {
         state.lastVendorCodeId = null;
       })
-      .addCase(sendNewEntryToDB.fulfilled, (state, { payload }) => {
-        if (payload.api !== "vendorCodes") return;
 
-        state.lastVendorCodeId = payload.data.id;
-        state.modalWindowVendorCodeOpen = false;
-        state.inputFields = {
-          vendorCode: "",
-          itemName: "",
-          unit: 0,
-          quantity: 0,
-          notes: "",
-        };
-      });
+      .addCase(sendNewEntryToDB.fulfilled, (state, { payload }) =>
+        successSending(state, payload)
+      )
+
+      .addCase(sendChangedEntryToDB.fulfilled, (state, { payload }) =>
+        successSending(state, payload)
+      );
   },
 });
 
-export const {
-  setModalWindowVendorCodeOpen,
-  changeValue,
-  copyPasteValue,
-  setEditData,
-} = vendorCodes.actions;
+export const { setModalWindowVendorCodeOpen, changeValue, copyPasteValue } =
+  vendorCodes.actions;
 
 export default vendorCodes.reducer;

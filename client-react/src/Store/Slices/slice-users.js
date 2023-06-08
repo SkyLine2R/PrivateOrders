@@ -5,7 +5,9 @@ import fetchEntries from "../fetchEntries";
 import sendNewEntryToDB from "../sendNewEntryToDB";
 import sendChangedEntryToDB from "../sendChangedEntryToDB";
 
-const clearInputFieldsUsersState = (state) => {
+const successSending = (state, payload) => {
+  if (payload.api !== "users") return;
+  state.modalWindowUsersEditOpen = false;
   state.inputFields = {
     id: null,
     login: "",
@@ -32,16 +34,11 @@ const users = createSlice({
       inputFields[payload.fieldId] = payload.value;
     },
     setModalWindowUsersEditOpen: (state, { payload }) => {
+      state.inputFields.id = payload?.id || 0;
+      state.inputFields.login = payload?.login || "";
+      state.inputFields.name = payload?.name || "";
+      state.inputFields.accessLevel = payload?.accessLevel || 0;
       state.modalWindowUsersEditOpen = !state.modalWindowUsersEditOpen;
-      // если окно открывалось для редактирования пользователя - очистить данные пользователя
-      if (!state.modalWindowUsersEditOpen && payload === "editUser")
-        clearInputFieldsUsersState(state);
-    },
-    setUserEditData: ({ inputFields }, { payload }) => {
-      inputFields.id = payload.id;
-      inputFields.login = payload.login;
-      inputFields.name = payload.name;
-      inputFields.accessLevel = payload.accessLevel;
     },
   },
   extraReducers: (builder) => {
@@ -66,18 +63,12 @@ const users = createSlice({
         state.lastVendorCodeId = null;
       }) */
 
-      .addCase(sendNewEntryToDB.fulfilled, (state, { payload }) => {
-        if (payload.api !== "users") return;
-        state.modalWindowUsersEditOpen = false;
-        clearInputFieldsUsersState(state);
-        state.usersArr = [];
-      })
-      .addCase(sendChangedEntryToDB.fulfilled, (state, { payload }) => {
-        if (payload.api !== "users") return;
-        state.modalWindowUsersEditOpen = false;
-        clearInputFieldsUsersState(state);
-        state.usersArr = [];
-      });
+      .addCase(sendNewEntryToDB.fulfilled, (state, { payload }) =>
+        successSending(state, payload)
+      )
+      .addCase(sendChangedEntryToDB.fulfilled, (state, { payload }) =>
+        successSending(state, payload)
+      );
   },
 });
 

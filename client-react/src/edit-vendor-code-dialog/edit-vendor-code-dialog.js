@@ -24,7 +24,7 @@ import DataGrid from "../data-grid-table/data-grid-table";
 import EditVendorCodeForm from "../edit-vendor-code-form/edit-vendor-code-form";
 import sendChangedEntryToDB from "../Store/sendChangedEntryToDB";
 
-export default function FormDialog({ menuEditType }) {
+export default function FormDialog({ menuEditType, handleSendChangeItem }) {
   const dispatch = useDispatch();
 
   const { modalWindowVendorCodeOpen } = useSelector(
@@ -48,8 +48,15 @@ export default function FormDialog({ menuEditType }) {
     dispatch(sendNewEntryToDB({ dbSchema, api: "vendorCodes" }));
   };
   const handleEditVendorCode = () => {
-    dispatch(sendNewEntryToDB({ dbSchema, api: "vendorCodes" }));
+    dispatch(
+      sendChangedEntryToDB({
+        dbSchema: { ...dbSchema, id: null },
+        api: "vendorCodes",
+        type: "edit",
+      })
+    );
   };
+
   const { vendorCodesArr } = useSelector(
     ({ vendorCodes }) => vendorCodes,
     shallowEqual

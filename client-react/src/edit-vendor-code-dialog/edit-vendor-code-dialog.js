@@ -15,16 +15,13 @@ import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import dbSchema from "../../../components/vendor-codes-db_schema";
 import fetchVendorCodes from "../Store/fetchVendorCodes";
 import sendNewEntryToDB from "../Store/sendNewEntryToDB";
-import {
-  setModalWindowVendorCodeOpen,
-  copyPasteValue,
-} from "../Store/Slices/slice-vendor-codes";
+import { copyPasteValue } from "../Store/Slices/slice-vendor-codes";
 
 import DataGrid from "../data-grid-table/data-grid-table";
 import EditVendorCodeForm from "../edit-vendor-code-form/edit-vendor-code-form";
 import sendChangedEntryToDB from "../Store/sendChangedEntryToDB";
 
-export default function FormDialog({ menuEditType, handleSendChangeItem }) {
+export default function FormDialog({ menuEditType, handleClickOpenClose }) {
   const dispatch = useDispatch();
 
   const { modalWindowVendorCodeOpen } = useSelector(
@@ -41,9 +38,9 @@ export default function FormDialog({ menuEditType, handleSendChangeItem }) {
     [dispatch, vendorCode, itemName]
   );
 
-  const handleClickOpenClose = () => {
+  /*   const handleClickOpenClose = () => {
     dispatch(setModalWindowVendorCodeOpen());
-  };
+  }; */
   const handleAddNewVendorCode = () => {
     dispatch(sendNewEntryToDB({ dbSchema, api: "vendorCodes" }));
   };

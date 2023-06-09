@@ -8,7 +8,7 @@ import PersonAdd from "@mui/icons-material/PersonAdd";
 const allMenuActions = [
   {
     icon: <ManageAccounts />,
-    name: "editUser",
+    name: "edit",
     tooltipTitle: "Изменить данные пользователя",
   },
   {
@@ -23,7 +23,7 @@ const allMenuActions = [
   },
   {
     icon: <PersonAdd />,
-    name: "addUser",
+    name: "add",
     tooltipTitle: "Добавить нового пользователя",
   },
 ];

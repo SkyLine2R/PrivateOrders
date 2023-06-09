@@ -10,7 +10,7 @@ const successSending = (state, payload) => {
   if (payload.api !== "vendorCodes") return;
 
   state.lastVendorCodeId = payload.data.id;
-  state.modalWindowVendorCodeOpen = false;
+  state.modalWindowIsOpen = false;
   state.inputFields = {
     vendorCode: "",
     itemName: "",
@@ -23,7 +23,7 @@ const successSending = (state, payload) => {
 const vendorCodes = createSlice({
   name: "vendorCodes",
   initialState: {
-    modalWindowVendorCodeOpen: false,
+    modalWindowIsOpen: false,
     inputFields: {
       id: null,
       vendorCode: "",
@@ -32,7 +32,7 @@ const vendorCodes = createSlice({
       quantity: "1",
       notes: "",
     },
-    vendorCodesArr: [],
+    catalog: [],
     request: {
       status: null,
       error: null,
@@ -42,22 +42,22 @@ const vendorCodes = createSlice({
   },
 
   reducers: {
-    setModalWindowVendorCodeOpen: (state, { payload }) => {
+    setModalWindowIsOpen: (state, { payload }) => {
       state.inputFields.id = payload?.id || "";
       state.inputFields.vendorCode = payload?.vendorCode || "";
       state.inputFields.itemName = payload?.itemName || "";
       state.inputFields.unit = payload?.unit || 0;
       state.inputFields.quantity = payload?.quantity || 1;
       state.inputFields.notes = payload?.notes || "";
-      state.modalWindowVendorCodeOpen = !state.modalWindowVendorCodeOpen;
+      state.modalWindowIsOpen = !state.modalWindowIsOpen;
     },
 
     changeValue: ({ inputFields }, { payload }) => {
       inputFields[payload.fieldId] = payload.value;
     },
 
-    copyPasteValue: ({ vendorCodesArr, inputFields }, { payload }) => {
-      inputFields[payload.fieldId] = vendorCodesArr.find(
+    copyPasteValue: ({ catalog, inputFields }, { payload }) => {
+      inputFields[payload.fieldId] = catalog.find(
         (item) => item.id === payload.id
       )[payload.fieldId];
     },
@@ -81,11 +81,11 @@ const vendorCodes = createSlice({
       })
 
       .addCase(fetchVendorCodes.fulfilled, (state, { payload }) => {
-        state.vendorCodesArr = payload.data || [];
+        state.catalog = payload.data || [];
       })
       .addCase(fetchEntries.fulfilled, (state, { payload }) => {
         if (payload.api !== "vendorCodes") return;
-        state.vendorCodesArr = payload.data || [];
+        state.catalog = payload.data || [];
       })
 
       .addCase(sendNewEntryToDB.pending, (state) => {
@@ -102,7 +102,7 @@ const vendorCodes = createSlice({
   },
 });
 
-export const { setModalWindowVendorCodeOpen, changeValue, copyPasteValue } =
+export const { setModalWindowIsOpen, changeValue, copyPasteValue } =
   vendorCodes.actions;
 
 export default vendorCodes.reducer;

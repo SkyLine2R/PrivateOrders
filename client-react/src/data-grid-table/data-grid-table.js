@@ -27,12 +27,12 @@ function colNaming(items) {
 }
 
 // нормализация данных для таблицы
-function normalizeRowsData(items, dataArr) {
+function normalizeRowsData(items, catalog) {
   const rowsName = Object.keys(items);
 
   let rows = [];
-  if (dataArr) {
-    rows = dataArr.map((item) => {
+  if (catalog) {
+    rows = catalog.map((item) => {
       const obj = { id: item.id };
       for (const key of rowsName) {
         obj[key] = item[key];
@@ -50,7 +50,7 @@ function normalizeRowsData(items, dataArr) {
   return rowsData;
 }
 
-function DataGridTable({ dbSchema, dataArr, onCellClick }) {
+function DataGridTable({ dbSchema, catalog, onCellClick }) {
   const [colNameState, setColNameState] = React.useState([]); // наименования столбцов
   const [rowsDataState, setRowsDataState] = React.useState([]); // содержимое таблицы
 
@@ -59,8 +59,8 @@ function DataGridTable({ dbSchema, dataArr, onCellClick }) {
 
   // нормализация данных, если был новый запрос на сервер
   React.useEffect(
-    () => setRowsDataState(normalizeRowsData(dbSchema, dataArr)),
-    [dataArr, dbSchema]
+    () => setRowsDataState(normalizeRowsData(dbSchema, catalog)),
+    [catalog, dbSchema]
   );
 
   return (

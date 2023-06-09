@@ -93,7 +93,7 @@ export default function UsersEditPage() {
     const userData = usersArr.find((item) => item.id === menuParams.id);
 
     switch (selectMenu) {
-      case "addUser":
+      case "add":
         dispatch(setModalWindowUsersEditOpen());
         break;
       case "disableUser":

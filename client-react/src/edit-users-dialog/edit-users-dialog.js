@@ -13,10 +13,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { useDispatch, useSelector } from "react-redux";
 import FieldForInput from "../field-for-input/field-for-input";
 import AccessControlElement from "../access-control-element/access-control-element";
-import {
-  setModalWindowUsersEditOpen,
-  changeValue,
-} from "../Store/Slices/slice-users";
+import { setModalWindowIsOpen, changeValue } from "../Store/Slices/slice-users";
 import sendNewEntryToDB from "../Store/sendNewEntryToDB";
 import sendChangedEntryToDB from "../Store/sendChangedEntryToDB";
 import dbSchema from "../../../components/users-db_schema";
@@ -26,11 +23,11 @@ export default function FormDialog({ userEditType }) {
     (state) => state.users.inputFields
   );
 
-  const { modalWindowUsersEditOpen } = useSelector((state) => state.users);
+  const { modalWindowIsOpen } = useSelector((state) => state.users);
   const dispatch = useDispatch();
 
   const handleClickOpenClose = () => {
-    dispatch(setModalWindowUsersEditOpen(userEditType));
+    dispatch(setModalWindowIsOpen(userEditType));
   };
 
   const handleChangeAccessLevel = (_, newValue) => {
@@ -71,7 +68,7 @@ export default function FormDialog({ userEditType }) {
       <Dialog
         fullWidth
         maxWidth="xs"
-        open={modalWindowUsersEditOpen}
+        open={modalWindowIsOpen}
         onClose={handleClickOpenClose}
       >
         <DialogTitle sx={{ paddingLeft: "30px" }}>

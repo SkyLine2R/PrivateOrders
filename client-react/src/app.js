@@ -8,7 +8,8 @@ import Stock from "./stock-of-materials-page/stock-of-materials-page";
 import MenuAppBar from "./menu-app-bar/menu-app-bar";
 
 import Login from "./login-form/login-form";
-import Users from "./edit-users-page/edit-users-page";
+/* import Users from "./edit-users-page/edit-users-page"; */
+import Users from "./edit-users-page/edit-users-page1";
 import VendorCodes from "./edit-vendor-code-page/edit-vendor-code-page";
 
 // тестовые данные. Заменятся состоянием из Redux

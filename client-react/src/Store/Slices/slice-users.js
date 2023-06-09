@@ -7,7 +7,7 @@ import sendChangedEntryToDB from "../sendChangedEntryToDB";
 
 const successSending = (state, payload) => {
   if (payload.api !== "users") return;
-  state.modalWindowUsersEditOpen = false;
+  state.modalWindowIsOpen = false;
   state.inputFields = {
     id: null,
     login: "",
@@ -20,9 +20,9 @@ const successSending = (state, payload) => {
 const users = createSlice({
   name: "user",
   initialState: {
-    modalWindowUsersEditOpen: false,
+    modalWindowIsOpen: false,
     inputFields: { id: null, login: "", name: "", pass: "", accessLevel: 0 },
-    usersArr: [],
+    catalog: [],
     request: {
       status: null,
       error: null,
@@ -33,12 +33,12 @@ const users = createSlice({
     changeValue: ({ inputFields }, { payload }) => {
       inputFields[payload.fieldId] = payload.value;
     },
-    setModalWindowUsersEditOpen: (state, { payload }) => {
+    setModalWindowIsOpen: (state, { payload }) => {
       state.inputFields.id = payload?.id || 0;
       state.inputFields.login = payload?.login || "";
       state.inputFields.name = payload?.name || "";
       state.inputFields.accessLevel = payload?.accessLevel || 0;
-      state.modalWindowUsersEditOpen = !state.modalWindowUsersEditOpen;
+      state.modalWindowIsOpen = !state.modalWindowIsOpen;
     },
   },
   extraReducers: (builder) => {
@@ -57,7 +57,7 @@ const users = createSlice({
       })
       .addCase(fetchEntries.fulfilled, (state, { payload }) => {
         if (payload.api !== "users") return;
-        state.usersArr = payload.data || [];
+        state.catalog = payload.data || [];
       })
       /*       .addCase(sendNewEntryToDB.pending, (state) => {
         state.lastVendorCodeId = null;
@@ -72,7 +72,7 @@ const users = createSlice({
   },
 });
 
-export const { changeValue, setModalWindowUsersEditOpen, setUserEditData } =
+export const { changeValue, setModalWindowIsOpen, setUserEditData } =
   users.actions;
 
 export default users.reducer;

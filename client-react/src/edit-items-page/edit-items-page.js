@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import * as React from "react";
 import Container from "@mui/material/Container";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
@@ -11,16 +11,17 @@ import sendChangedEntryToDB from "../Store/sendChangedEntryToDB";
 import fetchEntries from "../Store/fetchEntries";
 
 export default function EditItemsPage({
+  page,
   headerText,
   HeaderIcon,
   EditDialog,
-  modalWindowOpen,
-  dataArr,
   allMenuActions,
   dbSchema,
-  setModalWindowOpen,
+  setModalWindowIsOpen,
 }) {
   const dispatch = useDispatch();
+
+  React.useEffect(() => dispatch(fetchEntries(page)), [dispatch, page]);
 
   const [menuEditType, setMenuEditType] = React.useState("");
   const [menuParams, setMenuParams] = React.useState({
@@ -30,9 +31,13 @@ export default function EditItemsPage({
     actions: [],
     id: "",
   });
+  const { catalog, modalWindowIsOpen } = useSelector(
+    (state) => state[page],
+    shallowEqual
+  );
 
   const handleMenuInDataGrid = ({ id }, e) => {
-    if (!modalWindowOpen) {
+    if (!modalWindowIsOpen) {
       e.stopPropagation();
       setMenuParams({
         x: e.clientX,
@@ -45,7 +50,7 @@ export default function EditItemsPage({
   };
 
   const handleMenuInContainer = (e) => {
-    if (!modalWindowOpen) {
+    if (!modalWindowIsOpen) {
       setMenuParams({
         x: e.clientX,
         y: e.clientY,
@@ -77,26 +82,40 @@ export default function EditItemsPage({
       .closest("button")
       .getAttribute("pressed-button");
 
+    handleOffMenu();
     setMenuEditType(pressedButton);
 
-    if (pressedButton === "delete") return alert("Функция в разработке");
-    if (pressedButton === "edit")
-      return dispatch(
-        setModalWindowOpen(dataArr.find((item) => item.id === menuParams.id))
-      );
-    dispatch(setModalWindowOpen());
-    return handleOffMenu();
+    const params = menuParams.id
+      ? catalog.find((item) => item.id === menuParams.id)
+      : null;
+
+    switch (pressedButton) {
+      case "add":
+        return dispatch(setModalWindowIsOpen());
+      case "edit":
+        return dispatch(setModalWindowIsOpen(params));
+      case "delete":
+        return alert("Функция в разработке");
+      case "changePass":
+        return dispatch(setModalWindowIsOpen(params));
+      case "disableUser":
+        dispatch(setModalWindowIsOpen({ ...params, accessLevel: 1 }));
+        dispatch(
+          sendChangedEntryToDB({
+            dbSchema: { id: null, accessLevel: dbSchema.accessLevel },
+            api: "users",
+            type: "disableUser",
+          })
+        );
+        return dispatch(setModalWindowIsOpen());
+      default:
+        return "";
+    }
   };
 
-  /*   const handleSendChangeItem = () => {
-    dispatch(
-      sendChangedEntryToDB({
-        dbSchema: { ...dbSchema, id: null },
-        api: "vendorCodes",
-        type: "edit",
-      })
-    );
-  }; */
+  const handleClickOpenClose = () => {
+    dispatch(setModalWindowIsOpen());
+  };
 
   return (
     <Container
@@ -117,8 +136,12 @@ export default function EditItemsPage({
           {headerText}
         </Typography>
       </Box>
-      {modalWindowOpen ? (
-        <EditDialog menuEditType={menuEditType} itemId={menuParams.id} />
+      {modalWindowIsOpen ? (
+        <EditDialog
+          menuEditType={menuEditType}
+          itemId={menuParams.id}
+          handleClickOpenClose={handleClickOpenClose}
+        />
       ) : (
         <SpeedDialMenu
           menuParams={menuParams}
@@ -128,7 +151,7 @@ export default function EditItemsPage({
       )}
       <DataGrid
         dbSchema={dbSchema}
-        dataArr={dataArr}
+        catalog={catalog}
         onCellClick={handleMenuInDataGrid}
       />
     </Container>

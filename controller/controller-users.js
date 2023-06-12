@@ -57,9 +57,13 @@ async function add(req, res) {
 }
 async function edit(req, res) {
   try {
+    const dataObj = req.body.data;
+    delete dataObj.pass;
+    delete dataObj.createdAt;
+
     const userData = testingDataFromInput(
       { ...usersDbSchema, pass: null },
-      req.body.data
+      dataObj
     );
 
     if (userData.error) return res.json(userData.error);
@@ -79,12 +83,13 @@ async function edit(req, res) {
     const login = (
       await DB.editEntry({
         table: "users",
-        dataObj: { ...userData },
+        dataObj: userData,
         respCol: "login",
       })
     )[0];
     return res.json(login);
   } catch (e) {
+    console.log(e);
     res.status(400).json({ error: "Ошибка при изменении данных пользователя" });
   }
 }

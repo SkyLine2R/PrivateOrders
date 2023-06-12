@@ -37,7 +37,7 @@ const testFormForUsers = {
   },
   accessLevel: {
     required: true,
-    maxlength: 3,
+    maxlength: 1,
     containsNumber: true,
     min: 1,
     max: 5,
@@ -48,8 +48,16 @@ const testFormForUsers = {
       width: 150,
       editable: false,
       type: "number",
-      align: "center",
+      align: "left",
     },
+    labels: [
+      null,
+      "Отключёна",
+      "Только просмотр",
+      "Редактирование",
+      "Полный доступ",
+      "Администратор",
+    ],
   },
   createdAt: {
     required: false,

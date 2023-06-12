@@ -10,23 +10,25 @@ import Box from "@mui/material/Box";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import dbSchema from "../../../components/vendor-codes-db_schema";
 import fetchVendorCodes from "../Store/fetchVendorCodes";
-import sendNewEntryToDB from "../Store/sendNewEntryToDB";
 import { copyPasteValue } from "../Store/Slices/slice-vendor-codes";
 
 import DataGrid from "../data-grid-table/data-grid-table";
 import EditVendorCodeForm from "../edit-vendor-code-form/edit-vendor-code-form";
-import sendChangedEntryToDB from "../Store/sendChangedEntryToDB";
 
-export default function FormDialog({ menuEditType, handleClickOpenClose }) {
+export default function FormDialog({
+  menuEditType = "add",
+  handleClickOpenClose,
+  handleAddNewItem,
+  handleEditItem,
+  modalWindowIsOpen,
+  dbSchema,
+  catalog,
+}) {
   const dispatch = useDispatch();
 
-  const { modalWindowVendorCodeOpen } = useSelector(
-    ({ vendorCodes }) => vendorCodes
-  );
   const { vendorCode, itemName } = useSelector(
     ({ vendorCodes }) => vendorCodes.inputFields
   );
@@ -38,27 +40,6 @@ export default function FormDialog({ menuEditType, handleClickOpenClose }) {
     [dispatch, vendorCode, itemName]
   );
 
-  /*   const handleClickOpenClose = () => {
-    dispatch(setModalWindowVendorCodeOpen());
-  }; */
-  const handleAddNewVendorCode = () => {
-    dispatch(sendNewEntryToDB({ dbSchema, api: "vendorCodes" }));
-  };
-  const handleEditVendorCode = () => {
-    dispatch(
-      sendChangedEntryToDB({
-        dbSchema: { ...dbSchema, id: null },
-        api: "vendorCodes",
-        type: "edit",
-      })
-    );
-  };
-
-  const { vendorCodesArr } = useSelector(
-    ({ vendorCodes }) => vendorCodes,
-    shallowEqual
-  );
-
   return (
     <div>
       <Button variant="contained" onClick={handleClickOpenClose}>
@@ -67,7 +48,7 @@ export default function FormDialog({ menuEditType, handleClickOpenClose }) {
       <Dialog
         fullWidth
         maxWidth="md"
-        open={modalWindowVendorCodeOpen}
+        open={modalWindowIsOpen}
         onClose={handleClickOpenClose}
       >
         <Box
@@ -96,15 +77,15 @@ export default function FormDialog({ menuEditType, handleClickOpenClose }) {
           )}
         </Box>
         <DialogContent label="Артикул" sx={{ pt: 0 }}>
-          <EditVendorCodeForm />
+          <EditVendorCodeForm dbSchema={dbSchema} />
           {menuEditType !== "add" ? (
             ""
           ) : (
-            <Box>
+            <Box sx={{ mt: "15px" }}>
               <DialogContentText>Артикулы в базе</DialogContentText>
               <DataGrid
                 dbSchema={dbSchema}
-                dataArr={vendorCodesArr}
+                catalog={catalog}
                 onCellClick={(gridCellParams) => {
                   dispatch(
                     copyPasteValue({
@@ -120,9 +101,9 @@ export default function FormDialog({ menuEditType, handleClickOpenClose }) {
         <DialogActions sx={{ mr: "18px" }}>
           <Button onClick={handleClickOpenClose}>Отмена</Button>
           {menuEditType === "add" ? (
-            <Button onClick={handleAddNewVendorCode}>Добавить</Button>
+            <Button onClick={handleAddNewItem}>Добавить</Button>
           ) : (
-            <Button onClick={handleEditVendorCode}>Сохранить изменения</Button>
+            <Button onClick={handleEditItem}>Сохранить изменения</Button>
           )}
         </DialogActions>
       </Dialog>

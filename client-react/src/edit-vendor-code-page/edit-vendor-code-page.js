@@ -1,6 +1,5 @@
 import * as React from "react";
 import EditIcon from "@mui/icons-material/Edit";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 import EditItemsPage from "../edit-items-page/edit-items-page";
 import EditVendorCodeDialog from "../edit-vendor-code-dialog/edit-vendor-code-dialog";
@@ -16,9 +15,9 @@ export default function EditVendorCodePage() {
       page="vendorCodes"
       headerText="Редактирование артикулов"
       HeaderIcon={EditIcon}
+      setModalWindowIsOpen={setModalWindowIsOpen}
       allMenuActions={allMenuActions}
       EditDialog={EditVendorCodeDialog}
-      setModalWindowIsOpen={setModalWindowIsOpen}
       dbSchema={dbSchema}
     />
   );

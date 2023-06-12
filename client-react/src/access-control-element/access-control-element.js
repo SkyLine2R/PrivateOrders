@@ -5,10 +5,10 @@ import Box from "@mui/material/Box";
 import StarIcon from "@mui/icons-material/Star";
 import Typography from "@mui/material/Typography";
 
-import labels from "../../../components/accessLevels";
+import { accessLevel } from "../../../components/users-db_schema";
 
 function getLabelText(value) {
-  return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
+  return `${value} Star${value !== 1 ? "s" : ""}, ${accessLevel.labels[value]}`;
 }
 
 export default function HoverAccessControl({ value, change }) {
@@ -38,7 +38,7 @@ export default function HoverAccessControl({ value, change }) {
       {value !== null && (
         <Box sx={{ ml: 2 }}>
           <Typography component="legend">
-            {labels[hover !== -1 ? hover : value]}
+            {accessLevel.labels[hover !== -1 ? hover : value]}
           </Typography>
         </Box>
       )}

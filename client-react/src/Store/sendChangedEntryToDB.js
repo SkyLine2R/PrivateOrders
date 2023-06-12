@@ -11,7 +11,7 @@ const sendChangedEntryToDB = createAsyncThunk(
       const prevReq = getState()[api].request.prevReq.fetchObj;
 
       const keys = Object.keys(dbSchema);
-      // подберём согласно схемы из State ключи нового артикула,
+      // подберём, согласно схемы, из State ключи нового артикула,
       // которые должны отправиться в базу
       const objToSend = keys.reduce(
         (obj, key) => ({ ...obj, [key]: inputFields[key] }),
@@ -29,7 +29,6 @@ const sendChangedEntryToDB = createAsyncThunk(
         type,
         data,
       };
-
       if (JSON.stringify(prevReq) === JSON.stringify(fetchObj)) {
         return rejectWithValue();
       }

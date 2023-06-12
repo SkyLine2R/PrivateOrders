@@ -1,10 +1,20 @@
 /* eslint-disable react/forbid-prop-types */
+/* eslint-disable react/prop-types */
 import * as React from "react";
 import { useDispatch } from "react-redux";
 
 import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 import TextField from "@mui/material/TextField";
+
+// Убираем "запрещённые" символы и обрезаем строку по регулярке из ...-db-schema
+const textСorrectionInField = (refObj, fieldValue) => {
+  const str = fieldValue.match(new RegExp(refObj.regularExp, "gi")) || [""];
+  return (refObj.containsNumber ? str[0].replace(",", ".") : str[0]).substring(
+    0,
+    refObj.maxlength
+  );
+};
 
 export default function FieldForInput({
   id,
@@ -15,14 +25,6 @@ export default function FieldForInput({
   disable,
 }) {
   const dispatch = useDispatch();
-
-  // Убираем "запрещённые" символы и обрезаем строку по регулярке из ...-db-schema
-  const textСorrectionInField = (refObj, fieldValue) => {
-    const str = fieldValue.match(new RegExp(refObj.regularExp, "gi")) || [""];
-    return (
-      refObj.containsNumber ? str[0].replace(",", ".") : str[0]
-    ).substring(0, refObj.maxlength);
-  };
 
   const onChangeVal = ({ target }) => {
     dispatch(

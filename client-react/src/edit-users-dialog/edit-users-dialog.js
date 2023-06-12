@@ -13,54 +13,24 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { useDispatch, useSelector } from "react-redux";
 import FieldForInput from "../field-for-input/field-for-input";
 import AccessControlElement from "../access-control-element/access-control-element";
-import { setModalWindowIsOpen, changeValue } from "../Store/Slices/slice-users";
-import sendNewEntryToDB from "../Store/sendNewEntryToDB";
-import sendChangedEntryToDB from "../Store/sendChangedEntryToDB";
-import dbSchema from "../../../components/users-db_schema";
+import { changeValue } from "../Store/Slices/slice-users";
 
-export default function FormDialog({ userEditType }) {
+export default function FormDialog({
+  menuEditType,
+  handleClickOpenClose,
+  handleAddNewItem,
+  handleEditItem,
+  modalWindowIsOpen,
+  dbSchema,
+}) {
   const { login, name, pass, accessLevel } = useSelector(
     (state) => state.users.inputFields
   );
 
-  const { modalWindowIsOpen } = useSelector((state) => state.users);
   const dispatch = useDispatch();
-
-  const handleClickOpenClose = () => {
-    dispatch(setModalWindowIsOpen(userEditType));
-  };
 
   const handleChangeAccessLevel = (_, newValue) => {
     dispatch(changeValue({ fieldId: "accessLevel", value: newValue }));
-  };
-
-  const handleAddNewUser = () => {
-    dispatch(sendNewEntryToDB({ dbSchema, api: "users" }));
-  };
-
-  const handleSendChangedUser = () => {
-    const editDbSchema = { id: null };
-
-    switch (userEditType) {
-      case "editUser":
-        editDbSchema.login = dbSchema.login;
-        editDbSchema.name = dbSchema.name;
-        editDbSchema.accessLevel = dbSchema.accessLevel;
-        break;
-      case "changePass":
-        editDbSchema.pass = dbSchema.pass;
-        break;
-      default:
-        editDbSchema.accessLevel = dbSchema.accessLevel;
-    }
-
-    dispatch(
-      sendChangedEntryToDB({
-        dbSchema: { ...editDbSchema },
-        api: "users",
-        type: userEditType,
-      })
-    );
   };
 
   return (
@@ -72,9 +42,9 @@ export default function FormDialog({ userEditType }) {
         onClose={handleClickOpenClose}
       >
         <DialogTitle sx={{ paddingLeft: "30px" }}>
-          {userEditType === "addUser"
+          {menuEditType === "add"
             ? "Новая учётная запись"
-            : userEditType === "editUser"
+            : menuEditType === "edit"
             ? "Редактирование данных пользователя"
             : "Смена пароля пользователя"}
         </DialogTitle>
@@ -87,10 +57,10 @@ export default function FormDialog({ userEditType }) {
                 changeValue={changeValue}
                 value={login}
                 dbSchema={dbSchema}
-                disable={userEditType === "changePass"}
+                disable={menuEditType === "changePass"}
               />
             </Grid>
-            {userEditType === "changePass" ? (
+            {menuEditType === "changePass" ? (
               ""
             ) : (
               <Grid xs={12}>
@@ -103,7 +73,7 @@ export default function FormDialog({ userEditType }) {
                 />
               </Grid>
             )}
-            {userEditType === "addUser" || userEditType === "changePass" ? (
+            {menuEditType === "add" || menuEditType === "changePass" ? (
               <Grid xs={12}>
                 <FieldForInput
                   id="pass"
@@ -114,7 +84,7 @@ export default function FormDialog({ userEditType }) {
                 />
               </Grid>
             ) : null}
-            {userEditType === "changePass" ? (
+            {menuEditType === "changePass" ? (
               ""
             ) : (
               <Grid xs={12}>
@@ -143,10 +113,10 @@ export default function FormDialog({ userEditType }) {
 
         <DialogActions>
           <Button onClick={handleClickOpenClose}>Отмена</Button>
-          {userEditType === "addUser" ? (
-            <Button onClick={handleAddNewUser}>Добавить</Button>
+          {menuEditType === "add" ? (
+            <Button onClick={handleAddNewItem}>Добавить</Button>
           ) : (
-            <Button onClick={handleSendChangedUser}>Сохранить изменения</Button>
+            <Button onClick={handleEditItem}>Сохранить изменения</Button>
           )}
         </DialogActions>
       </Dialog>

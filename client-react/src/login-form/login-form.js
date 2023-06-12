@@ -1,4 +1,6 @@
 import * as React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+
 import Box from "@mui/material/Box";
 import Input from "@mui/material/Input";
 import InputLabel from "@mui/material/InputLabel";
@@ -12,9 +14,15 @@ import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { startSession } from "../components/session";
+// import { startSession } from "../components/session";
+import useAuth from "../hooks/useAuth";
 
 export default function Login() {
+  const { setAuth } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -36,15 +44,16 @@ export default function Login() {
 
     // clear the errors
     setError("");
-
+    setAuth(true);
+    navigate(from, { replace: true });
     // TODO: send the login request
-    try {
+    /*     try {
       const loginResponse = await signInUser(login, pass);
       startSession(loginResponse.user);
       navigate("/user");
     } catch (error) {
       setError(error.message);
-    }
+    } */
     console.log("Logging in...");
   };
 

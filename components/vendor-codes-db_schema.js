@@ -62,8 +62,8 @@ const testFormForInputItem = {
     description: "количество единиц в хлысте или упаковке",
     regularExp: "\\d+[.,]?\\d{0,3}",
     table: {
-      headerName: "Кол-во ед. в хл. | уп.",
-      width: 150,
+      headerName: "Кол-во в хл. | уп.",
+      width: 130,
       editable: false,
       type: "number",
       align: "center",

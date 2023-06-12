@@ -21,7 +21,7 @@ router.post("/users", (req, res) => {
       return usersController.getAll(req, res);
     case "add":
       return usersController.add(req, res);
-    case "editUser":
+    case "edit":
       return usersController.edit(req, res);
     case "changePass":
       return usersController.changePass(req, res);

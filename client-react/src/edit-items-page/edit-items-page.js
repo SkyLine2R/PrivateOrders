@@ -1,5 +1,7 @@
 /* eslint-disable react/prop-types */
 import * as React from "react";
+import { useRef } from "react";
+
 import Container from "@mui/material/Container";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import Typography from "@mui/material/Typography";
@@ -7,6 +9,7 @@ import Box from "@mui/material/Box";
 
 import DataGrid from "../data-grid-table/data-grid-table";
 import SpeedDialMenu from "../speed-dial-menu/speed-dial-menu";
+import sendNewEntryToDB from "../Store/sendNewEntryToDB";
 import sendChangedEntryToDB from "../Store/sendChangedEntryToDB";
 import fetchEntries from "../Store/fetchEntries";
 
@@ -14,16 +17,17 @@ export default function EditItemsPage({
   page,
   headerText,
   HeaderIcon,
-  EditDialog,
-  allMenuActions,
-  dbSchema,
   setModalWindowIsOpen,
+  allMenuActions,
+  EditDialog,
+  dbSchema,
 }) {
   const dispatch = useDispatch();
 
   React.useEffect(() => dispatch(fetchEntries(page)), [dispatch, page]);
 
-  const [menuEditType, setMenuEditType] = React.useState("");
+  const menuEditType = useRef(null);
+
   const [menuParams, setMenuParams] = React.useState({
     x: 0,
     y: 0,
@@ -31,6 +35,7 @@ export default function EditItemsPage({
     actions: [],
     id: "",
   });
+
   const { catalog, modalWindowIsOpen } = useSelector(
     (state) => state[page],
     shallowEqual
@@ -50,6 +55,10 @@ export default function EditItemsPage({
   };
 
   const handleMenuInContainer = (e) => {
+    e.stopPropagation();
+
+    /*     console.log("handleMenuInContainer");
+    console.log(e.clientY); */
     if (!modalWindowIsOpen) {
       setMenuParams({
         x: e.clientX,
@@ -83,7 +92,7 @@ export default function EditItemsPage({
       .getAttribute("pressed-button");
 
     handleOffMenu();
-    setMenuEditType(pressedButton);
+    menuEditType.current = pressedButton;
 
     const params = menuParams.id
       ? catalog.find((item) => item.id === menuParams.id)
@@ -95,6 +104,7 @@ export default function EditItemsPage({
       case "edit":
         return dispatch(setModalWindowIsOpen(params));
       case "delete":
+        // eslint-disable-next-line no-alert
         return alert("Функция в разработке");
       case "changePass":
         return dispatch(setModalWindowIsOpen(params));
@@ -112,9 +122,26 @@ export default function EditItemsPage({
         return "";
     }
   };
-
   const handleClickOpenClose = () => {
-    dispatch(setModalWindowIsOpen());
+    dispatch(setModalWindowIsOpen(menuEditType.current));
+  };
+
+  const handleAddNewItem = () => {
+    dispatch(sendNewEntryToDB({ dbSchema, api: page }));
+  };
+
+  const handleEditItem = () => {
+    const sendObj = {
+      dbSchema: { ...dbSchema, id: null },
+      api: page,
+      type: menuEditType.current,
+    };
+    // Удалить поля которые не нужно проверять и отправлять
+    if (page === "users" && menuEditType.current !== "changePass")
+      delete sendObj.dbSchema.pass;
+    delete sendObj.dbSchema.createdAt;
+
+    dispatch(sendChangedEntryToDB(sendObj));
   };
 
   return (
@@ -138,9 +165,13 @@ export default function EditItemsPage({
       </Box>
       {modalWindowIsOpen ? (
         <EditDialog
-          menuEditType={menuEditType}
-          itemId={menuParams.id}
+          menuEditType={menuEditType.current}
           handleClickOpenClose={handleClickOpenClose}
+          handleAddNewItem={handleAddNewItem}
+          handleEditItem={handleEditItem}
+          modalWindowIsOpen={modalWindowIsOpen}
+          dbSchema={dbSchema}
+          catalog={catalog}
         />
       ) : (
         <SpeedDialMenu

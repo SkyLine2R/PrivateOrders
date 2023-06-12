@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import * as React from "react";
 import FormGroup from "@mui/material/FormGroup";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -8,9 +9,7 @@ import FieldForInput from "../field-for-input/field-for-input";
 
 import { changeValue } from "../Store/Slices/slice-vendor-codes";
 
-import dbSchema from "../../../components/vendor-codes-db_schema";
-
-export default function EditVendorCodeForm() {
+export default function EditVendorCodeForm({ dbSchema }) {
   const { vendorCode, itemName, quantity, notes } = useSelector(
     ({ vendorCodes }) => vendorCodes.inputFields,
     shallowEqual

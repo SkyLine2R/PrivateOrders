@@ -45,17 +45,21 @@ function normalizeRowsData(items, catalog) {
     ...item,
     number: index + 1,
     unit: items.unit?.unitArr[+item.unit],
+    accessLevel: items.accessLevel?.labels[+item.accessLevel],
   }));
 
   return rowsData;
 }
 
 function DataGridTable({ dbSchema, catalog, onCellClick }) {
-  const [colNameState, setColNameState] = React.useState([]); // наименования столбцов
   const [rowsDataState, setRowsDataState] = React.useState([]); // содержимое таблицы
-
+  console.log("Рендеринг...");
   // при монтировании озаглавить столбцы
-  React.useEffect(() => setColNameState(colNaming(dbSchema)), [dbSchema]);
+  const colNameRef = React.useRef(null);
+  if (colNameRef.current === null) {
+    console.log("Заглавия столбцов...");
+    colNameRef.current = colNaming(dbSchema);
+  }
 
   // нормализация данных, если был новый запрос на сервер
   React.useEffect(
@@ -64,10 +68,23 @@ function DataGridTable({ dbSchema, catalog, onCellClick }) {
   );
 
   return (
-    <Box sx={{ height: "82vh", width: "100%" }}>
+    <Box
+      sx={{ height: "82vh", width: "100%" }}
+      /*       onContextMenu={(e) => {
+        e.cancelBubble = true;
+
+        e.preventDefault();
+        console.log("e.currentTarget");
+        console.log(e.currentTarget);
+
+        console.log(e);
+        console.log("e.target");
+        console.log(e.target);
+      }} */
+    >
       <DataGrid
         rows={rowsDataState}
-        columns={colNameState}
+        columns={colNameRef.current}
         pageSize={50}
         rowsPerPageOptions={[50]}
         /* checkboxSelection */

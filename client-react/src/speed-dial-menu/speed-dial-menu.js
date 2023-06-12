@@ -7,23 +7,22 @@ import SpeedDialAction from "@mui/material/SpeedDialAction";
 
 export default function SpeedDialMenu({ menuParams, onClick, onMouseLeave }) {
   const { x, y, hidden, actions } = menuParams;
+
   return (
     <Box
       hidden={hidden}
       sx={{
-        position: "fixed",
-        left: `${x + 45}px`,
-        top: `${y >= 280 ? y - 280 : y - 40}px`,
+        transformOrigin: "center, left",
+        position: "absolute",
+        left: `${x - 25}px`,
+        top: `${y - 30}px`,
         zIndex: 1000,
-        height: 320,
-        transform: "translateZ(0px)",
         flexGrow: 1,
       }}
     >
       <SpeedDial
-        direction={y >= 280 ? "up" : "down"}
+        direction="right"
         ariaLabel="SpeedDial basic"
-        sx={{ position: "absolute", bottom: 16, right: 16 }}
         icon={<SpeedDialIcon />}
         onClick={onClick}
         onMouseLeave={onMouseLeave}

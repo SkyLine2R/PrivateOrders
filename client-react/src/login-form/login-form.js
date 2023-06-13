@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
 import Box from "@mui/material/Box";
 import Input from "@mui/material/Input";
 import InputLabel from "@mui/material/InputLabel";
@@ -16,6 +15,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 // import { startSession } from "../components/session";
 import useAuth from "../hooks/useAuth";
+import signInUser from "../Store/signInUser";
 
 export default function Login() {
   const { setAuth } = useAuth();
@@ -46,14 +46,14 @@ export default function Login() {
     setError("");
     setAuth(true);
     navigate(from, { replace: true });
-    // TODO: send the login request
-    /*     try {
+    // send the login request
+    try {
       const loginResponse = await signInUser(login, pass);
       startSession(loginResponse.user);
       navigate("/user");
     } catch (error) {
       setError(error.message);
-    } */
+    }
     console.log("Logging in...");
   };
 

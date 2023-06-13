@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useEffect } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -37,9 +36,6 @@ export default function MenuAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
-  // eslint-disable-next-line no-unused-vars
-  const [auth, set1Auth] = React.useState(true);
-
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -50,7 +46,7 @@ export default function MenuAppBar() {
 
   const handleLogout = () => {
     setAuth(false);
-    navigate("/");
+    navigate("/login");
   };
 
   return (
@@ -85,7 +81,7 @@ export default function MenuAppBar() {
               </Button>
             ))}
           </Box>
-          {auth && (
+          {isAuthenticated && (
             <div>
               <IconButton
                 size="large"
@@ -132,40 +128,36 @@ export default function MenuAppBar() {
                 transformOrigin={{ horizontal: "right", vertical: "top" }}
                 anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
               >
-                <MenuItem onClick={handleClose}>
-                  <Avatar /> Profile
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
-                  <Avatar /> My account
+                <MenuItem onClick={handleClose} disabled={!isAuthenticated}>
+                  <Avatar /> Профиль
                 </MenuItem>
                 <Divider />
-                <MenuItem onClick={handleClose}>
+                <MenuItem
+                  onClick={handleClose}
+                  disabled={!isAuthenticated}
+                  component={LinkBehavior}
+                  to="users"
+                  key="users"
+                >
                   <ListItemIcon>
                     <PersonAdd fontSize="small" />
                   </ListItemIcon>
-                  Add another account
+                  Управление пользователями
                 </MenuItem>
-                <MenuItem onClick={handleClose}>
+                <MenuItem disabled={!isAuthenticated}>
                   <ListItemIcon>
                     <Settings fontSize="small" />
                   </ListItemIcon>
-                  Settings
+                  Настройки программы
                 </MenuItem>
                 <MenuItem onClick={handleLogout} disabled={!isAuthenticated}>
                   <ListItemIcon>
                     <Logout fontSize="small" />
                   </ListItemIcon>
-                  Logout
+                  Выйти
                 </MenuItem>
               </Menu>
             </div>
-          )}
-          {isAuthenticated ? (
-            // eslint-disable-next-line react/void-dom-elements-no-children
-            <RouterLink to="/logout">Logout</RouterLink>
-          ) : (
-            // eslint-disable-next-line react/void-dom-elements-no-children
-            <RouterLink to="/login">Login</RouterLink>
           )}
         </Toolbar>
       </AppBar>

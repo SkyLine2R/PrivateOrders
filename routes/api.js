@@ -4,6 +4,16 @@ const router = express.Router();
 const usersController = require("../controller/controller-users");
 const itemsController = require("../controller/controller-items");
 
+router.post("/login", (req, res) => {
+  res.json({
+    error: "Проверка ошибки",
+    success: "Авторизован",
+    login: "oleg",
+    accessLevel: 5,
+    token: "asdfasdfasdfn234234-Q#234",
+  });
+});
+
 router.post("/users", (req, res) => {
   // добавить проверку прав доступа
   /*   console.log(req.body.type);

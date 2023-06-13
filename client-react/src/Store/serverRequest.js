@@ -1,6 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-
-const fetchUrlAPI = "http://localhost:3000/api/";
+import fetchUrlAPI from "../components/apiUrl";
 
 const serverRequest = createAsyncThunk(
   "api/serverRequest",

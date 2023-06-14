@@ -16,6 +16,7 @@ import Logout from "@mui/icons-material/Logout";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Divider from "@mui/material/Divider";
 import useAuth from "../hooks/useAuth";
+import { endSession } from "../components/session";
 
 const pages = [
   { name: "Материал на складе", link: "stock" },
@@ -30,7 +31,10 @@ const LinkBehavior = React.forwardRef((props, ref) => (
 ));
 
 export default function MenuAppBar() {
-  const { isAuthenticated, setAuth } = useAuth();
+  const { isAuthenticated, setAuth, setUser, user } = useAuth();
+  console.log("user.name");
+  console.log(user.name);
+  console.log(user);
   const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -45,7 +49,9 @@ export default function MenuAppBar() {
   };
 
   const handleLogout = () => {
-    setAuth(false);
+    endSession();
+    setUser({});
+
     navigate("/login");
   };
 
@@ -129,21 +135,23 @@ export default function MenuAppBar() {
                 anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
               >
                 <MenuItem onClick={handleClose} disabled={!isAuthenticated}>
-                  <Avatar /> Профиль
+                  <Avatar /> {user?.name ?? "Профиль"}
                 </MenuItem>
                 <Divider />
-                <MenuItem
-                  onClick={handleClose}
-                  disabled={!isAuthenticated}
-                  component={LinkBehavior}
-                  to="users"
-                  key="users"
-                >
-                  <ListItemIcon>
-                    <PersonAdd fontSize="small" />
-                  </ListItemIcon>
-                  Управление пользователями
-                </MenuItem>
+                {user.accessLevel === 5 && (
+                  <MenuItem
+                    onClick={handleClose}
+                    disabled={!isAuthenticated}
+                    component={LinkBehavior}
+                    to="users"
+                    key="users"
+                  >
+                    <ListItemIcon>
+                      <PersonAdd fontSize="small" />
+                    </ListItemIcon>
+                    Управление пользователями
+                  </MenuItem>
+                )}
                 <MenuItem disabled={!isAuthenticated}>
                   <ListItemIcon>
                     <Settings fontSize="small" />

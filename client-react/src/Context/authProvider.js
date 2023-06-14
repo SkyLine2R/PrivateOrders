@@ -4,16 +4,30 @@ import { createContext, useState } from "react";
 import { getSession } from "../components/session";
 
 const AuthContext = createContext({
-  isAuthenticated: false,
-  setAuth: () => {},
+  user: {},
+  /*   isAuthenticated: false,
+  setAuth: () => {}, */
+  setUser: () => {},
 });
 
 export function AuthProvider({ children }) {
+  const { login, name, accessLevel } = getSession();
+
+  const [user, setUser] = useState({
+    login: "",
+    name: "",
+    accessLevel: 1,
+  });
   const [isAuthenticated, setAuth] = useState(false);
-  console.log("authProvider");
+
+  React.useEffect(() => {
+    setUser({ login, name, accessLevel });
+    setAuth(!!login);
+  }, [accessLevel, login, name]);
+
   return (
     // eslint-disable-next-line react/jsx-no-constructed-context-values
-    <AuthContext.Provider value={{ isAuthenticated, setAuth }}>
+    <AuthContext.Provider value={{ isAuthenticated, setAuth, user, setUser }}>
       {children}
     </AuthContext.Provider>
   );

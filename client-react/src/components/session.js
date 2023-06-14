@@ -2,13 +2,13 @@ export const startSession = (user) => {
   sessionStorage.setItem("login", user.login);
   sessionStorage.setItem("name", user.name);
   sessionStorage.setItem("accessLevel", user.accessLevel);
-  sessionStorage.setItem("accessToken", user.accessToken);
+  sessionStorage.setItem("accessToken", user.token);
 };
 
 export const getSession = () => ({
   login: sessionStorage.getItem("login"),
   name: sessionStorage.getItem("name"),
-  accessLevel: sessionStorage.getItem("accessLevel"),
+  accessLevel: +sessionStorage.getItem("accessLevel"),
   accessToken: sessionStorage.getItem("accessToken"),
 });
 

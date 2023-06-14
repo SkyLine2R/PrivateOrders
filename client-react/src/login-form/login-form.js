@@ -18,9 +18,10 @@ import textСorrectionInField from "../../../components/textCorrectionForInput";
 import dbSchema from "../../../components/users-db_schema";
 import useAuth from "../hooks/useAuth";
 import signInUser from "../components/signInUser";
+import { startSession, getSession } from "../components/session";
 
 export default function Login() {
-  const { setAuth } = useAuth();
+  const { setAuth, setUser, isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
@@ -36,8 +37,11 @@ export default function Login() {
   const [error, setError] = React.useState("");
   const [login, setLogin] = React.useState("");
   const [pass, setPass] = React.useState("");
-
-  const handleSubmit = async (e) => {
+  /*   React.useEffect(() => {
+    if (isAuthenticated) navigate("/");
+  }); */
+  /*   if (isAuthenticated) navigate("/");
+   */ const handleSubmit = async (e) => {
     // validate the inputs
     if (!login || !pass) {
       setError("Пожалуйста введите логин и пароль.");
@@ -48,8 +52,12 @@ export default function Login() {
 
     if (authResult?.error?.length)
       alert(authResult.error); // setError(authResult?.error);
-    else return authResult.data;
-
+    else {
+      /*     setAuth(true); */
+      startSession(authResult.data);
+      const { token, ...authUser } = authResult.data;
+      setUser(authUser);
+    }
     // clear the errors
     /*     setError("");
     setAuth(true);

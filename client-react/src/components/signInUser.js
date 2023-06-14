@@ -13,7 +13,7 @@ const signInUser = async (user) => {
       throw data.error;
     }
 
-    const response = await fetch(`${fetchUrlAPI}login `, {
+    const response = await fetch(`${fetchUrlAPI}login`, {
       method: "POST",
       headers: { "Content-Type": "application/json;charset=utf-8" },
       referrerPolicy: "no-referrer",

@@ -13,64 +13,50 @@ import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-// import { startSession } from "../components/session";
 import textСorrectionInField from "../../../components/textCorrectionForInput";
 import dbSchema from "../../../components/users-db_schema";
 import useAuth from "../hooks/useAuth";
 import signInUser from "../components/signInUser";
-import { startSession, getSession } from "../components/session";
+import { startSession } from "../components/session";
 
 export default function Login() {
-  const { setAuth, setUser, isAuthenticated, user } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
-
   const [showPassword, setShowPassword] = React.useState(false);
-
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
 
-  const [error, setError] = React.useState("");
   const [login, setLogin] = React.useState("");
   const [pass, setPass] = React.useState("");
-  /*   React.useEffect(() => {
-    if (isAuthenticated) navigate("/");
-  }); */
-  /*   if (isAuthenticated) navigate("/");
-   */ const handleSubmit = async (e) => {
-    // validate the inputs
+  const [error, setError] = React.useState("");
+
+  const { setUser, user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
+  React.useEffect(() => {
+    if (user.accessLevel > 1) navigate("/");
+  }, [user.accessLevel, navigate]);
+
+  const handleSubmit = async () => {
     if (!login || !pass) {
       setError("Пожалуйста введите логин и пароль.");
       return;
     }
+    // Добавить выдачу ошибок при входе, желательно снеками
     const authResult = await signInUser({ login, pass });
-    console.log(authResult);
 
     if (authResult?.error?.length)
       alert(authResult.error); // setError(authResult?.error);
     else {
-      /*     setAuth(true); */
       startSession(authResult.data);
+      /* const { login, name, accessLevel } = getSession(); */
       const { token, ...authUser } = authResult.data;
       setUser(authUser);
+      setError("");
+      navigate(from, { replace: true });
     }
-    // clear the errors
-    /*     setError("");
-    setAuth(true);
-    navigate(from, { replace: true });
-    // send the login request
-    try {
-      const loginResponse = await signInUser(login, pass);
-      startSession(loginResponse.user);
-      navigate("/user");
-    } catch (error) {
-      setError(error.message);
-    }
-    console.log("Logging in..."); */
   };
 
   return (

@@ -31,10 +31,8 @@ const LinkBehavior = React.forwardRef((props, ref) => (
 ));
 
 export default function MenuAppBar() {
-  const { isAuthenticated, setAuth, setUser, user } = useAuth();
-  console.log("user.name");
-  console.log(user.name);
-  console.log(user);
+  const { setUser, user } = useAuth();
+
   const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -51,7 +49,6 @@ export default function MenuAppBar() {
   const handleLogout = () => {
     endSession();
     setUser({});
-
     navigate("/login");
   };
 
@@ -87,7 +84,7 @@ export default function MenuAppBar() {
               </Button>
             ))}
           </Box>
-          {isAuthenticated && (
+          {user.accessLevel > 1 && (
             <div>
               <IconButton
                 size="large"
@@ -134,14 +131,13 @@ export default function MenuAppBar() {
                 transformOrigin={{ horizontal: "right", vertical: "top" }}
                 anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
               >
-                <MenuItem onClick={handleClose} disabled={!isAuthenticated}>
+                <MenuItem onClick={handleClose}>
                   <Avatar /> {user?.name ?? "Профиль"}
                 </MenuItem>
                 <Divider />
                 {user.accessLevel === 5 && (
                   <MenuItem
                     onClick={handleClose}
-                    disabled={!isAuthenticated}
                     component={LinkBehavior}
                     to="users"
                     key="users"
@@ -152,13 +148,13 @@ export default function MenuAppBar() {
                     Управление пользователями
                   </MenuItem>
                 )}
-                <MenuItem disabled={!isAuthenticated}>
+                <MenuItem>
                   <ListItemIcon>
                     <Settings fontSize="small" />
                   </ListItemIcon>
                   Настройки программы
                 </MenuItem>
-                <MenuItem onClick={handleLogout} disabled={!isAuthenticated}>
+                <MenuItem onClick={handleLogout}>
                   <ListItemIcon>
                     <Logout fontSize="small" />
                   </ListItemIcon>

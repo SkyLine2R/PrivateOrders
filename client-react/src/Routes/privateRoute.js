@@ -3,16 +3,14 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 
 export default function PrivateRoute() {
-  // Получаем значение isAuthenticated из пользовательского хука useAuth
-  const { isAuthenticated } = useAuth();
+  // Получаем объект user из кастомного хука useAuth
+  const { user } = useAuth();
 
-  // Получаем текущий маршрут из хука useLocation
   const location = useLocation();
-  console.log("isAuthenticated");
-  console.log(isAuthenticated);
+
   return (
-    // Если пользователь авторизован, то рендерим дочерние элементы текущего маршрута, используя компонент Outlet
-    isAuthenticated === true ? (
+    // Если пользователь авторизован с уровнем доступа больше 1, то рендерим дочерние элементы текущего маршрута, используя компонент Outlet
+    user.accessLevel > 1 ? (
       <Outlet />
     ) : (
       // Свойство replace указывает, что текущий маршрут будет заменен на новый, чтобы пользователь не мог вернуться обратно, используя кнопку "назад" в браузере.

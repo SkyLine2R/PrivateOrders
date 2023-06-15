@@ -18,6 +18,15 @@ const snackbar = createSlice({
   initialState: { open: false, severity: "info", message: null },
 
   reducers: {
+    setWarningSnack: (state, { payload }) => {
+      setSnackbar(state, "warning", payload);
+    },
+    setErrorSnack: (state, { payload }) => {
+      setSnackbar(state, "error", payload);
+    },
+    setSuccessSnack: (state, { payload }) => {
+      setSnackbar(state, "success", payload);
+    },
     closeSnack: (state) => {
       state.open = false;
     },
@@ -86,5 +95,6 @@ const snackbar = createSlice({
   },
 });
 
-export const { closeSnack } = snackbar.actions;
+export const { setWarningSnack, setErrorSnack, setSuccessSnack, closeSnack } =
+  snackbar.actions;
 export default snackbar.reducer;

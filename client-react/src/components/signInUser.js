@@ -27,11 +27,9 @@ const signInUser = async (user) => {
     if (respData.error)
       throw new Error(`Отклонено сервером: ${respData.error}`);
 
-    return { data: respData };
+    return { payload: respData };
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.warn(error);
-    return { error: error.message };
+    return { error: `Ошибка при авторизации:\n${error.message}` };
   }
 };
 export default signInUser;

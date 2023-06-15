@@ -14,17 +14,18 @@ const generateAccessToken = (id, login) => {
 
 async function logIn(req, res) {
   try {
-    console.log(req.body);
     const { login, pass } = req.body;
 
-    const user = await DB.findEntry({
+    const [user] = await DB.findEntry({
       table: "users",
       searchColumn: "login",
       searchData: login,
-      respCol: ["id", "login", "name", "accessLevel"],
+      respCol: ["id", "login", "name", "pass", "accessLevel"],
     });
+
     console.log(user);
-    if (!user) {
+    if (!user?.id) {
+      console.log("Неверная пара 'имя пользователя / пароль'");
       return res.json({
         error: "Неверная пара 'имя пользователя / пароль'",
       });
@@ -35,8 +36,15 @@ async function logIn(req, res) {
     if (!validPassword) {
       return res.json({ error: "Неверная пара 'имя пользователя / пароль'" });
     }
+    if (user.accessLevel < 2)
+      return res.json({
+        error: "Ваша учётная запись отключена. Обратитесь к администратору.",
+      });
+
     const token = generateAccessToken(user.userId, user.login);
-    return res.json({ login: user.login, name: user.name, token });
+    const { id, ...authUser } = user;
+
+    return res.json({ ...authUser, token });
   } catch (e) {
     console.log(e);
     res.status(400).json({ error: "Ошибка при попытке авторизации" });

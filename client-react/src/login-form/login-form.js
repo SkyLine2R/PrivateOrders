@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import Box from "@mui/material/Box";
 import Input from "@mui/material/Input";
 import InputLabel from "@mui/material/InputLabel";
@@ -17,21 +18,29 @@ import textСorrectionInField from "../../../components/textCorrectionForInput";
 import dbSchema from "../../../components/users-db_schema";
 import useAuth from "../hooks/useAuth";
 import signInUser from "../components/signInUser";
+import {
+  setWarningSnack,
+  setErrorSnack,
+  setSuccessSnack,
+} from "../Store/Slices/slice-snackbar";
 import { startSession } from "../components/session";
 
 export default function Login() {
   const [showPassword, setShowPassword] = React.useState(false);
+  const dispatch = useDispatch();
+
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
   const [login, setLogin] = React.useState("");
   const [pass, setPass] = React.useState("");
-  const [error, setError] = React.useState("");
 
   const { setUser, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+
   const from = location.state?.from?.pathname || "/";
 
   React.useEffect(() => {
@@ -40,21 +49,22 @@ export default function Login() {
 
   const handleSubmit = async () => {
     if (!login || !pass) {
-      setError("Пожалуйста введите логин и пароль.");
+      dispatch(setWarningSnack("Пожалуйста введите логин и пароль."));
       return;
     }
     // Добавить выдачу ошибок при входе, желательно снеками
     const authResult = await signInUser({ login, pass });
 
-    if (authResult?.error?.length)
-      alert(authResult.error); // setError(authResult?.error);
-    else {
-      startSession(authResult.data);
-      const { token, ...authUser } = authResult.data;
-      setUser(authUser);
-      setError("");
-      navigate(from, { replace: true });
+    if (authResult?.error?.length) {
+      dispatch(setWarningSnack(authResult.error));
+      return;
     }
+
+    startSession(authResult.payload);
+    const { token, ...authUser } = authResult.payload;
+    dispatch(setSuccessSnack(`Добро пожаловать, ${authUser.name}!`));
+    setUser(authUser);
+    navigate(from, { replace: true });
   };
   return (
     <Box>

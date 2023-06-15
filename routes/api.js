@@ -12,12 +12,12 @@ router.post("/login", (req, res) => {
   const resp = authController.logIn(req, res);
   /*   console.log(req.body);
    */ console.log(resp);
-  res.json({
+  /*   res.json({
     login: "oleg",
     name: "Олег Василенко",
     accessLevel: 5,
     token: "asdfasdfasdfn234234-Q#234",
-  });
+  }); */
 });
 
 router.post("/users", (req, res) => {

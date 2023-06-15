@@ -4,8 +4,6 @@ const DB = require("./db");
 const usersDbSchema = require("../components/users-db_schema");
 const testingDataFromInput = require("../components/testing-data-from-input");
 
-// class authController {}
-
 async function getAll(req, res) {
   try {
     const resp = await DB.getAllEntries({

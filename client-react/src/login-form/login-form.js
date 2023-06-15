@@ -25,7 +25,6 @@ export default function Login() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
   const [login, setLogin] = React.useState("");
   const [pass, setPass] = React.useState("");
   const [error, setError] = React.useState("");
@@ -51,14 +50,12 @@ export default function Login() {
       alert(authResult.error); // setError(authResult?.error);
     else {
       startSession(authResult.data);
-      /* const { login, name, accessLevel } = getSession(); */
       const { token, ...authUser } = authResult.data;
       setUser(authUser);
       setError("");
       navigate(from, { replace: true });
     }
   };
-
   return (
     <Box>
       <Typography
@@ -116,7 +113,6 @@ export default function Login() {
               setLogin(corrText);
             }}
           />
-
           <FormControl sx={{ width: "100%" }} variant="standard">
             <InputLabel htmlFor="standard-adornment-password">
               Пароль

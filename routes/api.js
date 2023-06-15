@@ -2,9 +2,16 @@ const express = require("express");
 
 const router = express.Router();
 const usersController = require("../controller/controller-users");
-const itemsController = require("../controller/controller-items");
+const itemsController = require("../controller/controller-vendor-codes");
+const authController = require("../controller/controller-auth");
 
 router.post("/login", (req, res) => {
+  console.log("req.body");
+  console.log(req.body);
+
+  const resp = authController.logIn(req, res);
+  /*   console.log(req.body);
+   */ console.log(resp);
   res.json({
     login: "oleg",
     name: "Олег Василенко",

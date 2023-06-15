@@ -43,6 +43,7 @@ module.exports = DB = {
 
   // строгий поиск записей по строке //
   async findEntry({ table, searchColumn, searchData, respCol }) {
+    console.log("db find");
     return db(table).returning(respCol).where(searchColumn, searchData);
   },
 

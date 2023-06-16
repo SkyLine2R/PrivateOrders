@@ -42,12 +42,12 @@ const openDocuments = {
 export default function useRoutes() {
   return (
     <Routes>
-      <Route index element={<main />} />
-      <Route path="/" element={<main />} />
       <Route path="/login" element={<Login />} />
 
       {/* защищённые маршруты */}
       <Route element={<PrivateRoute />}>
+        <Route index element={<main />} />
+        <Route path="/" element={<main />} />
         <Route path="/stock" element={<Stock />} />
         <Route path="/users" element={<Users />} />
         <Route path="/vendor-codes" element={<VendorCodes />} />

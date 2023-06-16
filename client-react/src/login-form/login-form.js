@@ -20,7 +20,6 @@ import useAuth from "../hooks/useAuth";
 import signInUser from "../components/signInUser";
 import {
   setWarningSnack,
-  setErrorSnack,
   setSuccessSnack,
 } from "../Store/Slices/slice-snackbar";
 import { startSession } from "../components/session";

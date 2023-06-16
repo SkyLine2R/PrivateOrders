@@ -1,8 +1,9 @@
+/* eslint-disable consistent-return */
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const DB = require("./db");
-const WORD_FOR_TOKEN = require("../components/wordForToken");
+const WORD_FOR_TOKEN = require("../components/WORD_FOR_TOKEN");
 
 const generateAccessToken = (id, login) => {
   const payload = {
@@ -23,9 +24,7 @@ async function logIn(req, res) {
       respCol: ["id", "login", "name", "pass", "accessLevel"],
     });
 
-    console.log(user);
     if (!user?.id) {
-      console.log("Неверная пара 'имя пользователя / пароль'");
       return res.json({
         error: "Неверная пара 'имя пользователя / пароль'",
       });
@@ -46,6 +45,7 @@ async function logIn(req, res) {
 
     return res.json({ ...authUser, token });
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.log(e);
     res.status(400).json({ error: "Ошибка при попытке авторизации" });
   }

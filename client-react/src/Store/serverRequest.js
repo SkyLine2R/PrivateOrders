@@ -1,13 +1,22 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import fetchUrlAPI from "../components/apiUrl";
+import fetchUrlAPI from "../components/API_URL";
+import { getSession } from "../components/session";
 
 const serverRequest = createAsyncThunk(
   "api/serverRequest",
   async ({ fetchObj, api }, { rejectWithValue }) => {
     try {
+      const { accessToken } = getSession();
+
+      if (!accessToken) {
+        throw new Error("Отсутствует токен доступа для выполнения запроса.");
+      }
       const response = await fetch(fetchUrlAPI + api, {
         method: "POST",
-        headers: { "Content-Type": "application/json;charset=utf-8" },
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+          Authorization: `Bearer ${accessToken}`,
+        },
         referrerPolicy: "no-referrer",
         body: JSON.stringify(fetchObj),
       });

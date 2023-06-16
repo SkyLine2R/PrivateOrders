@@ -1,6 +1,6 @@
 import testSendData from "../../../components/testing-data-from-input";
 import dbSchema from "../../../components/users-db_schema";
-import fetchUrlAPI from "./apiUrl";
+import fetchUrlAPI from "./API_URL";
 
 const signInUser = async (user) => {
   try {

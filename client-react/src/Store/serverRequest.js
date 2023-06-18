@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import fetchUrlAPI from "../components/API_URL";
+import API_URL from "../components/API_URL";
 import { getSession } from "../components/session";
 
 const serverRequest = createAsyncThunk(
@@ -11,7 +11,7 @@ const serverRequest = createAsyncThunk(
       if (!accessToken) {
         throw new Error("Отсутствует токен доступа для выполнения запроса.");
       }
-      const response = await fetch(fetchUrlAPI + api, {
+      const response = await fetch(API_URL + api, {
         method: "POST",
         headers: {
           "Content-Type": "application/json;charset=utf-8",
@@ -24,6 +24,8 @@ const serverRequest = createAsyncThunk(
         throw new Error("Ошибка получения данных с сервера");
       }
       const respData = await response.json();
+
+      if (respData.error) throw new Error(respData.error);
 
       return { data: respData, prevReq: fetchObj };
     } catch (error) {

@@ -3,8 +3,6 @@ const DB = require("./db");
 const itemsDbSchema = require("../components/vendor-codes-db_schema");
 const testingDataFromInput = require("../components/testing-data-from-input");
 
-// class authController {}
-
 async function getAll(req, res) {
   try {
     const resp = await DB.getAllEntries({
@@ -38,7 +36,11 @@ async function add(req, res) {
     const item = (
       await DB.addEntry({
         table: "items",
-        dataObj: { ...itemData, createdBy: 1 }, // createdBy - сделать подстановку имени пользователя
+        dataObj: {
+          ...itemData,
+          createdBy: req.auth.id,
+          updatedBy: req.auth.id,
+        },
         respCol: ["id", "vendorCode"],
       })
     )[0];
@@ -51,7 +53,6 @@ async function add(req, res) {
 
 async function edit(req, res) {
   try {
-    console.log(req.body.data);
     const itemData = testingDataFromInput(
       { ...itemsDbSchema, id: null },
       req.body.data
@@ -62,11 +63,11 @@ async function edit(req, res) {
     const item = (
       await DB.editEntry({
         table: "items",
-        dataObj: { ...itemData, createdBy: 1 }, // добавить подстановку ID редактировавшего
+        dataObj: { ...itemData, updatedBy: req.auth.id, updatedAt: Date.now() },
         respCol: ["id", "vendorCode"],
       })
     )[0];
-    console.log(item);
+
     return res.json(item);
   } catch (e) {
     res.status(400).json({ error: "Ошибка при изменении данных артикула" });

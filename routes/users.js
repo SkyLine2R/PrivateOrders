@@ -1,10 +1,27 @@
-const express = require("express");
+const usersController = require("../controller/controller-users");
+const accessDenied = require("../controller/accessDenied");
 
-const router = express.Router();
+module.exports = (req, res) => {
+  const testAccess = accessDenied(req, res, 5);
 
-/* GET users listing. */
-router.get("/", function (req, res, next) {
-  res.send("respond with a resource");
-});
+  if (testAccess) return testAccess;
 
-module.exports = router;
+  switch (req.body.type) {
+    case "get":
+      return res.json("В процессе допила");
+    case "getAll":
+      return usersController.getAll(req, res);
+    case "add":
+      return usersController.add(req, res);
+    case "edit":
+      return usersController.edit(req, res);
+    case "changePass":
+      return usersController.changePass(req, res);
+    case "disableUser":
+      return usersController.disable(req, res);
+    default:
+      return res.json({
+        error: "Ошибка в запросе к БД",
+      });
+  }
+};

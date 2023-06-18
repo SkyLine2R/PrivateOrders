@@ -52,8 +52,10 @@ const snackbar = createSlice({
             ? `Артикул "${payload.data?.vendorCode}"`
             : payload.api === "users"
             ? `Пользователь "${payload.data?.login}"`
+            : payload.api === "customers"
+            ? `Склад заказчика "${payload.data?.name}"`
             : "";
-        setSnackbar(state, "success", `${msg} добавлен в базу данных!`);
+        setSnackbar(state, "success", `${msg} добавлен в базу данных.`);
       })
       .addCase(serverRequest.rejected, (state, { payload }) => {
         setSnackbar(
@@ -71,6 +73,8 @@ const snackbar = createSlice({
             ? `Данные артикула "${payload.data.vendorCode}"`
             : payload.api === "users"
             ? `Данные пользователя "${payload.data.login}"`
+            : payload.api === "customers"
+            ? `Данные склада "${payload.data.name}"`
             : "";
 
         setSnackbar(state, "success", `${msg} обновлены`);

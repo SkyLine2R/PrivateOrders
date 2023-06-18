@@ -13,6 +13,8 @@ exports.up = (knex) =>
     table.integer("createdBy").unsigned().notNullable();
     table.foreign("createdBy").references("users.id");
     table.timestamp("createdAt", { precision: 6 }).defaultTo(knex.fn.now());
+    table.integer("updatedBy").unsigned().notNullable();
+    table.foreign("updatedBy").references("users.id");
     table.timestamp("updatedAt", { precision: 6 }).defaultTo(knex.fn.now());
   });
 

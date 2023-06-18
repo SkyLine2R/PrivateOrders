@@ -23,6 +23,7 @@ const pages = [
   { name: "Поступления", link: "receipt" },
   { name: "Списания", link: "outgo" },
   { name: "Отчёты", link: "reports" },
+  { name: "Склады заказчиков", link: "customers" },
 ];
 
 const LinkBehavior = React.forwardRef((props, ref) => (

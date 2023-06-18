@@ -9,6 +9,7 @@ import Stock from "../stock-of-materials-page/stock-of-materials-page";
 import Login from "../login-form/login-form";
 import Users from "../edit-users-page/edit-users-page";
 import VendorCodes from "../edit-vendor-code-page/edit-vendor-code-page";
+import Customers from "../pages/edit-customer-page";
 
 import PrivateRoute from "./privateRoute";
 
@@ -51,6 +52,7 @@ export default function useRoutes() {
         <Route path="/stock" element={<Stock />} />
         <Route path="/users" element={<Users />} />
         <Route path="/vendor-codes" element={<VendorCodes />} />
+        <Route path="/customers" element={<Customers />} />
         <Route
           path="/receipt"
           element={

@@ -37,6 +37,7 @@ const users = createSlice({
       state.inputFields.id = payload?.id || 0;
       state.inputFields.login = payload?.login || "";
       state.inputFields.name = payload?.name || "";
+      state.inputFields.pass = "";
       state.inputFields.accessLevel = payload?.accessLevel || 0;
       state.modalWindowIsOpen = !state.modalWindowIsOpen;
     },

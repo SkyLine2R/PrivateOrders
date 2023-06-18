@@ -5,13 +5,13 @@ import serverRequest from "./serverRequest";
 const sendChangedEntryToDB = createAsyncThunk(
   "api/sendEditingEntryToDB",
   async ({ dbSchema, api, type }, { getState, dispatch, rejectWithValue }) => {
-    // отправка нового пользователя для записи в БД
+    // отправка новой записи в БД
     try {
       const { inputFields } = getState()[api];
       const prevReq = getState()[api].request.prevReq.fetchObj;
 
       const keys = Object.keys(dbSchema);
-      // подберём, согласно схемы, из State ключи нового артикула,
+      // подберём, согласно схемы, из State ключи объекта
       // которые должны отправиться в базу
       const objToSend = keys.reduce(
         (obj, key) => ({ ...obj, [key]: inputFields[key] }),

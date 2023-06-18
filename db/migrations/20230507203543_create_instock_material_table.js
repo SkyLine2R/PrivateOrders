@@ -14,6 +14,8 @@ exports.up = (knex) =>
     table.string("notes", 180);
     table.integer("createdBy").unsigned().notNullable();
     table.foreign("createdBy").references("users.id");
+    table.integer("customer").unsigned().notNullable();
+    table.foreign("customer").references("customers.id").onDelete("RESTRICT");
     table.timestamp("createdAt", { precision: 6 }).defaultTo(knex.fn.now());
   });
 

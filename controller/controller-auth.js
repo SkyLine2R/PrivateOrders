@@ -3,14 +3,14 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const DB = require("./db");
-const WORD_FOR_TOKEN = require("../components/WORD_FOR_TOKEN");
+const WORD_FOR_TOKEN = require("../Environment-setting/WORD_FOR_TOKEN");
 
 const generateAccessToken = (id, login) => {
   const payload = {
     id,
     login,
   };
-  return jwt.sign(payload, WORD_FOR_TOKEN, { expiresIn: "1h" });
+  return jwt.sign(payload, WORD_FOR_TOKEN, { expiresIn: "8h" });
 };
 
 async function logIn(req, res) {
@@ -40,7 +40,7 @@ async function logIn(req, res) {
         error: "Ваша учётная запись отключена. Обратитесь к администратору.",
       });
 
-    const token = generateAccessToken(user.userId, user.login);
+    const token = generateAccessToken(user.id, user.login);
     const { id, ...authUser } = user;
 
     return res.json({ ...authUser, token });

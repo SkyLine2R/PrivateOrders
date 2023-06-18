@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 const createError = require("http-errors");
@@ -8,6 +9,10 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
 const app = express();
+
+const { expressjwt: jwt } = require("express-jwt");
+const WORD_FOR_TOKEN = require("./Environment-setting/WORD_FOR_TOKEN");
+const attachCurrentUser = require("./middlewares/attachCurrentUser");
 
 app.set("port", process.env.PORT || 3000);
 
@@ -25,8 +30,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use("/", require("./routes/index"));
-app.use("/items", require("./routes/items"));
-app.use("/api", require("./routes/api"));
+app.use("/login", require("./routes/login"));
+app.use(
+  "/api",
+  jwt({
+    secret: WORD_FOR_TOKEN,
+    algorithms: ["HS256"],
+  }),
+  attachCurrentUser,
+  require("./routes/api")
+);
 
 app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "public/index.html"));
@@ -73,8 +86,3 @@ app.listen(app.get("port"), () => {
 });
 
 module.exports = app;
-
-// стр85
-// стр235
-// стр91
-// https://developer.mozilla.org/ru/docs/Learn/Server-side/Express_Nodejs/Tutorial_local_library_website

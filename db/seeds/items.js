@@ -17,6 +17,7 @@ exports.seed = (knex) =>
           unit: "0",
           quantity: "6",
           createdBy: "1",
+          updatedBy: 1,
         },
         {
           id: 2,
@@ -25,6 +26,7 @@ exports.seed = (knex) =>
           unit: "0",
           quantity: "4.6",
           createdBy: "1",
+          updatedBy: 1,
         },
         {
           id: 3,
@@ -33,6 +35,7 @@ exports.seed = (knex) =>
           unit: "1",
           quantity: "100",
           createdBy: "1",
+          updatedBy: 1,
         },
       ])
     )
@@ -51,6 +54,22 @@ exports.seed = (knex) =>
             login: "oleg",
             pass: bcrypt.hashSync("123456", 10),
             accessLevel: "5",
+          },
+        ])
+    )
+    .then(() =>
+      knex("customers")
+        .del()
+        .insert([
+          {
+            name: "Фасадные технологии",
+            createdBy: 1,
+            updatedBy: 1,
+          },
+          {
+            name: "БиСиДи",
+            createdBy: 2,
+            updatedBy: 2,
           },
         ])
     );

@@ -1,23 +1,27 @@
 const DB = require("../controller/db");
 
 const attachCurrentUser = async (req, res, next) => {
-  const [id] = req.user;
-  console.log("req");
-  console.log(req);
+  try {
+    const { id } = req.auth;
 
-  const [userAccess] = await DB.findEntry({
-    table: "users",
-    searchColumn: "id",
-    searchData: id,
-    respCol: ["id", "accessLevel"],
-  });
+    const { accessLevel } = (
+      await DB.findEntry({
+        table: "users",
+        searchColumn: "id",
+        searchData: id,
+        respCol: ["accessLevel"],
+      })
+    )[0];
 
-  if (!userAccess.accessLevel) {
-    return res.status(401).end("Пользователь не найден");
+    if (!accessLevel) throw new Error();
+
+    req.auth.accessLevel = accessLevel;
+    return next();
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.log(e);
+    return res.status(401).json({ error: "Ошибка авторизации" });
   }
-
-  req.currentUser = userAccess;
-  return next();
 };
 
 module.exports = attachCurrentUser;

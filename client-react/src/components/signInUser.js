@@ -1,6 +1,6 @@
 import testSendData from "../../../components/testing-data-from-input";
 import dbSchema from "../../../components/users-db_schema";
-import fetchUrlAPI from "./API_URL";
+import APP_URL from "./APP_URL";
 
 const signInUser = async (user) => {
   try {
@@ -13,7 +13,7 @@ const signInUser = async (user) => {
       throw data.error;
     }
 
-    const response = await fetch(`${fetchUrlAPI}login`, {
+    const response = await fetch(`${APP_URL}login`, {
       method: "POST",
       headers: { "Content-Type": "application/json;charset=utf-8" },
       referrerPolicy: "no-referrer",

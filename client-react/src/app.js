@@ -5,7 +5,6 @@ import useRoutes from "./Routes/routes";
 
 export default function App() {
   const routes = useRoutes();
-
   return (
     <>
       <CustomizedSnackbars />

@@ -1,3 +1,5 @@
-const FETCH_URL_API = "http://localhost:3000/api/";
+import APP_URL from "./APP_URL";
+
+const FETCH_URL_API = `${APP_URL}api/`;
 
 export default FETCH_URL_API;

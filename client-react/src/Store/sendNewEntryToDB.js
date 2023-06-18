@@ -6,6 +6,8 @@ const sendNewEntryToDB = createAsyncThunk(
   "api/sendNewEntryToDB",
   async ({ dbSchema, api }, { getState, dispatch, rejectWithValue }) => {
     try {
+      console.log(dbSchema);
+      console.log(api);
       const { inputFields } = getState()[api];
       const prevReq = getState()[api].request.prevReq.fetchObj;
 

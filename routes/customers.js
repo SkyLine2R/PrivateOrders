@@ -2,10 +2,6 @@ const customerController = require("../controller/controller-customers");
 const accessDenied = require("../controller/accessDenied");
 
 module.exports = (req, res) => {
-  console.log("asdfasdfasdfasdf");
-
-  console.log("req");
-  console.log(req);
   switch (req.body.type) {
     case "getAll":
       return accessDenied(req, res, 2) || customerController.getAll(req, res);

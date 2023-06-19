@@ -1,5 +1,5 @@
 import * as React from "react";
-import GroupIcon from "@mui/icons-material/Group";
+import StorageIcon from "@mui/icons-material/Storage";
 
 import EditItemsPage from "../edit-items-page/edit-items-page";
 import EditCustomersDialog from "../dialog/edit-customer-dialog";
@@ -14,7 +14,7 @@ export default function EditUsersPage() {
     <EditItemsPage
       page="customers"
       headerText="Склады"
-      HeaderIcon={GroupIcon}
+      HeaderIcon={StorageIcon}
       setModalWindowIsOpen={setModalWindowIsOpen}
       allMenuActions={allMenuActions}
       EditDialog={EditCustomersDialog}

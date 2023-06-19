@@ -66,24 +66,25 @@ const vendorCodes = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(serverRequest.pending, ({ request }, action) => {
-        console.log(request);
-        // if (payload.api !== "vendorCodes") return;
+        if (action.meta.arg.api !== "vendorCodes") return;
         request.prevReq = action.meta.arg;
         request.status = "loading";
         request.error = null;
       })
 
-      .addCase(serverRequest.fulfilled, ({ request }) => {
+      .addCase(serverRequest.fulfilled, ({ request }, action) => {
+        if (action.meta.arg.api !== "vendorCodes") return;
         request.status = "resolved";
       })
 
-      .addCase(serverRequest.rejected, ({ request }, { payload }) => {
+      .addCase(serverRequest.rejected, ({ request }, action) => {
+        if (action.meta.arg.api !== "vendorCodes") return;
         request.status = "rejected";
-        request.error = payload;
+        request.error = action.payload;
       })
 
-      .addCase(fetchVendorCodes.fulfilled, (state, { payload }) => {
-        state.catalog = payload.data || [];
+      .addCase(fetchVendorCodes.fulfilled, (state, action) => {
+        state.catalog = action.payload.data || [];
       })
       .addCase(fetchEntries.fulfilled, (state, { payload }) => {
         if (payload.api !== "vendorCodes") return;

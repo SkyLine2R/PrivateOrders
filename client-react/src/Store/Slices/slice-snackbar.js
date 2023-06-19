@@ -61,7 +61,7 @@ const snackbar = createSlice({
         setSnackbar(
           state,
           "error",
-          `Ошибка получения данных с сервера \n${payload}`
+          `Ошибка при выполнении запроса.\n${payload}`
         );
       })
       .addCase(sendChangedEntryToDB.rejected, (state, { payload }) => {

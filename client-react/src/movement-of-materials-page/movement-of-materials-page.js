@@ -11,7 +11,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import DataGrid from "../data-grid-table/data-grid-table";
 import dbSchemaDocument from "../../../components/document-db_schema";
-import EditVendorCodeDialog from "../edit-vendor-code-dialog/edit-vendor-code-dialog";
+import EditVendorCodePage from "../pages/edit-vendor-code-page";
 
 const tabs = {
   tabLabel: {
@@ -49,7 +49,7 @@ const createTabs = (doc, index) => (
 const createTabPanels = (doc, index) => (
   <TabPanel value={`${index + 1}`} key={`${index + 1}`}>
     {`Таблица с материалом по документу: ${doc.documentName} №${doc.documentNumber} ${doc.documentNumber}`}
-    <EditVendorCodeDialog />
+    <EditVendorCodePage />
   </TabPanel>
 );
 

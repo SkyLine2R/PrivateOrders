@@ -50,18 +50,21 @@ const customers = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(serverRequest.pending, ({ request }, action) => {
+        if (action.meta.arg.api !== "customers") return;
         request.prevReq = action.meta.arg;
         request.status = "loading";
         request.error = null;
       })
 
-      .addCase(serverRequest.fulfilled, ({ request }) => {
+      .addCase(serverRequest.fulfilled, ({ request }, action) => {
+        if (action.meta.arg.api !== "customers") return;
         request.status = "resolved";
       })
 
-      .addCase(serverRequest.rejected, ({ request }, { payload }) => {
+      .addCase(serverRequest.rejected, ({ request }, action) => {
+        if (action.meta.arg.api !== "customers") return;
         request.status = "rejected";
-        request.error = payload;
+        request.error = action.payload;
       })
 
       .addCase(fetchEntries.fulfilled, (state, { payload }) => {

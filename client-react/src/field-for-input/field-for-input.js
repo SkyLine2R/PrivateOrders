@@ -8,15 +8,6 @@ import PropTypes from "prop-types";
 import TextField from "@mui/material/TextField";
 import textСorrectionInField from "../../../components/textCorrectionForInput";
 
-// Убираем "запрещённые" символы и обрезаем строку по регулярке из ...-db-schema
-/* const textСorrectionInField = (refObj, fieldValue) => {
-  const str = fieldValue.match(new RegExp(refObj.regularExp, "gi")) || [""];
-  return (refObj.containsNumber ? str[0].replace(",", ".") : str[0]).substring(
-    0,
-    refObj.maxlength
-  );
-};
- */
 export default function FieldForInput({
   id,
   label,

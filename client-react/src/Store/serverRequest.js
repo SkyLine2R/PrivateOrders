@@ -20,12 +20,13 @@ const serverRequest = createAsyncThunk(
         referrerPolicy: "no-referrer",
         body: JSON.stringify(fetchObj),
       });
+      console.log(response);
       if (!response.ok) {
-        throw new Error("Ошибка получения данных с сервера");
+        throw new Error(
+          (await response.json()).error || "Сервер отклонил запрос"
+        );
       }
       const respData = await response.json();
-
-      if (respData.error) throw new Error(respData.error);
 
       return { data: respData, prevReq: fetchObj };
     } catch (error) {

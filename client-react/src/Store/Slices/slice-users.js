@@ -45,31 +45,37 @@ const users = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(serverRequest.pending, ({ request }, action) => {
+        if (action.meta.arg.api !== "users") return;
         request.prevReq = action.meta.arg;
         request.status = "loading";
         request.error = null;
       })
-      .addCase(serverRequest.fulfilled, ({ request }) => {
+      .addCase(serverRequest.fulfilled, ({ request }, action) => {
+        if (action.meta.arg.api !== "users") return;
         request.status = "resolved";
       })
-      .addCase(serverRequest.rejected, ({ request }, { payload }) => {
+      .addCase(serverRequest.rejected, ({ request }, action) => {
+        if (action.meta.arg.api !== "users") return;
         request.status = "rejected";
-        request.error = payload;
+        request.error = action.payload;
       })
       .addCase(fetchEntries.fulfilled, (state, { payload }) => {
         if (payload.api !== "users") return;
         state.catalog = payload.data || [];
       })
-      /*       .addCase(sendNewEntryToDB.pending, (state) => {
+      .addCase(sendNewEntryToDB.pending, (state, action) => {
+        if (action.meta.arg.api !== "users") return;
         state.lastVendorCodeId = null;
-      }) */
+      })
 
-      .addCase(sendNewEntryToDB.fulfilled, (state, { payload }) =>
-        successSending(state, payload)
-      )
-      .addCase(sendChangedEntryToDB.fulfilled, (state, { payload }) =>
-        successSending(state, payload)
-      );
+      .addCase(sendNewEntryToDB.fulfilled, (state, action) => {
+        if (action.meta.arg.api !== "users") return;
+        successSending(state, action.payload);
+      })
+      .addCase(sendChangedEntryToDB.fulfilled, (state, action) => {
+        if (action.meta.arg.api !== "users") return;
+        successSending(state, action.payload);
+      });
   },
 });
 

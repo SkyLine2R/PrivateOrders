@@ -5,9 +5,9 @@ import serverRequest from "./serverRequest";
 const sendNewEntryToDB = createAsyncThunk(
   "api/sendNewEntryToDB",
   async ({ dbSchema, api }, { getState, dispatch, rejectWithValue }) => {
+    // уточнить необходимость try/catch, возможно нужно убрать
+    // сделать выводы ошибок в слайсах если с сервера приходит ответ о дублирующейся записи (логин и т.п.)
     try {
-      console.log(dbSchema);
-      console.log(api);
       const { inputFields } = getState()[api];
       const prevReq = getState()[api].request.prevReq.fetchObj;
 

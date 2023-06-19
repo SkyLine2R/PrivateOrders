@@ -10,6 +10,7 @@ import Box from "@mui/material/Box";
 import DataGrid from "../data-grid-table/data-grid-table";
 import SpeedDialMenu from "../speed-dial-menu/speed-dial-menu";
 import sendNewEntryToDB from "../Store/sendNewEntryToDB";
+
 import sendChangedEntryToDB from "../Store/sendChangedEntryToDB";
 import fetchEntries from "../Store/fetchEntries";
 
@@ -127,6 +128,7 @@ export default function EditItemsPage({
   };
 
   const handleAddNewItem = () => {
+    console.log(dispatch(sendNewEntryToDB({ dbSchema, api: page })));
     dispatch(sendNewEntryToDB({ dbSchema, api: page }));
   };
 
@@ -140,7 +142,7 @@ export default function EditItemsPage({
     if (page === "users" && menuEditType.current !== "changePass")
       delete sendObj.dbSchema.pass;
     delete sendObj.dbSchema.createdAt;
-
+    console.log(sendChangedEntryToDB);
     dispatch(sendChangedEntryToDB(sendObj));
   };
 

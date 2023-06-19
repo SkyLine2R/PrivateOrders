@@ -2,7 +2,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import fetchVendorCodes from "../fetchVendorCodes";
 import fetchEntries from "../fetchEntries";
-// import serverRequest from "../serverRequest";
+import serverRequest from "../serverRequest";
 import sendNewEntryToDB from "../sendNewEntryToDB";
 import sendChangedEntryToDB from "../sendChangedEntryToDB";
 
@@ -65,7 +65,9 @@ const vendorCodes = createSlice({
 
   extraReducers: (builder) => {
     builder
-      /*       .addCase(serverRequest.pending, ({ request }, action) => {
+      .addCase(serverRequest.pending, ({ request }, action) => {
+        console.log(request);
+        // if (payload.api !== "vendorCodes") return;
         request.prevReq = action.meta.arg;
         request.status = "loading";
         request.error = null;
@@ -78,7 +80,7 @@ const vendorCodes = createSlice({
       .addCase(serverRequest.rejected, ({ request }, { payload }) => {
         request.status = "rejected";
         request.error = payload;
-      }) */
+      })
 
       .addCase(fetchVendorCodes.fulfilled, (state, { payload }) => {
         state.catalog = payload.data || [];
@@ -89,7 +91,7 @@ const vendorCodes = createSlice({
       })
 
       .addCase(sendNewEntryToDB.pending, (state, { payload }) => {
-        if (payload.api !== "vendorCodes") return;
+        if (payload?.api !== "vendorCodes") return;
         state.lastVendorCodeId = null;
       })
 

@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from "@reduxjs/toolkit";
 import fetchEntries from "../fetchEntries";
-// import serverRequest from "../serverRequest";
+import serverRequest from "../serverRequest";
 import sendNewEntryToDB from "../sendNewEntryToDB";
 import sendChangedEntryToDB from "../sendChangedEntryToDB";
 
@@ -49,7 +49,7 @@ const customers = createSlice({
 
   extraReducers: (builder) => {
     builder
-      /*       .addCase(serverRequest.pending, ({ request }, action) => {
+      .addCase(serverRequest.pending, ({ request }, action) => {
         request.prevReq = action.meta.arg;
         request.status = "loading";
         request.error = null;
@@ -62,7 +62,7 @@ const customers = createSlice({
       .addCase(serverRequest.rejected, ({ request }, { payload }) => {
         request.status = "rejected";
         request.error = payload;
-      }) */
+      })
 
       .addCase(fetchEntries.fulfilled, (state, { payload }) => {
         if (payload.api !== "customers") return;

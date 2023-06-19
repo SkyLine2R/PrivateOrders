@@ -46,6 +46,7 @@ const sendChangedEntryToDB = createAsyncThunk(
           })
         : { api, data: resp.payload.data };
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.log(error);
       return rejectWithValue({
         api,

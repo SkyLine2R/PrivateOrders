@@ -44,12 +44,19 @@ async function add(req, res) {
     const login = (
       await DB.addEntry({
         table,
-        dataObj: { ...userData, pass: hashPass },
+        dataObj: {
+          ...userData,
+          pass: hashPass,
+          createdBy: req.auth.id,
+          updatedBy: req.auth.id,
+        },
         respCol: "login",
       })
     )[0];
     return res.json(login);
   } catch (e) {
+    // eslint-disable-next-line no-console
+    console.log(e);
     res.status(400).json({ error: "Ошибка при добавлении пользователя" });
   }
 }
@@ -81,12 +88,17 @@ async function edit(req, res) {
     const login = (
       await DB.editEntry({
         table: "users",
-        dataObj: userData,
+        dataObj: {
+          ...userData,
+          updatedBy: req.auth.id,
+          updatedAt: new Date(Date.now()).toLocaleString(),
+        },
         respCol: "login",
       })
     )[0];
     return res.json(login);
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.log(e);
     res.status(400).json({ error: "Ошибка при изменении данных пользователя" });
   }
@@ -106,7 +118,12 @@ async function changePass(req, res) {
     const login = (
       await DB.editEntry({
         table: "users",
-        dataObj: { ...userData, pass: hashPass },
+        dataObj: {
+          ...userData,
+          pass: hashPass,
+          updatedBy: req.auth.id,
+          updatedAt: new Date(Date.now()).toLocaleString(),
+        },
         respCol: "login",
       })
     )[0];
@@ -129,7 +146,11 @@ async function disable(req, res) {
     const login = (
       await DB.editEntry({
         table: "users",
-        dataObj: { ...userData },
+        dataObj: {
+          ...userData,
+          updatedBy: req.auth.id,
+          updatedAt: new Date(Date.now()).toLocaleString(),
+        },
         respCol: "login",
       })
     )[0];

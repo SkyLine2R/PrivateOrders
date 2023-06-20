@@ -53,8 +53,8 @@ async function edit(req, res) {
         dataObj: {
           ...itemData,
           updatedBy: req.auth.id,
-          updatedAt: Date.now(),
-        }, // добавить подстановку ID редактировавшего
+          updatedAt: new Date(Date.now()).toLocaleString(),
+        },
         respCol: ["id", "name"],
       })
     )[0];

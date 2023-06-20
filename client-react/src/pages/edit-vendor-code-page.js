@@ -1,7 +1,7 @@
 import * as React from "react";
 import EditIcon from "@mui/icons-material/Edit";
 
-import EditItemsPage from "../edit-items-page/edit-items-page";
+import EditItemsPage from "./edit-items-page";
 import EditVendorCodeDialog from "../dialog/edit-vendor-code-dialog";
 
 import allMenuActions from "../components/menu-actions-vendor-codes";

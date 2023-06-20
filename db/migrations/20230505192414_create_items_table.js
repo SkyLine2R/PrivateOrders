@@ -12,10 +12,14 @@ exports.up = (knex) =>
     table.string("notes", 180); // примечания
     table.integer("createdBy").unsigned().notNullable();
     table.foreign("createdBy").references("users.id");
-    table.timestamp("createdAt", { precision: 6 }).defaultTo(knex.fn.now());
+    table
+      .timestamp("createdAt", { precision: 6 })
+      .defaultTo(new Date(Date.now()).toLocaleString());
     table.integer("updatedBy").unsigned().notNullable();
     table.foreign("updatedBy").references("users.id");
-    table.timestamp("updatedAt", { precision: 6 }).defaultTo(knex.fn.now());
+    table
+      .timestamp("updatedAt", { precision: 6 })
+      .defaultTo(new Date(Date.now()).toLocaleString());
   });
 
 exports.down = (knex) => knex.schema.dropTable("items");

@@ -48,12 +48,16 @@ exports.seed = (knex) =>
             login: "admin",
             pass: bcrypt.hashSync("admin", 10),
             accessLevel: "5",
+            createdBy: "1",
+            updatedBy: 1,
           },
           {
             name: "Олег Василенко",
             login: "oleg",
             pass: bcrypt.hashSync("123456", 10),
             accessLevel: "5",
+            createdBy: "1",
+            updatedBy: 1,
           },
         ])
     )

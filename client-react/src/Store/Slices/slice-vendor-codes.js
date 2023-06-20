@@ -6,8 +6,10 @@ import serverRequest from "../serverRequest";
 import sendNewEntryToDB from "../sendNewEntryToDB";
 import sendChangedEntryToDB from "../sendChangedEntryToDB";
 
+const api = "vendorCodes";
+
 const successSending = (state, payload) => {
-  if (payload.api !== "vendorCodes") return;
+  if (payload.api !== api) return;
 
   state.lastVendorCodeId = payload.data.id;
   state.modalWindowIsOpen = false;
@@ -21,7 +23,7 @@ const successSending = (state, payload) => {
 };
 
 const vendorCodes = createSlice({
-  name: "vendorCodes",
+  name: api,
   initialState: {
     modalWindowIsOpen: false,
     inputFields: {
@@ -66,19 +68,19 @@ const vendorCodes = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(serverRequest.pending, ({ request }, action) => {
-        if (action.meta.arg.api !== "vendorCodes") return;
+        if (action.meta.arg.api !== api) return;
         request.prevReq = action.meta.arg;
         request.status = "loading";
         request.error = null;
       })
 
       .addCase(serverRequest.fulfilled, ({ request }, action) => {
-        if (action.meta.arg.api !== "vendorCodes") return;
+        if (action.meta.arg.api !== api) return;
         request.status = "resolved";
       })
 
       .addCase(serverRequest.rejected, ({ request }, action) => {
-        if (action.meta.arg.api !== "vendorCodes") return;
+        if (action.meta.arg.api !== api) return;
         request.status = "rejected";
         request.error = action.payload;
       })
@@ -87,22 +89,22 @@ const vendorCodes = createSlice({
         state.catalog = action.payload.data || [];
       })
       .addCase(fetchEntries.fulfilled, (state, { payload }) => {
-        if (payload.api !== "vendorCodes") return;
+        if (payload.api !== api) return;
         state.catalog = payload.data || [];
       })
 
       .addCase(sendNewEntryToDB.pending, (state, { payload }) => {
-        if (payload?.api !== "vendorCodes") return;
+        if (payload?.api !== api) return;
         state.lastVendorCodeId = null;
       })
 
       .addCase(sendNewEntryToDB.fulfilled, (state, { payload }) => {
-        if (payload.api !== "vendorCodes") return;
+        if (payload.api !== api) return;
         successSending(state, payload);
       })
 
       .addCase(sendChangedEntryToDB.fulfilled, (state, { payload }) => {
-        if (payload.api !== "vendorCodes") return;
+        if (payload.api !== api) return;
         successSending(state, payload);
       });
   },

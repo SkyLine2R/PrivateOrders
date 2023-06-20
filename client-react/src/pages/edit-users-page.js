@@ -1,8 +1,8 @@
 import * as React from "react";
 import GroupIcon from "@mui/icons-material/Group";
 
-import EditItemsPage from "../edit-items-page/edit-items-page";
-import EditUsersDialog from "../edit-users-dialog/edit-users-dialog";
+import EditItemsPage from "./edit-items-page";
+import EditUsersDialog from "../dialog/edit-users-dialog";
 
 import allMenuActions from "../components/menu-actions-users";
 import dbSchema from "../../../components/users-db_schema";

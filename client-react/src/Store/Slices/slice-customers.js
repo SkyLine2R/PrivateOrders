@@ -5,8 +5,10 @@ import serverRequest from "../serverRequest";
 import sendNewEntryToDB from "../sendNewEntryToDB";
 import sendChangedEntryToDB from "../sendChangedEntryToDB";
 
+const api = "customers";
+
 const successSending = (state, payload) => {
-  if (payload.api !== "customers") return;
+  if (payload.api !== api) return;
 
   state.modalWindowIsOpen = false;
   state.inputFields = {
@@ -16,8 +18,8 @@ const successSending = (state, payload) => {
   };
 };
 
-const customers = createSlice({
-  name: "customers",
+const obj = {
+  name: api,
   initialState: {
     modalWindowIsOpen: false,
     inputFields: {
@@ -50,39 +52,41 @@ const customers = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(serverRequest.pending, ({ request }, action) => {
-        if (action.meta.arg.api !== "customers") return;
+        if (action.meta.arg.api !== api) return;
         request.prevReq = action.meta.arg;
         request.status = "loading";
         request.error = null;
       })
 
       .addCase(serverRequest.fulfilled, ({ request }, action) => {
-        if (action.meta.arg.api !== "customers") return;
+        if (action.meta.arg.api !== api) return;
         request.status = "resolved";
       })
 
       .addCase(serverRequest.rejected, ({ request }, action) => {
-        if (action.meta.arg.api !== "customers") return;
+        if (action.meta.arg.api !== api) return;
         request.status = "rejected";
         request.error = action.payload;
       })
 
       .addCase(fetchEntries.fulfilled, (state, { payload }) => {
-        if (payload.api !== "customers") return;
+        if (payload.api !== api) return;
         state.catalog = payload.data || [];
       })
 
       .addCase(sendNewEntryToDB.fulfilled, (state, { payload }) => {
-        if (payload.api !== "customers") return;
+        if (payload.api !== api) return;
         successSending(state, payload);
       })
 
       .addCase(sendChangedEntryToDB.fulfilled, (state, { payload }) => {
-        if (payload.api !== "customers") return;
+        if (payload.api !== api) return;
         successSending(state, payload);
       });
   },
-});
+};
+
+const customers = createSlice(obj);
 
 export const { setModalWindowIsOpen, changeValue } = customers.actions;
 

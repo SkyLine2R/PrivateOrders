@@ -63,7 +63,11 @@ async function edit(req, res) {
     const item = (
       await DB.editEntry({
         table: "items",
-        dataObj: { ...itemData, updatedBy: req.auth.id, updatedAt: Date.now() },
+        dataObj: {
+          ...itemData,
+          updatedBy: req.auth.id,
+          updatedAt: new Date(Date.now()).toLocaleString(),
+        },
         respCol: ["id", "vendorCode"],
       })
     )[0];

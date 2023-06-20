@@ -11,8 +11,8 @@ import Grid from "@mui/material/Unstable_Grid2";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import { useDispatch, useSelector } from "react-redux";
-import FieldForInput from "../field-for-input/field-for-input";
-import AccessControlElement from "../elements/access-control-element";
+import FieldForInput from "../base-elements/field-for-input";
+import AccessControlElement from "../base-elements/access-control-element";
 import { changeValue } from "../Store/Slices/slice-users";
 
 export default function FormDialog({

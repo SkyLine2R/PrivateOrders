@@ -2,12 +2,12 @@ import * as React from "react";
 import ColorLensIcon from "@mui/icons-material/ColorLens";
 
 import EditItemsPage from "./edit-items-page";
-import EditCustomersDialog from "../dialog/edit-customer-dialog";
+import EditCustomersDialog from "../dialog/edit-colors-dialog";
 
-import allMenuActions from "../components/menu-actions-customers";
-import dbSchema from "../../../components/customers-db_schema";
+import allMenuActions from "../components/menu-actions-colors";
+import dbSchema from "../../../components/colors-db_schema";
 
-import { setModalWindowIsOpen } from "../Store/Slices/slice-customers";
+import { setModalWindowIsOpen } from "../Store/Slices/slice-colors";
 
 export default function EditUsersPage() {
   return (

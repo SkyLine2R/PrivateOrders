@@ -8,7 +8,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useSelector } from "react-redux";
-import FieldForInput from "../field-for-input/field-for-input";
+import FieldForInput from "../base-elements/field-for-input";
 import { changeValue } from "../Store/Slices/slice-customers";
 
 export default function FormDialog({

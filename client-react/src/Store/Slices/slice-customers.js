@@ -18,7 +18,7 @@ const successSending = (state, payload) => {
   };
 };
 
-const obj = {
+const customers = createSlice({
   name: api,
   initialState: {
     modalWindowIsOpen: false,
@@ -84,9 +84,7 @@ const obj = {
         successSending(state, payload);
       });
   },
-};
-
-const customers = createSlice(obj);
+});
 
 export const { setModalWindowIsOpen, changeValue } = customers.actions;
 

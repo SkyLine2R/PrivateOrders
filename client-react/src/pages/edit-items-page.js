@@ -7,10 +7,9 @@ import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
-import DataGrid from "../data-grid-table/data-grid-table";
-import SpeedDialMenu from "../speed-dial-menu/speed-dial-menu";
+import DataGrid from "../base-elements/data-grid-table";
+import SpeedDialMenu from "../menu/speed-dial-menu";
 import sendNewEntryToDB from "../Store/sendNewEntryToDB";
-
 import sendChangedEntryToDB from "../Store/sendChangedEntryToDB";
 import fetchEntries from "../Store/fetchEntries";
 

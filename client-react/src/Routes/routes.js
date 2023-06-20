@@ -2,14 +2,15 @@ import * as React from "react";
 
 import { Routes, Route } from "react-router-dom";
 
-import MovementOfMaterials from "../movement-of-materials-page/movement-of-materials-page";
+import MovementOfMaterials from "../pages/movement-of-materials-page";
 
-import Stock from "../stock-of-materials-page/stock-of-materials-page";
+import Stock from "../pages/stock-of-materials-page";
 
-import Login from "../login-form/login-form";
+import Login from "../forms/login-form";
 import Users from "../pages/edit-users-page";
 import VendorCodes from "../pages/edit-vendor-code-page";
 import Customers from "../pages/edit-customer-page";
+import Colors from "../pages/edit-colors-page";
 
 import PrivateRoute from "./privateRoute";
 
@@ -51,8 +52,10 @@ export default function useRoutes() {
         <Route path="/" element={<main />} />
         <Route path="/stock" element={<Stock />} />
         <Route path="/users" element={<Users />} />
+        <Route path="/colors" element={<Colors />} />
         <Route path="/vendor-codes" element={<VendorCodes />} />
         <Route path="/customers" element={<Customers />} />
+
         <Route
           path="/receipt"
           element={

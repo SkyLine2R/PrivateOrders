@@ -6,10 +6,10 @@ export const startSession = (user) => {
 };
 
 export const getSession = () => ({
-  login: sessionStorage.getItem("login"),
-  name: sessionStorage.getItem("name"),
-  accessLevel: +sessionStorage.getItem("accessLevel"),
-  accessToken: sessionStorage.getItem("accessToken"),
+  login: sessionStorage.getItem("login") || "",
+  name: sessionStorage.getItem("name") || "",
+  accessLevel: +sessionStorage.getItem("accessLevel") || null,
+  accessToken: sessionStorage.getItem("accessToken") || null,
 });
 
 export const endSession = () => {

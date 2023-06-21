@@ -7,10 +7,11 @@ export default function PrivateRoute() {
   const { user } = useAuth();
 
   const location = useLocation();
-
+  console.log("user in private route");
+  console.log(user);
   return (
     // Если пользователь авторизован с уровнем доступа больше 1, то рендерим дочерние элементы текущего маршрута, используя компонент Outlet
-    user.accessLevel > 1 ? (
+    user?.accessLevel > 1 ? (
       <Outlet />
     ) : (
       // Свойство replace указывает, что текущий маршрут будет заменен на новый, чтобы пользователь не мог вернуться обратно, используя кнопку "назад" в браузере.

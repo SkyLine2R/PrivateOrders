@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import API_URL from "../components/API_URL";
-import { getSession } from "../components/session";
+import { getSession, endSession } from "../components/session";
 
 const serverRequest = createAsyncThunk(
   "api/serverRequest",
@@ -20,9 +20,14 @@ const serverRequest = createAsyncThunk(
         referrerPolicy: "no-referrer",
         body: JSON.stringify(fetchObj),
       });
-      console.log(response);
-      console.log(response.body);
+
       if (!response.ok) {
+        if (response.status === 401) {
+          endSession();
+          throw new Error(
+            "Истекло время авторизации в системе. Пожалуйста, войдите повторно"
+          );
+        }
         throw new Error(
           (await response.json()).error || "Сервер отклонил запрос"
         );

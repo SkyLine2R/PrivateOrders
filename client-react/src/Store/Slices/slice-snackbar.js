@@ -47,6 +47,7 @@ const snackbar = createSlice({
         if (payload?.error) setSnackbar(state, "warning", payload.error);
       })
       .addCase(sendNewEntryToDB.fulfilled, (state, { payload }) => {
+        console.log(payload.data);
         const msg =
           payload.api === "vendorCodes"
             ? `Артикул "${payload.data?.vendorCode}"`
@@ -54,6 +55,8 @@ const snackbar = createSlice({
             ? `Пользователь "${payload.data?.login}"`
             : payload.api === "customers"
             ? `Склад заказчика "${payload.data?.name}"`
+            : payload.api === "colors"
+            ? `Цвет "${payload.data?.name}"`
             : "";
         setSnackbar(state, "success", `${msg} добавлен в базу данных.`);
       })
@@ -75,6 +78,8 @@ const snackbar = createSlice({
             ? `Данные пользователя "${payload.data.login}"`
             : payload.api === "customers"
             ? `Данные склада "${payload.data.name}"`
+            : payload.api === "colors"
+            ? `Данные цвета "${payload.data.name}"`
             : "";
 
         setSnackbar(state, "success", `${msg} обновлены`);

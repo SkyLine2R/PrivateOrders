@@ -9,17 +9,22 @@ const AuthContext = createContext({
 });
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState({
-    login: "",
-    name: "",
-    accessLevel: 1,
-  });
+  const [user, setUser] = useState({ login: "", name: "", accessLevel: null });
+
+  const { token, login, ...userSession } = getSession();
+  console.log("rendering context");
+
+  console.log("reading userSession");
+  console.log(userSession);
 
   React.useEffect(() => {
-    const { login, name, accessLevel } = getSession();
-    setUser({ login, name, accessLevel });
-  }, []);
+    console.log("setting context");
 
+    setUser({ login, ...userSession });
+  });
+
+  /*   console.log("user");
+  console.log(user); */
   return (
     // eslint-disable-next-line react/jsx-no-constructed-context-values
     <AuthContext.Provider value={{ user, setUser }}>

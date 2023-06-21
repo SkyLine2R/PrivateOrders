@@ -1,5 +1,5 @@
 import * as React from "react";
-import StorageIcon from "@mui/icons-material/Storage";
+import Warehouse from "@mui/icons-material/Warehouse";
 
 import EditItemsPage from "./edit-items-page";
 import EditCustomersDialog from "../dialog/edit-customer-dialog";
@@ -14,7 +14,7 @@ export default function EditUsersPage() {
     <EditItemsPage
       page="customers"
       headerText="Склады"
-      HeaderIcon={StorageIcon}
+      HeaderIcon={Warehouse}
       setModalWindowIsOpen={setModalWindowIsOpen}
       allMenuActions={allMenuActions}
       EditDialog={EditCustomersDialog}

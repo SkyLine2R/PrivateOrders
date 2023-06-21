@@ -20,6 +20,8 @@ const serverRequest = createAsyncThunk(
         referrerPolicy: "no-referrer",
         body: JSON.stringify(fetchObj),
       });
+      console.log(response);
+      console.log(response.body);
       if (!response.ok) {
         throw new Error(
           (await response.json()).error || "Сервер отклонил запрос"

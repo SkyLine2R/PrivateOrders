@@ -1,16 +1,16 @@
 import * as React from "react";
 
-import ManageAccounts from "@mui/icons-material/ManageAccounts";
-import PersonAdd from "@mui/icons-material/PersonAdd";
+import EditIcon from "@mui/icons-material/Edit";
+import AddHomeIcon from "@mui/icons-material/AddHome";
 
 const allMenuActions = [
   {
-    icon: <ManageAccounts />,
+    icon: <EditIcon />,
     name: "edit",
     tooltipTitle: "Изменить данные склада",
   },
   {
-    icon: <PersonAdd />,
+    icon: <AddHomeIcon />,
     name: "add",
     tooltipTitle: "Добавить новый склад",
   },

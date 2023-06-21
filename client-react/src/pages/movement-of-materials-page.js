@@ -27,6 +27,7 @@ const createTabs = (doc, index) => (
     icon={
       <CloseIcon
         id={`${index + 1}`}
+        // eslint-disable-next-line no-alert
         onClick={() => alert("Добавить код закрытия вкладки")}
         onMouseEnter={(e) => {
           e.target.style.transform = "scale(1.2) rotate(3deg)";

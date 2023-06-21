@@ -53,11 +53,9 @@ function normalizeRowsData(items, catalog) {
 
 function DataGridTable({ dbSchema, catalog, onCellClick }) {
   const [rowsDataState, setRowsDataState] = React.useState([]); // содержимое таблицы
-  console.log("Рендеринг...");
   // при монтировании озаглавить столбцы
   const colNameRef = React.useRef(null);
   if (colNameRef.current === null) {
-    console.log("Заглавия столбцов...");
     colNameRef.current = colNaming(dbSchema);
   }
 

@@ -3,10 +3,10 @@ const colorsSchema = {
     required: true,
     maxlength: 155,
     containsNumber: false,
-    description: "заказчик",
+    description: "название цвета",
     regularExp: '[а-яё\\-/()."\\d\\w\\s]+',
     table: {
-      headerName: "Заказчик",
+      headerName: "Название цвета",
       width: 330,
       editable: false,
     },

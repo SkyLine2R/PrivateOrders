@@ -8,23 +8,23 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
 import Avatar from "@mui/material/Avatar";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Divider from "@mui/material/Divider";
-import MainMenu from "./main-menu-for-app-bar";
+import Menu from "./menu-for-app-bar";
 import useAuth from "../hooks/useAuth";
 import { endSession } from "../components/session";
+
+import menuColors from "../components/menu-colors";
 
 const pages = [
   { name: "Материал на складе", link: "stock" },
   { name: "Поступления", link: "receipt" },
   { name: "Списания", link: "outgo" },
   { name: "Отчёты", link: "reports" },
-  { name: "Склады заказчиков", link: "customers" },
 ];
 
 const LinkBehavior = React.forwardRef((props, ref) => (
@@ -33,25 +33,20 @@ const LinkBehavior = React.forwardRef((props, ref) => (
 ));
 
 export default function MenuAppBar() {
-  const { setUser, user } = useAuth();
-
   const navigate = useNavigate();
+  const { setUser, user } = useAuth();
+  const [anchorEl, setAnchorEl] = React.useState({ main: null, user: null });
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-
-  const [anchorElMainMenu, setAnchorElMainMenu] = React.useState(null);
-  const openMainMenu = Boolean(anchorElMainMenu);
-
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-    setAnchorElMainMenu(event.currentTarget);
-
-    console.log(event.currentTarget);
+  const handleMenu = ({ currentTarget }) => {
+    setAnchorEl(
+      currentTarget.id === "main"
+        ? { user: null, main: currentTarget }
+        : { main: null, user: currentTarget }
+    );
   };
 
   const handleClose = () => {
-    setAnchorEl(null);
+    setAnchorEl({ main: null, user: null });
   };
 
   const handleLogout = () => {
@@ -71,15 +66,25 @@ export default function MenuAppBar() {
             aria-label="menu"
             sx={{ mr: 2 }}
             onClick={handleMenu}
-            anchorEl={anchorElMainMenu}
-            id="main-menu"
-            open={openMainMenu}
-            onClose={handleClose}
-            /* onClick={handleClose} */
+            id="main"
           >
             <MenuIcon />
           </IconButton>
-          <MainMenu />
+          <Menu
+            anchorEl={anchorEl?.main}
+            onClose={handleClose}
+            onClick={handleClose}
+            arrowSide="left"
+          >
+            <MenuItem>РЕДАКТИРОВАНИЕ</MenuItem>
+            <Divider />
+            {menuColors.map((item) => (
+              <MenuItem component={LinkBehavior} to={item.name} key={item.name}>
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                {item.name}
+              </MenuItem>
+            ))}
+          </Menu>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
@@ -107,43 +112,14 @@ export default function MenuAppBar() {
                 aria-haspopup="true"
                 onClick={handleMenu}
                 color="inherit"
+                id="user"
               >
                 <AccountCircle />
               </IconButton>
               <Menu
-                anchorEl={anchorEl}
-                id="account-menu"
-                open={open}
+                anchorEl={anchorEl.user}
                 onClose={handleClose}
                 onClick={handleClose}
-                PaperProps={{
-                  elevation: 0,
-                  sx: {
-                    overflow: "visible",
-                    filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                    mt: 1.5,
-                    "& .MuiAvatar-root": {
-                      width: 32,
-                      height: 32,
-                      ml: -0.5,
-                      mr: 1,
-                    },
-                    "&:before": {
-                      content: '""',
-                      display: "block",
-                      position: "absolute",
-                      top: 0,
-                      right: 14,
-                      width: 10,
-                      height: 10,
-                      bgcolor: "background.paper",
-                      transform: "translateY(-50%) rotate(45deg)",
-                      zIndex: 0,
-                    },
-                  },
-                }}
-                transformOrigin={{ horizontal: "right", vertical: "top" }}
-                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
               >
                 <MenuItem onClick={handleClose}>
                   <Avatar /> {user?.name ?? "Профиль"}

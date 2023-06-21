@@ -1,5 +1,5 @@
 import * as React from "react";
-import EditIcon from "@mui/icons-material/Edit";
+import QrCode2Icon from "@mui/icons-material/QrCode2";
 
 import EditItemsPage from "./edit-items-page";
 import EditVendorCodeDialog from "../dialog/edit-vendor-code-dialog";
@@ -14,7 +14,7 @@ export default function EditVendorCodePage() {
     <EditItemsPage
       page="vendorCodes"
       headerText="Редактирование артикулов"
-      HeaderIcon={EditIcon}
+      HeaderIcon={QrCode2Icon}
       setModalWindowIsOpen={setModalWindowIsOpen}
       allMenuActions={allMenuActions}
       EditDialog={EditVendorCodeDialog}

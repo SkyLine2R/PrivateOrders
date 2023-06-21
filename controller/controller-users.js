@@ -4,10 +4,12 @@ const DB = require("./db");
 const usersDbSchema = require("../components/users-db_schema");
 const testingDataFromInput = require("../components/testing-data-from-input");
 
+const table = "users";
+
 async function getAll(req, res) {
   try {
     const resp = await DB.getAllEntries({
-      table: "users",
+      table,
       respCol: ["id", "login", "name", "accessLevel", "createdAt"],
     });
 
@@ -20,8 +22,6 @@ async function getAll(req, res) {
 }
 
 async function add(req, res) {
-  const table = "users";
-
   try {
     const userData = testingDataFromInput(usersDbSchema, req.body.data);
 
@@ -74,7 +74,7 @@ async function edit(req, res) {
     if (userData.error) return res.json(userData.error);
 
     const candidate = await DB.findEntry({
-      table: "users",
+      table,
       searchColumn: "login",
       searchData: userData.login,
     });
@@ -87,7 +87,7 @@ async function edit(req, res) {
 
     const login = (
       await DB.editEntry({
-        table: "users",
+        table,
         dataObj: {
           ...userData,
           updatedBy: req.auth.id,
@@ -117,7 +117,7 @@ async function changePass(req, res) {
 
     const login = (
       await DB.editEntry({
-        table: "users",
+        table,
         dataObj: {
           ...userData,
           pass: hashPass,
@@ -145,7 +145,7 @@ async function disable(req, res) {
 
     const login = (
       await DB.editEntry({
-        table: "users",
+        table,
         dataObj: {
           ...userData,
           updatedBy: req.auth.id,

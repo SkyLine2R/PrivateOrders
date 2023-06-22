@@ -25,7 +25,7 @@ const serverRequest = createAsyncThunk(
         if (response.status === 401) {
           endSession();
           throw new Error(
-            "Истекло время авторизации в системе. Пожалуйста, войдите повторно"
+            "Истекло время авторизации в системе. Необходимо повторно войти в систему."
           );
         }
         throw new Error(

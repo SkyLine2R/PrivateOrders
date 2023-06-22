@@ -47,6 +47,10 @@ const colors = createSlice({
     changeValue: ({ inputFields }, { payload }) => {
       inputFields[payload.fieldId] = payload.value;
     },
+
+    addTooltip: ({ inputFields }, { payload }) => {
+      inputFields.name += payload;
+    },
   },
 
   extraReducers: (builder) => {
@@ -86,6 +90,6 @@ const colors = createSlice({
   },
 });
 
-export const { setModalWindowIsOpen, changeValue } = colors.actions;
+export const { setModalWindowIsOpen, changeValue, addTooltip } = colors.actions;
 
 export default colors.reducer;

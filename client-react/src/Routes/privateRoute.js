@@ -5,11 +5,8 @@ import { getSession } from "../components/session";
 
 export default function PrivateRoute() {
   // Получаем объект user из кастомного хука useAuth
-
   const { user, setUser } = useAuth();
-  /* const { accessToken, ...user } = getSession(); */
   const location = useLocation();
-
   const { login, name, accessLevel } = getSession();
 
   React.useEffect(() => {

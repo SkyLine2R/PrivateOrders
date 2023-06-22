@@ -7,9 +7,11 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Grid from "@mui/material/Unstable_Grid2";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import FieldForInput from "../base-elements/field-for-input";
-import { changeValue } from "../Store/Slices/slice-colors";
+import { changeValue, addTooltip } from "../Store/Slices/slice-colors";
+import ArrowTooltip from "../base-elements/arrow-tooltip";
+import arrowTooltip from "../components/arrowTooltip-for-colors";
 
 export default function FormDialog({
   menuEditType,
@@ -19,7 +21,13 @@ export default function FormDialog({
   modalWindowIsOpen,
   dbSchema,
 }) {
+  const dispatch = useDispatch();
   const { name, notes } = useSelector((state) => state.colors.inputFields);
+
+  const handleAddToolTip = (e) => {
+    dispatch(addTooltip(e.target.value));
+    console.log(e.target.value);
+  };
 
   return (
     <div>
@@ -47,7 +55,6 @@ export default function FormDialog({
                 dbSchema={dbSchema}
               />
             </Grid>
-
             <Grid xs={12}>
               <FieldForInput
                 id="notes"
@@ -56,6 +63,16 @@ export default function FormDialog({
                 value={notes}
                 dbSchema={dbSchema}
               />
+            </Grid>
+            <Grid xs={12} onClick={handleAddToolTip}>
+              {arrowTooltip.map(({ id, tooltip, value }) => (
+                <ArrowTooltip
+                  id={id}
+                  key={id}
+                  tooltip={tooltip}
+                  value={value}
+                />
+              ))}
             </Grid>
           </DialogContent>
         </Grid>

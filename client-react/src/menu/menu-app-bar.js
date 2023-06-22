@@ -18,7 +18,7 @@ import Menu from "./menu-for-app-bar";
 import useAuth from "../hooks/useAuth";
 import { endSession } from "../components/session";
 
-import menuColors from "../components/menu-colors";
+import menuMain from "../components/menu-main-for-app-bar";
 
 const pages = [
   { name: "Материал на складе", link: "stock" },
@@ -78,10 +78,10 @@ export default function MenuAppBar() {
           >
             <MenuItem>РЕДАКТИРОВАНИЕ</MenuItem>
             <Divider />
-            {menuColors.map((item) => (
+            {menuMain.map((item) => (
               <MenuItem component={LinkBehavior} to={item.name} key={item.name}>
                 <ListItemIcon>{item.icon}</ListItemIcon>
-                {item.name}
+                {item.tooltipTitle}
               </MenuItem>
             ))}
           </Menu>

@@ -34,7 +34,7 @@ const LinkBehavior = React.forwardRef((props, ref) => (
 
 export default function MenuAppBar() {
   const navigate = useNavigate();
-  const { setUser, user } = useAuth();
+  const { user, setUser } = useAuth();
   const [anchorEl, setAnchorEl] = React.useState({ main: null, user: null });
 
   const handleMenu = ({ currentTarget }) => {

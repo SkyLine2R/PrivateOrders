@@ -36,7 +36,7 @@ export default function Login() {
   const [login, setLogin] = React.useState("");
   const [pass, setPass] = React.useState("");
 
-  const { setUser, user } = useAuth();
+  const { user, setUser } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 

@@ -21,6 +21,7 @@ const successSending = (state, payload) => {
 const customers = createSlice({
   name: api,
   initialState: {
+    currentId: null,
     modalWindowIsOpen: false,
     inputFields: {
       id: null,
@@ -46,6 +47,11 @@ const customers = createSlice({
 
     changeValue: ({ inputFields }, { payload }) => {
       inputFields[payload.fieldId] = payload.value;
+    },
+    setCurrentCustomerId: (state, { payload }) => {
+      console.log("payload");
+      console.log(payload);
+      state.currentId = payload;
     },
   },
 
@@ -86,6 +92,7 @@ const customers = createSlice({
   },
 });
 
-export const { setModalWindowIsOpen, changeValue } = customers.actions;
+export const { setModalWindowIsOpen, changeValue, setCurrentCustomerId } =
+  customers.actions;
 
 export default customers.reducer;

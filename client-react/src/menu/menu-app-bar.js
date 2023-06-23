@@ -14,6 +14,8 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Divider from "@mui/material/Divider";
+
+import DialogSelectCustomer from "../forms/select-customer-form";
 import Menu from "./menu-for-app-bar";
 import useAuth from "../hooks/useAuth";
 import { endSession } from "../components/session";
@@ -85,6 +87,7 @@ export default function MenuAppBar() {
               </MenuItem>
             ))}
           </Menu>
+          {/* кнопки на основные страницы */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
@@ -103,6 +106,7 @@ export default function MenuAppBar() {
               </Button>
             ))}
           </Box>
+          <DialogSelectCustomer />
           {user.accessLevel > 1 && (
             <div>
               <IconButton

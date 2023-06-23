@@ -26,6 +26,16 @@ const arrowTooltip = [
     value: " муар",
     title,
   },
+  {
+    id: "shagreen",
+    value: " шагрень",
+    title,
+  },
+  {
+    id: "coatex",
+    value: " coatex",
+    title,
+  },
 ];
 
 export default arrowTooltip;

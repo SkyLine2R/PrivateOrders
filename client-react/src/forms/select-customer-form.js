@@ -14,16 +14,10 @@ export default function DialogSelectCustomer() {
 
   const { currentId, catalog } = useSelector(({ customers }) => customers);
 
-  console.log(catalog);
-  console.log(currentId);
   return (
     <DialogSelect
-      titleSelect={
-        <>
-          <Warehouse fontSize="small" sx={{ paddingRight: "10px" }} />
-          {currentId ?? "ВЫБРАТЬ СКЛАД"}
-        </>
-      }
+      titleSelect="ВЫБРАТЬ СКЛАД"
+      icon={<Warehouse fontSize="small" sx={{ paddingRight: "10px" }} />}
       titleDialog="Выбрать склад заказчика"
       catalog={catalog}
       setCurrent={setCurrentCustomerId}

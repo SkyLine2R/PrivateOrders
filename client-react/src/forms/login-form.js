@@ -121,6 +121,9 @@ export default function Login() {
               );
               setLogin(corrText);
             }}
+            onKeyDown={(e) => {
+              if (e.code === "Enter") handleSubmit(e);
+            }}
           />
           <FormControl sx={{ width: "100%" }} variant="standard">
             <InputLabel htmlFor="standard-adornment-password">
@@ -136,6 +139,9 @@ export default function Login() {
                   e.target.value
                 );
                 setPass(corrText);
+              }}
+              onKeyDown={(e) => {
+                if (e.code === "Enter") handleSubmit(e);
               }}
               endAdornment={
                 <InputAdornment position="end">

@@ -49,8 +49,6 @@ const customers = createSlice({
       inputFields[payload.fieldId] = payload.value;
     },
     setCurrentCustomerId: (state, { payload }) => {
-      console.log("payload");
-      console.log(payload);
       state.currentId = payload;
     },
   },

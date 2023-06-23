@@ -11,22 +11,32 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 export default function DialogSelect({
   titleSelect,
   titleDialog,
   catalog,
-  currentId,
   setCurrent,
+  icon,
 }) {
   const dispatch = useDispatch();
 
   const [open, setOpen] = React.useState(false);
-  const [age, setAge] = React.useState("");
+  const [selectedMenu, setSelectedMenu] = React.useState({
+    id: null,
+    name: "",
+  });
 
-  const handleChange = (event) => {
-    dispatch(setCurrent(+event.target.value));
+  const handleSelect = (event) => {
+    const id = +event.target.value;
+    const { name } = catalog.find((item) => +item.id === id);
+    setSelectedMenu({ id, name });
+  };
+
+  const handleChange = () => {
+    dispatch(setCurrent(selectedMenu.id));
+    setOpen(false);
   };
 
   const handleClickOpen = () => {
@@ -46,7 +56,8 @@ export default function DialogSelect({
         color="inherit"
         onClick={handleClickOpen}
       >
-        {titleSelect}
+        {icon}
+        {selectedMenu.name || titleSelect}
       </Button>
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
         <DialogTitle>{titleDialog}</DialogTitle>
@@ -57,8 +68,8 @@ export default function DialogSelect({
               <Select
                 labelId="dialog-select-label"
                 id="dialog-select"
-                value={age}
-                onChange={handleChange}
+                value={selectedMenu.id || ""}
+                onChange={handleSelect}
                 input={<OutlinedInput label="Заказчик" />}
               >
                 {catalog.map((item) => (
@@ -66,7 +77,9 @@ export default function DialogSelect({
                     {item.notes ? `${item.name} // ${item.notes}` : item.name}
                   </MenuItem>
                 ))}
-                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={10} selected>
+                  Ten
+                </MenuItem>
                 <MenuItem value={20} selected>
                   Twenty
                 </MenuItem>
@@ -76,8 +89,8 @@ export default function DialogSelect({
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Ok</Button>
+          <Button onClick={handleClose}>Отмена</Button>
+          <Button onClick={handleChange}>Выбрать</Button>
         </DialogActions>
       </Dialog>
     </div>

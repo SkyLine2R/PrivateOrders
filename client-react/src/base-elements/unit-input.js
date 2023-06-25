@@ -10,9 +10,10 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { changeValue } from "../Store/Slices/slice-vendor-codes";
 
-import { unit as arrWithUnit } from "../../../components/vendor-codes-db_schema";
+// import { unit as arrWithUnit } from "../../../components/vendor-codes-db_schema";
+import { unit } from "../components/tables-schemas/table_schema-vendor-codes";
 
-const unitForSelect = arrWithUnit.unitArr;
+const unitForSelect = unit.unitArr;
 
 export default function SelectItemUnit({ label, id }) {
   const val = useSelector(({ vendorCodes }) => vendorCodes.inputFields[id]);

@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 import TextField from "@mui/material/TextField";
-import textСorrectionInField from "../../../components/textCorrectionForInput";
+import textСorrectionInField from "../components/textCorrectionForInput";
 
 export default function FieldForInput({
   id,

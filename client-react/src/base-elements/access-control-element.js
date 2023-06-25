@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import StarIcon from "@mui/icons-material/Star";
 import Typography from "@mui/material/Typography";
 
-import { accessLevel } from "../../../components/users-db_schema";
+import { accessLevel } from "../components/tables-schemas/table_schema-users";
 
 function getLabelText(value) {
   return `${value} Star${value !== 1 ? "s" : ""}, ${accessLevel.labels[value]}`;

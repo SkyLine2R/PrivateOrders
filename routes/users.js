@@ -1,5 +1,5 @@
-const usersController = require("../controller/controller-users");
-const accessDenied = require("../controller/accessDenied");
+const usersController = require("../controllers/controller-users");
+const accessDenied = require("../controllers/accessDenied");
 
 module.exports = (req, res) => {
   const testAccess = accessDenied(req, res, 5);

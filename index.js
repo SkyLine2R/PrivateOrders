@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-vars */
 const createError = require("http-errors");
 const express = require("express");
-const bodyParser = require("body-parser");
+// const bodyParser = require("body-parser");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
@@ -15,10 +15,6 @@ const WORD_FOR_TOKEN = require("./Environment-setting/WORD_FOR_TOKEN");
 const attachCurrentUser = require("./middlewares/attachCurrentUser");
 
 app.set("port", process.env.PORT || 3000);
-
-// view engine setup
-// app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
 
 app.use(logger("dev"));
 app.use(express.static(path.join(__dirname, "public")));

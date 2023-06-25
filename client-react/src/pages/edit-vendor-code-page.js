@@ -2,10 +2,11 @@ import * as React from "react";
 import QrCode2Icon from "@mui/icons-material/QrCode2";
 
 import EditItemsPage from "./edit-items-page";
-import EditVendorCodeDialog from "../dialog/edit-vendor-code-dialog";
+import EditVendorCodeDialog from "../dialogs/edit-vendor-code-dialog";
 
-import allMenuActions from "../components/menu-actions-vendor-codes";
-import dbSchema from "../../../components/vendor-codes-db_schema";
+import allMenuActions from "../components/menus-schemas/menu-actions-vendor-codes";
+import tableSchema from "../components/tables-schemas/table_schema-vendor-codes";
+import dbSchema from "../../../components/db_schema_for_testing/db_schema-vendor-codes";
 
 import { setModalWindowIsOpen } from "../Store/Slices/slice-vendor-codes";
 
@@ -18,6 +19,7 @@ export default function EditVendorCodePage() {
       setModalWindowIsOpen={setModalWindowIsOpen}
       allMenuActions={allMenuActions}
       EditDialog={EditVendorCodeDialog}
+      tableSchema={tableSchema}
       dbSchema={dbSchema}
     />
   );

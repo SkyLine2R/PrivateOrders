@@ -77,13 +77,6 @@ export default function DialogSelect({
                     {item.notes ? `${item.name} // ${item.notes}` : item.name}
                   </MenuItem>
                 ))}
-                <MenuItem value={10} selected>
-                  Ten
-                </MenuItem>
-                <MenuItem value={20} selected>
-                  Twenty
-                </MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
               </Select>
             </FormControl>
           </Box>

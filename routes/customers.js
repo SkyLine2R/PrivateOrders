@@ -1,5 +1,5 @@
-const customerController = require("../controller/controller-customers");
-const accessDenied = require("../controller/accessDenied");
+const customerController = require("../controllers/controller-customers");
+const accessDenied = require("../controllers/accessDenied");
 
 module.exports = (req, res) => {
   switch (req.body.type) {

@@ -1,6 +1,6 @@
 import testSendData from "../../../components/testing-data-from-input";
-import dbSchema from "../../../components/users-db_schema";
-import APP_URL from "./APP_URL";
+import dbSchema from "../../../components/db_schema_for_testing/db_schema-users";
+import APP_URL from "../../../Environment-setting/APP_URL";
 
 const signInUser = async (user) => {
   try {

@@ -1,6 +1,7 @@
 import * as React from "react";
+
 import CustomizedSnackbars from "./base-elements/snackbar";
-import MenuAppBar from "./menu/menu-app-bar";
+import MenuAppBar from "./menus/menu-app-bar";
 import useRoutes from "./Routes/routes";
 import useAuth from "./hooks/useAuth";
 

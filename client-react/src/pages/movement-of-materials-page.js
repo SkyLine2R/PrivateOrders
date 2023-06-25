@@ -10,13 +10,14 @@ import TabPanel from "@mui/lab/TabPanel";
 import CloseIcon from "@mui/icons-material/Close";
 
 import DataGrid from "../base-elements/data-grid-table";
-import dbSchemaDocument from "../../../components/document-db_schema";
+import tableSchema from "../components/tables-schemas/table_schema-stock-material";
+import dbSchemaDocument from "../../../components/db_schema_for_testing/db_schema-document";
 import EditVendorCodePage from "./edit-vendor-code-page";
 
 const tabs = {
   tabLabel: {
-    receipt: "Документы о поступлении",
-    outgo: "Документы о списании",
+    inStock: "Документы о поступлении",
+    outStock: "Документы о списании",
   },
 };
 
@@ -55,7 +56,11 @@ const createTabPanels = (doc, index) => (
 );
 
 // если элементы не будут добавляться - убрать "обёртку" Box
-export default function MovementOfMaterials({ type, openDocuments }) {
+export default function MovementOfMaterials({
+  type,
+  openDocuments,
+  MainTabContent,
+}) {
   const [value, setValue] = React.useState("1");
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -65,13 +70,13 @@ export default function MovementOfMaterials({ type, openDocuments }) {
       <Box sx={{ width: "100%", typography: "body1" }}>
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <TabList onChange={handleChange} aria-label="lab API tabs example">
+            <TabList onChange={handleChange} aria-label="tabs with documents">
               <Tab label={tabs.tabLabel[type]} value="0" />
               {openDocuments.map(createTabs)}
             </TabList>
           </Box>
           <TabPanel value="0">
-            <DataGrid itemsDB={dbSchemaDocument} />
+            <MainTabContent />
           </TabPanel>
           {openDocuments.map(createTabPanels)}
         </TabContext>

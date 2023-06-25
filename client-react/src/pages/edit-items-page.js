@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
 import DataGrid from "../base-elements/data-grid-table";
-import SpeedDialMenu from "../menu/speed-dial-menu";
+import SpeedDialMenu from "../menus/menu-speed-dial";
 import sendNewEntryToDB from "../Store/sendNewEntryToDB";
 import sendChangedEntryToDB from "../Store/sendChangedEntryToDB";
 import fetchEntries from "../Store/fetchEntries";
@@ -20,6 +20,7 @@ export default function EditItemsPage({
   setModalWindowIsOpen,
   allMenuActions,
   EditDialog,
+  tableSchema,
   dbSchema,
 }) {
   const dispatch = useDispatch();
@@ -56,9 +57,6 @@ export default function EditItemsPage({
 
   const handleMenuInContainer = (e) => {
     e.stopPropagation();
-
-    /*     console.log("handleMenuInContainer");
-    console.log(e.clientY); */
     if (!modalWindowIsOpen) {
       setMenuParams({
         x: e.clientX,
@@ -169,6 +167,7 @@ export default function EditItemsPage({
           handleAddNewItem={handleAddNewItem}
           handleEditItem={handleEditItem}
           modalWindowIsOpen={modalWindowIsOpen}
+          tableSchema={tableSchema}
           dbSchema={dbSchema}
           catalog={catalog}
         />
@@ -180,7 +179,7 @@ export default function EditItemsPage({
         />
       )}
       <DataGrid
-        dbSchema={dbSchema}
+        tableSchema={tableSchema}
         catalog={catalog}
         onCellClick={handleMenuInDataGrid}
       />

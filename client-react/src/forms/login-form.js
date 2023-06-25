@@ -14,8 +14,8 @@ import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import textСorrectionInField from "../../../components/textCorrectionForInput";
-import dbSchema from "../../../components/users-db_schema";
+import textСorrectionInField from "../components/textCorrectionForInput";
+import dbSchema from "../../../components/db_schema_for_testing/db_schema-users";
 import useAuth from "../hooks/useAuth";
 import signInUser from "../components/signInUser";
 import {
@@ -122,7 +122,8 @@ export default function Login() {
               setLogin(corrText);
             }}
             onKeyDown={(e) => {
-              if (e.code === "Enter") handleSubmit(e);
+              if (e.code === "Enter" || e.code === "NumpadEnter")
+                handleSubmit(e);
             }}
           />
           <FormControl sx={{ width: "100%" }} variant="standard">
@@ -141,7 +142,8 @@ export default function Login() {
                 setPass(corrText);
               }}
               onKeyDown={(e) => {
-                if (e.code === "Enter") handleSubmit(e);
+                if (e.code === "Enter" || e.code === "NumpadEnter")
+                  handleSubmit(e);
               }}
               endAdornment={
                 <InputAdornment position="end">

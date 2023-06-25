@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import API_URL from "../components/API_URL";
+import API_URL from "../../../Environment-setting/API_URL";
 import { getSession, endSession } from "../components/session";
 
 const serverRequest = createAsyncThunk(

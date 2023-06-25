@@ -12,12 +12,13 @@ function isObjectEmpty(value) {
 function testDataFromForm(refObj, testObj) {
   // Функция проверки переданных значений.
   // Принимает объект refObj с параметрами проверки и объект с данными
-  // Если всё норм - возвращает объект c данными, нет - объект с массивом ошибок
+  // Если всё норм - возвращает объект c данными. Нет - объект с массивом ошибок
   const errArr = [];
   if (isObjectEmpty(refObj) && isObjectEmpty(testObj)) {
     return errArr.push(`Не удалось проверить данные - получен пустой объект`);
   }
   for (const key in refObj) {
+    // eslint-disable-next-line no-continue
     if (refObj[key] === null) continue;
     if (
       refObj[key].required &&

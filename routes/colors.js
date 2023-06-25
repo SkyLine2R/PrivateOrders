@@ -1,5 +1,5 @@
-const controller = require("../controller/controller-colors");
-const accessDenied = require("../controller/accessDenied");
+const controller = require("../controllers/controller-colors");
+const accessDenied = require("../controllers/accessDenied");
 
 module.exports = (req, res) => {
   switch (req.body.type) {

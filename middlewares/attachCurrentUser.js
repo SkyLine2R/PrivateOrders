@@ -1,4 +1,4 @@
-const DB = require("../controller/db");
+const DB = require("../controllers/db");
 
 const attachCurrentUser = async (req, res, next) => {
   try {

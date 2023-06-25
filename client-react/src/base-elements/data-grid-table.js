@@ -9,7 +9,7 @@ function colNaming(items) {
   // добавить нумерацию
   const columns = [
     {
-      field: "number",
+      field: "serialNumber",
       headerName: "#",
       width: 40,
       editable: false,
@@ -20,8 +20,8 @@ function colNaming(items) {
   // eslint-disable-next-line guard-for-in
   for (const item in items) {
     // eslint-disable-next-line no-param-reassign
-    items[item].table.field = item;
-    if (+items[item].table.width !== 0) columns.push(items[item].table);
+    items[item].field = item;
+    if (+items[item].width !== 0) columns.push(items[item]);
   }
   return columns;
 }
@@ -43,7 +43,7 @@ function normalizeRowsData(items, catalog) {
 
   const rowsData = rows.map((item, index) => ({
     ...item,
-    number: index + 1,
+    serialNumber: index + 1,
     unit: items.unit?.unitArr[+item.unit],
     accessLevel: items.accessLevel?.labels[+item.accessLevel],
   }));
@@ -51,18 +51,18 @@ function normalizeRowsData(items, catalog) {
   return rowsData;
 }
 
-function DataGridTable({ dbSchema, catalog, onCellClick }) {
+function DataGridTable({ tableSchema, catalog, onCellClick }) {
   const [rowsDataState, setRowsDataState] = React.useState([]); // содержимое таблицы
   // при монтировании озаглавить столбцы
   const colNameRef = React.useRef(null);
   if (colNameRef.current === null) {
-    colNameRef.current = colNaming(dbSchema);
+    colNameRef.current = colNaming(tableSchema);
   }
 
   // нормализация данных, если был новый запрос на сервер
   React.useEffect(
-    () => setRowsDataState(normalizeRowsData(dbSchema, catalog)),
-    [catalog, dbSchema]
+    () => setRowsDataState(normalizeRowsData(tableSchema, catalog)),
+    [catalog, tableSchema]
   );
 
   return (

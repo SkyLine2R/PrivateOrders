@@ -8,6 +8,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
+import dayjs from "dayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 import { useDispatch, useSelector } from "react-redux";
 import FieldForInput from "../base-elements/field-for-input";
@@ -37,8 +39,8 @@ export default function FormDialog({
           {menuEditType === "add" ? "Новый документ" : "Изменить документ"}
         </DialogTitle>
         <Grid container spacing={2} sx={{ margin: "0px" }}>
-          <DialogContent label="Дата">
-            <Grid xs={12}>
+          <DialogContent>
+            <Grid>
               <FieldForInput
                 id="name"
                 label="Название"
@@ -47,14 +49,23 @@ export default function FormDialog({
                 dbSchema={dbSchema}
               />
             </Grid>
-            <Grid xs={12}>
-              <FieldForInput
-                id="number"
-                label="Номер"
-                changeValue={changeValue}
-                value={number}
-                dbSchema={dbSchema}
-              />
+            <Grid container spacing={2} sx={{ pl: 1 }}>
+              <Grid xs={6}>
+                <FieldForInput
+                  id="number"
+                  label="Номер"
+                  changeValue={changeValue}
+                  value={number}
+                  dbSchema={dbSchema}
+                />
+              </Grid>
+              <Grid xs={6}>
+                <DatePicker
+                  label="Дата"
+                  defaultValue={dayjs(Date.now())}
+                  sx={{ mt: 1, pr: 1 }}
+                />
+              </Grid>
             </Grid>
             <Grid xs={12}>
               <Box sx={{ paddingTop: "20px" }}>

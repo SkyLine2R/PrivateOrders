@@ -25,7 +25,7 @@ const documentsInStock = createSlice({
   name: api,
   initialState: {
     currentId: null,
-    modalWindowIsOpen: false,
+    modalWindowIsOpen: true,
     inputFields: {
       id: null,
       date: "",

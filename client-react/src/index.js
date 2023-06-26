@@ -3,6 +3,7 @@ import { render } from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import "dayjs/locale/ru";
 
 import { Provider } from "react-redux";
 import App from "./app";
@@ -11,7 +12,7 @@ import { AuthProvider } from "./Context/authProvider";
 
 render(
   <React.StrictMode>
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ru">
       <Provider store={store}>
         <Router>
           <AuthProvider>

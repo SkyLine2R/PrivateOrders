@@ -8,12 +8,9 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
-import TextField from "@mui/material/TextField";
-import InputAdornment from "@mui/material/InputAdornment";
 
 import { useDispatch, useSelector } from "react-redux";
 import FieldForInput from "../base-elements/field-for-input";
-import AccessControlElement from "../base-elements/access-control-element";
 import { changeValue } from "../Store/Slices/slice-users";
 
 export default function FormDialog({
@@ -24,15 +21,9 @@ export default function FormDialog({
   modalWindowIsOpen,
   dbSchema,
 }) {
-  const { login, name, pass, accessLevel } = useSelector(
-    (state) => state.users.inputFields
-  );
+  const { number, name } = useSelector((state) => state.users.inputFields);
 
   const dispatch = useDispatch();
-
-  const handleChangeAccessLevel = (_, newValue) => {
-    dispatch(changeValue({ fieldId: "accessLevel", value: newValue }));
-  };
 
   return (
     <div>
@@ -43,75 +34,41 @@ export default function FormDialog({
         onClose={handleClickOpenClose}
       >
         <DialogTitle sx={{ paddingLeft: "30px" }}>
-          {menuEditType === "add"
-            ? "Новая учётная запись"
-            : menuEditType === "edit"
-            ? "Редактирование данных пользователя"
-            : "Смена пароля пользователя"}
+          {menuEditType === "add" ? "Новый документ" : "Изменить документ"}
         </DialogTitle>
         <Grid container spacing={2} sx={{ margin: "0px" }}>
-          <DialogContent label="Пользователь">
+          <DialogContent label="Дата">
             <Grid xs={12}>
               <FieldForInput
-                id="login"
-                label="Логин"
+                id="name"
+                label="Название"
                 changeValue={changeValue}
-                value={login}
+                value={name}
                 dbSchema={dbSchema}
-                disable={menuEditType === "changePass"}
               />
             </Grid>
-            {menuEditType === "changePass" ? (
-              ""
-            ) : (
-              <Grid xs={12}>
+            <Grid xs={12}>
+              <FieldForInput
+                id="number"
+                label="Номер"
+                changeValue={changeValue}
+                value={number}
+                dbSchema={dbSchema}
+              />
+            </Grid>
+            <Grid xs={12}>
+              <Box sx={{ paddingTop: "20px" }}>
                 <FieldForInput
-                  id="name"
-                  label="Имя пользователя"
+                  id="notes"
+                  label="Примечания к документу"
                   changeValue={changeValue}
-                  value={name}
+                  value={number}
                   dbSchema={dbSchema}
                 />
-              </Grid>
-            )}
-            {menuEditType === "add" || menuEditType === "changePass" ? (
-              <Grid xs={12}>
-                <FieldForInput
-                  id="pass"
-                  label="Пароль"
-                  changeValue={changeValue}
-                  value={pass}
-                  dbSchema={dbSchema}
-                />
-              </Grid>
-            ) : null}
-            {menuEditType === "changePass" ? (
-              ""
-            ) : (
-              <Grid xs={12}>
-                <Box sx={{ paddingTop: "20px" }}>
-                  <TextField
-                    id="accessLevel"
-                    label="Уровень доступа для учётной записи"
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <AccessControlElement
-                            value={accessLevel}
-                            change={handleChangeAccessLevel}
-                          />
-                        </InputAdornment>
-                      ),
-                      readOnly: true,
-                    }}
-                    variant="outlined"
-                  />
-                </Box>
-              </Grid>
-            )}
+              </Box>
+            </Grid>
           </DialogContent>
         </Grid>
-
         <DialogActions>
           <Button onClick={handleClickOpenClose}>Отмена</Button>
           {menuEditType === "add" ? (

@@ -5,7 +5,6 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import Box from "@mui/material/Box";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
@@ -16,6 +15,7 @@ import fetchVendorCodes from "../Store/fetchVendorCodes";
 import { copyPasteValue } from "../Store/Slices/slice-vendor-codes";
 
 import DataGrid from "../base-elements/data-grid-table";
+import TitleDialog from "../base-elements/dialog-title";
 import EditVendorCodeForm from "../forms/edit-vendor-code-form";
 
 export default function FormDialog({
@@ -49,31 +49,14 @@ export default function FormDialog({
         open={modalWindowIsOpen}
         onClose={handleClickOpenClose}
       >
-        <Box
-          sx={{
-            width: "fit-content",
-            display: "flex",
-            alignItems: "center",
-            ml: "24px",
-            mt: "8px",
-          }}
-        >
-          {menuEditType === "add" ? (
-            <>
-              <ControlPointIcon
-                fontSize="large"
-                sx={{ color: "primary.dark" }}
-              />
+        <TitleDialog
+          menuEditType={menuEditType}
+          IconNew={ControlPointIcon}
+          IconEdit={ModeEditIcon}
+          titleNew="Добавление нового артикула"
+          titleEdit="Редактирование артикула"
+        />
 
-              <DialogTitle>Добавление нового артикула</DialogTitle>
-            </>
-          ) : (
-            <>
-              <ModeEditIcon fontSize="large" sx={{ color: "primary.dark" }} />
-              <DialogTitle>Редактирование артикула</DialogTitle>
-            </>
-          )}
-        </Box>
         <DialogContent label="Артикул" sx={{ pt: 0 }}>
           <EditVendorCodeForm dbSchema={dbSchema} />
           {menuEditType !== "add" ? (

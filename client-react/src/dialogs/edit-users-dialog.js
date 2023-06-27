@@ -5,12 +5,15 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import { useDispatch, useSelector } from "react-redux";
+import AdminPanelSettings from "@mui/icons-material/AdminPanelSettings";
+import ManageAccounts from "@mui/icons-material/ManageAccounts";
+import PersonAdd from "@mui/icons-material/PersonAdd";
+import TitleDialog from "../base-elements/dialog-title";
 import FieldForInput from "../base-elements/field-for-input";
 import AccessControlElement from "../base-elements/access-control-element";
 import { changeValue } from "../Store/Slices/slice-users";
@@ -41,29 +44,30 @@ export default function FormDialog({
         open={modalWindowIsOpen}
         onClose={handleClickOpenClose}
       >
-        <DialogTitle sx={{ paddingLeft: "30px" }}>
-          {menuEditType === "add"
-            ? "Новая учётная запись"
-            : menuEditType === "edit"
-            ? "Редактирование данных пользователя"
-            : "Смена пароля пользователя"}
-        </DialogTitle>
-        <Grid container spacing={2} sx={{ margin: "0px" }}>
+        <Grid>
+          <TitleDialog
+            menuEditType={menuEditType}
+            IconNew={PersonAdd}
+            IconEdit={ManageAccounts}
+            IconPass={AdminPanelSettings}
+            titleNew="Новая учётная запись"
+            titleEdit="Редактирование данных"
+            titlePass="Смена пароля"
+          />
           <DialogContent label="Пользователь">
-            <Grid xs={12}>
-              <FieldForInput
-                id="login"
-                label="Логин"
-                changeValue={changeValue}
-                value={login}
-                dbSchema={dbSchema}
-                disable={menuEditType === "changePass"}
-              />
-            </Grid>
+            <FieldForInput
+              id="login"
+              label="Логин"
+              changeValue={changeValue}
+              value={login}
+              dbSchema={dbSchema}
+              disable={menuEditType === "changePass"}
+            />
+
             {menuEditType === "changePass" ? (
               ""
             ) : (
-              <Grid xs={12}>
+              <Grid sx={{ pt: 2 }}>
                 <FieldForInput
                   id="name"
                   label="Имя пользователя"
@@ -74,10 +78,12 @@ export default function FormDialog({
               </Grid>
             )}
             {menuEditType === "add" || menuEditType === "changePass" ? (
-              <Grid xs={12}>
+              <Grid sx={{ pt: 2 }}>
                 <FieldForInput
                   id="pass"
-                  label="Пароль"
+                  label={
+                    menuEditType === "changePass" ? "Новый пароль" : "Пароль"
+                  }
                   changeValue={changeValue}
                   value={pass}
                   dbSchema={dbSchema}
@@ -87,8 +93,8 @@ export default function FormDialog({
             {menuEditType === "changePass" ? (
               ""
             ) : (
-              <Grid xs={12}>
-                <Box sx={{ paddingTop: "20px" }}>
+              <Grid sx={{ pt: 2 }}>
+                <Box sx={{ pt: 1 }}>
                   <TextField
                     id="accessLevel"
                     label="Уровень доступа для учётной записи"
@@ -110,8 +116,7 @@ export default function FormDialog({
             )}
           </DialogContent>
         </Grid>
-
-        <DialogActions>
+        <DialogActions sx={{ pr: 2 }}>
           <Button onClick={handleClickOpenClose}>Отмена</Button>
           {menuEditType === "add" ? (
             <Button onClick={handleAddNewItem}>Добавить</Button>

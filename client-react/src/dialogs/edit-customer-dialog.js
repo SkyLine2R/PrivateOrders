@@ -5,9 +5,11 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useSelector } from "react-redux";
+import EditIcon from "@mui/icons-material/Edit";
+import AddHomeIcon from "@mui/icons-material/AddHome";
+import TitleDialog from "../base-elements/dialog-title";
 import FieldForInput from "../base-elements/field-for-input";
 import { changeValue } from "../Store/Slices/slice-customers";
 
@@ -29,26 +31,24 @@ export default function FormDialog({
         open={modalWindowIsOpen}
         onClose={handleClickOpenClose}
       >
-        <DialogTitle sx={{ paddingLeft: "30px" }}>
-          {menuEditType === "add"
-            ? "Новый склад"
-            : menuEditType === "edit"
-            ? "Редактирование данных склада"
-            : ""}
-        </DialogTitle>
-        <Grid container spacing={2} sx={{ margin: "0px" }}>
+        <Grid>
+          <TitleDialog
+            menuEditType={menuEditType}
+            IconNew={AddHomeIcon}
+            IconEdit={EditIcon}
+            titleNew="Новый склад"
+            titleEdit="Редактирование данных склада"
+          />
           <DialogContent label="Название склада заказчика">
-            <Grid xs={12}>
-              <FieldForInput
-                id="name"
-                label="Склад"
-                changeValue={changeValue}
-                value={name}
-                dbSchema={dbSchema}
-              />
-            </Grid>
+            <FieldForInput
+              id="name"
+              label="Склад"
+              changeValue={changeValue}
+              value={name}
+              dbSchema={dbSchema}
+            />
 
-            <Grid xs={12}>
+            <Grid sx={{ pt: 2 }}>
               <FieldForInput
                 id="notes"
                 label="Примечания"
@@ -59,7 +59,7 @@ export default function FormDialog({
             </Grid>
           </DialogContent>
         </Grid>
-        <DialogActions>
+        <DialogActions sx={{ pr: 2 }}>
           <Button onClick={handleClickOpenClose}>Отмена</Button>
           {menuEditType === "add" ? (
             <Button onClick={handleAddNewItem}>Добавить</Button>

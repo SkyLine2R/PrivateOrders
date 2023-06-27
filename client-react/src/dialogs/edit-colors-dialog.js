@@ -5,13 +5,15 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
 import Grid from "@mui/material/Unstable_Grid2";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+import InvertColorsIcon from "@mui/icons-material/InvertColors";
 import { useSelector, useDispatch } from "react-redux";
 import FieldForInput from "../base-elements/field-for-input";
 import { changeValue, addTooltip } from "../Store/Slices/slice-colors";
 import ArrowTooltip from "../base-elements/arrow-tooltip";
 import arrowTooltip from "../components/arrowTooltip-for-colors";
+import TitleDialog from "../base-elements/dialog-title";
 
 export default function FormDialog({
   menuEditType,
@@ -26,7 +28,6 @@ export default function FormDialog({
 
   const handleAddToolTip = (e) => {
     dispatch(addTooltip(e.target.value));
-    console.log(e.target.value);
   };
 
   return (
@@ -37,25 +38,23 @@ export default function FormDialog({
         open={modalWindowIsOpen}
         onClose={handleClickOpenClose}
       >
-        <DialogTitle sx={{ paddingLeft: "30px" }}>
-          {menuEditType === "add"
-            ? "Новый цвет"
-            : menuEditType === "edit"
-            ? "Редактирование цвета"
-            : ""}
-        </DialogTitle>
-        <Grid container spacing={2} sx={{ margin: "0px" }}>
+        <Grid>
+          <TitleDialog
+            menuEditType={menuEditType}
+            IconNew={InvertColorsIcon}
+            IconEdit={BorderColorIcon}
+            titleNew="Новый цвет"
+            titleEdit="Редактирование цвета"
+          />
           <DialogContent label="Название цвета">
-            <Grid xs={12}>
-              <FieldForInput
-                id="name"
-                label="Цвет"
-                changeValue={changeValue}
-                value={name}
-                dbSchema={dbSchema}
-              />
-            </Grid>
-            <Grid xs={12}>
+            <FieldForInput
+              id="name"
+              label="Цвет"
+              changeValue={changeValue}
+              value={name}
+              dbSchema={dbSchema}
+            />
+            <Grid sx={{ pt: 2 }}>
               <FieldForInput
                 id="notes"
                 label="Примечания"
@@ -64,7 +63,7 @@ export default function FormDialog({
                 dbSchema={dbSchema}
               />
             </Grid>
-            <Grid xs={12} onClick={handleAddToolTip}>
+            <Grid sx={{ pt: 2 }} onClick={handleAddToolTip}>
               {arrowTooltip.map(({ id, tooltip, value }) => (
                 <ArrowTooltip
                   id={id}
@@ -76,7 +75,7 @@ export default function FormDialog({
             </Grid>
           </DialogContent>
         </Grid>
-        <DialogActions>
+        <DialogActions sx={{ pr: 2 }}>
           <Button onClick={handleClickOpenClose}>Отмена</Button>
           {menuEditType === "add" ? (
             <Button onClick={handleAddNewItem}>Добавить</Button>

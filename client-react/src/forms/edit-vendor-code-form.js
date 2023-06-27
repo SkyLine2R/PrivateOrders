@@ -10,7 +10,7 @@ import FieldForInput from "../base-elements/field-for-input";
 import { changeValue } from "../Store/Slices/slice-vendor-codes";
 
 export default function EditVendorCodeForm({ dbSchema }) {
-  const { vendorCode, itemName, quantity, notes } = useSelector(
+  const { vendorCode, name, quantity, notes } = useSelector(
     ({ vendorCodes }) => vendorCodes.inputFields,
     shallowEqual
   );
@@ -29,10 +29,10 @@ export default function EditVendorCodeForm({ dbSchema }) {
         </Grid>
         <Grid xs={8}>
           <FieldForInput
-            id="itemName"
+            id="name"
             label="Наименование"
             changeValue={changeValue}
-            value={itemName}
+            value={name}
             dbSchema={dbSchema}
           />
         </Grid>

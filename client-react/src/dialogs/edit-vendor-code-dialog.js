@@ -30,7 +30,7 @@ export default function FormDialog({
 }) {
   const dispatch = useDispatch();
 
-  const { vendorCode, itemName } = useSelector(
+  const { vendorCode, name } = useSelector(
     ({ vendorCodes }) => vendorCodes.inputFields
   );
 
@@ -38,7 +38,7 @@ export default function FormDialog({
 
   React.useEffect(
     () => dispatch(fetchVendorCodes()),
-    [dispatch, vendorCode, itemName]
+    [dispatch, vendorCode, name]
   );
 
   return (

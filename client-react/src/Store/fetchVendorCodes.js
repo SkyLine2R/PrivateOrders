@@ -8,16 +8,16 @@ const fetchVendorCodes = createAsyncThunk(
     // остальное заменяем на маску "любые символы - "%"
     // если введены данные в два поля (артикул и название) - фильтр не используем
     const { inputFields, request } = getState().vendorCodes;
-    const { vendorCode, itemName } = inputFields;
+    const { vendorCode, name } = inputFields;
     const { prevReq } = request;
 
-    if (vendorCode && itemName) return rejected();
+    if (vendorCode && name) return rejected();
 
     const fetchObj = {
       type: "getFiltered",
       data: {
-        column: `${vendorCode ? "vendorCode" : "itemName"}`,
-        string: vendorCode || itemName || "",
+        column: `${vendorCode ? "vendorCode" : "name"}`,
+        string: vendorCode || name || "",
       },
     };
 

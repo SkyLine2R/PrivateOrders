@@ -22,7 +22,7 @@ const vendorCodesDbSchema = {
     description: "артикул изделия",
     regularExp: '[а-яё\\-+/()#*.,"\\d\\w\\s]+',
   },
-  itemName: {
+  name: {
     required: true,
     maxlength: 255,
     containsNumber: false,

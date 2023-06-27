@@ -13,7 +13,7 @@ const vendorCodeSchemaTable = {
     width: 90,
     editable: false,
   },
-  itemName: {
+  name: {
     headerName: "Наименование",
     width: 330,
     editable: false,

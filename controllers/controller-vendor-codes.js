@@ -1,13 +1,13 @@
 /* eslint-disable consistent-return */
 const DB = require("./db");
-const itemsDbSchema = require("../components/db_schema_for_testing/db_schema-vendor-codes");
+const vendorCodesDbSchema = require("../components/db_schema_for_testing/db_schema-vendor-codes");
 const testingDataFromInput = require("../components/testing-data-from-input");
 
 async function getAll(req, res) {
   try {
     const resp = await DB.getAllEntries({
-      table: "items",
-      respCol: ["id", "vendorCode", "itemName", "unit", "quantity", "notes"],
+      table: "vendorCodes",
+      respCol: ["id", "vendorCode", "name", "unit", "quantity", "notes"],
     });
     return res.json(resp);
   } catch (e) {
@@ -19,8 +19,8 @@ async function getFiltered(req, res) {
   try {
     const resp = await DB.findEntriesForQuickFilter({
       ...req.body.data,
-      table: "items",
-      respCol: ["id", "vendorCode", "itemName", "unit", "quantity", "notes"],
+      table: "vendorCodes",
+      respCol: ["id", "vendorCode", "name", "unit", "quantity", "notes"],
     });
     return res.json(resp);
   } catch (e) {
@@ -30,12 +30,12 @@ async function getFiltered(req, res) {
 
 async function add(req, res) {
   try {
-    const itemData = testingDataFromInput(itemsDbSchema, req.body.data);
+    const itemData = testingDataFromInput(vendorCodesDbSchema, req.body.data);
     if (itemData.error) return res.json(itemData.error);
 
     const item = (
       await DB.addEntry({
-        table: "items",
+        table: "vendorCodes",
         dataObj: {
           ...itemData,
           createdBy: req.auth.id,
@@ -54,7 +54,7 @@ async function add(req, res) {
 async function edit(req, res) {
   try {
     const itemData = testingDataFromInput(
-      { ...itemsDbSchema, id: null },
+      { ...vendorCodesDbSchema, id: null },
       req.body.data
     );
 
@@ -62,7 +62,7 @@ async function edit(req, res) {
 
     const item = (
       await DB.editEntry({
-        table: "items",
+        table: "vendorCodes",
         dataObj: {
           ...itemData,
           updatedBy: req.auth.id,

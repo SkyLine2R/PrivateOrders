@@ -15,7 +15,7 @@ const successSending = (state, payload) => {
   state.modalWindowIsOpen = false;
   state.inputFields = {
     vendorCode: "",
-    itemName: "",
+    name: "",
     unit: 0,
     quantity: 0,
     notes: "",
@@ -29,7 +29,7 @@ const vendorCodes = createSlice({
     inputFields: {
       id: null,
       vendorCode: "",
-      itemName: "",
+      name: "",
       unit: "0",
       quantity: "1",
       notes: "",
@@ -47,7 +47,7 @@ const vendorCodes = createSlice({
     setModalWindowIsOpen: (state, { payload }) => {
       state.inputFields.id = payload?.id || "";
       state.inputFields.vendorCode = payload?.vendorCode || "";
-      state.inputFields.itemName = payload?.itemName || "";
+      state.inputFields.name = payload?.name || "";
       state.inputFields.unit = payload?.unit || 0;
       state.inputFields.quantity = payload?.quantity || 1;
       state.inputFields.notes = payload?.notes || "";

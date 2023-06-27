@@ -9,7 +9,7 @@
 
 const customersSchemaTable = {
   name: {
-    headerName: "Заказчик",
+    headerName: "Склад заказчика",
     width: 330,
     editable: false,
   },

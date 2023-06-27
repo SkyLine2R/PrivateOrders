@@ -37,7 +37,9 @@ export default function FormDialog({
       })
     );
   };
-
+  React.useEffect(() =>
+    handleChangeDate(new Date(Date.now()).toLocaleString(), [])
+  );
   return (
     <div>
       <Dialog

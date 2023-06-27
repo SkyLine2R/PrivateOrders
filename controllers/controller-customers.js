@@ -19,7 +19,8 @@ async function add(req, res) {
   try {
     const itemData = testingDataFromInput(itemsDbSchema, req.body.data);
     if (itemData.error) return res.json(itemData.error);
-
+    console.log("itemData");
+    console.log(itemData);
     const item = (
       await DB.addEntry({
         table: "customers",
@@ -53,7 +54,7 @@ async function edit(req, res) {
         dataObj: {
           ...itemData,
           updatedBy: req.auth.id,
-          updatedAt: new Date(Date.now()).toLocaleString(),
+          updatedAt: Date.now(),
         },
         respCol: ["id", "name"],
       })

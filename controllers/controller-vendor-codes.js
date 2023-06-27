@@ -66,7 +66,7 @@ async function edit(req, res) {
         dataObj: {
           ...itemData,
           updatedBy: req.auth.id,
-          updatedAt: new Date(Date.now()).toLocaleString(),
+          updatedAt: Date.now(),
         },
         respCol: ["id", "vendorCode"],
       })

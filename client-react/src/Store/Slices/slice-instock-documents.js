@@ -14,7 +14,7 @@ const successSending = (state, payload) => {
 
   state.inputFields = {
     id: null,
-    date: "",
+    date: null,
     name: "",
     number: "",
     notes: "",
@@ -44,7 +44,7 @@ const documentsInStock = createSlice({
   reducers: {
     setModalWindowIsOpen: (state, { payload }) => {
       state.inputFields.id = payload?.id || "";
-      state.inputFields.date = payload?.date || "";
+      state.inputFields.date = payload?.date || Date.now();
       state.inputFields.name = payload?.name || "";
       state.inputFields.number = payload?.number || "";
       state.inputFields.notes = payload?.notes || "";

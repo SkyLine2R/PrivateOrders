@@ -120,6 +120,7 @@ export default function EditItemsPage({
         return "";
     }
   };
+
   const handleClickOpenClose = () => {
     dispatch(setModalWindowIsOpen(menuEditType.current));
   };
@@ -137,7 +138,7 @@ export default function EditItemsPage({
     // Удалить поля которые не нужно проверять и отправлять
     if (page === "users" && menuEditType.current !== "changePass")
       delete sendObj.dbSchema.pass;
-    delete sendObj.dbSchema.createdAt;
+    // delete sendObj.dbSchema.createdAt; - возможно уже не нужно
     dispatch(sendChangedEntryToDB(sendObj));
   };
 

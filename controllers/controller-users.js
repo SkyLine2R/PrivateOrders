@@ -91,7 +91,7 @@ async function edit(req, res) {
         dataObj: {
           ...userData,
           updatedBy: req.auth.id,
-          updatedAt: new Date(Date.now()).toLocaleString(),
+          updatedAt: Date.now(),
         },
         respCol: "login",
       })
@@ -122,7 +122,7 @@ async function changePass(req, res) {
           ...userData,
           pass: hashPass,
           updatedBy: req.auth.id,
-          updatedAt: new Date(Date.now()).toLocaleString(),
+          updatedAt: Date.now(),
         },
         respCol: "login",
       })
@@ -149,7 +149,7 @@ async function disable(req, res) {
         dataObj: {
           ...userData,
           updatedBy: req.auth.id,
-          updatedAt: new Date(Date.now()).toLocaleString(),
+          updatedAt: Date.now(),
         },
         respCol: "login",
       })

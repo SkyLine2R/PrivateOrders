@@ -33,13 +33,11 @@ export default function FormDialog({
     dispatch(
       changeValue({
         fieldId: "date",
-        value: new Date(newDate.$d).toLocaleString(),
+        value: +newDate.$d,
       })
     );
   };
-  React.useEffect(() =>
-    handleChangeDate(new Date(Date.now()).toLocaleString(), [])
-  );
+
   return (
     <div>
       <Dialog
@@ -79,13 +77,7 @@ export default function FormDialog({
                 <DatePicker
                   id="date"
                   label="Дата"
-                  value={dayjs(
-                    date
-                      ? new Date(
-                          date.split(",")[0].split(".").reverse().join("-")
-                        )
-                      : Date.now()
-                  )}
+                  value={dayjs(new Date(date))}
                   onChange={handleChangeDate}
                   sx={{ mt: 1 }}
                 />

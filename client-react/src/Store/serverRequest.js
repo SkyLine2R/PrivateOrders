@@ -4,9 +4,11 @@ import { getSession, endSession } from "../components/session";
 
 const serverRequest = createAsyncThunk(
   "api/serverRequest",
-  async ({ fetchObj, api }, { rejectWithValue }) => {
+  async ({ fetchObj, api }, { getState, rejectWithValue }) => {
     try {
       const { accessToken } = getSession();
+
+      const customer = getState().customers.currentId ?? null;
 
       if (!accessToken) {
         throw new Error("Отсутствует токен доступа для выполнения запроса.");
@@ -18,7 +20,7 @@ const serverRequest = createAsyncThunk(
           Authorization: `Bearer ${accessToken}`,
         },
         referrerPolicy: "no-referrer",
-        body: JSON.stringify(fetchObj),
+        body: JSON.stringify({ ...fetchObj, customer }),
       });
 
       if (!response.ok) {

@@ -11,10 +11,10 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import FieldForInput from "../base-elements/field-for-input";
 import TitleDialog from "../base-elements/dialog-title";
-import { changeValue } from "../Store/Slices/slice-users";
+import { changeValue } from "../Store/Slices/slice-instock-documents";
 
 export default function FormDialog({
   menuEditType,
@@ -24,7 +24,19 @@ export default function FormDialog({
   modalWindowIsOpen,
   dbSchema,
 }) {
-  const { number, name } = useSelector((state) => state.users.inputFields);
+  const dispatch = useDispatch();
+  const { number, name, date, notes } = useSelector(
+    (state) => state.documentsInStock.inputFields
+  );
+
+  const handleChangeDate = (newDate) => {
+    dispatch(
+      changeValue({
+        fieldId: "date",
+        value: new Date(newDate.$d).toLocaleString(),
+      })
+    );
+  };
 
   return (
     <div>
@@ -61,11 +73,18 @@ export default function FormDialog({
                   dbSchema={dbSchema}
                 />
               </Grid>
-
               <Grid xs={6}>
                 <DatePicker
+                  id="date"
                   label="Дата"
-                  defaultValue={dayjs(Date.now())}
+                  value={dayjs(
+                    date
+                      ? new Date(
+                          date.split(",")[0].split(".").reverse().join("-")
+                        )
+                      : Date.now()
+                  )}
+                  onChange={handleChangeDate}
                   sx={{ mt: 1 }}
                 />
               </Grid>
@@ -75,7 +94,7 @@ export default function FormDialog({
                 id="notes"
                 label="Примечания к документу"
                 changeValue={changeValue}
-                value={number}
+                value={notes}
                 dbSchema={dbSchema}
               />
             </Grid>

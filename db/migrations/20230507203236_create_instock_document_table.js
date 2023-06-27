@@ -1,9 +1,9 @@
 exports.up = (knex) =>
   knex.schema.createTable("inStockDocuments", (table) => {
     table.increments("id").primary(); // id
-    table.timestamp("documentDate", { precision: 6 }).notNullable(); // дата документа
-    table.string("documentName", 255).notNullable(); // название
-    table.integer("documentNumber", 9).notNullable(); // номер
+    table.timestamp("date", { precision: 6 }).notNullable(); // дата документа
+    table.string("name", 255).notNullable(); // название
+    table.integer("number", 10).notNullable(); // номер
     table.integer("customer").unsigned().notNullable();
     table.foreign("customer").references("customers.id").onDelete("RESTRICT");
     table.string("notes", 180); // примечания

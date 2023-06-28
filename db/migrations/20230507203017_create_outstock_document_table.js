@@ -1,5 +1,5 @@
 exports.up = (knex) =>
-  knex.schema.createTable("outStockDocuments", (table) => {
+  knex.schema.createTable("documentsOutStock", (table) => {
     table.increments("id").primary(); // id
     table.timestamp("date", { precision: 6 }).notNullable(); // дата документа
     table.string("name", 255).notNullable(); // название

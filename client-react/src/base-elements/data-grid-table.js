@@ -31,7 +31,7 @@ function normalizeRowsData(items, catalog) {
   const rowsName = Object.keys(items);
 
   let rows = [];
-  if (catalog) {
+  if (catalog.length) {
     rows = catalog.map((item) => {
       const obj = { id: item.id };
       for (const key of rowsName) {
@@ -47,7 +47,7 @@ function normalizeRowsData(items, catalog) {
     unit: items.unit?.unitArr[+item.unit],
     accessLevel: items.accessLevel?.labels[+item.accessLevel],
   }));
-
+  console.log(rowsData);
   return rowsData;
 }
 

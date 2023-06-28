@@ -47,7 +47,6 @@ const snackbar = createSlice({
         if (payload?.error) setSnackbar(state, "warning", payload.error);
       })
       .addCase(sendNewEntryToDB.fulfilled, (state, { payload }) => {
-        console.log(payload.data);
         const msg =
           payload.api === "vendorCodes"
             ? `Артикул "${payload.data?.vendorCode}"`
@@ -57,6 +56,9 @@ const snackbar = createSlice({
             ? `Склад заказчика "${payload.data?.name}"`
             : payload.api === "colors"
             ? `Цвет "${payload.data?.name}"`
+            : payload.api === "documentsInStock" ||
+              payload.api === "DocumentsOutStock"
+            ? `Документ "${payload.data?.name}"`
             : "";
         setSnackbar(state, "success", `${msg} добавлен в базу данных.`);
       })
@@ -64,7 +66,7 @@ const snackbar = createSlice({
         setSnackbar(
           state,
           "error",
-          `Ошибка при выполнении запроса.\n${payload}`
+          `Ошибка при выполнении запроса.\n${payload.error}`
         );
       })
       .addCase(sendChangedEntryToDB.rejected, (state, { payload }) => {
@@ -80,6 +82,9 @@ const snackbar = createSlice({
             ? `Данные склада "${payload.data.name}"`
             : payload.api === "colors"
             ? `Данные цвета "${payload.data.name}"`
+            : payload.api === "documentsInStock" ||
+              payload.api === "documentsOutStock"
+            ? `Реквизиты документа "${payload.data.name}"`
             : "";
 
         setSnackbar(state, "success", `${msg} обновлены`);

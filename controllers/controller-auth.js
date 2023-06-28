@@ -17,7 +17,7 @@ async function logIn(req, res) {
   try {
     const { login, pass } = req.body;
 
-    const [user] = await DB.findEntry({
+    const [user] = await DB.findEntries({
       table: "users",
       searchColumn: "login",
       searchData: login,

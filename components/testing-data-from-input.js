@@ -47,6 +47,6 @@ function testDataFromForm(refObj, testObj) {
     }
   }
 
-  return errArr.length ? { error: errArr } : testObj;
+  return errArr.length ? { error: errArr.join("\n") } : testObj;
 }
 module.exports = testDataFromForm;

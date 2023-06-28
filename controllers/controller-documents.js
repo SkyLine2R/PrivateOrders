@@ -5,10 +5,13 @@ const testingDataFromInput = require("../components/testing-data-from-input");
 
 async function getAll(req, res) {
   try {
-    const resp = await DB.getAllEntries({
+    const resp = await DB.findEntries({
       table: req.body.table,
       respCol: ["id", "name", "number", "date", "notes"],
+      searchColumn: "customer",
+      searchData: req.body.customer,
     });
+
     return res.json(resp);
   } catch (e) {
     res.status(400).json({ error: "Ошибка БД при получении документов" });
@@ -18,8 +21,9 @@ async function getAll(req, res) {
 async function add(req, res) {
   try {
     const itemData = testingDataFromInput(itemsDbSchema, req.body.data);
-    if (itemData.error) return res.json(itemData.error);
-    console.log(itemData);
+
+    if (itemData.error) return res.status(400).json({ error: itemData.error });
+
     const item = (
       await DB.addEntry({
         table: req.body.table,
@@ -31,9 +35,9 @@ async function add(req, res) {
         respCol: ["id", "name"],
       })
     )[0];
-    console.log(item);
     return res.json(item);
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.log(e);
     res.status(400).json({ error: "Ошибка при добавлении документа" });
   }
@@ -46,7 +50,7 @@ async function edit(req, res) {
       req.body.data
     );
 
-    if (itemData.error) return res.json(itemData.error);
+    if (itemData.error) return res.status(400).json({ error: itemData.error });
 
     const item = (
       await DB.editEntry({

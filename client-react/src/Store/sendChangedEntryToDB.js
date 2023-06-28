@@ -21,7 +21,7 @@ const sendChangedEntryToDB = createAsyncThunk(
       if (data.error) {
         return rejectWithValue({
           api,
-          error: `Данные не изменены.\n${data.error.join("\n")}`,
+          error: `Данные не изменены.\n${data.error}`,
         });
       }
       const fetchObj = {
@@ -37,11 +37,7 @@ const sendChangedEntryToDB = createAsyncThunk(
       return resp.payload?.data?.error
         ? rejectWithValue({
             api,
-            error: `Отклонено. Сообщение сервера:\n${
-              Array.isArray(resp.payload.data.error)
-                ? resp.payload.data.error.join("\n")
-                : resp.payload.data.error
-            }`,
+            error: `Отклонено. Сообщение сервера:\n${resp.payload.data.error}`,
           })
         : { api, data: resp.payload.data };
     } catch (error) {
@@ -49,7 +45,7 @@ const sendChangedEntryToDB = createAsyncThunk(
       console.log(error);
       return rejectWithValue({
         api,
-        error: "При проверке и отправке данных возникла программная ошибка :(",
+        error: "При проверке и отправке данных возникла программная ошибка.",
       });
     }
   }

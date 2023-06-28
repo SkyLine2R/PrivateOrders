@@ -1,17 +1,19 @@
 const express = require("express");
 
 const router = express.Router();
+const attachCustomerAndTable = require("../middlewares/attachCustomerAndTable");
 
 const users = require("./users");
 const vendorcodes = require("./vendorCodes");
 const customers = require("./customers");
 const colors = require("./colors");
-const documentsInStock = require("./documentsInStock");
+const documentsStock = require("./documentsStock");
 
 router.post("/users", users);
 router.post("/vendorCodes", vendorcodes);
 router.post("/colors", colors);
 router.post("/customers", customers);
-router.post("/documentsInStock", documentsInStock);
+router.post("/documentsInStock", attachCustomerAndTable, documentsStock);
+router.post("/documentsOutStock", attachCustomerAndTable, documentsStock);
 
 module.exports = router;

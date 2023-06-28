@@ -36,13 +36,13 @@ module.exports = DB = {
   },
 
   // не строгий поиск записей по строке //
-  findLikeEntrie({ table, searchColumn, searchData }) {
+  findLikeEntries({ table, searchColumn, searchData }) {
     console.log(searchData);
     return db(table).whereLike(searchColumn, searchData).orderBy(searchColumn);
   },
 
   // строгий поиск записей по строке //
-  async findEntry({ table, searchColumn, searchData, respCol }) {
+  async findEntries({ table, searchColumn, searchData, respCol }) {
     return db(table).select(respCol).where(searchColumn, searchData);
   },
 

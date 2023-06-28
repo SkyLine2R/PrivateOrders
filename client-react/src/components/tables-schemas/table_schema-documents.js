@@ -33,6 +33,7 @@ const documentsSchemaTable = {
     headerName: "Создал",
     width: 200,
     editable: false,
+    parseTime: true,
   },
 };
 

@@ -9,8 +9,8 @@ const fetchEntries = createAsyncThunk(
     };
     const resp = await dispatch(serverRequest({ fetchObj, api }));
 
-    return resp.payload.error
-      ? rejectWithValue(resp.payload.error)
+    return resp.payload?.error
+      ? rejectWithValue({ error: resp.payload.error })
       : { api, data: resp.payload.data };
   }
 );

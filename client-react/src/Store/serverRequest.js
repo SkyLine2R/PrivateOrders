@@ -30,6 +30,9 @@ const serverRequest = createAsyncThunk(
             "Истекло время авторизации в системе. Необходимо повторно войти в систему."
           );
         }
+        if (response.status === 500) {
+          throw new Error(response?.statusText);
+        }
         throw new Error(
           (await response.json()).error || "Сервер отклонил запрос"
         );
@@ -38,7 +41,9 @@ const serverRequest = createAsyncThunk(
 
       return { data: respData, prevReq: fetchObj };
     } catch (error) {
-      return rejectWithValue(error.message);
+      // eslint-disable-next-line no-console
+      console.warn(error);
+      return rejectWithValue({ error: error.message });
     }
   }
 );

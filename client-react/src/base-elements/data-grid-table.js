@@ -31,7 +31,7 @@ function normalizeRowsData(items, catalog) {
   const rowsName = Object.keys(items);
 
   let rows = [];
-  if (catalog.length) {
+  if (catalog?.length) {
     rows = catalog.map((item) => {
       const obj = { id: item.id };
       for (const key of rowsName) {
@@ -41,13 +41,24 @@ function normalizeRowsData(items, catalog) {
     });
   }
 
-  const rowsData = rows.map((item, index) => ({
-    ...item,
-    serialNumber: index + 1,
-    unit: items.unit?.unitArr[+item.unit],
-    accessLevel: items.accessLevel?.labels[+item.accessLevel],
-  }));
-  console.log(rowsData);
+  const rowsData = rows.map((item, index) => {
+    // заменим, если необходимо, цифровые значения на текстовые (м / хл., уровень доступа...)
+    const tempObj = {};
+    if (items?.unit?.unitArr) tempObj.unit = items.unit.unitArr[+item.unit];
+    if (items?.accessLevel?.labels)
+      tempObj.accessLevel = items.accessLevel.labels[+item.accessLevel];
+    // конвертация timestamp в локальное время
+    if (item?.createdAt)
+      tempObj.createdAt = new Date(item.createdAt).toLocaleDateString();
+    if (item?.date) tempObj.date = new Date(item.date).toLocaleDateString();
+
+    return {
+      ...item,
+      ...tempObj,
+      serialNumber: index + 1,
+    };
+  });
+
   return rowsData;
 }
 
@@ -66,20 +77,7 @@ function DataGridTable({ tableSchema, catalog, onCellClick }) {
   );
 
   return (
-    <Box
-      sx={{ height: "82vh", width: "100%" }}
-      /*       onContextMenu={(e) => {
-        e.cancelBubble = true;
-
-        e.preventDefault();
-        console.log("e.currentTarget");
-        console.log(e.currentTarget);
-
-        console.log(e);
-        console.log("e.target");
-        console.log(e.target);
-      }} */
-    >
+    <Box sx={{ height: "82vh", width: "100%" }}>
       <DataGrid
         rows={rowsDataState}
         columns={colNameRef.current}

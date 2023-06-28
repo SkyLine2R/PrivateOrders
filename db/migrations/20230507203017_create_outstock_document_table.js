@@ -3,7 +3,7 @@ exports.up = (knex) =>
     table.increments("id").primary(); // id
     table.timestamp("date", { precision: 6 }).notNullable(); // дата документа
     table.string("name", 255).notNullable(); // название
-    table.integer("number", 10).notNullable(); // номер
+    table.string("number", 10).notNullable(); // номер
     table.integer("customer").unsigned().notNullable();
     table.foreign("customer").references("customers.id").onDelete("RESTRICT");
     table.string("notes", 180); // примечания

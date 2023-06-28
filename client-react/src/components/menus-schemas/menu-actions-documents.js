@@ -8,12 +8,12 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 const allMenuActions = [
   {
     icon: <AddShoppingCartIcon />,
-    name: "edit",
+    name: "openForFill",
     tooltipTitle: "Открыть для редактирования",
   },
   {
     icon: <DriveFileRenameOutlineIcon />,
-    name: "editName",
+    name: "edit",
     tooltipTitle: "Изменить реквизиты документа",
   },
   {

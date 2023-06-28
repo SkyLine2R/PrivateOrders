@@ -116,6 +116,8 @@ export default function EditItemsPage({
           })
         );
         return dispatch(setModalWindowIsOpen());
+      case "openForFill":
+        return alert("in production");
       default:
         return "";
     }

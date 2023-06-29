@@ -97,8 +97,23 @@ async function edit(req, res) {
   }
 }
 
+async function del(req, res) {
+  try {
+    const item = await DB.delEntry({
+      table,
+      id: req.body.data.id,
+    });
+    return res.json(item);
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.log(e);
+    res.status(400).json({ error: "Ошибка при удалении записи" });
+  }
+}
+
 module.exports = {
   getAll,
   add,
   edit,
+  del,
 };

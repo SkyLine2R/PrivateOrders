@@ -25,9 +25,9 @@ async function add(req, res) {
   try {
     const userData = testingDataFromInput(usersDbSchema, req.body.data);
 
-    if (userData.error) return res.json(userData.error);
+    if (userData.error) return res.status(400).json(userData.error);
 
-    const candidate = await DB.findEntry({
+    const candidate = await DB.findEntries({
       table,
       searchColumn: "login",
       searchData: userData.login,
@@ -71,7 +71,7 @@ async function edit(req, res) {
       dataObj
     );
 
-    if (userData.error) return res.json(userData.error);
+    if (userData.error) return res.status(400).json(userData.error);
 
     const candidate = await DB.findEntry({
       table,
@@ -80,11 +80,15 @@ async function edit(req, res) {
     });
 
     if (candidate.length && candidate[0].id !== userData.id) {
-      return res.json({
+      return res.status(400).json({
         error: "Пользователь с таким логином уже существует",
       });
     }
-
+    if (req.body.data.id === 1 && req.body.data.accessLevel < 5)
+      return res.status(400).json({
+        error:
+          "Ошибка. Уровень доступа главного администратора не может быть понижен",
+      });
     const login = (
       await DB.editEntry({
         table,
@@ -111,7 +115,7 @@ async function changePass(req, res) {
       req.body.data
     );
 
-    if (userData.error) return res.json(userData.error);
+    if (userData.error) return res.status(400).json(userData.error);
 
     const hashPass = await bcrypt.hash(userData.pass, 10);
 
@@ -141,8 +145,11 @@ async function disable(req, res) {
       req.body.data
     );
 
-    if (userData.error) return res.json(userData.error);
-
+    if (userData.error) return res.status(400).json(userData.error);
+    if (req.body.data.id === 1)
+      return res.status(400).json({
+        error: "Ошибка. Главный администратор не может быть отключён.",
+      });
     const login = (
       await DB.editEntry({
         table,
@@ -159,8 +166,27 @@ async function disable(req, res) {
   } catch (e) {
     res
       .status(400)
-      .json({ error: "Ошибка при отключении аккаунта пользователя" });
+      .json({ error: "Ошибка при отключении аккаунта пользователя." });
   }
 }
 
-module.exports = { add, edit, changePass, disable, getAll };
+async function del(req, res) {
+  try {
+    if (req.body.data.id === 1)
+      return res.status(400).json({
+        error:
+          "Ошибка при удалении пользователя.\n Главный администратор не может быть удалён",
+      });
+    const item = await DB.delEntry({
+      table,
+      id: req.body.data.id,
+    });
+    return res.json(item);
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.log(e);
+    res.status(400).json({ error: "Ошибка при удалении пользователя" });
+  }
+}
+
+module.exports = { add, edit, changePass, disable, getAll, del };

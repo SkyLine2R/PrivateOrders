@@ -19,6 +19,8 @@ module.exports = (req, res) => {
       return usersController.changePass(req, res);
     case "disableUser":
       return usersController.disable(req, res);
+    case "del":
+      return usersController.del(req, res);
     default:
       return res.json({
         error: "Ошибка в запросе к БД",

@@ -10,7 +10,7 @@ module.exports = (req, res) => {
     case "edit":
       return accessDenied(req, res, 4) || documentsController.edit(req, res);
     case "del":
-      return accessDenied(req, res, 4) || documentsController.edit(req, res);
+      return accessDenied(req, res, 4) || documentsController.del(req, res);
     default:
       return res.status(400).json({
         error: "Не указан тип запроса.",

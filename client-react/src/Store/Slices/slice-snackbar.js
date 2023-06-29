@@ -95,16 +95,16 @@ const snackbar = createSlice({
       .addCase(deleteEntryFromDB.fulfilled, (state, { payload }) => {
         const msg =
           payload.api === "vendorCodes"
-            ? `Артикул "${payload.data.vendorCode}"`
+            ? "Артикул"
             : payload.api === "users"
-            ? `Пользователь "${payload.data.login}"`
+            ? "Пользователь"
             : payload.api === "customers"
-            ? `Склад "${payload.data.name}"`
+            ? "Склад"
             : payload.api === "colors"
-            ? `Цвет "${payload.data.name}"`
+            ? "Цвет"
             : payload.api === "documentsInStock" ||
               payload.api === "documentsOutStock"
-            ? `Документ "${payload.data.name}"`
+            ? "Документ"
             : "";
         setSnackbar(state, "success", `${msg} удалён из БД.`);
       })

@@ -3,10 +3,12 @@ const DB = require("./db");
 const vendorCodesDbSchema = require("../components/db_schema_for_testing/db_schema-vendor-codes");
 const testingDataFromInput = require("../components/testing-data-from-input");
 
+const table = "vendorCodes";
+
 async function getAll(req, res) {
   try {
     const resp = await DB.getAllEntries({
-      table: "vendorCodes",
+      table,
       respCol: ["id", "vendorCode", "name", "unit", "quantity", "notes"],
     });
     return res.json(resp);
@@ -19,7 +21,7 @@ async function getFiltered(req, res) {
   try {
     const resp = await DB.findEntriesForQuickFilter({
       ...req.body.data,
-      table: "vendorCodes",
+      table,
       respCol: ["id", "vendorCode", "name", "unit", "quantity", "notes"],
     });
     return res.json(resp);
@@ -35,7 +37,7 @@ async function add(req, res) {
 
     const item = (
       await DB.addEntry({
-        table: "vendorCodes",
+        table,
         dataObj: {
           ...itemData,
           createdBy: req.auth.id,
@@ -62,7 +64,7 @@ async function edit(req, res) {
 
     const item = (
       await DB.editEntry({
-        table: "vendorCodes",
+        table,
         dataObj: {
           ...itemData,
           updatedBy: req.auth.id,
@@ -78,9 +80,24 @@ async function edit(req, res) {
   }
 }
 
+async function del(req, res) {
+  try {
+    const item = await DB.delEntry({
+      table,
+      id: req.body.data.id,
+    });
+    return res.json(item);
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.log(e);
+    res.status(400).json({ error: "Ошибка при удалении записи" });
+  }
+}
+
 module.exports = {
   getFiltered,
   getAll,
   add,
   edit,
+  del,
 };

@@ -9,33 +9,29 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { selectOk } from "../Store/Slices/slice-alert-dialog";
+import { useSelector, useDispatch } from "react-redux";
+
+import { setModalWindowIsOpen as setAlertWindowIsOpen } from "../Store/Slices/slice-alert-dialog";
+import deleteEntryFromDB from "../Store/deleteEntryFromDB";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 // eslint-disable-next-line no-unused-vars
-export default function AlertDialogSlide(/* {
-  title = "Предупреждение",
-  questions,
-  buttonOk = "Удалить",
-  buttonCancel = "Отмена",
-  modalWindowIsOpen,
-} */) {
-  // const [open, setOpen] = React.useState(true);
-
-  const { title, questions, modalWindowIsOpen, buttonOk, buttonCancel, actn } =
+export default function AlertDialogSlide() {
+  const dispatch = useDispatch();
+  const { title, questions, modalWindowIsOpen, buttonOk, buttonCancel, api } =
     useSelector((state) => state.alert);
 
   // eslint-disable-next-line no-unused-vars
   const handleOk = () => {
-    action();
+    dispatch(deleteEntryFromDB({ api }));
+    dispatch(setAlertWindowIsOpen());
   };
 
   const handleClose = () => {
-    setOpen(false);
+    dispatch(setAlertWindowIsOpen());
   };
 
   return (

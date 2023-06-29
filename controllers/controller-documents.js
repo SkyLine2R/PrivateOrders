@@ -74,18 +74,10 @@ async function edit(req, res) {
 
 async function del(req, res) {
   try {
-    // возможно понадобится добавить проверку для обеспечения целостности данных
-    /*     const tableSearch =
-      req.body.table === "inStockDocuments" ? "inStock" : "outStock";
- */
-    const item = (
-      await DB.delEntry({
-        table: req.body.table,
-        id: req.body.id,
-        respCol: ["id", "name"],
-      })
-    )[0];
-
+    const item = await DB.delEntry({
+      table: req.body.table,
+      id: req.body.data.id,
+    });
     return res.json(item);
   } catch (e) {
     // eslint-disable-next-line no-console

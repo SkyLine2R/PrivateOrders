@@ -15,6 +15,8 @@ module.exports = (req, res) => {
       return accessDenied(req, res, 3) || vendorCodesController.add(req, res);
     case "edit":
       return accessDenied(req, res, 4) || vendorCodesController.edit(req, res);
+    case "del":
+      return accessDenied(req, res, 4) || vendorCodesController.del(req, res);
     default:
       return res.json({
         error: "Ошибка в запросе к БД",

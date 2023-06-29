@@ -9,6 +9,8 @@ module.exports = (req, res) => {
       return accessDenied(req, res, 4) || controller.add(req, res);
     case "edit":
       return accessDenied(req, res, 4) || controller.edit(req, res);
+    case "del":
+      return accessDenied(req, res, 4) || controller.del(req, res);
     default:
       return res.json({
         error: "Ошибка в запросе к БД",

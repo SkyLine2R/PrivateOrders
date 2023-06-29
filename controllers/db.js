@@ -68,7 +68,7 @@ module.exports = DB = {
   },
 
   // удалить запись //
-  delEntry({ table, id, respCol }) {
-    return db(table).del(respCol).where({ id });
+  delEntry({ table, id }) {
+    return db(table).where({ id }).del();
   },
 };

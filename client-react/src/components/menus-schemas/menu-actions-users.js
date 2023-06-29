@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import PersonRemove from "@mui/icons-material/PersonRemove";
 import AdminPanelSettings from "@mui/icons-material/AdminPanelSettings";
 import ManageAccounts from "@mui/icons-material/ManageAccounts";
@@ -20,6 +21,11 @@ const allMenuActions = [
     icon: <PersonRemove />,
     name: "disableUser",
     tooltipTitle: "Отключить аккаунт пользователя",
+  },
+  {
+    icon: <DeleteForeverIcon />,
+    name: "delete",
+    tooltipTitle: "Удалить аккаунт пользователя",
   },
   {
     icon: <PersonAdd />,

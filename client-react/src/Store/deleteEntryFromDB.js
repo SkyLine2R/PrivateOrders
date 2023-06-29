@@ -5,25 +5,18 @@ const deleteEntryFromDB = createAsyncThunk(
   "api/deleteEntryFromDB",
   async ({ api }, { getState, dispatch, rejectWithValue }) => {
     try {
-      const { inputFields } = getState()[api].id;
+      const { id } = getState().alert;
       const prevReq = getState()[api].request.prevReq.fetchObj;
 
-      const keys = ["id"];
-      // подберём, согласно схемы, из State ключи объекта
-      // которые должны отправиться в базу
-      const data = keys.reduce(
-        (obj, key) => ({ ...obj, [key]: inputFields[key] }),
-        {}
-      );
-      if (!data.id) {
+      if (!id) {
         return rejectWithValue({
           api,
           error: "Запись не удалена. Произошла ошибка.",
         });
       }
       const fetchObj = {
-        type: "delete",
-        data,
+        type: "del",
+        data: { id },
       };
       if (JSON.stringify(prevReq) === JSON.stringify(fetchObj)) {
         return rejectWithValue();

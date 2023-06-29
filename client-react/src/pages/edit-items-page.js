@@ -44,8 +44,6 @@ export default function EditItemsPage({
     shallowEqual
   );
 
-  /*   const [openAlert, setOpenAlert] = React.useState(false);
-   */
   const handleMenuInDataGrid = ({ id }, e) => {
     if (!modalWindowIsOpen) {
       e.stopPropagation();
@@ -100,19 +98,18 @@ export default function EditItemsPage({
       ? catalog.find((item) => item.id === menuParams.id)
       : null;
 
-    const testActn = (l) => alert(l);
     switch (pressedButton) {
       case "add":
         return dispatch(setModalWindowIsOpen());
       case "edit":
         return dispatch(setModalWindowIsOpen(params));
       case "delete":
-        // eslint-disable-next-line no-alert
         return dispatch(
           setAlertWindowIsOpen({
-            questions:
-              "Вы действительно хотите удалить запись? Это действие нельзя будет отменить.",
-            action: () => testActn,
+            questions: `Вы действительно хотите удалить запись
+            "${params.name}"? Это действие нельзя будет отменить.`,
+            id: params.id,
+            api: page,
           })
         );
       case "changePass":
@@ -128,6 +125,7 @@ export default function EditItemsPage({
         );
         return dispatch(setModalWindowIsOpen());
       case "openForFill":
+        // eslint-disable-next-line no-alert
         return alert("in production");
       default:
         return "";

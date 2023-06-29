@@ -38,9 +38,9 @@ const colors = createSlice({
 
   reducers: {
     setModalWindowIsOpen: (state, { payload }) => {
-      state.inputFields.id = payload?.id || "";
-      state.inputFields.name = payload?.name || "";
-      state.inputFields.notes = payload?.notes || "";
+      state.inputFields.id = payload?.id ?? "";
+      state.inputFields.name = payload?.name ?? "";
+      state.inputFields.notes = payload?.notes ?? "";
       state.modalWindowIsOpen = !state.modalWindowIsOpen;
     },
 

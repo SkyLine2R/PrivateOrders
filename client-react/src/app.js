@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import CustomizedSnackbars from "./base-elements/snackbar";
-import AlertSlideDialog from "./dialogs/alert-slide-dialog";
+import AlertSlideDialog from "./dialogs/alert-dialog";
 import MenuAppBar from "./menus/menu-app-bar";
 import useRoutes from "./Routes/routes";
 import useAuth from "./hooks/useAuth";

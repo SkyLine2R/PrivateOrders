@@ -5,6 +5,7 @@ import snackbar from "./Slices/slice-snackbar";
 import users from "./Slices/slice-users";
 import colors from "./Slices/slice-colors";
 import documentsInStock from "./Slices/slice-instock-documents";
+import alert from "./Slices/slice-alert-dialog";
 
 export default configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export default configureStore({
     colors,
     snackbar,
     documentsInStock,
+    alert,
   },
 });

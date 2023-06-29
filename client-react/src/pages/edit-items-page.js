@@ -13,6 +13,8 @@ import sendNewEntryToDB from "../Store/sendNewEntryToDB";
 import sendChangedEntryToDB from "../Store/sendChangedEntryToDB";
 import fetchEntries from "../Store/fetchEntries";
 
+import { setModalWindowIsOpen as setAlertWindowIsOpen } from "../Store/Slices/slice-alert-dialog";
+
 export default function EditItemsPage({
   page,
   headerText,
@@ -42,6 +44,8 @@ export default function EditItemsPage({
     shallowEqual
   );
 
+  /*   const [openAlert, setOpenAlert] = React.useState(false);
+   */
   const handleMenuInDataGrid = ({ id }, e) => {
     if (!modalWindowIsOpen) {
       e.stopPropagation();
@@ -96,6 +100,7 @@ export default function EditItemsPage({
       ? catalog.find((item) => item.id === menuParams.id)
       : null;
 
+    const testActn = (l) => alert(l);
     switch (pressedButton) {
       case "add":
         return dispatch(setModalWindowIsOpen());
@@ -103,7 +108,13 @@ export default function EditItemsPage({
         return dispatch(setModalWindowIsOpen(params));
       case "delete":
         // eslint-disable-next-line no-alert
-        return alert("Функция в разработке");
+        return dispatch(
+          setAlertWindowIsOpen({
+            questions:
+              "Вы действительно хотите удалить запись? Это действие нельзя будет отменить.",
+            action: () => testActn,
+          })
+        );
       case "changePass":
         return dispatch(setModalWindowIsOpen(params));
       case "disableUser":
@@ -150,6 +161,10 @@ export default function EditItemsPage({
       sx={{ margin: "20px auto" }}
       onClick={handleMenuInContainer}
     >
+      {/*       <AlertDialogSlide
+        open={openAlert}
+        questions="Вы уверены, что хотите удалить запись? Это действие нельзя будет отменить."
+      /> */}
       <Box
         sx={{
           width: "100%",

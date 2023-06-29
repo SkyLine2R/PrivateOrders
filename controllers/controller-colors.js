@@ -13,6 +13,7 @@ async function getAll(req, res) {
     });
     return res.json(resp);
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.log(e);
     res.status(400).json({ error: "Ошибка БД при получении каталога цветов" });
   }
@@ -21,16 +22,16 @@ async function getAll(req, res) {
 async function add(req, res) {
   try {
     const itemData = testingDataFromInput(itemsDbSchema, req.body.data);
-    if (itemData.error) return res.json(itemData.error);
+    if (itemData.error) return res.status(400).json({ error: itemData.error });
 
-    const candidate = await DB.findEntry({
+    const candidate = await DB.findEntries({
       table,
       searchColumn: "name",
       searchData: itemData.name,
     });
 
     if (candidate.length) {
-      return res.json({
+      return res.status(400).json({
         error: "Не добавлен. Такой цвет уже представлен в базе.",
       });
     }
@@ -49,6 +50,8 @@ async function add(req, res) {
 
     return res.json(item);
   } catch (e) {
+    // eslint-disable-next-line no-console
+    console.log(e);
     res.status(400).json({ error: "Ошибка при добавлении цвета в каталог" });
   }
 }
@@ -69,7 +72,7 @@ async function edit(req, res) {
     });
 
     if (candidate.length && candidate[0].id !== itemData.id) {
-      return res.json({
+      return res.status(400).json({
         error: "Не добавлен. Цвет с таким названием уже представлен в базе.",
       });
     }
@@ -88,6 +91,8 @@ async function edit(req, res) {
 
     return res.json(item);
   } catch (e) {
+    // eslint-disable-next-line no-console
+    console.log(e);
     res.status(400).json({ error: "Не удалось изменить запись о цвете" });
   }
 }

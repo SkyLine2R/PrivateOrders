@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/forbid-prop-types */
 import * as React from "react";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -61,7 +62,7 @@ export default function MovementOfMaterials({
   openDocuments,
   MainTabContent,
 }) {
-  const [value, setValue] = React.useState("1");
+  const [value, setValue] = React.useState("0");
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };

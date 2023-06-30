@@ -5,8 +5,6 @@ import serverRequest from "./serverRequest";
 const sendNewEntryToDB = createAsyncThunk(
   "api/sendNewEntryToDB",
   async ({ dbSchema, api }, { getState, dispatch, rejectWithValue }) => {
-    // уточнить необходимость try/catch, возможно нужно убрать
-    // сделать выводы ошибок в слайсах если с сервера приходит ответ о дублирующейся записи (логин и т.п.)
     try {
       const { inputFields } = getState()[api];
       const prevReq = getState()[api].request.prevReq.fetchObj;
@@ -41,12 +39,13 @@ const sendNewEntryToDB = createAsyncThunk(
             api,
             error: `Отклонено. Сообщение сервера:\n${resp.payload.error}`,
           })
-        : { api, data: resp.payload.data };
+        : { api, type: "add", data: resp.payload.data };
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
       return rejectWithValue({
         api,
+        type: "add",
         error: "При проверке и отправке данных возникла непредвиденная ошибка.",
       });
     }

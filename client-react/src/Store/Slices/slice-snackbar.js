@@ -7,6 +7,7 @@ import sendNewEntryToDB from "../sendNewEntryToDB";
 import sendChangedEntryToDB from "../sendChangedEntryToDB";
 import deleteEntryFromDB from "../deleteEntryFromDB";
 import fetchEntries from "../fetchEntries";
+import generateSuccessText from "./messages-for-slices";
 
 const setSnackbar = (state, severity, message) => {
   state.severity = severity;
@@ -48,20 +49,7 @@ const snackbar = createSlice({
         if (payload?.error) setSnackbar(state, "warning", payload.error);
       })
       .addCase(sendNewEntryToDB.fulfilled, (state, { payload }) => {
-        const msg =
-          payload.api === "vendorCodes"
-            ? `Артикул "${payload.data?.vendorCode}"`
-            : payload.api === "users"
-            ? `Пользователь "${payload.data?.login}"`
-            : payload.api === "customers"
-            ? `Склад заказчика "${payload.data?.name}"`
-            : payload.api === "colors"
-            ? `Цвет "${payload.data?.name}"`
-            : payload.api === "documentsInStock" ||
-              payload.api === "documentsOutStock"
-            ? `Документ "${payload.data?.name}"`
-            : "";
-        setSnackbar(state, "success", `${msg} добавлен в базу данных.`);
+        setSnackbar(state, "success", generateSuccessText(payload));
       })
       .addCase(serverRequest.rejected, (state, { payload }) => {
         setSnackbar(
@@ -74,39 +62,13 @@ const snackbar = createSlice({
         if (payload?.error) setSnackbar(state, "warning", payload.error);
       })
       .addCase(sendChangedEntryToDB.fulfilled, (state, { payload }) => {
-        const msg =
-          payload.api === "vendorCodes"
-            ? `Данные артикула "${payload.data.vendorCode}"`
-            : payload.api === "users"
-            ? `Данные пользователя "${payload.data.login}"`
-            : payload.api === "customers"
-            ? `Данные склада "${payload.data.name}"`
-            : payload.api === "colors"
-            ? `Данные цвета "${payload.data.name}"`
-            : payload.api === "documentsInStock" ||
-              payload.api === "documentsOutStock"
-            ? `Реквизиты документа "${payload.data.name}"`
-            : "";
-        setSnackbar(state, "success", `${msg} обновлены`);
+        setSnackbar(state, "success", generateSuccessText(payload));
       })
       .addCase(deleteEntryFromDB.rejected, (state, { payload }) => {
         if (payload?.error) setSnackbar(state, "warning", payload.error);
       })
       .addCase(deleteEntryFromDB.fulfilled, (state, { payload }) => {
-        const msg =
-          payload.api === "vendorCodes"
-            ? "Артикул"
-            : payload.api === "users"
-            ? "Пользователь"
-            : payload.api === "customers"
-            ? "Склад"
-            : payload.api === "colors"
-            ? "Цвет"
-            : payload.api === "documentsInStock" ||
-              payload.api === "documentsOutStock"
-            ? "Документ"
-            : "";
-        setSnackbar(state, "success", `${msg} удалён из БД.`);
+        setSnackbar(state, "success", generateSuccessText(payload));
       })
       .addCase(fetchEntries.fulfilled, (state, { payload }) => {
         if (state.open) return;

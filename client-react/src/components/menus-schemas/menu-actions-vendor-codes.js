@@ -17,7 +17,7 @@ const allMenuActions = [
   },
   {
     icon: <ControlPointIcon />,
-    name: "add",
+    name: "new",
     tooltipTitle: "Добавить новый артикул",
   },
 ];

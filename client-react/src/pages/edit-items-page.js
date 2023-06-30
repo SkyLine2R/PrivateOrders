@@ -99,7 +99,7 @@ export default function EditItemsPage({
       : null;
 
     switch (pressedButton) {
-      case "add":
+      case "new":
         return dispatch(setModalWindowIsOpen());
       case "edit":
         return dispatch(setModalWindowIsOpen(params));

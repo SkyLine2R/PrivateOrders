@@ -23,7 +23,7 @@ const allMenuActions = [
   },
   {
     icon: <PostAddIcon />,
-    name: "add",
+    name: "new",
     tooltipTitle: "Добавить новый документ",
   },
 ];

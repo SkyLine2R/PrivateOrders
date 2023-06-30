@@ -17,7 +17,7 @@ const allMenuActions = [
   },
   {
     icon: <InvertColorsIcon />,
-    name: "add",
+    name: "new",
     tooltipTitle: "Добавить новый цвет",
   },
 ];

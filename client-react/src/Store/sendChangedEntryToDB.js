@@ -38,7 +38,7 @@ const sendChangedEntryToDB = createAsyncThunk(
             api,
             error: `Отклонено. Сообщение сервера:\n${resp.payload.error}`,
           })
-        : { api, data: resp.payload.data };
+        : { api, type, data: resp.payload.data };
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);

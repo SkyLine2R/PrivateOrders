@@ -29,7 +29,7 @@ const allMenuActions = [
   },
   {
     icon: <PersonAdd />,
-    name: "add",
+    name: "new",
     tooltipTitle: "Добавить нового пользователя",
   },
 ];

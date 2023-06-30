@@ -17,7 +17,7 @@ const allMenuActions = [
   },
   {
     icon: <AddHomeIcon />,
-    name: "add",
+    name: "new",
     tooltipTitle: "Добавить новый склад",
   },
 ];

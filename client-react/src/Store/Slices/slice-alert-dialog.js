@@ -12,7 +12,7 @@ const alert = createSlice({
     buttonCancel: "Отмена",
     id: null,
     api: "",
-    params: "",
+    type: "",
     modalWindowIsOpen: false,
   },
 
@@ -24,7 +24,7 @@ const alert = createSlice({
       state.buttonCancel = payload?.buttonCancel ?? "Отмена";
       state.id = payload?.id ?? null;
       state.api = payload?.api ?? "";
-      state.params = "";
+      state.type = payload?.type ?? "";
       state.modalWindowIsOpen = !state.modalWindowIsOpen;
     },
   },

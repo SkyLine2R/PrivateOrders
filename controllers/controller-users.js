@@ -34,7 +34,7 @@ async function add(req, res) {
     });
 
     if (candidate.length) {
-      return res.json({
+      return res.status(400).json({
         error: "Пользователь с таким логином уже существует",
       });
     }
@@ -73,7 +73,7 @@ async function edit(req, res) {
 
     if (userData.error) return res.status(400).json(userData.error);
 
-    const candidate = await DB.findEntry({
+    const candidate = await DB.findEntries({
       table,
       searchColumn: "login",
       searchData: userData.login,
@@ -84,10 +84,9 @@ async function edit(req, res) {
         error: "Пользователь с таким логином уже существует",
       });
     }
-    if (req.body.data.id === 1 && req.body.data.accessLevel < 5)
+    if (+req.body.data.id === 1 && +req.body.data.accessLevel < 5)
       return res.status(400).json({
-        error:
-          "Ошибка. Уровень доступа главного администратора не может быть понижен",
+        error: "Уровень доступа главного администратора не может быть понижен",
       });
     const login = (
       await DB.editEntry({
@@ -104,7 +103,7 @@ async function edit(req, res) {
   } catch (e) {
     // eslint-disable-next-line no-console
     console.log(e);
-    res.status(400).json({ error: "Ошибка при изменении данных пользователя" });
+    res.status(400).json({ error: "Не удалось изменить данные пользователя" });
   }
 }
 
@@ -134,7 +133,7 @@ async function changePass(req, res) {
 
     return res.json(login);
   } catch (e) {
-    res.status(400).json({ error: "Ошибка при изменении пароля пользователя" });
+    res.status(400).json({ error: "Не удалось изменить пароль пользователя" });
   }
 }
 
@@ -146,9 +145,10 @@ async function disable(req, res) {
     );
 
     if (userData.error) return res.status(400).json(userData.error);
-    if (req.body.data.id === 1)
+
+    if (+req.body.data.id === 1)
       return res.status(400).json({
-        error: "Ошибка. Главный администратор не может быть отключён.",
+        error: "Главный администратор не может быть отключён.",
       });
     const login = (
       await DB.editEntry({
@@ -166,17 +166,22 @@ async function disable(req, res) {
   } catch (e) {
     res
       .status(400)
-      .json({ error: "Ошибка при отключении аккаунта пользователя." });
+      .json({ error: "Не удалось отключить аккаунт пользователя." });
   }
 }
 
 async function del(req, res) {
   try {
-    if (req.body.data.id === 1)
+    if (+req.body.data.id === req.auth.id) {
       return res.status(400).json({
-        error:
-          "Ошибка при удалении пользователя.\n Главный администратор не может быть удалён",
+        error: "Нельзя удалить учётную запись авторизованного пользователя.",
       });
+    }
+    if (+req.body.data.id === 1)
+      return res.status(400).json({
+        error: "Главный администратор не может быть удалён",
+      });
+
     const item = await DB.delEntry({
       table,
       id: req.body.data.id,
@@ -185,7 +190,7 @@ async function del(req, res) {
   } catch (e) {
     // eslint-disable-next-line no-console
     console.log(e);
-    res.status(400).json({ error: "Ошибка при удалении пользователя" });
+    res.status(400).json({ error: "Не удалось удалить пользователя" });
   }
 }
 

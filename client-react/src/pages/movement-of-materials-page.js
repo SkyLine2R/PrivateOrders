@@ -10,9 +10,6 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import CloseIcon from "@mui/icons-material/Close";
 
-import DataGrid from "../base-elements/data-grid-table";
-import tableSchema from "../components/tables-schemas/table_schema-stock-material";
-import dbSchemaDocument from "../../../components/db_schema_for_testing/db_schema-document";
 import EditVendorCodePage from "./edit-vendor-code-page";
 
 const tabs = {

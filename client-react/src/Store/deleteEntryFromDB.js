@@ -24,15 +24,15 @@ const deleteEntryFromDB = createAsyncThunk(
 
       const resp = await dispatch(serverRequest({ fetchObj, api }));
 
-      return resp.payload?.data?.error
+      return resp.payload?.error
         ? rejectWithValue({
             api,
-            error: `Отклонено. Сообщение сервера:\n${resp.payload.data.error}`,
+            error: `Отклонено. Сообщение сервера:\n${resp.payload.error}`,
           })
         : { api, data: resp.payload.data };
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log(error);
+      console.error(error);
       return rejectWithValue({
         api,
         error: "При проверке и отправке данных возникла программная ошибка.",

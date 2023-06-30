@@ -34,7 +34,7 @@ const serverRequest = createAsyncThunk(
           throw new Error(response?.statusText);
         }
         throw new Error(
-          (await response.json()).error || "Сервер отклонил запрос"
+          (await response.json())?.error || "Сервер отклонил запрос"
         );
       }
       const respData = await response.json();
@@ -42,7 +42,7 @@ const serverRequest = createAsyncThunk(
       return { data: respData, prevReq: fetchObj };
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.warn(error);
+      console.log(error);
       return rejectWithValue({ error: error.message });
     }
   }

@@ -31,7 +31,6 @@ const sendChangedEntryToDB = createAsyncThunk(
       if (JSON.stringify(prevReq) === JSON.stringify(fetchObj)) {
         return rejectWithValue();
       }
-
       const resp = await dispatch(serverRequest({ fetchObj, api }));
 
       return resp.payload?.error

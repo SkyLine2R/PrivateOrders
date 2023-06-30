@@ -35,6 +35,7 @@ const sendNewEntryToDB = createAsyncThunk(
         return rejectWithValue();
       }
       const resp = await dispatch(serverRequest({ fetchObj, api }));
+
       return resp.payload?.error
         ? rejectWithValue({
             api,

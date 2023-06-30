@@ -12,7 +12,6 @@ async function getAll(req, res) {
       table,
       respCol: ["id", "login", "name", "accessLevel", "createdAt"],
     });
-
     return res.json(resp);
   } catch (e) {
     res
@@ -34,11 +33,11 @@ async function add(req, res) {
     });
 
     if (candidate.length) {
-      return res.status(400).json({
+      res.status(400).json({
         error: "Пользователь с таким логином уже существует",
       });
+      return true;
     }
-
     const hashPass = await bcrypt.hash(userData.pass, 10);
 
     const login = (
@@ -60,6 +59,7 @@ async function add(req, res) {
     res.status(400).json({ error: "Ошибка при добавлении пользователя" });
   }
 }
+
 async function edit(req, res) {
   try {
     const dataObj = req.body.data;

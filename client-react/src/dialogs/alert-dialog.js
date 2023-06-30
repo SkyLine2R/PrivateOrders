@@ -28,12 +28,12 @@ export default function AlertDialogSlide() {
     buttonOk,
     buttonCancel,
     api,
-    params,
+    type,
   } = useSelector((state) => state.alert);
 
   // eslint-disable-next-line no-unused-vars
   const handleOk = () => {
-    dispatch(deleteEntryFromDB({ api, params }));
+    dispatch(deleteEntryFromDB({ api, type }));
     dispatch(setAlertWindowIsOpen());
   };
 

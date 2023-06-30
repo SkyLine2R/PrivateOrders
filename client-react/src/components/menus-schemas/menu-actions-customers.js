@@ -12,12 +12,12 @@ const allMenuActions = [
   },
   {
     icon: <DeleteForeverIcon />,
-    name: "delete",
+    name: "del",
     tooltipTitle: "Удалить склад заказчика",
   },
   {
     icon: <AddHomeIcon />,
-    name: "new",
+    name: "add",
     tooltipTitle: "Добавить новый склад",
   },
 ];

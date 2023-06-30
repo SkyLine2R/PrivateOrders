@@ -21,6 +21,7 @@ const sendChangedEntryToDB = createAsyncThunk(
       if (data.error) {
         return rejectWithValue({
           api,
+          type,
           error: `Данные не изменены.\n${data.error}`,
         });
       }
@@ -36,6 +37,7 @@ const sendChangedEntryToDB = createAsyncThunk(
       return resp.payload?.error
         ? rejectWithValue({
             api,
+            type,
             error: `Отклонено. Сообщение сервера:\n${resp.payload.error}`,
           })
         : { api, type, data: resp.payload.data };
@@ -44,6 +46,7 @@ const sendChangedEntryToDB = createAsyncThunk(
       console.log(error);
       return rejectWithValue({
         api,
+        type,
         error: "При проверке и отправке данных возникла программная ошибка.",
       });
     }

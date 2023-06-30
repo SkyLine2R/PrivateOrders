@@ -9,8 +9,7 @@ import Box from "@mui/material/Box";
 
 import DataGrid from "../base-elements/data-grid-table";
 import SpeedDialMenu from "../menus/menu-speed-dial";
-import sendNewEntryToDB from "../Store/sendNewEntryToDB";
-import sendChangedEntryToDB from "../Store/sendChangedEntryToDB";
+import sendEntryToDB from "../Store/sendEntryToDB";
 import fetchEntries from "../Store/fetchEntries";
 
 import { setModalWindowIsOpen as setAlertWindowIsOpen } from "../Store/Slices/slice-alert-dialog";
@@ -99,11 +98,11 @@ export default function EditItemsPage({
       : null;
 
     switch (pressedButton) {
-      case "new":
+      case "add":
         return dispatch(setModalWindowIsOpen());
       case "edit":
         return dispatch(setModalWindowIsOpen(params));
-      case "delete":
+      case "del":
         return dispatch(
           setAlertWindowIsOpen({
             questions: `Вы действительно хотите удалить запись
@@ -118,7 +117,7 @@ export default function EditItemsPage({
       case "disableUser":
         dispatch(setModalWindowIsOpen({ ...params, accessLevel: 1 }));
         dispatch(
-          sendChangedEntryToDB({
+          sendEntryToDB({
             dbSchema: { id: null, accessLevel: dbSchema.accessLevel },
             api: "users",
             type: "disableUser",
@@ -138,7 +137,7 @@ export default function EditItemsPage({
   };
 
   const handleAddNewItem = () => {
-    dispatch(sendNewEntryToDB({ dbSchema, api: page }));
+    dispatch(sendEntryToDB({ dbSchema, type: "add", api: page }));
   };
 
   const handleEditItem = () => {
@@ -150,8 +149,8 @@ export default function EditItemsPage({
     // Удалить поля которые не нужно проверять и отправлять
     if (page === "users" && menuEditType.current !== "changePass")
       delete sendObj.dbSchema.pass;
-    // delete sendObj.dbSchema.createdAt; - возможно уже не нужно
-    dispatch(sendChangedEntryToDB(sendObj));
+
+    dispatch(sendEntryToDB(sendObj));
   };
 
   return (
@@ -160,10 +159,6 @@ export default function EditItemsPage({
       sx={{ margin: "20px auto" }}
       onClick={handleMenuInContainer}
     >
-      {/*       <AlertDialogSlide
-        open={openAlert}
-        questions="Вы уверены, что хотите удалить запись? Это действие нельзя будет отменить."
-      /> */}
       <Box
         sx={{
           width: "100%",

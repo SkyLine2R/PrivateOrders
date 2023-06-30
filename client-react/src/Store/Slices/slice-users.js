@@ -2,8 +2,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import serverRequest from "../serverRequest";
 import fetchEntries from "../fetchEntries";
-import sendNewEntryToDB from "../sendNewEntryToDB";
-import sendChangedEntryToDB from "../sendChangedEntryToDB";
+import sendEntryToDB from "../sendEntryToDB";
 
 const api = "users";
 
@@ -65,16 +64,12 @@ const users = createSlice({
         if (payload.api !== api) return;
         state.catalog = payload.data || [];
       })
-      .addCase(sendNewEntryToDB.pending, (state, action) => {
+      .addCase(sendEntryToDB.pending, (state, action) => {
         if (action.meta.arg.api !== api) return;
         state.lastVendorCodeId = null;
       })
 
-      .addCase(sendNewEntryToDB.fulfilled, (state, action) => {
-        if (action.meta.arg.api !== api) return;
-        successSending(state, action.payload);
-      })
-      .addCase(sendChangedEntryToDB.fulfilled, (state, action) => {
+      .addCase(sendEntryToDB.fulfilled, (state, action) => {
         if (action.meta.arg.api !== api) return;
         successSending(state, action.payload);
       });

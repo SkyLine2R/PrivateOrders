@@ -3,8 +3,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import serverRequest from "../serverRequest";
 import fetchVendorCodes from "../fetchVendorCodes";
-import sendNewEntryToDB from "../sendNewEntryToDB";
-import sendChangedEntryToDB from "../sendChangedEntryToDB";
+import sendEntryToDB from "../sendEntryToDB";
 import deleteEntryFromDB from "../deleteEntryFromDB";
 import fetchEntries from "../fetchEntries";
 import generateSuccessText from "./messages-for-slices";
@@ -45,12 +44,15 @@ const snackbar = createSlice({
             : "В базе нет подобных артикулов"
         );
       })
-      .addCase(sendNewEntryToDB.rejected, (state, { payload }) => {
+
+      .addCase(sendEntryToDB.rejected, (state, { payload }) => {
         if (payload?.error) setSnackbar(state, "warning", payload.error);
       })
-      .addCase(sendNewEntryToDB.fulfilled, (state, { payload }) => {
+
+      .addCase(sendEntryToDB.fulfilled, (state, { payload }) => {
         setSnackbar(state, "success", generateSuccessText(payload));
       })
+
       .addCase(serverRequest.rejected, (state, { payload }) => {
         setSnackbar(
           state,
@@ -58,18 +60,15 @@ const snackbar = createSlice({
           `Ошибка при выполнении запроса.\n${payload.error}`
         );
       })
-      .addCase(sendChangedEntryToDB.rejected, (state, { payload }) => {
-        if (payload?.error) setSnackbar(state, "warning", payload.error);
-      })
-      .addCase(sendChangedEntryToDB.fulfilled, (state, { payload }) => {
-        setSnackbar(state, "success", generateSuccessText(payload));
-      })
+
       .addCase(deleteEntryFromDB.rejected, (state, { payload }) => {
         if (payload?.error) setSnackbar(state, "warning", payload.error);
       })
+
       .addCase(deleteEntryFromDB.fulfilled, (state, { payload }) => {
         setSnackbar(state, "success", generateSuccessText(payload));
       })
+
       .addCase(fetchEntries.fulfilled, (state, { payload }) => {
         if (state.open) return;
         setSnackbar(
@@ -80,6 +79,7 @@ const snackbar = createSlice({
             : "В базе нет таких данных"
         );
       })
+
       .addCase(fetchEntries.rejected, (state, { payload }) => {
         setSnackbar(
           state,

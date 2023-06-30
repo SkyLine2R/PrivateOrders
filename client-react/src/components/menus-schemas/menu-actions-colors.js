@@ -12,12 +12,12 @@ const allMenuActions = [
   },
   {
     icon: <DeleteForeverIcon />,
-    name: "delete",
+    name: "del",
     tooltipTitle: "Удалить цвет из каталога",
   },
   {
     icon: <InvertColorsIcon />,
-    name: "new",
+    name: "add",
     tooltipTitle: "Добавить новый цвет",
   },
 ];

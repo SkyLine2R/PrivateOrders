@@ -99,6 +99,7 @@ async function edit(req, res) {
         respCol: "login",
       })
     )[0];
+    if (!login) throw Error("Не удалось обработать запрос");
     return res.json(login);
   } catch (e) {
     // eslint-disable-next-line no-console
@@ -113,7 +114,6 @@ async function changePass(req, res) {
       { pass: usersDbSchema.pass },
       req.body.data
     );
-
     if (userData.error) return res.status(400).json(userData.error);
 
     const hashPass = await bcrypt.hash(userData.pass, 10);
@@ -130,10 +130,10 @@ async function changePass(req, res) {
         respCol: "login",
       })
     )[0];
-
+    if (!login) throw Error("Не удалось обработать запрос");
     return res.json(login);
   } catch (e) {
-    res.status(400).json({ error: "Не удалось изменить пароль пользователя" });
+    res.status(400).json({ error: "Не удалось изменить пароль пользователя." });
   }
 }
 
@@ -190,6 +190,7 @@ async function del(req, res) {
   } catch (e) {
     // eslint-disable-next-line no-console
     console.log(e);
+
     res.status(400).json({ error: "Не удалось удалить пользователя" });
   }
 }

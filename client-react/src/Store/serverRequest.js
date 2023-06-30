@@ -37,7 +37,10 @@ const serverRequest = createAsyncThunk(
           (await response.json())?.error || "Сервер отклонил запрос"
         );
       }
+      console.log(response);
+
       const respData = await response.json();
+      console.log(respData);
 
       return { data: respData, prevReq: fetchObj };
     } catch (error) {

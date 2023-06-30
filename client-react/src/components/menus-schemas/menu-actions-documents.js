@@ -18,12 +18,12 @@ const allMenuActions = [
   },
   {
     icon: <DeleteForeverIcon />,
-    name: "delete",
+    name: "del",
     tooltipTitle: "Удалить документ",
   },
   {
     icon: <PostAddIcon />,
-    name: "new",
+    name: "add",
     tooltipTitle: "Добавить новый документ",
   },
 ];

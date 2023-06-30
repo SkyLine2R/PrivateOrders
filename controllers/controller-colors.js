@@ -65,7 +65,7 @@ async function edit(req, res) {
 
     if (itemData.error) return res.json(itemData.error);
 
-    const candidate = await DB.findEntry({
+    const candidate = await DB.findEntries({
       table,
       searchColumn: "name",
       searchData: itemData.name,

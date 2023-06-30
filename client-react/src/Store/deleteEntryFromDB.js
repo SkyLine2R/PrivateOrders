@@ -3,7 +3,7 @@ import serverRequest from "./serverRequest";
 
 const deleteEntryFromDB = createAsyncThunk(
   "api/deleteEntryFromDB",
-  async ({ api }, { getState, dispatch, rejectWithValue }) => {
+  async ({ api, type }, { getState, dispatch, rejectWithValue }) => {
     try {
       const { id, params } = getState().alert;
       const prevReq = getState()[api].request.prevReq.fetchObj;
@@ -16,7 +16,7 @@ const deleteEntryFromDB = createAsyncThunk(
         });
       }
       const fetchObj = {
-        type: "del",
+        type,
         data: { id },
       };
       if (JSON.stringify(prevReq) === JSON.stringify(fetchObj)) {
@@ -28,15 +28,16 @@ const deleteEntryFromDB = createAsyncThunk(
       return resp.payload?.error
         ? rejectWithValue({
             api,
-            params,
+            type,
             error: `Отклонено. Сообщение сервера:\n${resp.payload.error}`,
           })
-        : { api, data: resp.payload.data };
+        : { api, type, data: resp.payload.data };
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);
       return rejectWithValue({
         api,
+        type,
         error: "При проверке и отправке данных возникла программная ошибка.",
       });
     }

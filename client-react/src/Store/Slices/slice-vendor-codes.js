@@ -3,14 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import fetchVendorCodes from "../fetchVendorCodes";
 import fetchEntries from "../fetchEntries";
 import serverRequest from "../serverRequest";
-import sendNewEntryToDB from "../sendNewEntryToDB";
-import sendChangedEntryToDB from "../sendChangedEntryToDB";
+import sendEntryToDB from "../sendEntryToDB";
 
 const api = "vendorCodes";
 
 const successSending = (state, payload) => {
-  if (payload.api !== api) return;
-
   state.lastVendorCodeId = payload.data.id;
   state.modalWindowIsOpen = false;
   state.inputFields = {
@@ -93,17 +90,12 @@ const vendorCodes = createSlice({
         state.catalog = payload.data || [];
       })
 
-      .addCase(sendNewEntryToDB.pending, (state, { payload }) => {
+      .addCase(sendEntryToDB.pending, (state, { payload }) => {
         if (payload?.api !== api) return;
         state.lastVendorCodeId = null;
       })
 
-      .addCase(sendNewEntryToDB.fulfilled, (state, { payload }) => {
-        if (payload.api !== api) return;
-        successSending(state, payload);
-      })
-
-      .addCase(sendChangedEntryToDB.fulfilled, (state, { payload }) => {
+      .addCase(sendEntryToDB.fulfilled, (state, { payload }) => {
         if (payload.api !== api) return;
         successSending(state, payload);
       });

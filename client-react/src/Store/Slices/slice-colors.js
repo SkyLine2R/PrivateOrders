@@ -2,8 +2,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import fetchEntries from "../fetchEntries";
 import serverRequest from "../serverRequest";
-import sendNewEntryToDB from "../sendNewEntryToDB";
-import sendChangedEntryToDB from "../sendChangedEntryToDB";
+import sendEntryToDB from "../sendEntryToDB";
 
 const api = "colors";
 
@@ -78,12 +77,7 @@ const colors = createSlice({
         state.catalog = payload.data || [];
       })
 
-      .addCase(sendNewEntryToDB.fulfilled, (state, { payload }) => {
-        if (payload.api !== api) return;
-        successSending(state, payload);
-      })
-
-      .addCase(sendChangedEntryToDB.fulfilled, (state, { payload }) => {
+      .addCase(sendEntryToDB.fulfilled, (state, { payload }) => {
         if (payload.api !== api) return;
         successSending(state, payload);
       });

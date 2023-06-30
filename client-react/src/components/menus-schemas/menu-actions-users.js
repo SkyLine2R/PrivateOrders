@@ -24,12 +24,12 @@ const allMenuActions = [
   },
   {
     icon: <DeleteForeverIcon />,
-    name: "delete",
+    name: "del",
     tooltipTitle: "Удалить аккаунт пользователя",
   },
   {
     icon: <PersonAdd />,
-    name: "new",
+    name: "add",
     tooltipTitle: "Добавить нового пользователя",
   },
 ];

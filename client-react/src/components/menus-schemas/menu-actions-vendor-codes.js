@@ -12,12 +12,12 @@ const allMenuActions = [
   },
   {
     icon: <DeleteForeverIcon />,
-    name: "delete",
+    name: "del",
     tooltipTitle: "Удалить артикул",
   },
   {
     icon: <ControlPointIcon />,
-    name: "new",
+    name: "add",
     tooltipTitle: "Добавить новый артикул",
   },
 ];

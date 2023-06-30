@@ -5,12 +5,13 @@ const deleteEntryFromDB = createAsyncThunk(
   "api/deleteEntryFromDB",
   async ({ api }, { getState, dispatch, rejectWithValue }) => {
     try {
-      const { id } = getState().alert;
+      const { id, params } = getState().alert;
       const prevReq = getState()[api].request.prevReq.fetchObj;
 
       if (!id) {
         return rejectWithValue({
           api,
+          params,
           error: "Запись не удалена. Произошла ошибка.",
         });
       }
@@ -27,6 +28,7 @@ const deleteEntryFromDB = createAsyncThunk(
       return resp.payload?.error
         ? rejectWithValue({
             api,
+            params,
             error: `Отклонено. Сообщение сервера:\n${resp.payload.error}`,
           })
         : { api, data: resp.payload.data };

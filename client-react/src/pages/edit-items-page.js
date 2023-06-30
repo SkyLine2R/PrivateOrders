@@ -100,7 +100,7 @@ export default function EditItemsPage({
 
     switch (pressedButton) {
       case "new":
-        return dispatch(setModalWindowIsOpen());
+        return dispatch(setModalWindowIsOpen(params));
       case "edit":
         return dispatch(setModalWindowIsOpen(params));
       case "delete":
@@ -110,6 +110,7 @@ export default function EditItemsPage({
             "${params.name}"? Это действие нельзя будет отменить.`,
             id: params.id,
             api: page,
+            params,
           })
         );
       case "changePass":

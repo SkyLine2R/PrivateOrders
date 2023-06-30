@@ -21,12 +21,19 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 // eslint-disable-next-line no-unused-vars
 export default function AlertDialogSlide() {
   const dispatch = useDispatch();
-  const { title, questions, modalWindowIsOpen, buttonOk, buttonCancel, api } =
-    useSelector((state) => state.alert);
+  const {
+    title,
+    questions,
+    modalWindowIsOpen,
+    buttonOk,
+    buttonCancel,
+    api,
+    params,
+  } = useSelector((state) => state.alert);
 
   // eslint-disable-next-line no-unused-vars
   const handleOk = () => {
-    dispatch(deleteEntryFromDB({ api }));
+    dispatch(deleteEntryFromDB({ api, params }));
     dispatch(setAlertWindowIsOpen());
   };
 

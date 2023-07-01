@@ -10,11 +10,16 @@ import dayjs from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
-
 import { useSelector, useDispatch } from "react-redux";
+import ArrowTooltip from "../base-elements/arrow-tooltip";
+import arrowTooltip from "../components/arrowTooltips/arrowTooltip-for-documents";
+
 import FieldForInput from "../base-elements/field-for-input";
 import TitleDialog from "../base-elements/dialog-title";
-import { changeValue } from "../Store/Slices/slice-instock-documents";
+import {
+  changeValue,
+  addTooltip,
+} from "../Store/Slices/slice-instock-documents";
 
 export default function FormDialog({
   menuEditType,
@@ -28,6 +33,10 @@ export default function FormDialog({
   const { number, name, date, notes } = useSelector(
     (state) => state.documentsInStock.inputFields
   );
+
+  const handleAddToolTip = (e) => {
+    dispatch(addTooltip(e.target.value));
+  };
 
   const handleChangeDate = (newDate) => {
     dispatch(
@@ -91,6 +100,16 @@ export default function FormDialog({
                 value={notes}
                 dbSchema={dbSchema}
               />
+            </Grid>
+            <Grid sx={{ pt: 2 }} onClick={handleAddToolTip}>
+              {arrowTooltip.map(({ id, tooltip, value }) => (
+                <ArrowTooltip
+                  id={id}
+                  key={id}
+                  tooltip={tooltip}
+                  value={value}
+                />
+              ))}
             </Grid>
           </DialogContent>
           <DialogActions sx={{ pr: 2 }}>

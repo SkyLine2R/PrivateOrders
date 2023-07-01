@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import FieldForInput from "../base-elements/field-for-input";
 import { changeValue, addTooltip } from "../Store/Slices/slice-colors";
 import ArrowTooltip from "../base-elements/arrow-tooltip";
-import arrowTooltip from "../components/arrowTooltip-for-colors";
+import arrowTooltip from "../components/arrowTooltips/arrowTooltip-for-colors";
 import TitleDialog from "../base-elements/dialog-title";
 
 export default function FormDialog({

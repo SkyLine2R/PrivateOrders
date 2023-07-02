@@ -26,7 +26,17 @@ export default function EditItemsPage({
 }) {
   const dispatch = useDispatch();
 
-  React.useEffect(() => dispatch(fetchEntries(page)), [dispatch, page]);
+  const { catalog, modalWindowIsOpen } = useSelector(
+    (state) => state[page],
+    shallowEqual
+  );
+
+  const { currentId } = useSelector((state) => state.customers, shallowEqual);
+
+  React.useEffect(
+    () => dispatch(fetchEntries(page)),
+    [dispatch, page, modalWindowIsOpen, currentId]
+  );
 
   const menuEditType = useRef(null);
 
@@ -37,11 +47,6 @@ export default function EditItemsPage({
     actions: [],
     id: "",
   });
-
-  const { catalog, modalWindowIsOpen } = useSelector(
-    (state) => state[page],
-    shallowEqual
-  );
 
   const handleMenuInDataGrid = ({ id }, e) => {
     if (!modalWindowIsOpen) {

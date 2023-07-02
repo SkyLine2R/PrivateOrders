@@ -37,9 +37,6 @@ const str = {
 };
 
 const generateSuccessText = ({ api, type, data }) => {
-  console.log(api);
-  console.log(type);
-  console.log(data);
   const name = data.login ?? data.vendorCode ?? data.name;
   return `${str[type][api]}${name ? ` "${name}" ` : " "}${str[type].result}`;
 };

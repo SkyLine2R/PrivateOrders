@@ -16,7 +16,8 @@ function colNaming(items) {
       type: "number",
     },
   ];
-  // добавление заголовков из схемы БД
+
+  // добавление заголовков таблице из схемы
   // eslint-disable-next-line guard-for-in
   for (const item in items) {
     // eslint-disable-next-line no-param-reassign
@@ -40,18 +41,32 @@ function normalizeRowsData(items, catalog) {
       return obj;
     });
   }
-
   const rowsData = rows.map((item, index) => {
     // заменим, если необходимо, цифровые значения на текстовые (м / хл., уровень доступа...)
     const tempObj = {};
-    if (items?.unit?.unitArr) tempObj.unit = items.unit.unitArr[+item.unit];
+
+    // уровень доступа
     if (items?.accessLevel?.labels)
       tempObj.accessLevel = items.accessLevel.labels[+item.accessLevel];
-    // конвертация timestamp в локальное время
+
+    // переведём timestamp в локальное время
     if (item?.createdAt)
       tempObj.createdAt = new Date(item.createdAt).toLocaleDateString();
     if (item?.date) tempObj.date = new Date(item.date).toLocaleDateString();
 
+    // единицы измерения материала
+    if (items?.unit?.unitArr) {
+      tempObj.unit = items.unit.unitArr[+item.unit];
+
+      // Если в таблице используются раздельно единицы / условные единицы
+      // добавим столбцы с этими единицами и пересчитаем ячейки с ними
+      if (Object.hasOwn(item, "amountName")) {
+        [tempObj.amountName, tempObj.amountInUnitsName] = [
+          tempObj.unit.split(" / "),
+        ];
+        tempObj.amountInUnits = tempObj.amount * tempObj.quantity;
+      }
+    }
     return {
       ...item,
       ...tempObj,

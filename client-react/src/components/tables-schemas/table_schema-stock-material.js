@@ -12,6 +12,7 @@ const stockMaterialsSchemaTable = {
     headerName: "Артикул",
     width: 90,
     editable: false,
+    type: "string",
   },
   itemName: {
     headerName: "Наименование",
@@ -24,16 +25,28 @@ const stockMaterialsSchemaTable = {
     editable: false,
   },
   amount: {
-    headerName: "Кол-во в ед.",
-    width: 130,
+    headerName: "Кол-во",
+    width: 110,
     editable: false,
     type: "number",
   },
+  amountName: {
+    headerName: "ед.",
+    width: 50,
+    editable: false,
+    type: "string",
+  },
   amountInUnits: {
-    headerName: "Кол-во в у.е.",
-    width: 130,
+    headerName: "Кол-во",
+    width: 110,
     editable: false,
     type: "number",
+  },
+  amountInUnitsName: {
+    headerName: "ед.",
+    width: 50,
+    editable: false,
+    type: "string",
   },
   notes: {
     headerName: "Примечания",

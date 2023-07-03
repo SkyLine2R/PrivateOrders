@@ -33,6 +33,7 @@ const documentsInStock = createSlice({
       notes: "",
     },
     catalog: [],
+    opened: [],
     request: {
       status: null,
       error: null,

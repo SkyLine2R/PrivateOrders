@@ -1,6 +1,7 @@
 import * as React from "react";
 import MovementOfMaterials from "./movement-of-materials-page";
 import editStockDocumentPage from "./edit-instock-documents-page";
+import EditDocumentInStockPage from "./edit-document-instock-page";
 
 const openDocuments = {
   inStock: [
@@ -30,11 +31,10 @@ const openDocuments = {
 };
 
 export default function InStockDocumentsPage() {
-  return (
-    <MovementOfMaterials
+  return <EditDocumentInStockPage />;
+  /*     <MovementOfMaterials
       type="inStock"
       openDocuments={[...openDocuments.outStock]}
       MainTabContent={editStockDocumentPage}
-    />
-  );
+    /> */
 }

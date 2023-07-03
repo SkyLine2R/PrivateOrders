@@ -30,8 +30,8 @@ const serverRequest = createAsyncThunk(
             "Истекло время авторизации в системе. Необходимо повторно войти в систему."
           );
         }
-        if (response.status === 500) {
-          throw new Error(response?.statusText);
+        if (response.status === 500 || response.status === 404) {
+          throw new Error(`${response.status}: ${response?.statusText}`);
         }
         throw new Error(
           (await response.json())?.error || "Сервер отклонил запрос"

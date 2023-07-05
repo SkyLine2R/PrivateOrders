@@ -94,8 +94,8 @@ function DataGridTable({ tableSchema, catalog, onCellClick }) {
   return (
     <Box sx={{ height: "82vh", width: "100%" }}>
       <DataGrid
-        rows={rowsDataState}
         columns={colNameRef.current}
+        rows={rowsDataState}
         pageSize={50}
         rowsPerPageOptions={[50]}
         /* checkboxSelection */
@@ -107,6 +107,9 @@ function DataGridTable({ tableSchema, catalog, onCellClick }) {
           dispatch(action);
         }} */
         onCellClick={onCellClick}
+        autoHeight
+        autoPageSize
+        /* loading */
       />
     </Box>
   );

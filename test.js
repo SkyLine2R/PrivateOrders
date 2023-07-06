@@ -1,51 +1,27 @@
-/* eslint-disable no-plusplus */
-/* function sostavChisla(massivChisel, chislo) {
-  const resultArr = [];
-  const arrLength = massivChisel.length;
-
-  for (let i = 0; i < arrLength - 1; i++) {
-    let summ = massivChisel[i];
-    let startJ = i + 1;
-    let j = startJ;
-    const numberArr = [massivChisel[i]];
-    console.log(i);
-
-    while (j < arrLength) {
-      console.log("j " + j);
-      console.log("summ " + summ);
-      console.log(numberArr);
-
-      if (summ === chislo) {
-        resultArr.push(numberArr);
-        break;
-      }
-
-      if (summ > chislo) {
-        startJ++;
-        j = startJ;
-      } else {
-        summ += massivChisel[j];
-        numberArr.push(massivChisel[j]);
-        j++;
-      }
-    }
-  }
+function sostavChisla(massivChisel, chislo) {
   // код писать только внутри данной функции
-  return resultArr;
-} */
-
-function sostavChisla1(massivChisel, chislo) {
   const resultArr = [];
   const searchCombination = (foundCombination, summ, startI) => {
-    if (summ > chislo) return;
+    if (summ > chislo) {
+      return;
+    }
     if (summ === chislo) {
       resultArr.push([...foundCombination]);
       return;
     }
-    for (let i = startI; i < massivChisel.length; i++) {}
+    for (let i = startI; i < massivChisel.length; i++) {
+      foundCombination.push(massivChisel[i]);
+      searchCombination(foundCombination, summ + massivChisel[i], i + 1);
+      foundCombination.pop();
+    }
   };
+  searchCombination([], 0, 0);
+  return resultArr;
 }
 
+console.log(sostavChisla([7, 8, 3, 4, 5, 6, 1, 2], 1));
+
+/* 
 function sostavChisla(massivChisel, chislo) {
   const combinations = [];
   // Рекурсивная функция для поиска комбинаций
@@ -72,6 +48,4 @@ function sostavChisla(massivChisel, chislo) {
 
   findCombinations([], chislo, 0);
   return combinations;
-}
-
-console.log(sostavChisla([8, 2, 3, 4, 6, 7, 1], 5));
+} */

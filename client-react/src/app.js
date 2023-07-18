@@ -1,4 +1,5 @@
 import * as React from "react";
+import Paper from "@mui/material/Paper";
 
 import CustomizedSnackbars from "./base-elements/snackbar";
 import AlertSlideDialog from "./dialogs/alert-dialog";
@@ -11,11 +12,11 @@ export default function App() {
   const { user } = useAuth();
 
   return (
-    <>
+    <Paper sx={{ height: "100vh", overflow: "hidden" }}>
       {user.accessLevel > 1 ? <MenuAppBar /> : null}
       <CustomizedSnackbars />
       <AlertSlideDialog />
       {routes}
-    </>
+    </Paper>
   );
 }

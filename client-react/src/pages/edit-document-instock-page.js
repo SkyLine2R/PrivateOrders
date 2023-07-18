@@ -27,7 +27,7 @@ import { setModalWindowIsOpen } from "../Store/Slices/slice-instock-documents";
 export default function EditDocumentsPage() {
   return (
     <Grid container spacing={2}>
-      <Grid xs={6} sx={{ padding: 0, margin: 0 }}>
+      <Grid xs={6} sx={{ padding: 0, margin: 0, height: "40%" }}>
         <EditItemsPage
           sx={{ padding: 0, margin: 0 }}
           page="vendorCodes"

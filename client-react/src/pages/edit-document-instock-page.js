@@ -26,8 +26,8 @@ import { setModalWindowIsOpen } from "../Store/Slices/slice-instock-documents";
 
 export default function EditDocumentsPage() {
   return (
-    <Grid container spacing={2}>
-      <Grid xs={6} sx={{ padding: 0, margin: 0, height: "40%" }}>
+    <Grid container spacing={1}>
+      <Grid xs={6} sx={{ height: "45vh" }}>
         <EditItemsPage
           sx={{ padding: 0, margin: 0 }}
           page="vendorCodes"
@@ -39,12 +39,12 @@ export default function EditDocumentsPage() {
           tableSchema={tableSchema}
           dbSchema={dbSchemaVendorCodes}
         />
-        <StockOfMaterialPage sx={{ padding: 0, margin: 0 }} />
+        <StockOfMaterialPage sx={{ height: "45vh" }} />
         {/*         <DataGrid dbSchema={dbSchemaStock} tableSchema={tableSchemaStock} />
          */}{" "}
       </Grid>
-      <Grid xs={6} sx={{ padding: 0, margin: 0 }}>
-        <InStockOfMaterialPage sx={{ padding: 0, margin: 0 }} />
+      <Grid xs={6}>
+        <InStockOfMaterialPage sx={{ height: "95vh" }} />
       </Grid>
     </Grid>
   );

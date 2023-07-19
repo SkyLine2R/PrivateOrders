@@ -159,17 +159,12 @@ export default function EditItemsPage({
   };
 
   return (
-    <Container
-      maxWidth="md"
-      sx={{ margin: "20px auto", height: "200px" }}
-      onClick={handleMenuInContainer}
-    >
+    <Container sx={{ height: "100%" }} onClick={handleMenuInContainer}>
       <Box
         sx={{
-          width: "100%",
           display: "flex",
           alignItems: "flex-end",
-          marginBottom: "15px",
+          marginBottom: "10px",
         }}
       >
         <HeaderIcon fontSize="large" sx={{ color: "primary.dark" }} />
@@ -195,11 +190,13 @@ export default function EditItemsPage({
           onMouseLeave={handleOffMenu}
         />
       )}
-      <DataGrid
-        tableSchema={tableSchema}
-        catalog={catalog}
-        onCellClick={handleMenuInDataGrid}
-      />
+      <Box sx={{ height: "82vh" }}>
+        <DataGrid
+          tableSchema={tableSchema}
+          catalog={catalog}
+          onCellClick={handleMenuInDataGrid}
+        />
+      </Box>
     </Container>
   );
 }

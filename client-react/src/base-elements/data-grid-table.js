@@ -92,26 +92,26 @@ function DataGridTable({ tableSchema, catalog, onCellClick }) {
   );
 
   return (
-    <Box sx={{ height: "82vh", width: "100%" }}>
-      <DataGrid
-        columns={colNameRef.current}
-        rows={rowsDataState}
-        pageSize={50}
-        rowsPerPageOptions={[50]}
-        /* checkboxSelection */
-        /* disableSelectionOnClick */
-        experimentalFeatures={{ newEditingApi: true }}
-        localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
-        density="compact"
-        /* onCellClick={(GridCellParams, event, GridCallbackDetails) => {
+    <DataGrid
+      autoHeight="true"
+      sx={{ height: "100%", width: "100%", padding: 0 }}
+      columns={colNameRef.current}
+      rows={rowsDataState}
+      pageSize={50}
+      rowsPerPageOptions={[50]}
+      /* checkboxSelection */
+      /* disableSelectionOnClick */
+      experimentalFeatures={{ newEditingApi: true }}
+      localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
+      density="compact"
+      /* onCellClick={(GridCellParams, event, GridCallbackDetails) => {
           dispatch(action);
         }} */
-        onCellClick={onCellClick}
-        autoHeight
-        autoPageSize
-        /* loading */
-      />
-    </Box>
+      onCellClick={onCellClick}
+      autoHeight
+      autoPageSize
+      /* loading */
+    />
   );
 }
 

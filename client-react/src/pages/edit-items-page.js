@@ -161,7 +161,7 @@ export default function EditItemsPage({
   return (
     <Container
       maxWidth="md"
-      sx={{ margin: "20px auto" }}
+      sx={{ margin: "20px auto", height: "200px" }}
       onClick={handleMenuInContainer}
     >
       <Box

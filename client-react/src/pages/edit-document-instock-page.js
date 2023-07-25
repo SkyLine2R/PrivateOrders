@@ -1,10 +1,12 @@
 import * as React from "react";
 import QrCode2Icon from "@mui/icons-material/QrCode2";
 import Grid from "@mui/material/Unstable_Grid2";
+import Box from "@mui/material/Box";
 
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 // eslint-disable-next-line no-unused-vars
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import StorageIcon from "@mui/icons-material/Storage";
 
 import EditItemsPage from "./edit-items-page";
 import EditDialog from "../dialogs/edit-vendor-code-dialog";
@@ -27,8 +29,10 @@ import { setModalWindowIsOpen } from "../Store/Slices/slice-instock-documents";
 export default function EditDocumentsPage() {
   return (
     <Grid container spacing={1}>
-      <Grid xs={6} sx={{ height: "45vh" }}>
-        <EditItemsPage
+      <Grid xs={6}>
+        {/* <Box></Box> */}
+        <EditVendorCodePage /* sx={{ height: "50%" }} */ />
+        {/*         <EditItemsPage
           sx={{ padding: 0, margin: 0 }}
           page="vendorCodes"
           headerText="Артикулы в базе"
@@ -38,13 +42,24 @@ export default function EditDocumentsPage() {
           EditDialog={EditDialog}
           tableSchema={tableSchema}
           dbSchema={dbSchemaVendorCodes}
-        />
-        <StockOfMaterialPage sx={{ height: "45vh" }} />
+        /> */}
+        {/*         <EditItemsPage
+          sx={{ padding: 0, margin: 0 }}
+          page="stock"
+          headerText="На складе"
+          HeaderIcon={StorageIcon}
+          setModalWindowIsOpen={setModalWindowIsOpen}
+          allMenuActions={allMenuActions}
+          EditDialog={EditDialog}
+          tableSchema={tableSchema}
+          dbSchema={dbSchemaStock}
+        /> */}
+        <StockOfMaterialPage />
         {/*         <DataGrid dbSchema={dbSchemaStock} tableSchema={tableSchemaStock} />
          */}{" "}
       </Grid>
       <Grid xs={6}>
-        <InStockOfMaterialPage sx={{ height: "95vh" }} />
+        <InStockOfMaterialPage />
       </Grid>
     </Grid>
   );

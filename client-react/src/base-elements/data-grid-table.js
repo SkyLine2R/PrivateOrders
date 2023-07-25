@@ -93,6 +93,7 @@ function DataGridTable({ tableSchema, catalog, onCellClick }) {
 
   return (
     <DataGrid
+      sx={{ height: "100%" }}
       columns={colNameRef.current}
       rows={rowsDataState}
       pageSize={50}

@@ -16,7 +16,7 @@ export default function App() {
       {user.accessLevel > 1 ? <MenuAppBar /> : null}
       <CustomizedSnackbars />
       <AlertSlideDialog />
-      {routes}
+      <Paper sx={{ height: "calc( 100vh - 125px )" }}>{routes}</Paper>
     </Paper>
   );
 }

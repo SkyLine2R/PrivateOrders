@@ -27,36 +27,17 @@ import InStockOfMaterialPage from "./inStock-of-materials-page";
 import { setModalWindowIsOpen } from "../Store/Slices/slice-instock-documents";
 
 export default function EditDocumentsPage() {
+  const heightHalfPage = "calc((100vh - 120px - 64px) / 2)";
+
   return (
     <Grid container spacing={1}>
       <Grid xs={6}>
-        {/* <Box></Box> */}
-        <EditVendorCodePage /* sx={{ height: "50%" }} */ />
-        {/*         <EditItemsPage
-          sx={{ padding: 0, margin: 0 }}
-          page="vendorCodes"
-          headerText="Артикулы в базе"
-          HeaderIcon={QrCode2Icon}
-          setModalWindowIsOpen={setModalWindowIsOpen}
-          allMenuActions={allMenuActions}
-          EditDialog={EditDialog}
-          tableSchema={tableSchema}
-          dbSchema={dbSchemaVendorCodes}
-        /> */}
-        {/*         <EditItemsPage
-          sx={{ padding: 0, margin: 0 }}
-          page="stock"
-          headerText="На складе"
-          HeaderIcon={StorageIcon}
-          setModalWindowIsOpen={setModalWindowIsOpen}
-          allMenuActions={allMenuActions}
-          EditDialog={EditDialog}
-          tableSchema={tableSchema}
-          dbSchema={dbSchemaStock}
-        /> */}
-        <StockOfMaterialPage />
-        {/*         <DataGrid dbSchema={dbSchemaStock} tableSchema={tableSchemaStock} />
-         */}{" "}
+        <Box pb="45px" sx={{ height: heightHalfPage }}>
+          <EditVendorCodePage />
+        </Box>
+        <Box sx={{ height: heightHalfPage }}>
+          <StockOfMaterialPage />
+        </Box>
       </Grid>
       <Grid xs={6}>
         <InStockOfMaterialPage />

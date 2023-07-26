@@ -194,7 +194,6 @@ export default function EditItemsPage({
         />
       )}
       <DataGrid
-        sx={{ height: "100%" }}
         tableSchema={tableSchema}
         catalog={catalog}
         onCellClick={handleMenuInDataGrid}

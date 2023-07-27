@@ -62,7 +62,7 @@ export default function FormDialog({
           {menuEditType !== "add" ? (
             ""
           ) : (
-            <Box sx={{ mt: "15px" }}>
+            <Box sx={{ mt: "15px", height: "50vh" }}>
               <DialogContentText>Артикулы в базе</DialogContentText>
               <DataGrid
                 dbSchema={dbSchema}

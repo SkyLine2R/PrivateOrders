@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-restricted-syntax */
 import * as React from "react";
-import Box from "@mui/material/Box";
 import { DataGrid, ruRU } from "@mui/x-data-grid";
 
 // Столбец с нумерацией

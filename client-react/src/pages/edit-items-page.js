@@ -26,10 +26,11 @@ export default function EditItemsPage({
 }) {
   const dispatch = useDispatch();
 
-  const { catalog, modalWindowIsOpen } = useSelector(
+  const { catalog, modalWindowIsOpen, request } = useSelector(
     (state) => state[page],
     shallowEqual
   );
+  const loading = request.status === "loading";
 
   const { currentId } = useSelector((state) => state.customers, shallowEqual);
 
@@ -159,10 +160,7 @@ export default function EditItemsPage({
   };
 
   return (
-    <Container
-      sx={{ height: "100%", marginBottom: "50px" }}
-      onClick={handleMenuInContainer}
-    >
+    <Container sx={{ height: "100%" }} onClick={handleMenuInContainer}>
       <Box
         sx={{
           display: "flex",
@@ -194,6 +192,7 @@ export default function EditItemsPage({
         />
       )}
       <DataGrid
+        loading={loading}
         tableSchema={tableSchema}
         catalog={catalog}
         onCellClick={handleMenuInDataGrid}

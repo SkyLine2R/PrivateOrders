@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import serverRequest from "./serverRequest";
 
@@ -8,16 +9,21 @@ const fetchVendorCodes = createAsyncThunk(
     // остальное заменяем на маску "любые символы - "%"
     // если введены данные в два поля (артикул и название) - фильтр не используем
     const { inputFields, request } = getState().vendorCodes;
-    const { vendorCode, name } = inputFields;
+    const { vendorCode, name, notes } = inputFields;
     const { prevReq } = request;
 
-    if (vendorCode && name) return rejected();
+    const filledFieldCount = [vendorCode, name, notes].reduce(
+      (count, item) => count + (item ? 1 : 0),
+      0
+    );
+
+    if (filledFieldCount > 1) return rejected();
 
     const fetchObj = {
       type: "getFiltered",
       data: {
-        column: `${vendorCode ? "vendorCode" : "name"}`,
-        string: vendorCode || name || "",
+        column: `${vendorCode ? "vendorCode" : name ? "name" : "notes"}`,
+        string: vendorCode || name || notes || "",
       },
     };
 

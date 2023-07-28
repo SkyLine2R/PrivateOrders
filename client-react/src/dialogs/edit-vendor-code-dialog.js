@@ -30,15 +30,19 @@ export default function FormDialog({
 }) {
   const dispatch = useDispatch();
 
-  const { vendorCode, name } = useSelector(
+  const { vendorCode, name, notes } = useSelector(
     ({ vendorCodes }) => vendorCodes.inputFields
   );
+
+  const { status } = useSelector(({ vendorCodes }) => vendorCodes.request);
+
+  const loading = status === "loading";
 
   // при изменении артикула или наименования - запрос на сервер
 
   React.useEffect(
     () => dispatch(fetchVendorCodes()),
-    [dispatch, vendorCode, name]
+    [dispatch, vendorCode, name, notes]
   );
 
   return (
@@ -76,6 +80,7 @@ export default function FormDialog({
                     })
                   );
                 }}
+                loading={loading}
               />
             </Box>
           )}

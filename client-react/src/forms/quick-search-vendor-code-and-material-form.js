@@ -4,17 +4,6 @@ import Grid from "@mui/material/Unstable_Grid2";
 import FieldForInput from "../base-elements/field-for-input";
 import MultipleSelectCheckmarks from "../base-elements/multiple-select-checkmarks";
 
-/* const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-}; */
-
 export default function QuickSearchVendorsAndMatetials() {
   const [personName, setPersonName] = React.useState([]);
 
@@ -29,14 +18,26 @@ export default function QuickSearchVendorsAndMatetials() {
   };
 
   return (
-    <Grid container spacing={2}>
-      <Grid xs={5}>
+    <Grid
+      container
+      spacing={2}
+      sx={{
+        m: "4px 0",
+      }}
+    >
+      <Grid xs={3}>
         <MultipleSelectCheckmarks
-          label="Поля для поиска"
-          names={["артикул", "наименование", "примечания", "цвет"]}
+          label="Искать в"
+          names={["Номенклатуре", "Материале"]}
         />
       </Grid>
-      <Grid xs={7}>
+      <Grid xs={3}>
+        <MultipleSelectCheckmarks
+          label="Поля для поиска"
+          names={["Артикул", "Наименование", "Примечания"]}
+        />
+      </Grid>
+      <Grid xs={6}>
         <FieldForInput
           id="quickSearch"
           label="Быстрый поиск"

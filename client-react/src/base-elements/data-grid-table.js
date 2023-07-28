@@ -76,7 +76,7 @@ function normalizeRowsData(items, catalog) {
   return rowsData;
 }
 
-function DataGridTable({ tableSchema, catalog, onCellClick }) {
+function DataGridTable({ tableSchema, catalog, onCellClick, loading = false }) {
   const [rowsDataState, setRowsDataState] = React.useState([]); // содержимое таблицы
   // при монтировании озаглавить столбцы
   const colNameRef = React.useRef(null);
@@ -104,6 +104,8 @@ function DataGridTable({ tableSchema, catalog, onCellClick }) {
         }} */
       onCellClick={onCellClick} /* loading */
       autoPageSize
+      hideFooter
+      loading={loading}
     />
   );
 }

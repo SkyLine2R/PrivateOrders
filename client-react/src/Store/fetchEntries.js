@@ -3,9 +3,9 @@ import serverRequest from "./serverRequest";
 
 const fetchEntries = createAsyncThunk(
   "api/fetchEntries",
-  async (api, { dispatch, rejectWithValue }) => {
+  async (api, { dispatch, rejectWithValue }, type = "getAll") => {
     const fetchObj = {
-      type: "getAll",
+      type,
     };
     const resp = await dispatch(serverRequest({ fetchObj, api }));
 

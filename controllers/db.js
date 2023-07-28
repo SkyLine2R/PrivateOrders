@@ -31,7 +31,6 @@ module.exports = DB = {
       .returning(respCol)
       .whereLike(column, `%${searchData}%`)
       .orWhereLike(column, `%${searchData.split("%").reverse().join("%")}%`)
-      .orWhereLike("notes", `%${searchData}%`)
       .orderBy(column, "asc");
   },
 

@@ -20,7 +20,7 @@ const successSending = (state, payload) => {
 const customers = createSlice({
   name: api,
   initialState: {
-    currentId: null,
+    currentId: 1, // для отладки. Заменить на null
     modalWindowIsOpen: false,
     inputFields: {
       id: null,

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import * as React from "react";
 import QrCode2Icon from "@mui/icons-material/QrCode2";
 
@@ -10,11 +11,11 @@ import dbSchema from "../../../components/db_schema_for_testing/db_schema-vendor
 
 import { setModalWindowIsOpen } from "../Store/Slices/slice-vendor-codes";
 
-export default function EditVendorCodePage() {
+export default function EditVendorCodePage({ headerText }) {
   return (
     <EditItemsPage
       page="vendorCodes"
-      headerText="Редактирование артикулов"
+      headerText={headerText ?? "Редактирование артикулов"}
       HeaderIcon={QrCode2Icon}
       setModalWindowIsOpen={setModalWindowIsOpen}
       allMenuActions={allMenuActions}

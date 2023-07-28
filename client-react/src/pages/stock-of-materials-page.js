@@ -21,11 +21,11 @@ import dbSchema from "../../../components/db_schema_for_testing/db_schema-stock-
 
 import { setModalWindowIsOpen } from "../Store/Slices/slice-vendor-codes";
 
-export default function EditVendorCodePage() {
+export default function EditVendorCodePage({ headerText }) {
   return (
     <EditItemsPage
       page="stock"
-      headerText="Материал на складе"
+      headerText={headerText ?? "Материал на складе"}
       HeaderIcon={StorageIcon}
       setModalWindowIsOpen={setModalWindowIsOpen}
       allMenuActions={allMenuActions}

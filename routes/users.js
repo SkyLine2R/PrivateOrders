@@ -22,7 +22,7 @@ module.exports = (req, res) => {
     case "del":
       return usersController.del(req, res);
     default:
-      return res.json({
+      return res.status(400).json({
         error: "Ошибка в запросе к БД",
       });
   }

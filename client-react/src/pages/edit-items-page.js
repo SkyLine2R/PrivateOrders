@@ -35,7 +35,7 @@ export default function EditItemsPage({
   const { currentId } = useSelector((state) => state.customers, shallowEqual);
 
   React.useEffect(
-    () => dispatch(fetchEntries(page)),
+    () => dispatch(fetchEntries({ api: page })),
     [dispatch, page, modalWindowIsOpen, currentId]
   );
 

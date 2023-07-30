@@ -10,7 +10,7 @@ import { setCurrentCustomerId } from "../Store/Slices/slice-customers";
 export default function DialogSelectCustomer() {
   const dispatch = useDispatch();
 
-  React.useEffect(() => dispatch(fetchEntries("customers")), []);
+  React.useEffect(() => dispatch(fetchEntries({ api: "customers" })), []);
 
   const { currentId, catalog } = useSelector(({ customers }) => customers);
 

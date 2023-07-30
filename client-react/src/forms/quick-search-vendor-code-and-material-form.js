@@ -1,19 +1,42 @@
 import * as React from "react";
 import Grid from "@mui/material/Unstable_Grid2";
+import { useDispatch, useSelector } from "react-redux";
 
 import FieldForInput from "../base-elements/field-for-input";
 import MultipleSelectCheckmarks from "../base-elements/multiple-select-checkmarks";
+import {
+  selectTables,
+  selectColumns,
+} from "../components/quickSearchFilterArr";
+import fetchEntries from "../Store/fetchEntries";
+
+import quickSearchDbSchema from "../../../components/db_schema_for_testing/db_schema-quick-search-string";
+import { changeValue } from "../Store/Slices/slice-quick-search";
 
 export default function QuickSearchVendorsAndMatetials() {
-  const [personName, setPersonName] = React.useState([]);
+  const dispatch = useDispatch();
 
-  const handleChange = (event) => {
+  const { quickSearchString, tables, columns } = useSelector(
+    (state) => state.quickSearch.inputFields
+  );
+
+  React.useEffect(
+    () =>
+      tables.forEach((table) => {
+        dispatch(fetchEntries({ api: table.name, type: "getQuickFilter" }));
+      }),
+    [dispatch, quickSearchString, tables, columns]
+  );
+
+  const handleChange = (fieldId) => (event) => {
     const {
       target: { value },
     } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
+    dispatch(
+      changeValue({
+        value,
+        fieldId,
+      })
     );
   };
 
@@ -28,22 +51,26 @@ export default function QuickSearchVendorsAndMatetials() {
       <Grid xs={3}>
         <MultipleSelectCheckmarks
           label="Искать в"
-          names={["Номенклатуре", "Материале"]}
+          names={selectTables}
+          selectName={tables}
+          handleChange={handleChange("tables")}
         />
       </Grid>
       <Grid xs={3}>
         <MultipleSelectCheckmarks
           label="Поля для поиска"
-          names={["Артикул", "Наименование", "Примечания"]}
+          names={selectColumns}
+          selectName={columns}
+          handleChange={handleChange("columns")}
         />
       </Grid>
       <Grid xs={6}>
         <FieldForInput
-          id="quickSearch"
+          id="quickSearchString"
           label="Быстрый поиск"
-          /*           changeValue={changeValue}
-          value={vendorCode}
-          dbSchema={dbSchema} */
+          changeValue={changeValue}
+          value={quickSearchString}
+          dbSchema={quickSearchDbSchema}
         />
       </Grid>
     </Grid>

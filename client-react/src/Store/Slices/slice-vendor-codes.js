@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from "@reduxjs/toolkit";
-import fetchVendorCodes from "../fetchVendorCodes";
 import fetchEntries from "../fetchEntries";
 import serverRequest from "../serverRequest";
 import sendEntryToDB from "../sendEntryToDB";
@@ -82,9 +81,6 @@ const vendorCodes = createSlice({
         request.error = action.payload;
       })
 
-      .addCase(fetchVendorCodes.fulfilled, (state, action) => {
-        state.catalog = action.payload.data || [];
-      })
       .addCase(fetchEntries.fulfilled, (state, { payload }) => {
         if (payload.api !== api) return;
         state.catalog = payload.data || [];

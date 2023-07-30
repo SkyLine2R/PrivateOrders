@@ -18,7 +18,7 @@ module.exports = (req, res) => {
     case "del":
       return accessDenied(req, res, 4) || vendorCodesController.del(req, res);
     default:
-      return res.json({
+      return res.status(400).json({
         error: "Ошибка в запросе к БД",
       });
   }

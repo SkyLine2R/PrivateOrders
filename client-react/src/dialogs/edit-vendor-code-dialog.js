@@ -11,8 +11,8 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import fetchVendorCodes from "../Store/fetchVendorCodes";
 import { copyPasteValue } from "../Store/Slices/slice-vendor-codes";
+import fetchEntries from "../Store/fetchEntries";
 
 import DataGrid from "../base-elements/data-grid-table";
 import TitleDialog from "../base-elements/dialog-title";
@@ -38,12 +38,17 @@ export default function FormDialog({
 
   const loading = status === "loading";
 
-  // при изменении артикула или наименования - запрос на сервер
+  // при изменении артикула, наименования или примечания - запрос на сервер
+  // фильтр срабатывает только для первого введённого поля, остальные игнорятся
+  React.useEffect(() => {
+    const filledFieldCount = [vendorCode, name, notes].reduce(
+      (count, item) => count + (item ? 1 : 0),
+      0
+    );
+    if (filledFieldCount > 1) return;
 
-  React.useEffect(
-    () => dispatch(fetchVendorCodes()),
-    [dispatch, vendorCode, name, notes]
-  );
+    dispatch(fetchEntries({ api: "vendorCodes", type: "getFiltered" }));
+  }, [dispatch, vendorCode, name, notes]);
 
   return (
     <div>

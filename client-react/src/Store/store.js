@@ -8,6 +8,7 @@ import documentsInStock from "./Slices/slice-instock-documents";
 import alert from "./Slices/slice-alert-dialog";
 import stock from "./Slices/slice-stock";
 import inStock from "./Slices/slice-inStock";
+import quickSearch from "./Slices/slice-quick-search";
 
 export default configureStore({
   reducer: {
@@ -20,5 +21,6 @@ export default configureStore({
     alert,
     stock,
     inStock,
+    quickSearch,
   },
 });

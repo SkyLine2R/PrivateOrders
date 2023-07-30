@@ -2,7 +2,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from "@reduxjs/toolkit";
 import serverRequest from "../serverRequest";
-import fetchVendorCodes from "../fetchVendorCodes";
 import sendEntryToDB from "../sendEntryToDB";
 import deleteEntryFromDB from "../deleteEntryFromDB";
 import fetchEntries from "../fetchEntries";
@@ -34,17 +33,6 @@ const snackbar = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchVendorCodes.fulfilled, (state, { payload }) => {
-        if (state.open) return;
-        setSnackbar(
-          state,
-          "success",
-          payload.data.length
-            ? "Артикулы обновлены"
-            : "В базе нет подобных артикулов"
-        );
-      })
-
       .addCase(sendEntryToDB.rejected, (state, { payload }) => {
         if (payload?.error) setSnackbar(state, "warning", payload.error);
       })

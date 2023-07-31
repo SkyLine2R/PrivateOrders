@@ -6,29 +6,30 @@ import serverRequest from "./serverRequest";
 const fetchEntries = createAsyncThunk(
   "api/fetchEntries",
   async (
-    { api, type = "getAll" },
+    { api, type = "getAll", columns, string },
     { getState, dispatch, rejectWithValue, rejected }
   ) => {
     const fetchObj = {
       type,
     };
 
-    const { inputFields, request } = getState()[api];
-    const { prevReq } = request;
+    /*     const { inputFields, request } = getState()[api];
+    const { prevReq } = request; */
 
-    if (api === "vendorCodes" && type === "getFiltered") {
+    /*     if (api === "vendorCodes" && type === "getFiltered") {
       const { vendorCode, name, notes } = inputFields;
       fetchObj.data = {
         column: `${vendorCode ? "vendorCode" : name ? "name" : "notes"}`,
         string: vendorCode || name || notes || "",
-      };
-    }
-
-    if (type === "getQuickFilter") {
+      }; */
+    /*     } else if (type !== "getAll") {
       const { columns, quickSearchString } = getState().quickSearch.inputFields;
       const columnsArr = columns.map((item) => item.name);
       fetchObj.data = { columns: columnsArr, string: quickSearchString };
-    }
+    } */
+    if (type !== "getAll") fetchObj.data = { columns, string };
+
+    const { prevReq } = getState()[api].request;
 
     if (JSON.stringify(prevReq) === JSON.stringify(fetchObj)) {
       return rejected();

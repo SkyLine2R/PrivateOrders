@@ -25,19 +25,29 @@ query
 
 module.exports = DB = {
   // выборка записей для автофильтра //
-  async findEntriesForQuickFilter({ table, column, string, respCol }) {
+  async findEntriesForQuickFilter({ table, columns, string, respCol }) {
     const searchData = `%${string}%`.replace(regExpForFilter, "%");
-    return db(table)
+    const reverseSearchData = `%${searchData.split("%").reverse().join("%")}%`;
+
+    const searchQuery = db(table)
       .returning(respCol)
-      .whereLike(column, `%${searchData}%`)
-      .orWhereLike(column, `%${searchData.split("%").reverse().join("%")}%`)
-      .orderBy(column, "asc");
+      .whereLike(columns[0], `%${searchData}%`)
+      .orWhereLike(columns[0], reverseSearchData);
+
+    if (columns.length >= 2) {
+      columns.slice(1).forEach((column) => {
+        searchQuery
+          .orWhereLike(column, `%${searchData}%`)
+          .orWhereLike(column, reverseSearchData);
+      });
+    }
+    return searchQuery.orderBy(columns[0], "asc");
   },
 
   // не строгий поиск записей по строке //
-  findLikeEntries({ table, searchColumn, searchData }) {
+  async findLikeEntries({ table, searchColumn, searchData }) {
     console.log(searchData);
-    return db(table).whereLike(searchColumn, searchData).orderBy(searchColumn);
+    return db(table).whereILike(searchColumn, searchData).orderBy(searchColumn);
   },
 
   // строгий поиск записей по строке //

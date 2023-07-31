@@ -23,7 +23,14 @@ export default function QuickSearchVendorsAndMatetials() {
   React.useEffect(
     () =>
       tables.forEach((table) => {
-        dispatch(fetchEntries({ api: table.name, type: "getQuickFilter" }));
+        dispatch(
+          fetchEntries({
+            api: table.name,
+            type: "getFiltered",
+            string: quickSearchString,
+            columns: columns.map((item) => item.name),
+          })
+        );
       }),
     [dispatch, quickSearchString, tables, columns]
   );

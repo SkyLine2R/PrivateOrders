@@ -47,7 +47,17 @@ export default function FormDialog({
     );
     if (filledFieldCount > 1) return;
 
-    dispatch(fetchEntries({ api: "vendorCodes", type: "getFiltered" }));
+    const columns = [`${vendorCode ? "vendorCode" : name ? "name" : "notes"}`];
+    const string = vendorCode || name || notes || "";
+
+    dispatch(
+      fetchEntries({
+        api: "vendorCodes",
+        type: "getFiltered",
+        columns,
+        string,
+      })
+    );
   }, [dispatch, vendorCode, name, notes]);
 
   return (

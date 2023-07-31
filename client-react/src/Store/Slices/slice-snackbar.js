@@ -62,9 +62,7 @@ const snackbar = createSlice({
         setSnackbar(
           state,
           "success",
-          payload.data.length
-            ? "Загружены обновлённые данные"
-            : "В базе нет таких данных"
+          payload.data.length ? "Данные обновлены" : "Ничего не найдено"
         );
       })
 

@@ -13,20 +13,6 @@ const fetchEntries = createAsyncThunk(
       type,
     };
 
-    /*     const { inputFields, request } = getState()[api];
-    const { prevReq } = request; */
-
-    /*     if (api === "vendorCodes" && type === "getFiltered") {
-      const { vendorCode, name, notes } = inputFields;
-      fetchObj.data = {
-        column: `${vendorCode ? "vendorCode" : name ? "name" : "notes"}`,
-        string: vendorCode || name || notes || "",
-      }; */
-    /*     } else if (type !== "getAll") {
-      const { columns, quickSearchString } = getState().quickSearch.inputFields;
-      const columnsArr = columns.map((item) => item.name);
-      fetchObj.data = { columns: columnsArr, string: quickSearchString };
-    } */
     if (type !== "getAll") fetchObj.data = { columns, string };
 
     const { prevReq } = getState()[api].request;

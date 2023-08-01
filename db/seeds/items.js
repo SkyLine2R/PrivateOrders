@@ -76,4 +76,28 @@ exports.seed = (knex) =>
             updatedBy: 2,
           },
         ])
+    )
+    .then(() =>
+      knex("units")
+        .del()
+        .insert([
+          {
+            name: "м / хл.",
+            notes: "Метры / хлыст",
+            createdBy: "1",
+            updatedBy: 1,
+          },
+          {
+            name: "шт. / уп.",
+            notes: "Штуки / упаковка",
+            createdBy: "1",
+            updatedBy: 1,
+          },
+          {
+            name: "м / уп.",
+            notes: "Метры / упаковка",
+            createdBy: "1",
+            updatedBy: 1,
+          },
+        ])
     );

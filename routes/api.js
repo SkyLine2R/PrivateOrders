@@ -8,11 +8,13 @@ const vendorcodes = require("./vendorCodes");
 const customers = require("./customers");
 const colors = require("./colors");
 const documentsStock = require("./documentsStock");
+const stock = require("./stock");
 
 router.post("/users", users);
 router.post("/vendorCodes", vendorcodes);
 router.post("/colors", colors);
 router.post("/customers", customers);
+router.post("/stock", stock);
 router.post("/documentsInStock", attachCustomerAndTable, documentsStock);
 router.post("/documentsOutStock", attachCustomerAndTable, documentsStock);
 

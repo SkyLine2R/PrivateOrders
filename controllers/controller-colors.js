@@ -13,8 +13,6 @@ async function getAll(req, res) {
     });
     return res.json(resp);
   } catch (e) {
-    // eslint-disable-next-line no-console
-    console.log(e);
     res.status(400).json({ error: "Ошибка БД при получении каталога цветов" });
   }
 }

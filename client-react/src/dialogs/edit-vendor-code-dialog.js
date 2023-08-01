@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react/prop-types */
 import * as React from "react";
 import Button from "@mui/material/Button";

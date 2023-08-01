@@ -7,7 +7,7 @@ exports.up = (knex) =>
     table.increments("id").primary(); // id
     table.string("vendorCode", 20).notNullable(); // артикул
     table.string("name", 255).notNullable(); // наименование
-    table.integer("unit", 3).notNullable(); // единицы измерения
+    table.integer("unit", 3).references("units.id"); // единицы измерения
     table.real("quantity").notNullable(); // длина хлыста или кол-во в упаковке
     table.string("notes", 180); // примечания
     table.integer("createdBy").unsigned().notNullable();

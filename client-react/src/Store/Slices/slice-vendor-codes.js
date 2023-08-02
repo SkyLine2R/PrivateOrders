@@ -12,7 +12,7 @@ const successSending = (state, payload) => {
   state.inputFields = {
     vendorCode: "",
     name: "",
-    unit: 0,
+    unit: 1,
     quantity: 0,
     notes: "",
   };
@@ -26,7 +26,7 @@ const vendorCodes = createSlice({
       id: null,
       vendorCode: "",
       name: "",
-      unit: "0",
+      unit: 1,
       quantity: "1",
       notes: "",
     },
@@ -44,7 +44,7 @@ const vendorCodes = createSlice({
       state.inputFields.id = payload?.id || "";
       state.inputFields.vendorCode = payload?.vendorCode || "";
       state.inputFields.name = payload?.name || "";
-      state.inputFields.unit = payload?.unit || 0;
+      state.inputFields.unit = payload?.unit || 1;
       state.inputFields.quantity = payload?.quantity || 1;
       state.inputFields.notes = payload?.notes || "";
       state.modalWindowIsOpen = !state.modalWindowIsOpen;
@@ -55,6 +55,7 @@ const vendorCodes = createSlice({
     },
 
     copyPasteValue: ({ catalog, inputFields }, { payload }) => {
+      console.log("payload " + payload);
       inputFields[payload.fieldId] = catalog.find(
         (item) => item.id === payload.id
       )[payload.fieldId];

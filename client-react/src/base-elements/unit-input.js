@@ -10,16 +10,11 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { changeValue } from "../Store/Slices/slice-vendor-codes";
 
-// import { unit as arrWithUnit } from "../../../components/vendor-codes-db_schema";
-import { unit } from "../components/tables-schemas/table_schema-vendor-codes";
-
-const unitForSelect = unit.unitArr;
-
-export default function SelectItemUnit({ label, id }) {
-  const val = useSelector(({ vendorCodes }) => vendorCodes.inputFields[id]);
+export default function SelectItemUnit({ label, id, selectValues, value }) {
   const dispatch = useDispatch();
 
   const handleChange = ({ target }) => {
+    console.log(target);
     dispatch(
       changeValue({
         value: target.value,
@@ -32,10 +27,10 @@ export default function SelectItemUnit({ label, id }) {
     <Box sx={{ mt: 1, width: "auto", minWidth: "100%" }}>
       <FormControl fullWidth>
         <InputLabel id={id}>{label}</InputLabel>
-        <Select value={val} label={label} onChange={handleChange}>
+        <Select value={value} label={label} onChange={handleChange}>
           {[
-            unitForSelect.map((item, index) => (
-              <MenuItem value={index}>{item}</MenuItem>
+            selectValues.map((item) => (
+              <MenuItem value={item.id}>{item.name}</MenuItem>
             )),
           ]}
         </Select>

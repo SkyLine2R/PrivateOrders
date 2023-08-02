@@ -32,7 +32,8 @@ const colors = createSlice({
       error: null,
       prevReq: {},
     },
-    workCustomer: null,
+    /*     workCustomer: null,
+     */
   },
 
   reducers: {

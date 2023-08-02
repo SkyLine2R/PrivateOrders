@@ -10,7 +10,10 @@ import FieldForInput from "../base-elements/field-for-input";
 import { changeValue } from "../Store/Slices/slice-vendor-codes";
 
 export default function EditVendorCodeForm({ dbSchema }) {
-  const { vendorCode, name, quantity, notes } = useSelector(
+  const unitsForSelect = useSelector(({ units }) => units.catalog).map(
+    (item) => ({ id: item.id, name: item.name })
+  );
+  const { vendorCode, name, quantity, notes, unit } = useSelector(
     ({ vendorCodes }) => vendorCodes.inputFields,
     shallowEqual
   );
@@ -37,7 +40,12 @@ export default function EditVendorCodeForm({ dbSchema }) {
           />
         </Grid>
         <Grid xs={2.5}>
-          <SelectItemUnit id="unit" label="Единицы измерения" />
+          <SelectItemUnit
+            id="unit"
+            label="Единицы измерения"
+            selectValues={unitsForSelect}
+            value={unit}
+          />
         </Grid>
         <Grid xs={3}>
           <FieldForInput

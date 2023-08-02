@@ -9,9 +9,11 @@ const customers = require("./customers");
 const colors = require("./colors");
 const documentsStock = require("./documentsStock");
 const stock = require("./stock");
+const units = require("./units");
 
 router.post("/users", users);
 router.post("/vendorCodes", vendorcodes);
+router.post("/units", units);
 router.post("/colors", colors);
 router.post("/customers", customers);
 router.post("/stock", stock);

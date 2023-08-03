@@ -55,7 +55,8 @@ const vendorCodes = createSlice({
     },
 
     copyPasteValue: ({ catalog, inputFields }, { payload }) => {
-      console.log("payload " + payload);
+      console.log("payload");
+      console.log(payload);
       inputFields[payload.fieldId] = catalog.find(
         (item) => item.id === payload.id
       )[payload.fieldId];

@@ -26,6 +26,19 @@ query
 module.exports = DB = {
   // выборка записей для автофильтра //
   async findEntriesForQuickFilter({ table, columns, string, respCol }) {
+    const primaryTable = await db(table)
+      .column("table_name")
+      .where("table_name", table)
+      .select();
+    /*     const foreignKeys = await db("information_schema.key_column_usage")
+      .where("table_name", "=", primaryTable.table_name)
+      .andWhere("referenced_table_name", "IS NOT", null)
+      .select("referenced_table_name", "column_name", "referenced_column_name"); */
+    console.log("primaryTable");
+    console.log(primaryTable);
+    /*     console.log("foreignKeys");
+    console.log(foreignKeys); */
+
     const searchData = `%${string}%`.replace(regExpForFilter, "%");
     const reverseSearchData = `%${searchData.split("%").reverse().join("%")}%`;
 
@@ -46,7 +59,6 @@ module.exports = DB = {
 
   // не строгий поиск записей по строке //
   async findLikeEntries({ table, searchColumn, searchData }) {
-    console.log(searchData);
     return db(table).whereILike(searchColumn, searchData).orderBy(searchColumn);
   },
 

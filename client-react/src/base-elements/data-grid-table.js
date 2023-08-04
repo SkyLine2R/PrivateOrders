@@ -54,7 +54,7 @@ function normalizeRowsData(items, catalog) {
     if (item?.date) tempObj.date = new Date(item.date).toLocaleDateString();
 
     // единицы измерения материала
-    if (items?.unit?.unitArr) {
+    /*     if (items?.unit?.unitArr) {
       tempObj.unit = items.unit.unitArr[+item.unit];
 
       // Если в таблице используются раздельно единицы / условные единицы
@@ -65,7 +65,7 @@ function normalizeRowsData(items, catalog) {
         ];
         tempObj.amountInUnits = tempObj.amount * tempObj.quantity;
       }
-    }
+    } */
     return {
       ...item,
       ...tempObj,

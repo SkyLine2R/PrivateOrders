@@ -26,27 +26,26 @@ query
 module.exports = DB = {
   // выборка записей для автофильтра //
   async findEntriesForQuickFilter({ table, columns, string, respCol }) {
-    const primaryTable = await db(table)
-      .column("table_name")
-      .where("table_name", table)
-      .select();
-    /*     const foreignKeys = await db("information_schema.key_column_usage")
-      .where("table_name", "=", primaryTable.table_name)
-      .andWhere("referenced_table_name", "IS NOT", null)
-      .select("referenced_table_name", "column_name", "referenced_column_name"); */
-    console.log("primaryTable");
-    console.log(primaryTable);
-    /*     console.log("foreignKeys");
-    console.log(foreignKeys); */
-
     const searchData = `%${string}%`.replace(regExpForFilter, "%");
     const reverseSearchData = `%${searchData.split("%").reverse().join("%")}%`;
+
+    /*     const testSearchQuery = await db(table)
+      // .returning(respCol)
+      .returning(respCol)
+      .from(table)
+      .join("units", function () {
+        this.on(table + ".id", "=", "units.id");
+      })
+      .select(`${table}.*`, "units.name as unit");
+
+    console.log("testSearchQuery");
+    console.log(testSearchQuery); */
 
     const searchQuery = db(table)
       .returning(respCol)
       .whereLike(columns[0], `%${searchData}%`)
       .orWhereLike(columns[0], reverseSearchData);
-
+    // поиск в дополнительных колонках
     if (columns.length >= 2) {
       columns.slice(1).forEach((column) => {
         searchQuery
@@ -54,6 +53,21 @@ module.exports = DB = {
           .orWhereLike(column, reverseSearchData);
       });
     }
+    // проверим наличие связанных колонок и подтащим данные из них
+    respCol.forEach(async (column) => {
+      const tableName = column + "s";
+      const tableExists = await db.schema.hasTable(tableName);
+
+      if (tableExists && tableName !== table) {
+        console.log("searchQuery run");
+        searchQuery
+          .join(tableName, function () {
+            this.on(table + ".unit", "=", tableName + ".id");
+          })
+          .select(`${table}.*`, `${tableName}.name as ${column}`);
+      }
+    });
+
     return searchQuery.orderBy(columns[0], "asc");
   },
 

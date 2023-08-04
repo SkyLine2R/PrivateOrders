@@ -4,12 +4,13 @@ const vendorCodesDbSchema = require("../components/db_schema_for_testing/db_sche
 const testingDataFromInput = require("../components/testing-data-from-input");
 
 const table = "vendorCodes";
+const respCol = ["id", "vendorCode", "name", "unit", "quantity", "notes"];
 
 async function getAll(req, res) {
   try {
     const resp = await DB.getAllEntries({
       table,
-      respCol: ["id", "vendorCode", "name", "unit", "quantity", "notes"],
+      respCol,
     });
     return res.json(resp);
   } catch (e) {
@@ -23,7 +24,7 @@ async function getFiltered(req, res) {
     const resp = await DB.findEntriesForQuickFilter({
       ...req.body.data,
       table,
-      respCol: ["id", "vendorCode", "name", "unit", "quantity", "notes"],
+      respCol,
     });
     return res.json(resp);
   } catch (e) {
@@ -44,7 +45,7 @@ async function add(req, res) {
           createdBy: req.auth.id,
           updatedBy: req.auth.id,
         },
-        respCol: ["id", "vendorCode"],
+        respCol,
       })
     )[0];
 
@@ -71,7 +72,7 @@ async function edit(req, res) {
           updatedBy: req.auth.id,
           updatedAt: Date.now(),
         },
-        respCol: ["id", "vendorCode"],
+        respCol,
       })
     )[0];
 
@@ -98,7 +99,7 @@ async function del(req, res) {
 module.exports = {
   getFiltered,
   getAll,
-  add,
   edit,
+  add,
   del,
 };

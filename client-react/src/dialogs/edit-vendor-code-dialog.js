@@ -48,8 +48,8 @@ export default function FormDialog({
     );
     if (filledFieldCount > 1) return;
 
-    const columns = [`${vendorCode ? "vendorCode" : name ? "name" : "notes"}`];
-    const string = vendorCode || name || notes || "";
+    const columns = [`${notes ? "notes" : name ? "name" : "vendorCode"}`];
+    const string = notes || name || vendorCode || "";
 
     dispatch(
       fetchEntries({

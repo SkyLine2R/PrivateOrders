@@ -7,8 +7,8 @@ exports.up = (knex) =>
       .references("vendorCodes.id")
       .onDelete("RESTRICT");
     table.integer("color").unsigned();
-    table.foreign("color").references("color.id").onDelete("RESTRICT");
-    table.real("amount").unsigned().notNullable();
+    table.foreign("color").references("colors.id").onDelete("RESTRICT");
+    table.decimal("amount", 10, 3).unsigned().notNullable();
     table.integer("customer").unsigned().notNullable();
     table.foreign("customer").references("customers.id").onDelete("RESTRICT");
     table.timestamp("createdAt", { precision: 6 }).defaultTo(Date.now());

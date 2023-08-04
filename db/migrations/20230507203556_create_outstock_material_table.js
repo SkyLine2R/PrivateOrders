@@ -3,7 +3,7 @@ exports.up = (knex) =>
     table.increments("id").primary();
     table.integer("stock").unsigned().notNullable();
     table.foreign("stock").references("stock.id").onDelete("RESTRICT");
-    table.real("amount").unsigned().notNullable();
+    table.decimal("amount", 10, 3).unsigned().notNullable();
     table.integer("document").unsigned().notNullable();
     table
       .foreign("document")

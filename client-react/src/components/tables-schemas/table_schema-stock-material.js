@@ -10,47 +10,47 @@
 const stockMaterialsSchemaTable = {
   vendorCode: {
     headerName: "Артикул",
-    width: 90,
+    flex: 1,
     editable: false,
     type: "string",
   },
   itemName: {
     headerName: "Наименование",
-    width: 330,
+    flex: 2,
     editable: false,
   },
   colorName: {
     headerName: "Цвет",
-    width: 220,
+    flex: 0.5,
     editable: false,
   },
   amount: {
     headerName: "Кол-во",
-    width: 110,
+    flex: 0.5,
     editable: false,
     type: "number",
   },
   amountName: {
     headerName: "ед.",
-    width: 50,
+    flex: 0.3,
     editable: false,
     type: "string",
   },
   amountInUnits: {
     headerName: "Кол-во",
-    width: 110,
+    flex: 0.5,
     editable: false,
     type: "number",
   },
   amountInUnitsName: {
     headerName: "ед.",
-    width: 50,
+    flex: 0.3,
     editable: false,
     type: "string",
   },
   notes: {
     headerName: "Примечания",
-    width: 150,
+    flex: 1,
     editable: false,
   },
 };

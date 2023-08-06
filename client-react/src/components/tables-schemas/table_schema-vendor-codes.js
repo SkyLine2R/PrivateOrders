@@ -10,31 +10,38 @@
 const vendorCodeSchemaTable = {
   vendorCode: {
     headerName: "Артикул",
-    width: 90,
+    description: "Артикул от производителя",
+    flex: 0.5,
     editable: false,
   },
   name: {
     headerName: "Наименование",
-    width: 330,
+    description: "Полное наименование материала",
+    flex: 2,
     editable: false,
   },
   unit: {
     headerName: "Ед. изм.",
-    width: 80,
+    description:
+      "Базовая единица (метр, штука) / сборная единица (упаковка, хлыст)",
+    flex: 0.5,
     editable: false,
     align: "center",
     unitArr: ["м / хл.", "шт. / уп.", "м / уп."],
   },
   quantity: {
     headerName: "Кол-во в хл. | уп.",
-    width: 130,
+    description:
+      "Сколько в сборной единице базовых. Базовая (метр, штука) / сборная (упаковка, хлыст)",
+    flex: 0.5,
     editable: false,
     type: "number",
     align: "center",
   },
   notes: {
     headerName: "Примечания",
-    width: 150,
+    description: "Примечания",
+    flex: 1,
     editable: false,
   },
 };

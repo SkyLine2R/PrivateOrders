@@ -55,8 +55,6 @@ const vendorCodes = createSlice({
     },
 
     copyPasteValue: ({ catalog, inputFields }, { payload }) => {
-      console.log("payload");
-      console.log(payload);
       inputFields[payload.fieldId] = catalog.find(
         (item) => item.id === payload.id
       )[payload.fieldId];
@@ -85,6 +83,8 @@ const vendorCodes = createSlice({
 
       .addCase(fetchEntries.fulfilled, (state, { payload }) => {
         if (payload.api !== api) return;
+        if (JSON.stringify(state.catalog) === JSON.stringify(payload.data))
+          return;
         state.catalog = payload.data || [];
       })
 

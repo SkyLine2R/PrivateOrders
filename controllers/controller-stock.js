@@ -4,30 +4,50 @@ const vendorCodesDbSchema = require("../components/db_schema_for_testing/db_sche
 const testingDataFromInput = require("../components/testing-data-from-input");
 
 const table = "stock";
+const respCol = [
+  "stock.id",
+  "vendorCodes.vendorCode",
+  "vendorCodes.name",
+  "vendorCodes.unit",
+  "units.name as unit",
+  "vendorCodes.quantity",
+  "stock.color",
+  "stock.amount",
+];
+const addCol = [
+  "vendorCodes.vendorCode",
+  "vendorCodes.name",
+  "vendorCodes.unit",
+  "vendorCodes.quantity",
+  "amount",
+  "notes",
+];
 
 async function getAll(req, res) {
   try {
-    const resp = await DB.getAllEntries({
+    const resp = await DB.getAllEntries2({
       table,
-      respCol: ["id", "vendorCode", "name", "unit", "quantity", "notes"],
+      respCol,
+      customer: req.body.customer,
     });
+    console.log("resp");
+    console.log(resp);
     return res.json(resp);
   } catch (e) {
-    res.status(400).json({ error: "Ошибка БД при получении артикулов" });
+    res.status(400).json({ error: "Ошибка БД при получении материалов" });
   }
 }
 
 async function getFiltered(req, res) {
   try {
-    console.log(req.body);
-    const resp = await DB.findEntriesForQuickFilter({
+    const resp = await DB.__findEntriesForQuickFilter({
       ...req.body.data,
       table,
-      respCol: ["id", "vendorCode", "name", "unit", "quantity", "notes"],
+      respCol,
     });
     return res.json(resp);
   } catch (e) {
-    res.status(400).json({ error: "Ошибка БД при получении артикулов" });
+    res.status(400).json({ error: "Ошибка БД при получении материалов" });
   }
 }
 
@@ -50,7 +70,7 @@ async function add(req, res) {
 
     return res.json(item);
   } catch (e) {
-    res.status(400).json({ error: "Ошибка при добавлении артикула" });
+    res.status(400).json({ error: "Ошибка при добавлении материалов" });
   }
 }
 

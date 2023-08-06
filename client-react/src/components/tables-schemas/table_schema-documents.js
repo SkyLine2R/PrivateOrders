@@ -10,28 +10,28 @@
 const documentsSchemaTable = {
   date: {
     headerName: "Дата",
-    width: 120,
+    flex: 0.5,
     editable: false,
     type: "date",
   },
   name: {
     headerName: "Документ",
-    width: 400,
+    flex: 2,
     editable: false,
   },
   number: {
     headerName: "№ док-та",
-    width: 80,
+    flex: 0.2,
     editable: false,
   },
   notes: {
     headerName: "Примечания",
-    width: 350,
+    flex: 1,
     editable: false,
   },
   createdBy: {
     headerName: "Создал",
-    width: 200,
+    flex: 0.5,
     editable: false,
     parseTime: true,
   },

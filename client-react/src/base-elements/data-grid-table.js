@@ -2,6 +2,7 @@
 /* eslint-disable no-restricted-syntax */
 import * as React from "react";
 import { DataGrid, ruRU } from "@mui/x-data-grid";
+import InvertColorsIcon from "@mui/icons-material/InvertColors";
 
 // Столбец с нумерацией
 function colNaming(items) {
@@ -40,6 +41,7 @@ function normalizeRowsData(items, catalog) {
       return obj;
     });
   }
+
   const rowsData = rows.map((item, index) => {
     // заменим, если необходимо, цифровые значения на текстовые (м / хл., уровень доступа...)
     const tempObj = {};
@@ -92,6 +94,12 @@ function DataGridTable({ tableSchema, catalog, onCellClick, loading = false }) {
 
   return (
     <DataGrid
+      /*       slots={{
+        columnSortedDescendingIcon: InvertColorsIcon,
+      }}
+      slotProps={{
+        columnMenu: { background: "red", counter: 2 },
+      }} */
       columns={colNameRef.current}
       rows={rowsDataState}
       pageSize={50}

@@ -10,12 +10,12 @@
 const colorsSchemaTable = {
   name: {
     headerName: "Название цвета",
-    width: 330,
+    flex: 1,
     editable: false,
   },
   notes: {
     headerName: "Примечания",
-    width: 350,
+    flex: 1,
     editable: false,
   },
 };

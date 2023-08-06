@@ -20,7 +20,6 @@ async function getAll(req, res) {
 
 async function getFiltered(req, res) {
   try {
-    console.log(req.body);
     const resp = await DB.findEntriesForQuickFilter({
       ...req.body.data,
       table,

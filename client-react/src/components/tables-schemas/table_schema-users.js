@@ -10,17 +10,17 @@
 const usersSchemaTable = {
   login: {
     headerName: "Логин",
-    width: 120,
+    flex: 0.7,
     editable: false,
   },
   name: {
     headerName: "Пользователь",
-    width: 250,
+    flex: 1,
     editable: false,
   },
   accessLevel: {
     headerName: "Права доступа",
-    width: 150,
+    flex: 1,
     editable: false,
     type: "number",
     align: "left",
@@ -35,7 +35,7 @@ const usersSchemaTable = {
   },
   createdAt: {
     headerName: "Зарегистрирован",
-    width: 250,
+    flex: 0.5,
     editable: false,
   },
 };

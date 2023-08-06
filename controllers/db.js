@@ -23,50 +23,45 @@ query
   }); */
 // ------------
 
+// проверка связанных колонок и замена данных (ID на текстовые значения)
+async function joinAdditionData({ respCol, table, searchQuery }) {
+  console.log(respCol);
+  respCol.forEach(async (column) => {
+    const tableName = column + "s";
+    const tableExists = await db.schema.hasTable(tableName);
+    if (tableExists && tableName !== table) {
+      searchQuery
+        .join(tableName, function () {
+          this.on(table + "." + column, "=", tableName + ".id");
+        })
+        .select(`${table}.*`, `${tableName}.name as ${column}`);
+    }
+  });
+  console.log("searchQuery1");
+  console.log(await searchQuery);
+  return searchQuery;
+}
+
 module.exports = DB = {
   // выборка записей для автофильтра //
   async findEntriesForQuickFilter({ table, columns, string, respCol }) {
     const searchData = `%${string}%`.replace(regExpForFilter, "%");
-    const reverseSearchData = `%${searchData.split("%").reverse().join("%")}%`;
-
-    /*     const testSearchQuery = await db(table)
-      // .returning(respCol)
-      .returning(respCol)
-      .from(table)
-      .join("units", function () {
-        this.on(table + ".id", "=", "units.id");
-      })
-      .select(`${table}.*`, "units.name as unit");
-
-    console.log("testSearchQuery");
-    console.log(testSearchQuery); */
+    const reverseSearchData = `${searchData.split("%").reverse().join("%")}`;
 
     const searchQuery = db(table)
       .returning(respCol)
-      .whereLike(columns[0], `%${searchData}%`)
-      .orWhereLike(columns[0], reverseSearchData);
+      .whereLike(`${table}.${columns[0]}`, searchData)
+      .orWhereLike(`${table}.${columns[0]}`, reverseSearchData);
     // поиск в дополнительных колонках
     if (columns.length >= 2) {
       columns.slice(1).forEach((column) => {
         searchQuery
-          .orWhereLike(column, `%${searchData}%`)
-          .orWhereLike(column, reverseSearchData);
+          .orWhereLike(`${table}.${column}`, searchData)
+          .orWhereLike(`${table}.${column}`, reverseSearchData);
       });
     }
-    // проверим наличие связанных колонок и подтащим данные из них
-    respCol.forEach(async (column) => {
-      const tableName = column + "s";
-      const tableExists = await db.schema.hasTable(tableName);
-
-      if (tableExists && tableName !== table) {
-        console.log("searchQuery run");
-        searchQuery
-          .join(tableName, function () {
-            this.on(table + ".unit", "=", tableName + ".id");
-          })
-          .select(`${table}.*`, `${tableName}.name as ${column}`);
-      }
-    });
+    // проверим наличие связанных колонок и заменим данные ID на текстовые значения
+    joinAdditionData({ respCol, table, searchQuery });
 
     return searchQuery.orderBy(columns[0], "asc");
   },
@@ -95,11 +90,41 @@ module.exports = DB = {
   },
 
   // получить все записи //
-  async getAllEntries({ table, respCol }) {
-    return db
-      .column(...respCol)
-      .select()
-      .from(table);
+  async getAllEntries({ table, respCol, customer }) {
+    const searchQuery = db(table).returning(respCol).select();
+
+    if (customer) {
+      searchQuery.where({ customer });
+    }
+
+    joinAdditionData({ respCol, table, searchQuery });
+    console.log("searchQuery");
+    console.log(await searchQuery);
+    return searchQuery;
+  },
+
+  // получить все записи //
+  async getAllEntries2({ table, respCol, customer }) {
+    try {
+      const searchQuery = db
+        .select(respCol)
+        .from(table)
+        .where({ customer })
+        .join("vendorCodes", "stock.vendorCode", "vendorCodes.id")
+        .join("units", "vendorCodes.unit", "units.id");
+      console.log(await searchQuery);
+      return searchQuery;
+    } catch (e) {
+      console.log(e);
+    }
+    /*     if (customer) {
+      searchQuery.where({ customer });
+    }
+
+    joinAdditionData({ respCol, table, searchQuery });
+    console.log("searchQuery");
+    console.log(await searchQuery); */
+    return searchQuery;
   },
 
   // удалить запись //

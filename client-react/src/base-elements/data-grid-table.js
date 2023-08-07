@@ -2,7 +2,6 @@
 /* eslint-disable no-restricted-syntax */
 import * as React from "react";
 import { DataGrid, ruRU } from "@mui/x-data-grid";
-import InvertColorsIcon from "@mui/icons-material/InvertColors";
 
 // Столбец с нумерацией
 function colNaming(items) {
@@ -110,7 +109,7 @@ function DataGridTable({ tableSchema, catalog, onCellClick, loading = false }) {
       /* onCellClick={(GridCellParams, event, GridCallbackDetails) => {
           dispatch(action);
         }} */
-      onCellClick={onCellClick} /* loading */
+      onCellClick={onCellClick}
       autoPageSize
       hideFooter
       loading={loading}

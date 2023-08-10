@@ -3,7 +3,7 @@ import * as React from "react";
 import { useRef } from "react";
 
 import Container from "@mui/material/Container";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
@@ -26,13 +26,15 @@ export default function EditItemsPage({
 }) {
   const dispatch = useDispatch();
 
-  const { catalog, modalWindowIsOpen, request } = useSelector(
-    (state) => state[page],
-    shallowEqual
+  const catalog = useSelector((store) => store[page].catalog);
+  const modalWindowIsOpen = useSelector(
+    (store) => store[page].modalWindowIsOpen
   );
+  const request = useSelector((store) => store[page].request);
+
   const loading = request.status === "loading";
 
-  const { currentId } = useSelector((state) => state.customers, shallowEqual);
+  const currentId = useSelector((store) => store.customers.currentId);
 
   React.useEffect(
     () => dispatch(fetchEntries({ api: page })),

@@ -31,11 +31,12 @@ export default function FormDialog({
 }) {
   const dispatch = useDispatch();
 
-  const { vendorCode, name, notes } = useSelector(
-    ({ vendorCodes }) => vendorCodes.inputFields
+  const vendorCode = useSelector(
+    (store) => store.vendorCodes.inputFields.vendorCode
   );
-
-  const { status } = useSelector(({ vendorCodes }) => vendorCodes.request);
+  const name = useSelector((store) => store.vendorCodes.inputFields.name);
+  const notes = useSelector((store) => store.vendorCodes.inputFields.notes);
+  const status = useSelector((store) => store.vendorCodes.request);
 
   const loading = status === "loading";
 

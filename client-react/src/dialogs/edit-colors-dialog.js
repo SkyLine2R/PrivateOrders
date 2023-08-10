@@ -24,7 +24,8 @@ export default function FormDialog({
   dbSchema,
 }) {
   const dispatch = useDispatch();
-  const { name, notes } = useSelector((state) => state.colors.inputFields);
+  const name = useSelector((store) => store.colors.inputFields.name);
+  const notes = useSelector((store) => store.colors.inputFields.notes);
 
   const handleAddToolTip = (e) => {
     dispatch(addTooltip(e.target.value));

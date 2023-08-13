@@ -10,8 +10,8 @@ import FieldForInput from "../base-elements/field-for-input";
 import { changeValue } from "../Store/Slices/slice-vendor-codes";
 
 export default function EditVendorCodeForm({ dbSchema }) {
-  const unitsForSelect = useSelector(({ units }) => units.catalog).map(
-    (item) => ({ id: item.id, name: item.name })
+  const unitsForSelect = useSelector((store) => store.units.catalog).map(
+    (id, name) => ({ id, name })
   );
   const { vendorCode, name, quantity, notes, unit } = useSelector(
     ({ vendorCodes }) => vendorCodes.inputFields,

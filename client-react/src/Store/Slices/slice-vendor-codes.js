@@ -12,7 +12,7 @@ const successSending = (state, payload) => {
   state.inputFields = {
     vendorCode: "",
     name: "",
-    unit: 1,
+    unit: "м / хл.",
     quantity: 0,
     notes: "",
   };
@@ -26,7 +26,7 @@ const vendorCodes = createSlice({
       id: null,
       vendorCode: "",
       name: "",
-      unit: 1,
+      unit: "м / хл.",
       quantity: "1",
       notes: "",
     },

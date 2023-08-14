@@ -16,9 +16,19 @@ const fetchEntries = createAsyncThunk(
     if (type !== "getAll") fetchObj.data = { columns, string };
 
     const { prevReq } = getState()[api].request;
+    const { catalog } = getState()[api];
 
+    // отмена запроса, если предыдущий ничего не вернул,
+    // а в строке только дабавились символы
+    if (
+      string?.includes(prevReq.fetchObj?.data?.string) &&
+      catalog.length === 0
+    ) {
+      return rejectWithValue(null);
+    }
+    // отмена дублирующегося запроса
     if (JSON.stringify(prevReq) === JSON.stringify(fetchObj)) {
-      return rejected();
+      return rejectWithValue(null);
     }
 
     const resp = await dispatch(serverRequest({ fetchObj, api }));

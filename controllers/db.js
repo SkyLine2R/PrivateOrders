@@ -98,8 +98,7 @@ module.exports = DB = {
     }
 
     joinAdditionData({ respCol, table, searchQuery });
-    console.log("searchQuery");
-    console.log(await searchQuery);
+
     return searchQuery;
   },
 

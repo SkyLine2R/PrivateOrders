@@ -25,6 +25,7 @@ const addCol = [
 
 async function getAll(req, res) {
   try {
+    console.log("DB.getAllEntries2");
     const resp = await DB.getAllEntries2({
       table,
       respCol,

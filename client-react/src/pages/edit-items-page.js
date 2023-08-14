@@ -105,14 +105,8 @@ export default function EditItemsPage({
       ? { ...catalog.find((item) => item.id === menuParams.id) }
       : null;
 
-    console.log("params");
-    console.log(params);
-
     if (params?.unit)
       params.unit = unitsForSelect.find(({ name }) => name === params.unit).id;
-
-    console.log("params");
-    console.log(params);
 
     switch (pressedButton) {
       case "add":

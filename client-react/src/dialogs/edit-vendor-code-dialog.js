@@ -12,7 +12,7 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { copyPasteValue } from "../Store/Slices/slice-vendor-codes";
+import { changeValue } from "../Store/Slices/slice-vendor-codes";
 import fetchEntries from "../Store/fetchEntries";
 
 import DataGrid from "../base-elements/data-grid-table";
@@ -37,11 +37,12 @@ export default function FormDialog({
   const name = useSelector((store) => store.vendorCodes.inputFields.name);
   const notes = useSelector((store) => store.vendorCodes.inputFields.notes);
   const status = useSelector((store) => store.vendorCodes.request);
+  const unitsForSelect = useSelector((store) => store.units.catalog);
 
   const loading = status === "loading";
 
   // при изменении артикула, наименования или примечания - запрос на сервер
-  // фильтр срабатывает только для первого введённого поля, остальные игнорятся
+  // фильтр срабатывает только для одного введённого поля, остальные игнорятся
   React.useEffect(() => {
     const filledFieldCount = [vendorCode, name, notes].reduce(
       (count, item) => count + (item ? 1 : 0),
@@ -61,6 +62,16 @@ export default function FormDialog({
       })
     );
   }, [dispatch, vendorCode, name, notes]);
+
+  // копирование данных в поле ввода кликом по ячейке
+  const copyPasteValue = (gridCellParams) => {
+    const fieldId = gridCellParams.field;
+    const value =
+      fieldId !== "unit"
+        ? gridCellParams.value
+        : unitsForSelect.find((item) => item.name === gridCellParams.value).id;
+    dispatch(changeValue({ fieldId, value }));
+  };
 
   return (
     <div>
@@ -89,14 +100,7 @@ export default function FormDialog({
                 dbSchema={dbSchema}
                 tableSchema={tableSchema}
                 catalog={catalog}
-                onCellClick={(gridCellParams) => {
-                  dispatch(
-                    copyPasteValue({
-                      id: gridCellParams.id,
-                      fieldId: gridCellParams.field,
-                    })
-                  );
-                }}
+                onCellClick={copyPasteValue}
                 loading={loading}
               />
             </Box>

@@ -54,11 +54,11 @@ const vendorCodes = createSlice({
       inputFields[payload.fieldId] = payload.value;
     },
 
-    copyPasteValue: ({ catalog, inputFields }, { payload }) => {
+    /*     copyPasteValue: ({ catalog, inputFields }, { payload }) => {
       inputFields[payload.fieldId] = catalog.find(
         (item) => item.id === payload.id
       )[payload.fieldId];
-    },
+    }, */
   },
 
   extraReducers: (builder) => {
@@ -100,7 +100,6 @@ const vendorCodes = createSlice({
   },
 });
 
-export const { setModalWindowIsOpen, changeValue, copyPasteValue } =
-  vendorCodes.actions;
+export const { setModalWindowIsOpen, changeValue } = vendorCodes.actions;
 
 export default vendorCodes.reducer;

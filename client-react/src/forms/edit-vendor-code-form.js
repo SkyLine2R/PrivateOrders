@@ -11,8 +11,9 @@ import { changeValue } from "../Store/Slices/slice-vendor-codes";
 
 export default function EditVendorCodeForm({ dbSchema }) {
   const unitsForSelect = useSelector((store) => store.units.catalog).map(
-    (id, name) => ({ id, name })
+    ({ id, name }) => ({ id, name })
   );
+
   const { vendorCode, name, quantity, notes, unit } = useSelector(
     ({ vendorCodes }) => vendorCodes.inputFields,
     shallowEqual

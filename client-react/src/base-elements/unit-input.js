@@ -13,11 +13,6 @@ import { changeValue } from "../Store/Slices/slice-vendor-codes";
 export default function SelectItemUnit({ label, id, selectValues, value }) {
   const dispatch = useDispatch();
 
-  console.log("selectValues");
-  console.log(selectValues);
-
-  console.log("value");
-  console.log(value);
   const handleChange = ({ target }) => {
     dispatch(
       changeValue({
@@ -27,15 +22,11 @@ export default function SelectItemUnit({ label, id, selectValues, value }) {
     );
   };
 
-  const currentValue = selectValues.find((item) => item.name === value); // .id || 1;
-  console.log("currentValue");
-  console.log(currentValue.id);
-
   return (
     <Box sx={{ mt: 1, width: "auto", minWidth: "100%" }}>
       <FormControl fullWidth>
         <InputLabel id={id}>{label}</InputLabel>
-        <Select value={currentValue.id} label={label} onChange={handleChange}>
+        <Select value={value} label={label} onChange={handleChange}>
           {[
             selectValues.map((item) => (
               <MenuItem value={item.id}>{item.name}</MenuItem>

@@ -31,10 +31,10 @@ export default function EditItemsPage({
     (store) => store[page].modalWindowIsOpen
   );
   const request = useSelector((store) => store[page].request);
-
   const loading = request.status === "loading";
 
   const currentId = useSelector((store) => store.customers.currentId);
+  const unitsForSelect = useSelector((store) => store.units.catalog);
 
   React.useEffect(
     () => dispatch(fetchEntries({ api: page })),
@@ -102,8 +102,17 @@ export default function EditItemsPage({
     menuEditType.current = pressedButton;
 
     const params = menuParams.id
-      ? catalog.find((item) => item.id === menuParams.id)
+      ? { ...catalog.find((item) => item.id === menuParams.id) }
       : null;
+
+    console.log("params");
+    console.log(params);
+
+    if (params?.unit)
+      params.unit = unitsForSelect.find(({ name }) => name === params.unit).id;
+
+    console.log("params");
+    console.log(params);
 
     switch (pressedButton) {
       case "add":

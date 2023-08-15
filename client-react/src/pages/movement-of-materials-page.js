@@ -12,11 +12,9 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import EditVendorCodePage from "./edit-vendor-code-page";
 
-const tabs = {
-  tabLabel: {
-    inStock: "Документы о поступлении",
-    outStock: "Документы о списании",
-  },
+const mainTabs = {
+  inStock: "Документы о поступлении",
+  outStock: "Документы о списании",
 };
 
 const createTabs = (doc, index) => (
@@ -69,12 +67,20 @@ export default function MovementOfMaterials({
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <TabList onChange={handleChange} aria-label="tabs with documents">
-              <Tab label={tabs.tabLabel[type]} value="0" />
+              <Tab label={mainTabs[type]} value="0" />
               {openDocuments.map(createTabs)}
             </TabList>
           </Box>
           <TabPanel value="0">
-            <MainTabContent />
+            <Box
+              sx={{
+                width: "100%",
+                typography: "body1",
+                height: "calc(100vh - 120px - 64px - 14px)",
+              }}
+            >
+              <MainTabContent />
+            </Box>
           </TabPanel>
           {openDocuments.map(createTabPanels)}
         </TabContext>

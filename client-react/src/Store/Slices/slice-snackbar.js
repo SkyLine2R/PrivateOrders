@@ -67,6 +67,7 @@ const snackbar = createSlice({
       })
 
       .addCase(fetchEntries.rejected, (state, { payload }) => {
+        if (payload === "rejected") return;
         setSnackbar(
           state,
           "error",

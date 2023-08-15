@@ -7,7 +7,7 @@ const fetchEntries = createAsyncThunk(
   "api/fetchEntries",
   async (
     { api, type = "getAll", columns, string },
-    { getState, dispatch, rejectWithValue, rejected }
+    { getState, dispatch, rejectWithValue }
   ) => {
     const fetchObj = {
       type,
@@ -24,11 +24,11 @@ const fetchEntries = createAsyncThunk(
       string?.includes(prevReq.fetchObj?.data?.string) &&
       catalog.length === 0
     ) {
-      return rejectWithValue(null);
+      return rejectWithValue("rejected");
     }
     // отмена дублирующегося запроса
     if (JSON.stringify(prevReq) === JSON.stringify(fetchObj)) {
-      return rejectWithValue(null);
+      return rejectWithValue("rejected");
     }
 
     const resp = await dispatch(serverRequest({ fetchObj, api }));

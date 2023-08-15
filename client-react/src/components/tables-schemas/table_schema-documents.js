@@ -16,22 +16,22 @@ const documentsSchemaTable = {
   },
   name: {
     headerName: "Документ",
-    flex: 2,
+    flex: 1.5,
     editable: false,
   },
   number: {
     headerName: "№ док-та",
-    flex: 0.2,
+    flex: 0.4,
     editable: false,
   },
   notes: {
     headerName: "Примечания",
-    flex: 1,
+    flex: 1.5,
     editable: false,
   },
   createdBy: {
     headerName: "Создал",
-    flex: 0.5,
+    flex: 0.6,
     editable: false,
     parseTime: true,
   },

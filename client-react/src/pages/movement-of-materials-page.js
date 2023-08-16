@@ -68,6 +68,7 @@ export default function MovementOfMaterials({
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <TabList onChange={handleChange} aria-label="tabs with documents">
               <Tab label={mainTabs[type]} value="0" />
+              {/* табы для открытых документов */}
               {openDocuments.map(createTabs)}
             </TabList>
           </Box>

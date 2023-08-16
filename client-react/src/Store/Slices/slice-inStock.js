@@ -32,7 +32,6 @@ const inStock = createSlice({
       error: null,
       prevReq: {},
     },
-    workCustomer: null,
   },
 
   reducers: {

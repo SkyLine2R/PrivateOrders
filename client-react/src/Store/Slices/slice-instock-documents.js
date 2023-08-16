@@ -58,6 +58,10 @@ const documentsInStock = createSlice({
     addTooltip: ({ inputFields }, { payload }) => {
       inputFields.name += payload;
     },
+    openForFill: ({ store }, { payload }) => {
+      store.opened.push(payload);
+      store.currentId = payload.id;
+    },
   },
 
   extraReducers: (builder) => {
@@ -92,7 +96,7 @@ const documentsInStock = createSlice({
   },
 });
 
-export const { setModalWindowIsOpen, changeValue, addTooltip } =
+export const { setModalWindowIsOpen, changeValue, addTooltip, openForFill } =
   documentsInStock.actions;
 
 export default documentsInStock.reducer;

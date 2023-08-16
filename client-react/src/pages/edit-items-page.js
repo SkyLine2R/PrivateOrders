@@ -13,6 +13,7 @@ import sendEntryToDB from "../Store/sendEntryToDB";
 import fetchEntries from "../Store/fetchEntries";
 
 import { setModalWindowIsOpen as setAlertWindowIsOpen } from "../Store/Slices/slice-alert-dialog";
+import { openForFill } from "../Store/Slices/slice-instock-documents";
 
 export default function EditItemsPage({
   page,
@@ -136,8 +137,7 @@ export default function EditItemsPage({
         );
         return dispatch(setModalWindowIsOpen());
       case "openForFill":
-        // eslint-disable-next-line no-alert
-        return alert("in production");
+        return dispatch(openForFill(params));
       default:
         return "";
     }

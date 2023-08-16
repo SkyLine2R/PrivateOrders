@@ -32,7 +32,6 @@ const stock = createSlice({
       error: null,
       prevReq: {},
     },
-    workCustomer: null,
   },
 
   reducers: {

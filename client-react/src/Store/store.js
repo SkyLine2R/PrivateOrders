@@ -4,7 +4,7 @@ import customers from "./Slices/slice-customers";
 import snackbar from "./Slices/slice-snackbar";
 import users from "./Slices/slice-users";
 import colors from "./Slices/slice-colors";
-import documentsInStock from "./Slices/slice-instock-documents";
+import documentsInStock from "./Slices/slice-documents-instock";
 import alert from "./Slices/slice-alert-dialog";
 import stock from "./Slices/slice-stock";
 import inStock from "./Slices/slice-inStock";

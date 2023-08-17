@@ -11,7 +11,7 @@ import allMenuActions from "../components/menus-schemas/menu-actions-documents";
 import tableSchema from "../components/tables-schemas/table_schema-documents";
 import dbSchema from "../../../components/db_schema_for_testing/db_schema-document";
 
-import { setModalWindowIsOpen } from "../Store/Slices/slice-instock-documents";
+import { setModalWindowIsOpen } from "../Store/Slices/slice-documents-instock";
 
 export default function EditDocumentsPage() {
   return (

@@ -19,7 +19,7 @@ import TitleDialog from "../base-elements/dialog-title";
 import {
   changeValue,
   addTooltip,
-} from "../Store/Slices/slice-instock-documents";
+} from "../Store/Slices/slice-documents-instock";
 
 export default function FormDialog({
   menuEditType,

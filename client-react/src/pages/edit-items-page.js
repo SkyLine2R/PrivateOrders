@@ -13,7 +13,7 @@ import sendEntryToDB from "../Store/sendEntryToDB";
 import fetchEntries from "../Store/fetchEntries";
 
 import { setModalWindowIsOpen as setAlertWindowIsOpen } from "../Store/Slices/slice-alert-dialog";
-import { openForFill } from "../Store/Slices/slice-instock-documents";
+import { openForFill } from "../Store/Slices/slice-documents-instock";
 
 export default function EditItemsPage({
   page,

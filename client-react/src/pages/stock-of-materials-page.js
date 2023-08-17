@@ -1,15 +1,5 @@
-/* import * as React from "react";
-
-import DataGrid from "../base-elements/data-grid-table";
-import tableSchema from "../components/tables-schemas/table_schema-stock-material";
-
-import dbSchemaDocument from "../../../components/db_schema_for_testing/db_schema-document";
-
-export default function Stock() {
-  return <DataGrid dbSchema={dbSchemaDocument} tableSchema={tableSchema} />;
-} */
-
 import * as React from "react";
+import PropTypes from "prop-types";
 import StorageIcon from "@mui/icons-material/Storage";
 
 import EditItemsPage from "./edit-items-page";
@@ -25,7 +15,7 @@ export default function EditVendorCodePage({ headerText }) {
   return (
     <EditItemsPage
       page="stock"
-      headerText={headerText ?? "Материал на складе"}
+      headerText={headerText}
       HeaderIcon={StorageIcon}
       setModalWindowIsOpen={setModalWindowIsOpen}
       allMenuActions={allMenuActions}
@@ -35,3 +25,11 @@ export default function EditVendorCodePage({ headerText }) {
     />
   );
 }
+
+EditVendorCodePage.propTypes = {
+  headerText: PropTypes.string,
+};
+
+EditVendorCodePage.defaultProps = {
+  headerText: "Материал на складе",
+};

@@ -6,6 +6,7 @@ import AlertSlideDialog from "./dialogs/alert-dialog";
 import MenuAppBar from "./menus/menu-app-bar";
 import useRoutes from "./Routes/routes";
 import useAuth from "./hooks/useAuth";
+import ResetStoreParts from "./Store/resetPartsOfStore";
 
 export default function App() {
   const routes = useRoutes();
@@ -14,6 +15,7 @@ export default function App() {
   return (
     <Box sx={{ height: "100vh", overflow: "hidden" }}>
       {user.accessLevel > 1 ? <MenuAppBar /> : null}
+      <ResetStoreParts />
       <CustomizedSnackbars />
       <AlertSlideDialog />
       <Box

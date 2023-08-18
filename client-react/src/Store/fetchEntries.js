@@ -35,7 +35,7 @@ const fetchEntries = createAsyncThunk(
 
     return resp.payload?.error
       ? rejectWithValue({ error: resp.payload.error })
-      : { api, data: resp.payload.data };
+      : { api, customer: resp.payload.customer, data: resp.payload.data };
   }
 );
 

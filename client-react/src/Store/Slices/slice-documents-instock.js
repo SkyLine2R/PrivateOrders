@@ -63,7 +63,7 @@ const documentsInStock = createSlice({
         store.opened.push(payload);
       store.currentId = payload.id;
     },
-    resetInStockDocumentsForOtherCustomer: (store) => {
+    resetInStockDocuments: (store) => {
       store.opened = [];
       store.currentId = null;
     },
@@ -106,7 +106,7 @@ export const {
   changeValue,
   addTooltip,
   openForFill,
-  resetInStockDocumentsForOtherCustomer,
+  resetInStockDocuments,
 } = documentsInStock.actions;
 
 export default documentsInStock.reducer;

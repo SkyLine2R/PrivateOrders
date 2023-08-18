@@ -39,7 +39,7 @@ const serverRequest = createAsyncThunk(
       }
       const respData = await response.json();
 
-      return { data: respData, prevReq: fetchObj };
+      return { data: respData, prevReq: fetchObj, customer };
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);

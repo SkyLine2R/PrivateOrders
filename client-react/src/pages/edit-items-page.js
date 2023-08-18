@@ -42,10 +42,11 @@ export default function EditItemsPage({
   const currentId = useSelector((store) => store.customers.currentId);
   const unitsForSelect = useSelector((store) => store.units.catalog);
 
-  React.useEffect(
-    () => dispatch(fetchEntries({ api: page })),
-    [dispatch, page, modalWindowIsOpen, currentId, alertModalWindowIsOpen]
-  );
+  React.useEffect(() => {
+    if (!modalWindowIsOpen && !alertModalWindowIsOpen) {
+      dispatch(fetchEntries({ api: page }));
+    }
+  }, [dispatch, page, modalWindowIsOpen, currentId, alertModalWindowIsOpen]);
 
   const menuEditType = useRef(null);
 

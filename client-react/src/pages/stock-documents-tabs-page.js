@@ -1,7 +1,7 @@
 import * as React from "react";
 import MovementOfMaterials from "./movement-of-materials-page";
 import EditStockDocumentPage from "./edit-instock-documents-page";
-import EditDocumentInStockPage from "./edit-document-instock-page";
+// import EditDocumentInStockPage from "./edit-document-instock-page";
 
 const openDocuments = {
   inStock: [

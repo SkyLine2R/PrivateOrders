@@ -14,6 +14,7 @@ import fetchEntries from "../Store/fetchEntries";
 
 import { setModalWindowIsOpen as setAlertWindowIsOpen } from "../Store/Slices/slice-alert-dialog";
 import { openForFill } from "../Store/Slices/slice-documents-instock";
+import { setWarningSnack } from "../Store/Slices/slice-snackbar";
 
 export default function EditItemsPage({
   page,
@@ -31,6 +32,10 @@ export default function EditItemsPage({
   const modalWindowIsOpen = useSelector(
     (store) => store[page].modalWindowIsOpen
   );
+  const alertModalWindowIsOpen = useSelector(
+    (store) => store.alert.modalWindowIsOpen
+  );
+
   const request = useSelector((store) => store[page].request);
   const loading = request.status === "loading";
 
@@ -39,7 +44,7 @@ export default function EditItemsPage({
 
   React.useEffect(
     () => dispatch(fetchEntries({ api: page })),
-    [dispatch, page, modalWindowIsOpen, currentId]
+    [dispatch, page, modalWindowIsOpen, currentId, alertModalWindowIsOpen]
   );
 
   const menuEditType = useRef(null);
@@ -115,15 +120,17 @@ export default function EditItemsPage({
       case "edit":
         return dispatch(setModalWindowIsOpen(params));
       case "del":
-        return dispatch(
-          setAlertWindowIsOpen({
-            questions: `Вы действительно хотите удалить запись
+        return page === "customers" && params.id === currentId // при попытке удалить активный склад
+          ? dispatch(setWarningSnack("Невозможно удалить текущий склад."))
+          : dispatch(
+              setAlertWindowIsOpen({
+                questions: `Вы действительно хотите удалить запись
             "${params.name}"? Это действие нельзя будет отменить.`,
-            id: params.id,
-            api: page,
-            type: pressedButton,
-          })
-        );
+                id: params.id,
+                api: page,
+                type: pressedButton,
+              })
+            );
       case "changePass":
         return dispatch(setModalWindowIsOpen(params));
       case "disableUser":

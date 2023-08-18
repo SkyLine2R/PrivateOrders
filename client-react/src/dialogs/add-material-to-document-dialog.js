@@ -46,7 +46,6 @@ export default function AddMaterialDialog({
       })
     );
   };
-  ("add-material-to-document");
   return (
     <div>
       <Dialog

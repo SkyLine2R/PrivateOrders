@@ -8,7 +8,7 @@ import InStockOfMaterialPage from "./inStock-of-materials-page";
 import QuickSearchForm from "../forms/quick-search-vendor-code-and-material-form";
 
 export default function EditDocumentsPage() {
-  const heightHalfPage = "calc((100vh - 120px - 64px - 80px) / 2)";
+  const heightHalfPage = "calc((100vh - 120px - 64px - 80px - 80px) / 2)";
 
   return (
     <Grid container spacing={1} p="0">

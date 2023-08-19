@@ -23,7 +23,7 @@ const successSending = (state, payload) => {
 const documentsInStock = createSlice({
   name: api,
   initialState: {
-    currentId: null,
+    activeTab: 0,
     modalWindowIsOpen: false,
     inputFields: {
       id: null,
@@ -59,13 +59,24 @@ const documentsInStock = createSlice({
       inputFields.name += payload;
     },
     openForFill: (store, { payload }) => {
-      if (!store.opened.find((item) => item.id === payload.id))
-        store.opened.push(payload);
-      store.currentId = payload.id;
+      if (!store.opened.find((docId) => +docId === +payload.id))
+        store.opened.push(payload.id);
+      store.activeTab = +payload.id;
     },
+    closeTab: (store, { payload }) => {
+      const index = store.opened.findIndex((docId) => +docId === +payload);
+      store.opened.splice(index, 1);
+      if (+store.activeTab === +payload) {
+        store.activeTab = store.opened[index - 1] ?? 0;
+      }
+    },
+    setActiveTab: (store, { payload }) => {
+      store.activeTab = +payload;
+    },
+
     resetInStockDocuments: (store) => {
       store.opened = [];
-      store.currentId = null;
+      store.activeTab = 0;
     },
   },
 
@@ -106,6 +117,8 @@ export const {
   changeValue,
   addTooltip,
   openForFill,
+  closeTab,
+  setActiveTab,
   resetInStockDocuments,
 } = documentsInStock.actions;
 

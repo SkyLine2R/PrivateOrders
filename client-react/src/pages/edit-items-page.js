@@ -28,7 +28,6 @@ export default function EditItemsPage({
 }) {
   const dispatch = useDispatch();
 
-  const catalog = useSelector((store) => store[page].catalog);
   const modalWindowIsOpen = useSelector(
     (store) => store[page].modalWindowIsOpen
   );
@@ -41,6 +40,8 @@ export default function EditItemsPage({
 
   const currentId = useSelector((store) => store.customers.currentId);
   const unitsForSelect = useSelector((store) => store.units.catalog);
+
+  const catalog = useSelector((store) => store[page].catalog);
 
   React.useEffect(() => {
     if (!modalWindowIsOpen && !alertModalWindowIsOpen) {

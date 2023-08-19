@@ -16,12 +16,18 @@ import arrowTooltip from "../components/arrowTooltips/arrowTooltip-for-documents
 
 import FieldForInput from "../base-elements/field-for-input";
 import TitleDialog from "../base-elements/dialog-title";
+
 import {
-  changeValue,
-  addTooltip,
+  changeValue as inStockChangeValue,
+  addTooltip as inStockAddTooltip,
 } from "../Store/Slices/slice-documents-instock";
+import {
+  changeValue as outStockChangeValue,
+  addTooltip as outStockAddTooltip,
+} from "../Store/Slices/slice-documents-outstock";
 
 export default function FormDialog({
+  page,
   menuEditType,
   handleClickOpenClose,
   handleAddNewItem,
@@ -31,8 +37,13 @@ export default function FormDialog({
 }) {
   const dispatch = useDispatch();
   const { number, name, date, notes } = useSelector(
-    (state) => state.documentsInStock.inputFields
+    (state) => state[page].inputFields
   );
+
+  const changeValue =
+    page === "documentsInStock" ? inStockChangeValue : outStockChangeValue;
+  const addTooltip =
+    page === "documentsInStock" ? inStockAddTooltip : outStockAddTooltip;
 
   const handleAddToolTip = (e) => {
     dispatch(addTooltip(e.target.value));

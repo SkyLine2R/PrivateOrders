@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/forbid-prop-types */
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
@@ -11,7 +9,7 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import CloseIcon from "@mui/icons-material/Close";
 import EditDocumentsPage from "./edit-document-instock-page";
-import EditStockDocumentPage from "./edit-instock-documents-page";
+import EditStockDocumentPage from "./edit-stock-documents-page";
 
 import {
   setActiveTab,
@@ -95,7 +93,7 @@ export default function MovementOfMaterials({ type }) {
                 height: "calc(100vh - 120px - 64px - 14px)",
               }}
             >
-              <EditStockDocumentPage />
+              <EditStockDocumentPage page={type} />
             </Box>
           </TabPanel>
           {openDocuments.map((id) =>
@@ -109,6 +107,4 @@ export default function MovementOfMaterials({ type }) {
 
 MovementOfMaterials.propTypes = {
   type: PropTypes.string.isRequired,
-  /*   openDocuments: PropTypes.arrayOf(PropTypes.object).isRequired,
-   */
 };

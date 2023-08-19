@@ -5,6 +5,7 @@ import snackbar from "./Slices/slice-snackbar";
 import users from "./Slices/slice-users";
 import colors from "./Slices/slice-colors";
 import documentsInStock from "./Slices/slice-documents-instock";
+import documentsOutStock from "./Slices/slice-documents-outstock";
 import alert from "./Slices/slice-alert-dialog";
 import stock from "./Slices/slice-stock";
 import inStock from "./Slices/slice-inStock";
@@ -19,6 +20,7 @@ export default configureStore({
     colors,
     snackbar,
     documentsInStock,
+    documentsOutStock,
     alert,
     stock,
     inStock,

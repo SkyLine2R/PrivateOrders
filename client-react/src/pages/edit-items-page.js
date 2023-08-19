@@ -197,6 +197,7 @@ export default function EditItemsPage({
           tableSchema={tableSchema}
           dbSchema={dbSchema}
           catalog={catalog}
+          page={page}
         />
       ) : (
         <SpeedDialMenu

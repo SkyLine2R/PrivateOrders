@@ -78,7 +78,11 @@ async function del(req, res) {
   } catch (e) {
     // eslint-disable-next-line no-console
     console.log(e);
-    res.status(400).json({ error: "Ошибка при удалении записи" });
+    let msg = "Ошибка при удалении записи";
+    if (e.errno === 19)
+      msg =
+        "Невозможно удалить запись, т.к. на неё ссылаются внешние ключи. Сначала удалите связанные данные";
+    res.status(400).json({ error: msg });
   }
 }
 

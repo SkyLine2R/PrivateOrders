@@ -11,8 +11,14 @@ import allMenuActions from "../components/menus-schemas/menu-actions-documents";
 import tableSchema from "../components/tables-schemas/table_schema-documents";
 import dbSchema from "../../../components/db_schema_for_testing/db_schema-document";
 
-import { setModalWindowIsOpen as inStockModalWindowIsOpen } from "../Store/Slices/slice-documents-instock";
-import { setModalWindowIsOpen as outStockModalWindowIsOpen } from "../Store/Slices/slice-documents-outstock";
+import {
+  setModalWindowIsOpen as inStockModalWindowIsOpen,
+  openForFill as inStockOpenForFill,
+} from "../Store/Slices/slice-documents-instock";
+import {
+  setModalWindowIsOpen as outStockModalWindowIsOpen,
+  openForFill as outStockOpenForFill,
+} from "../Store/Slices/slice-documents-outstock";
 
 export default function EditDocumentsPage({ page }) {
   return (
@@ -30,6 +36,9 @@ export default function EditDocumentsPage({ page }) {
         page === "documentsInStock"
           ? inStockModalWindowIsOpen
           : outStockModalWindowIsOpen
+      }
+      openForFill={
+        page === "documentsInStock" ? inStockOpenForFill : outStockOpenForFill
       }
       allMenuActions={allMenuActions}
       EditDialog={EditDialog}

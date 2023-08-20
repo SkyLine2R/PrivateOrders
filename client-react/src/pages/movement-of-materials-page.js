@@ -12,9 +12,13 @@ import EditDocumentsPage from "./edit-document-instock-page";
 import EditStockDocumentPage from "./edit-stock-documents-page";
 
 import {
-  setActiveTab,
-  closeTab,
+  setActiveTab as inStockSetActiveTab,
+  closeTab as inStockCloseTab,
 } from "../Store/Slices/slice-documents-instock";
+import {
+  setActiveTab as outStockSetActiveTab,
+  closeTab as outStockCloseTab,
+} from "../Store/Slices/slice-documents-outstock";
 
 const mainTabs = {
   documentsInStock: "Документы о поступлении",
@@ -58,6 +62,11 @@ const createTabPanels = (doc) => (
 // если элементы не будут добавляться - убрать "обёртку" Box
 export default function MovementOfMaterials({ type }) {
   const dispatch = useDispatch();
+
+  const setActiveTab =
+    type === "documentsInStock" ? inStockSetActiveTab : outStockSetActiveTab;
+  const closeTab =
+    type === "documentsInStock" ? inStockCloseTab : outStockCloseTab;
 
   const handleChange = (e, newValue) => {
     dispatch(setActiveTab(newValue));

@@ -12,8 +12,11 @@ module.exports = {
     },
     pool: {
       afterCreate: (conn, done) => {
+        // + загрузка модуля поддержки Unicode
         conn.loadExtension(`${__dirname}/modules/unicode`, (err) => {
           if (err) throw new Error(`Модуль поиска Unicode: ${err}`);
+          // + поддержка внешних ключей
+          conn.run("PRAGMA foreign_keys = ON");
           done(null, conn);
         });
       },

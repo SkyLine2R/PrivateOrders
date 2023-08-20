@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react/prop-types */
 import * as React from "react";
 import { useRef } from "react";
@@ -13,7 +14,6 @@ import sendEntryToDB from "../Store/sendEntryToDB";
 import fetchEntries from "../Store/fetchEntries";
 
 import { setModalWindowIsOpen as setAlertWindowIsOpen } from "../Store/Slices/slice-alert-dialog";
-import { openForFill } from "../Store/Slices/slice-documents-instock";
 import { setWarningSnack } from "../Store/Slices/slice-snackbar";
 
 export default function EditItemsPage({
@@ -21,6 +21,7 @@ export default function EditItemsPage({
   headerText,
   HeaderIcon,
   setModalWindowIsOpen,
+  openForFill,
   allMenuActions,
   EditDialog,
   tableSchema,
@@ -42,6 +43,7 @@ export default function EditItemsPage({
   const unitsForSelect = useSelector((store) => store.units.catalog);
 
   const catalog = useSelector((store) => store[page].catalog);
+  const openedTab = useSelector((store) => store[page].opened);
 
   React.useEffect(() => {
     if (!modalWindowIsOpen && !alertModalWindowIsOpen) {
@@ -122,8 +124,13 @@ export default function EditItemsPage({
       case "edit":
         return dispatch(setModalWindowIsOpen(params));
       case "del":
-        return page === "customers" && params.id === currentId // при попытке удалить активный склад
+        return page === "customers" && +params.id === +currentId // при попытке удалить активный склад
           ? dispatch(setWarningSnack("Невозможно удалить текущий склад."))
+          : (page === "documentsInStock" || page === "documentsOutStock") &&
+            openedTab.find((item) => +item === +params.id) // при попытке удалить открытый документ
+          ? dispatch(
+              setWarningSnack("Перед удалением закройте вкладку документа")
+            )
           : dispatch(
               setAlertWindowIsOpen({
                 questions: `Вы действительно хотите удалить запись

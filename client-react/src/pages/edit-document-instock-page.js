@@ -8,8 +8,7 @@ import StockOfMaterialPage from "./stock-of-materials-page";
 import InStockOfMaterialPage from "./inStock-of-materials-page";
 import QuickSearchForm from "../forms/quick-search-vendor-code-and-material-form";
 import {
-  selectTablesInStock,
-  selectTablesOutStock,
+  selectTables,
   selectColumns,
 } from "../components/quickSearchFilterArr";
 
@@ -28,9 +27,7 @@ export default function EditDocumentsPage({ type }) {
         <Box p="0 16px 5px 16px" /* sx={{ height: heightHalfPage }} */>
           <QuickSearchForm
             selectTables={
-              type === "documentsInStock"
-                ? selectTablesInStock
-                : selectTablesOutStock
+              type === "documentsInStock" ? selectTables : [selectTables[1]]
             }
             selectColumns={selectColumns}
           />

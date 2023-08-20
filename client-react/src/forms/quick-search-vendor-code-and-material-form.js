@@ -1,20 +1,25 @@
+/* eslint-disable react/prop-types */
 import * as React from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useDispatch, useSelector } from "react-redux";
 
 import FieldForInput from "../base-elements/field-for-input";
 import MultipleSelectCheckmarks from "../base-elements/multiple-select-checkmarks";
-import {
-  selectTables,
-  selectColumns,
-} from "../components/quickSearchFilterArr";
 import fetchEntries from "../Store/fetchEntries";
 
 import quickSearchDbSchema from "../../../components/db_schema_for_testing/db_schema-quick-search-string";
 import { changeValue } from "../Store/Slices/slice-quick-search";
 
-export default function QuickSearchVendorsAndMatetials() {
+export default function QuickSearchVendorsAndMatetials({
+  selectTables,
+  selectColumns,
+}) {
   const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(changeValue({ value: selectTables, fieldId: "tables" }));
+    dispatch(changeValue({ value: selectColumns, fieldId: "columns" }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const { quickSearchString, tables, columns } = useSelector(
     (state) => state.quickSearch.inputFields

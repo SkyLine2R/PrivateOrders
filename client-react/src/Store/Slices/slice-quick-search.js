@@ -1,9 +1,5 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  selectTables,
-  selectColumns,
-} from "../../components/quickSearchFilterArr";
 
 const api = "quickSearch";
 
@@ -12,18 +8,12 @@ const quickSearch = createSlice({
   initialState: {
     inputFields: {
       quickSearchString: "",
-      tables: selectTables,
-      columns: selectColumns,
-    },
-    request: {
-      status: null,
-      error: null,
-      prevReq: {},
+      tables: [],
+      columns: [],
     },
   },
   reducers: {
     changeValue: ({ inputFields }, { payload }) => {
-      // console.log(inputFields[payload.fieldId]);
       inputFields[payload.fieldId] = payload.value;
     },
   },

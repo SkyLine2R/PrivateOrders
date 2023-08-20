@@ -53,9 +53,9 @@ const createTabs = (doc) => (
   />
 );
 
-const createTabPanels = (doc) => (
+const createTabPanels = (doc, type) => (
   <TabPanel value={`${doc.id}`} key={`${doc.id}`}>
-    <EditDocumentsPage />
+    <EditDocumentsPage type={type} />
   </TabPanel>
 );
 
@@ -106,7 +106,10 @@ export default function MovementOfMaterials({ type }) {
             </Box>
           </TabPanel>
           {openDocuments.map((id) =>
-            createTabPanels(catalog.find((elem) => elem.id === id))
+            createTabPanels(
+              catalog.find((elem) => elem.id === id),
+              type
+            )
           )}
         </TabContext>
       </Box>

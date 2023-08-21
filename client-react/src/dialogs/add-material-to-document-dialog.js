@@ -6,7 +6,6 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Unstable_Grid2";
-import dayjs from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
@@ -16,10 +15,10 @@ import arrowTooltip from "../components/arrowTooltips/arrowTooltip-for-documents
 
 import FieldForInput from "../base-elements/field-for-input";
 import TitleDialog from "../base-elements/dialog-title";
-import {
+/* import {
   changeValue,
   addTooltip,
-} from "../Store/Slices/slice-instock-documents";
+} from "../Store/Slices/slice-instock-documents"; */
 // только скопирован - переделать весь
 export default function AddMaterialDialog({
   menuEditType,
@@ -30,22 +29,15 @@ export default function AddMaterialDialog({
   dbSchema,
 }) {
   const dispatch = useDispatch();
-  const { number, name, date, notes } = useSelector(
-    (state) => state.documentsInStock.inputFields
+  const { id, number, name, notes } = useSelector(
+    (state) => state.inStock.inputFields
   );
-
-  const handleAddToolTip = (e) => {
+  // подумать чтобы включить в тултипы наборы цветов с этого склада,
+  // наборы цифровых значений кратных единицам
+  /*   const handleAddToolTip = (e) => {
     dispatch(addTooltip(e.target.value));
-  };
+  }; */
 
-  const handleChangeDate = (newDate) => {
-    dispatch(
-      changeValue({
-        fieldId: "date",
-        value: +newDate.$d,
-      })
-    );
-  };
   return (
     <div>
       <Dialog
@@ -59,7 +51,7 @@ export default function AddMaterialDialog({
             menuEditType={menuEditType}
             IconNew={PostAddIcon}
             IconEdit={DriveFileRenameOutlineIcon}
-            titleNew="Новый документ"
+            titleNew="Добавить материал"
             titleEdit="Изменить реквизиты"
           />
           <DialogContent>

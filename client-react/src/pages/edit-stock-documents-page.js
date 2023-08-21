@@ -21,25 +21,25 @@ import {
 } from "../Store/Slices/slice-documents-outstock";
 
 export default function EditDocumentsPage({ page }) {
-  return (
+  return page === "documentsInStock" ? (
     <EditItemsPage
       page={page}
-      headerText={
-        page === "documentsInStock"
-          ? "Поступления материала"
-          : "Отгрузка материала"
-      }
-      HeaderIcon={
-        page === "documentsInStock" ? CloudDownloadIcon : CloudUploadIcon
-      }
-      setModalWindowIsOpen={
-        page === "documentsInStock"
-          ? inStockModalWindowIsOpen
-          : outStockModalWindowIsOpen
-      }
-      openForFill={
-        page === "documentsInStock" ? inStockOpenForFill : outStockOpenForFill
-      }
+      headerText="Поступления материала"
+      HeaderIcon={CloudDownloadIcon}
+      setModalWindowIsOpen={inStockModalWindowIsOpen}
+      openForFill={inStockOpenForFill}
+      allMenuActions={allMenuActions}
+      EditDialog={EditDialog}
+      tableSchema={tableSchema}
+      dbSchema={dbSchema}
+    />
+  ) : (
+    <EditItemsPage
+      page={page}
+      headerText="Отгрузка материала"
+      HeaderIcon={CloudUploadIcon}
+      setModalWindowIsOpen={outStockModalWindowIsOpen}
+      openForFill={outStockOpenForFill}
       allMenuActions={allMenuActions}
       EditDialog={EditDialog}
       tableSchema={tableSchema}

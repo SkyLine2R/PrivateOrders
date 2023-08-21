@@ -8,7 +8,7 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import CloseIcon from "@mui/icons-material/Close";
-import EditDocumentsPage from "./edit-document-instock-page";
+import EditDocumentsPage from "./edit-document-page";
 import EditStockDocumentPage from "./edit-stock-documents-page";
 
 import {
@@ -34,7 +34,6 @@ const createTabs = (doc) => (
     icon={
       <CloseIcon
         id={doc.id}
-        // eslint-disable-next-line no-alert
         onMouseEnter={(e) => {
           e.target.style.transform = "scale(1.2) rotate(3deg)";
           e.target.style.opacity = "0.7";
@@ -55,12 +54,11 @@ const createTabs = (doc) => (
 
 const createTabPanels = (doc, type) => (
   <TabPanel value={`${doc.id}`} key={`${doc.id}`}>
-    <EditDocumentsPage type={type} />
+    <EditDocumentsPage page={type} />
   </TabPanel>
 );
 
-// если элементы не будут добавляться - убрать "обёртку" Box
-export default function MovementOfMaterials({ type }) {
+export default function MovementOfMaterialsPage({ type }) {
   const dispatch = useDispatch();
 
   const setActiveTab =
@@ -117,6 +115,6 @@ export default function MovementOfMaterials({ type }) {
   );
 }
 
-MovementOfMaterials.propTypes = {
+MovementOfMaterialsPage.propTypes = {
   type: PropTypes.string.isRequired,
 };

@@ -6,7 +6,6 @@ import Warehouse from "@mui/icons-material/Warehouse";
 import DialogSelect from "../base-elements/dialog-select";
 import fetchEntries from "../Store/fetchEntries";
 import { setCurrentCustomerId } from "../Store/Slices/slice-customers";
-import { resetInStockDocumentsForOtherCustomer } from "../Store/Slices/slice-documents-instock";
 
 export default function DialogSelectCustomer() {
   const dispatch = useDispatch();

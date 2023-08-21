@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Routes, Route } from "react-router-dom";
 
-import Stock from "../pages/stock-of-materials-page";
+import Stock from "../pages/stock-page";
 import Login from "../forms/login-form";
 import Users from "../pages/edit-users-page";
 import VendorCodes from "../pages/edit-vendor-code-page";

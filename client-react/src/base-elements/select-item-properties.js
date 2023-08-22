@@ -8,13 +8,13 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { changeValue } from "../Store/Slices/slice-vendor-codes";
 
 export default function SelectItemProperties({
   label,
   id,
   selectValues,
   value,
+  changeValue,
 }) {
   const dispatch = useDispatch();
 

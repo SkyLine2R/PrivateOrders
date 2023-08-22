@@ -6,7 +6,7 @@ import AlertSlideDialog from "./dialogs/alert-dialog";
 import MenuAppBar from "./menus/menu-app-bar";
 import useRoutes from "./Routes/routes";
 import useAuth from "./hooks/useAuth";
-import ResetStoreParts from "./Store/resetPartsOfStore";
+import ResetStoreParts from "./Store/loadAndResetStoreParts";
 
 export default function App() {
   const routes = useRoutes();

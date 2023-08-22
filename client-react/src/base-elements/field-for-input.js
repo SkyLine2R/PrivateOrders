@@ -15,6 +15,7 @@ export default function FieldForInput({
   disable,
   variant,
   type,
+  InputProps,
 }) {
   const dispatch = useDispatch();
 
@@ -44,6 +45,7 @@ export default function FieldForInput({
         onChange={onChangeVal}
         variant={variant}
         disabled={disable}
+        InputProps={InputProps}
       />
     </Box>
   );
@@ -55,10 +57,10 @@ FieldForInput.propTypes = {
   variant: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   changeValue: PropTypes.func,
-  // eslint-disable-next-line react/forbid-prop-types
   dbSchema: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]).isRequired,
   disable: PropTypes.bool,
   type: PropTypes.string,
+  InputProps: PropTypes.node,
 };
 
 FieldForInput.defaultProps = {
@@ -67,4 +69,5 @@ FieldForInput.defaultProps = {
   disable: false,
   variant: "outlined",
   type: "text",
+  InputProps: null,
 };

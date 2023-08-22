@@ -18,8 +18,6 @@ const successSending = (state, payload) => {
       quantity: "",
     },
     stock: {
-      id: null,
-      color: "",
       amount: null,
     },
     document: null,
@@ -32,8 +30,14 @@ const inStock = createSlice({
   initialState: {
     modalWindowIsOpen: false,
     inputFields: {
-      id: null,
-      name: "",
+      vendorCodeId: null,
+      vendorCodeName: "",
+      vendorCodeUnit: "",
+      vendorCodeQuantity: "",
+      stockId: null,
+      stockColor: 1,
+      stockAmount: null,
+      document: null,
       notes: "",
     },
     catalog: [],

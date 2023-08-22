@@ -43,6 +43,7 @@ export default function EditVendorCodeForm({ dbSchema }) {
           <SelectItemProperties
             id="unit"
             label="Единицы измерения"
+            changeValue={changeValue}
             selectValues={unitsForSelect}
             value={unit}
           />

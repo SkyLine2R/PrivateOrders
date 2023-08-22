@@ -5,6 +5,8 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
+import InputAdornment from "@mui/material/InputAdornment";
+
 import Grid from "@mui/material/Unstable_Grid2";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
@@ -13,6 +15,9 @@ import { useSelector, useDispatch } from "react-redux";
 import FieldForInput from "../base-elements/field-for-input";
 import SelectItemProperties from "../base-elements/select-item-properties";
 import TitleDialog from "../base-elements/dialog-title";
+import fetchEntries from "../Store/fetchEntries";
+import { changeValue } from "../Store/Slices/slice-inStock";
+
 /* import {
   changeValue,
   addTooltip,
@@ -27,8 +32,17 @@ export default function AddMaterialDialog({
   dbSchema,
 }) {
   const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    if (modalWindowIsOpen) {
+      dispatch(fetchEntries({ api: "colors" }));
+    }
+  }, []);
   const colors = useSelector((store) => store.colors.catalog);
+  const units = useSelector((store) => store.units.catalog);
   const colorsForSelect = colors.map(({ id, name }) => ({ id, name }));
+
+  const colorId = useSelector((state) => state.inStock.inputFields.stockColor);
 
   const { id, number, name, notes } = useSelector(
     (state) => state.inStock.inputFields
@@ -98,30 +112,41 @@ export default function AddMaterialDialog({
             <Grid container spacing={2} sx={{ pt: 5 }}>
               <Grid xs={2.5}>
                 <SelectItemProperties
-                  id="color"
+                  id="stockColor"
                   label="Цвет"
-                  selectValues={["RAL7040 matt"]} /* {unitsForSelect} */
-                  value="RAL7040 matt"
+                  changeValue={changeValue}
+                  selectValues={colorsForSelect} /* {unitsForSelect} */
+                  value={colorId}
                 />
               </Grid>
               <Grid xs={2.5}>
                 <FieldForInput
                   id="number"
-                  label="метры"
+                  label="Кол-во"
                   type="number"
                   /*                   changeValue={changeValue}
                    */ value="680"
                   dbSchema={dbSchema}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">метры:</InputAdornment>
+                    ),
+                  }}
                 />
               </Grid>
               <Grid xs={2.5}>
                 <FieldForInput
                   id="number"
-                  label="хлысты"
+                  label="Кол-во"
                   type="number"
                   /*                   changeValue={changeValue}
                    */ value="100"
                   dbSchema={dbSchema}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">хлысты:</InputAdornment>
+                    ),
+                  }}
                 />
               </Grid>
               <Grid xs={4.5}>

@@ -4,20 +4,9 @@ import { useSelector, useDispatch } from "react-redux";
 import Warehouse from "@mui/icons-material/Warehouse";
 
 import DialogSelect from "../base-elements/dialog-select";
-import fetchEntries from "../Store/fetchEntries";
 import { setCurrentCustomerId } from "../Store/Slices/slice-customers";
 
 export default function DialogSelectCustomer() {
-  const dispatch = useDispatch();
-
-  React.useEffect(
-    () => dispatch(fetchEntries({ api: "customers" })),
-    [dispatch]
-  );
-  React.useEffect(() => {
-    dispatch(fetchEntries({ api: "units" }));
-  }, [dispatch]);
-
   const { currentId, catalog } = useSelector(({ customers }) => customers);
 
   return (

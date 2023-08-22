@@ -4,20 +4,19 @@
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { resetInStockDocuments } from "./Slices/slice-documents-instock";
+import fetchEntries from "./fetchEntries";
 
 export default function ResetStoreParts() {
   const dispatch = useDispatch();
 
-  /*   const catalog = useSelector((store) => store[page].catalog);
-  const modalWindowIsOpen = useSelector(
-    (store) => store[page].modalWindowIsOpen
-  ); */
-  /*   const alertModalWindowIsOpen = useSelector(
-    (store) => store.alert.modalWindowIsOpen
+  React.useEffect(
+    () => dispatch(fetchEntries({ api: "customers" })),
+    [dispatch]
   );
-  const alertModalWindowIsOpen = useSelector(
-    (store) => store.alert.modalWindowIsOpen
-  ); */
+
+  React.useEffect(() => {
+    dispatch(fetchEntries({ api: "units" }));
+  }, [dispatch]);
 
   const currentCustomerId = useSelector((store) => store.customers.currentId);
 

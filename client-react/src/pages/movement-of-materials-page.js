@@ -10,7 +10,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import CloseIcon from "@mui/icons-material/Close";
 import EditDocumentsPage from "./edit-document-page";
 import EditStockDocumentPage from "./edit-stock-documents-page";
-
+import AddMaterialDialog from "../dialogs/add-material-to-document-dialog";
 import {
   setActiveTab as inStockSetActiveTab,
   closeTab as inStockCloseTab,
@@ -81,6 +81,7 @@ export default function MovementOfMaterialsPage({ type }) {
 
   return (
     <Grid container rowSpacing={1} spacing={2}>
+      <AddMaterialDialog modalWindowIsOpen />
       <Box sx={{ width: "100%", typography: "body1" }} onClick={handleCloseTab}>
         <TabContext value={`${activeTab}`}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>

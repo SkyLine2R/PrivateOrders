@@ -10,7 +10,12 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { changeValue } from "../Store/Slices/slice-vendor-codes";
 
-export default function SelectItemUnit({ label, id, selectValues, value }) {
+export default function SelectItemProperties({
+  label,
+  id,
+  selectValues,
+  value,
+}) {
   const dispatch = useDispatch();
 
   const handleChange = ({ target }) => {

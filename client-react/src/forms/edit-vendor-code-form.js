@@ -4,15 +4,14 @@ import FormGroup from "@mui/material/FormGroup";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useSelector, shallowEqual } from "react-redux";
 
-import SelectItemUnit from "../base-elements/unit-input";
+import SelectItemProperties from "../base-elements/select-item-properties";
 import FieldForInput from "../base-elements/field-for-input";
 
 import { changeValue } from "../Store/Slices/slice-vendor-codes";
 
 export default function EditVendorCodeForm({ dbSchema }) {
-  const unitsForSelect = useSelector((store) => store.units.catalog).map(
-    ({ id, name }) => ({ id, name })
-  );
+  const units = useSelector((store) => store.units.catalog);
+  const unitsForSelect = units.map(({ id, name }) => ({ id, name }));
 
   const { vendorCode, name, quantity, notes, unit } = useSelector(
     ({ vendorCodes }) => vendorCodes.inputFields,
@@ -41,7 +40,7 @@ export default function EditVendorCodeForm({ dbSchema }) {
           />
         </Grid>
         <Grid xs={2.5}>
-          <SelectItemUnit
+          <SelectItemProperties
             id="unit"
             label="Единицы измерения"
             selectValues={unitsForSelect}
@@ -54,6 +53,7 @@ export default function EditVendorCodeForm({ dbSchema }) {
             label="Кол-во ед. в хл. | уп."
             changeValue={changeValue}
             value={quantity}
+            type="number"
             dbSchema={dbSchema}
           />
         </Grid>

@@ -11,10 +11,18 @@ const successSending = (state, payload) => {
 
   state.modalWindowIsOpen = false;
   state.inputFields = {
-    id: null,
-    amount: null,
+    vendorCode: {
+      id: null,
+      name: "",
+      unit: "",
+      quantity: "",
+    },
+    stock: {
+      id: null,
+      color: "",
+      amount: null,
+    },
     document: null,
-    name: "",
     notes: "",
   };
 };

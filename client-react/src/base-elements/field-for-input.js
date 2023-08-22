@@ -1,5 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
-/* eslint-disable react/prop-types */
 import * as React from "react";
 import { useDispatch } from "react-redux";
 
@@ -15,6 +13,8 @@ export default function FieldForInput({
   changeValue,
   dbSchema,
   disable,
+  variant,
+  type,
 }) {
   const dispatch = useDispatch();
 
@@ -38,10 +38,11 @@ export default function FieldForInput({
     >
       <TextField
         id={id}
+        type={type}
         label={label}
         value={value}
         onChange={onChangeVal}
-        variant="outlined"
+        variant={variant}
         disabled={disable}
       />
     </Box>
@@ -51,11 +52,19 @@ export default function FieldForInput({
 FieldForInput.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  variant: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  changeValue: PropTypes.func.isRequired,
-  dbSchema: PropTypes.object.isRequired,
+  changeValue: PropTypes.func,
+  // eslint-disable-next-line react/forbid-prop-types
+  dbSchema: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]).isRequired,
+  disable: PropTypes.bool,
+  type: PropTypes.string,
 };
 
 FieldForInput.defaultProps = {
+  changeValue: null,
   value: "",
+  disable: false,
+  variant: "outlined",
+  type: "text",
 };

@@ -6,14 +6,12 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Unstable_Grid2";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import { useSelector, useDispatch } from "react-redux";
-import ArrowTooltip from "../base-elements/arrow-tooltip";
-import arrowTooltip from "../components/arrowTooltips/arrowTooltip-for-documents";
 
 import FieldForInput from "../base-elements/field-for-input";
+import SelectItemProperties from "../base-elements/select-item-properties";
 import TitleDialog from "../base-elements/dialog-title";
 /* import {
   changeValue,
@@ -21,7 +19,7 @@ import TitleDialog from "../base-elements/dialog-title";
 } from "../Store/Slices/slice-instock-documents"; */
 // только скопирован - переделать весь
 export default function AddMaterialDialog({
-  menuEditType,
+  menuEditType = "add",
   handleClickOpenClose,
   handleAddNewItem,
   handleEditItem,
@@ -29,6 +27,9 @@ export default function AddMaterialDialog({
   dbSchema,
 }) {
   const dispatch = useDispatch();
+  const colors = useSelector((store) => store.colors.catalog);
+  const colorsForSelect = colors.map(({ id, name }) => ({ id, name }));
+
   const { id, number, name, notes } = useSelector(
     (state) => state.inStock.inputFields
   );
@@ -42,7 +43,7 @@ export default function AddMaterialDialog({
     <div>
       <Dialog
         fullWidth
-        maxWidth="xs"
+        maxWidth="md"
         open={modalWindowIsOpen}
         onClose={handleClickOpenClose}
       >
@@ -55,44 +56,86 @@ export default function AddMaterialDialog({
             titleEdit="Изменить реквизиты"
           />
           <DialogContent>
-            <FieldForInput
-              id="name"
-              label="Название"
-              changeValue={changeValue}
-              value={name}
-              dbSchema={dbSchema}
-            />
-
             <Grid container spacing={2} sx={{ pt: 2 }}>
-              <Grid xs={6}>
+              <Grid xs={3}>
+                <FieldForInput
+                  id="name"
+                  label="Артикул"
+                  value="321640"
+                  dbSchema={false}
+                  variant="filled"
+                />
+              </Grid>
+
+              <Grid xs={5}>
+                <FieldForInput
+                  id="name"
+                  label="Название"
+                  value="Алюминиевый профиль, закладная 6800"
+                  dbSchema={false}
+                  variant="filled"
+                />
+              </Grid>
+              <Grid xs={2}>
+                <FieldForInput
+                  id="name"
+                  label="Кол-во в ед."
+                  value="6800"
+                  dbSchema={false}
+                  variant="filled"
+                />
+              </Grid>
+              <Grid xs={2}>
+                <FieldForInput
+                  id="name"
+                  label="Ед. изм."
+                  value="м / хл."
+                  dbSchema={false}
+                  variant="filled"
+                />
+              </Grid>
+            </Grid>
+            <Grid container spacing={2} sx={{ pt: 5 }}>
+              <Grid xs={2.5}>
+                <SelectItemProperties
+                  id="color"
+                  label="Цвет"
+                  selectValues={["RAL7040 matt"]} /* {unitsForSelect} */
+                  value="RAL7040 matt"
+                />
+              </Grid>
+              <Grid xs={2.5}>
                 <FieldForInput
                   id="number"
-                  label="Номер"
-                  changeValue={changeValue}
-                  value={number}
+                  label="метры"
+                  type="number"
+                  /*                   changeValue={changeValue}
+                   */ value="680"
                   dbSchema={dbSchema}
                 />
               </Grid>
-              <Grid xs={6}>
-                <DatePicker
-                  id="date"
-                  label="Дата"
-                  value={dayjs(new Date(date))}
-                  onChange={handleChangeDate}
-                  sx={{ mt: 1 }}
+              <Grid xs={2.5}>
+                <FieldForInput
+                  id="number"
+                  label="хлысты"
+                  type="number"
+                  /*                   changeValue={changeValue}
+                   */ value="100"
+                  dbSchema={dbSchema}
+                />
+              </Grid>
+              <Grid xs={4.5}>
+                <FieldForInput
+                  id="notes"
+                  label="Примечания"
+                  /*                 changeValue={changeValue}
+                   */ value={notes}
+                  dbSchema={dbSchema}
                 />
               </Grid>
             </Grid>
-            <Grid sx={{ pt: 2 }}>
-              <FieldForInput
-                id="notes"
-                label="Примечания к документу"
-                changeValue={changeValue}
-                value={notes}
-                dbSchema={dbSchema}
-              />
-            </Grid>
-            <Grid sx={{ pt: 2 }} onClick={handleAddToolTip}>
+
+            {/*             <Grid sx={{ pt: 2 }} onClick={handleAddToolTip}>
               {arrowTooltip.map(({ id, tooltip, value }) => (
                 <ArrowTooltip
                   id={id}
@@ -101,7 +144,7 @@ export default function AddMaterialDialog({
                   value={value}
                 />
               ))}
-            </Grid>
+            </Grid> */}
           </DialogContent>
           <DialogActions sx={{ pr: 2 }}>
             <Button onClick={handleClickOpenClose}>Отмена</Button>

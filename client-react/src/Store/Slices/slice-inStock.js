@@ -31,12 +31,14 @@ const inStock = createSlice({
     modalWindowIsOpen: false,
     inputFields: {
       vendorCodeId: null,
+      vendorCode: "",
       vendorCodeName: "",
+      vendorCodeQuantity: 6.8,
       vendorCodeUnit: "",
-      vendorCodeQuantity: "",
       stockId: null,
-      stockColor: 1,
-      stockAmount: null,
+      stockColor: "0",
+      stockAmount: 6.8,
+      stockAmountInUnit: 1,
       document: null,
       notes: "",
     },
@@ -58,6 +60,14 @@ const inStock = createSlice({
 
     changeValue: ({ inputFields }, { payload }) => {
       inputFields[payload.fieldId] = payload.value;
+      if (payload.fieldId === "stockAmount")
+        inputFields.stockAmountInUnit = (
+          +payload.value / +inputFields.vendorCodeQuantity
+        ).toFixed(3);
+      if (payload.fieldId === "stockAmountInUnit")
+        inputFields.stockAmount = (
+          +payload.value * +inputFields.vendorCodeQuantity
+        ).toFixed(3);
     },
   },
 

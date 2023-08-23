@@ -20,6 +20,7 @@ export default function FieldForInput({
   const dispatch = useDispatch();
 
   const onChangeVal = ({ target }) => {
+    if (!changeValue) return;
     dispatch(
       changeValue({
         value: textСorrectionInField(dbSchema[target.id], target.value),
@@ -60,7 +61,7 @@ FieldForInput.propTypes = {
   dbSchema: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]).isRequired,
   disable: PropTypes.bool,
   type: PropTypes.string,
-  InputProps: PropTypes.node,
+  InputProps: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
 };
 
 FieldForInput.defaultProps = {
@@ -69,5 +70,5 @@ FieldForInput.defaultProps = {
   disable: false,
   variant: "outlined",
   type: "text",
-  InputProps: null,
+  InputProps: undefined,
 };

@@ -17,19 +17,14 @@ import SelectItemProperties from "../base-elements/select-item-properties";
 import TitleDialog from "../base-elements/dialog-title";
 import fetchEntries from "../Store/fetchEntries";
 import { changeValue } from "../Store/Slices/slice-inStock";
+import dbSchema from "../../../components/db_schema_for_testing/db_schema-in-out-stock";
 
-/* import {
-  changeValue,
-  addTooltip,
-} from "../Store/Slices/slice-instock-documents"; */
-// только скопирован - переделать весь
 export default function AddMaterialDialog({
   menuEditType = "add",
   handleClickOpenClose,
   handleAddNewItem,
   handleEditItem,
   modalWindowIsOpen,
-  dbSchema,
 }) {
   const dispatch = useDispatch();
 
@@ -41,12 +36,39 @@ export default function AddMaterialDialog({
   const colors = useSelector((store) => store.colors.catalog);
   const units = useSelector((store) => store.units.catalog);
   const colorsForSelect = colors.map(({ id, name }) => ({ id, name }));
+  colorsForSelect.unshift({ id: 0, name: "Без цвета" });
 
-  const colorId = useSelector((state) => state.inStock.inputFields.stockColor);
+  const colorId =
+    useSelector((store) => store.inStock.inputFields.stockColor) ?? 0;
 
-  const { id, number, name, notes } = useSelector(
-    (state) => state.inStock.inputFields
+  const vendorCode = useSelector(
+    (store) => store.inStock.inputFields.vendorCode
   );
+  const vendorCodeName = useSelector(
+    (store) => store.inStock.inputFields.vendorCodeName
+  );
+  const vendorCodeUnit = useSelector(
+    (store) => store.inStock.inputFields.vendorCodeUnit
+  );
+  const vendorCodeQuantity = useSelector(
+    (store) => store.inStock.inputFields.vendorCodeQuantity
+  );
+  const stockAmount = useSelector(
+    (store) => store.inStock.inputFields.stockAmount
+  );
+  const stockAmountInUnit = useSelector(
+    (store) => store.inStock.inputFields.stockAmountInUnit
+  );
+  const notes = useSelector((store) => store.inStock.inputFields.notes);
+
+  /*   const {
+    vendorCode,
+    vendorCodeName,
+    vendorCodeUnit,
+    vendorCodeQuantity,
+    notes,
+  } = useSelector((state) => state.inStock.inputFields); */
+
   // подумать чтобы включить в тултипы наборы цветов с этого склада,
   // наборы цифровых значений кратных единицам
   /*   const handleAddToolTip = (e) => {
@@ -73,9 +95,9 @@ export default function AddMaterialDialog({
             <Grid container spacing={2} sx={{ pt: 2 }}>
               <Grid xs={3}>
                 <FieldForInput
-                  id="name"
+                  id="vendorCode"
                   label="Артикул"
-                  value="321640"
+                  value={vendorCode}
                   dbSchema={false}
                   variant="filled"
                 />
@@ -83,49 +105,49 @@ export default function AddMaterialDialog({
 
               <Grid xs={5}>
                 <FieldForInput
-                  id="name"
+                  id="vendorCodeName"
                   label="Название"
-                  value="Алюминиевый профиль, закладная 6800"
+                  value={vendorCodeName}
                   dbSchema={false}
                   variant="filled"
                 />
               </Grid>
               <Grid xs={2}>
                 <FieldForInput
-                  id="name"
+                  id="vendorCodeQuantity"
                   label="Кол-во в ед."
-                  value="6800"
+                  value={vendorCodeQuantity}
                   dbSchema={false}
                   variant="filled"
                 />
               </Grid>
               <Grid xs={2}>
                 <FieldForInput
-                  id="name"
+                  id="vendorCodeUnit"
                   label="Ед. изм."
-                  value="м / хл."
+                  value={vendorCodeUnit}
                   dbSchema={false}
                   variant="filled"
                 />
               </Grid>
             </Grid>
             <Grid container spacing={2} sx={{ pt: 5 }}>
-              <Grid xs={2.5}>
+              <Grid xs={3}>
                 <SelectItemProperties
                   id="stockColor"
                   label="Цвет"
                   changeValue={changeValue}
-                  selectValues={colorsForSelect} /* {unitsForSelect} */
+                  selectValues={colorsForSelect}
                   value={colorId}
                 />
               </Grid>
-              <Grid xs={2.5}>
+              <Grid xs={4.5}>
                 <FieldForInput
-                  id="number"
+                  id="stockAmount"
                   label="Кол-во"
                   type="number"
-                  /*                   changeValue={changeValue}
-                   */ value="680"
+                  changeValue={changeValue}
+                  value={stockAmount}
                   dbSchema={dbSchema}
                   InputProps={{
                     startAdornment: (
@@ -134,13 +156,13 @@ export default function AddMaterialDialog({
                   }}
                 />
               </Grid>
-              <Grid xs={2.5}>
+              <Grid xs={4.5}>
                 <FieldForInput
-                  id="number"
+                  id="stockAmountInUnit"
                   label="Кол-во"
                   type="number"
-                  /*                   changeValue={changeValue}
-                   */ value="100"
+                  changeValue={changeValue}
+                  value={stockAmountInUnit}
                   dbSchema={dbSchema}
                   InputProps={{
                     startAdornment: (
@@ -149,17 +171,16 @@ export default function AddMaterialDialog({
                   }}
                 />
               </Grid>
-              <Grid xs={4.5}>
-                <FieldForInput
-                  id="notes"
-                  label="Примечания"
-                  /*                 changeValue={changeValue}
-                   */ value={notes}
-                  dbSchema={dbSchema}
-                />
-              </Grid>
             </Grid>
-
+            <Grid sx={{ mt: 2 }}>
+              <FieldForInput
+                id="notes"
+                label="Примечания"
+                changeValue={changeValue}
+                value={notes}
+                dbSchema={dbSchema}
+              />
+            </Grid>
             {/*             <Grid sx={{ pt: 2 }} onClick={handleAddToolTip}>
               {arrowTooltip.map(({ id, tooltip, value }) => (
                 <ArrowTooltip

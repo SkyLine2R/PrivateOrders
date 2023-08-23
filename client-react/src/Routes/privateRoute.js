@@ -2,6 +2,7 @@ import * as React from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { getSession } from "../components/session";
+import ResetStoreParts from "../Store/loadAndResetStoreParts";
 
 export default function PrivateRoute() {
   // Получаем объект user из кастомного хука useAuth
@@ -19,7 +20,10 @@ export default function PrivateRoute() {
   return (
     // Если пользователь авторизован с уровнем доступа больше 1, то рендерим дочерние элементы текущего маршрута, используя компонент Outlet
     user?.accessLevel > 1 ? (
-      <Outlet />
+      <>
+        <Outlet />
+        <ResetStoreParts />
+      </>
     ) : (
       // Свойство replace указывает, что текущий маршрут будет заменен на новый, чтобы пользователь не мог вернуться обратно, используя кнопку "назад" в браузере.
       <Navigate to="/login" state={{ from: location }} replace />

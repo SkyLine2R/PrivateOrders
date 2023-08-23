@@ -103,7 +103,7 @@ export default function EditItemsPage({
 
   const handleMenuSelect = (e) => {
     e.stopPropagation();
-
+    console.log(e.target.closest("button").getAttribute("pressed-button"));
     const pressedButton = e.target
       .closest("button")
       .getAttribute("pressed-button");

@@ -41,25 +41,12 @@ export default function AddMaterialDialog({
   const colorId =
     useSelector((store) => store.inStock.inputFields.stockColor) ?? 0;
 
-  const vendorCode = useSelector(
-    (store) => store.inStock.inputFields.vendorCode
+  const { vendorCode, vendorCodeName, vendorCodeUnit, vendorCodeQuantity } =
+    useSelector((store) => store.inStock.inputFields);
+
+  const { stockAmount, stockAmountInUnit, notes } = useSelector(
+    (store) => store.inStock.inputFields
   );
-  const vendorCodeName = useSelector(
-    (store) => store.inStock.inputFields.vendorCodeName
-  );
-  const vendorCodeUnit = useSelector(
-    (store) => store.inStock.inputFields.vendorCodeUnit
-  );
-  const vendorCodeQuantity = useSelector(
-    (store) => store.inStock.inputFields.vendorCodeQuantity
-  );
-  const stockAmount = useSelector(
-    (store) => store.inStock.inputFields.stockAmount
-  );
-  const stockAmountInUnit = useSelector(
-    (store) => store.inStock.inputFields.stockAmountInUnit
-  );
-  const notes = useSelector((store) => store.inStock.inputFields.notes);
 
   /*   const {
     vendorCode,

@@ -21,6 +21,7 @@ export default function EditItemsPage({
   headerText,
   HeaderIcon,
   setModalWindowIsOpen,
+  setModalWindowAddingItemsIsOpen = null,
   openForFill,
   allMenuActions,
   EditDialog,
@@ -28,10 +29,13 @@ export default function EditItemsPage({
   dbSchema,
 }) {
   const dispatch = useDispatch();
-
+  console.log("page");
+  console.log(page);
   const modalWindowIsOpen = useSelector(
     (store) => store[page].modalWindowIsOpen
   );
+  console.log("modalWindowIsOpen");
+  console.log(modalWindowIsOpen);
   const alertModalWindowIsOpen = useSelector(
     (store) => store.alert.modalWindowIsOpen
   );
@@ -103,14 +107,10 @@ export default function EditItemsPage({
 
   const handleMenuSelect = (e) => {
     e.stopPropagation();
-    console.log(e);
-    /*     console.log(e.target.closest("button").getAttribute("pressed-button"));
-     */ /*     console.log("menuParams");
-    console.log(menuParams); */
+
     const pressedButton =
       e.target.closest("button").getAttribute("pressed-button") ?? "closeClick";
-    console.log("pressedButton");
-    console.log(pressedButton);
+
     handleOffMenu();
     menuEditType.current = pressedButton;
 
@@ -120,8 +120,7 @@ export default function EditItemsPage({
 
     if (params?.unit)
       params.unit = unitsForSelect.find(({ name }) => name === params.unit).id;
-    console.log("params");
-    console.log(params);
+
     switch (pressedButton) {
       case "add":
         return dispatch(setModalWindowIsOpen());
@@ -158,8 +157,12 @@ export default function EditItemsPage({
         return dispatch(setModalWindowIsOpen());
       case "openForFill":
         return dispatch(openForFill(params));
+      case "closeClick":
+        console.log(setModalWindowAddingItemsIsOpen);
+        if (!params?.id || !setModalWindowAddingItemsIsOpen) return null;
+        return dispatch(setModalWindowAddingItemsIsOpen(params));
       default:
-        return "";
+        return null;
     }
   };
 
@@ -198,7 +201,7 @@ export default function EditItemsPage({
           {headerText}
         </Typography>
       </Box>
-      {modalWindowIsOpen ? (
+      {modalWindowIsOpen && page !== "inStock" ? (
         <EditDialog
           menuEditType={menuEditType.current}
           handleClickOpenClose={handleClickOpenClose}

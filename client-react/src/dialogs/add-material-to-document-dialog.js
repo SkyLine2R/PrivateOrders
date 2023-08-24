@@ -35,6 +35,7 @@ export default function AddMaterialDialog({
   }, []);
   const colors = useSelector((store) => store.colors.catalog);
   const units = useSelector((store) => store.units.catalog);
+
   const colorsForSelect = colors.map(({ id, name }) => ({ id, name }));
   colorsForSelect.unshift({ id: 0, name: "Без цвета" });
 

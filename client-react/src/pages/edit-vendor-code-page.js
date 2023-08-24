@@ -11,7 +11,10 @@ import dbSchema from "../../../components/db_schema_for_testing/db_schema-vendor
 
 import { setModalWindowIsOpen } from "../Store/Slices/slice-vendor-codes";
 
-export default function EditVendorCodePage({ headerText }) {
+export default function EditVendorCodePage({
+  headerText,
+  setModalWindowAddingItemsIsOpen,
+}) {
   return (
     <EditItemsPage
       page="vendorCodes"
@@ -22,6 +25,7 @@ export default function EditVendorCodePage({ headerText }) {
       EditDialog={EditVendorCodeDialog}
       tableSchema={tableSchema}
       dbSchema={dbSchema}
+      setModalWindowAddingItemsIsOpen={setModalWindowAddingItemsIsOpen}
     />
   );
 }

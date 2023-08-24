@@ -2,12 +2,14 @@
 import * as React from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
+import { useSelector } from "react-redux";
 
 import EditVendorCodePage from "./edit-vendor-code-page";
 import StockPage from "./stock-page";
 import EditStockMatarialsPage from "./edit-stock-materials-page";
 import QuickSearchForm from "../forms/quick-search-vendor-code-and-material-form";
 import AddMaterialDialog from "../dialogs/add-material-to-document-dialog";
+import { setModalWindowIsOpen } from "../Store/Slices/slice-inStock";
 
 import {
   selectTables,
@@ -15,6 +17,9 @@ import {
 } from "../components/quickSearchFilterArr";
 
 export default function EditDocumentsPage({ page }) {
+  const modalWindowIsOpen = useSelector(
+    (store) => store["inStock"].modalWindowIsOpen
+  );
   const height =
     page === "documentsInStock"
       ? "calc((100vh - 344px) / 2)"
@@ -25,12 +30,16 @@ export default function EditDocumentsPage({ page }) {
 
   return (
     <>
-      <AddMaterialDialog /* modalWindowIsOpen */ />
+      <AddMaterialDialog modalWindowIsOpen={modalWindowIsOpen} />
+
       <Grid container spacing={1} p="0">
         <Grid xs={6}>
           {page === "documentsInStock" ? (
             <Box pb="45px" sx={{ height }}>
-              <EditVendorCodePage headerText="Номенклатура" />
+              <EditVendorCodePage
+                headerText="Номенклатура"
+                setModalWindowAddingItemsIsOpen={setModalWindowIsOpen}
+              />
             </Box>
           ) : null}
           <Box p="0 16px 5px 16px">

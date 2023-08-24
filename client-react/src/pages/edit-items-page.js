@@ -103,11 +103,14 @@ export default function EditItemsPage({
 
   const handleMenuSelect = (e) => {
     e.stopPropagation();
-    console.log(e.target.closest("button").getAttribute("pressed-button"));
-    const pressedButton = e.target
-      .closest("button")
-      .getAttribute("pressed-button");
-
+    console.log(e);
+    /*     console.log(e.target.closest("button").getAttribute("pressed-button"));
+     */ /*     console.log("menuParams");
+    console.log(menuParams); */
+    const pressedButton =
+      e.target.closest("button").getAttribute("pressed-button") ?? "closeClick";
+    console.log("pressedButton");
+    console.log(pressedButton);
     handleOffMenu();
     menuEditType.current = pressedButton;
 
@@ -117,7 +120,8 @@ export default function EditItemsPage({
 
     if (params?.unit)
       params.unit = unitsForSelect.find(({ name }) => name === params.unit).id;
-
+    console.log("params");
+    console.log(params);
     switch (pressedButton) {
       case "add":
         return dispatch(setModalWindowIsOpen());

@@ -52,9 +52,11 @@ const inStock = createSlice({
 
   reducers: {
     setModalWindowIsOpen: (state, { payload }) => {
-      state.inputFields.id = payload?.id ?? "";
-      state.inputFields.name = payload?.name ?? "";
-      state.inputFields.notes = payload?.notes ?? "";
+      state.inputFields.vendorCodeId = payload.id;
+      state.inputFields.vendorCode = payload.vendorCode;
+      state.inputFields.vendorCodeName = payload.name;
+      state.inputFields.vendorCodeQuantity = payload.quantity;
+      state.inputFields.vendorCodeUnit = payload.unit;
       state.modalWindowIsOpen = !state.modalWindowIsOpen;
     },
 

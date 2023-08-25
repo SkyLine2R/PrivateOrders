@@ -11,22 +11,24 @@ import tableSchema from "../components/tables-schemas/table_schema-stock-materia
 import dbSchema from "../../../components/db_schema_for_testing/db_schema-stock-material";
 import AddMaterialDialog from "../dialogs/add-material-to-document-dialog";
 
-import { setModalWindowIsOpen } from "../Store/Slices/slice-vendor-codes";
+import { setModalWindowIsOpen as setModalWindowIsOpenInStock } from "../Store/Slices/slice-inStock";
 
 export default function EditStockMaterialsPage({ page }) {
   const modalWindowIsOpen = useSelector(
-    (store) => store["inStock"].modalWindowIsOpen
+    (store) => store[page].modalWindowIsOpen
   );
 
-  return page === "documentsInStock" ? (
+  return page === "inStock" ? (
     <>
-      {/* <AddMaterialDialog modalWindowIsOpen={modalWindowIsOpen} /> */}
-
+      <AddMaterialDialog
+        modalWindowIsOpen={modalWindowIsOpen}
+        windowOpenClose={setModalWindowIsOpenInStock}
+      />
       <EditItemsPage
         page="inStock"
         headerText="Поступление материала на склад"
         HeaderIcon={CloudDownloadIcon}
-        setModalWindowIsOpen={setModalWindowIsOpen}
+        setModalWindowIsOpen="{setModalWindowIsOpenOutStock}"
         allMenuActions={allMenuActions}
         EditDialog={EditVendorCodeDialog}
         tableSchema={tableSchema}
@@ -34,16 +36,22 @@ export default function EditStockMaterialsPage({ page }) {
       />
     </>
   ) : (
-    <EditItemsPage
-      page="outStock"
-      headerText="Списание материала со склада"
-      HeaderIcon={CloudUploadIcon}
-      setModalWindowIsOpen={setModalWindowIsOpen}
-      allMenuActions={allMenuActions}
-      EditDialog={EditVendorCodeDialog}
-      tableSchema={tableSchema}
-      dbSchema={dbSchema}
-    />
+    <>
+      <AddMaterialDialog
+        modalWindowIsOpen={modalWindowIsOpen}
+        menuEditType="edit"
+      />
+      <EditItemsPage
+        page="outStock"
+        headerText="Списание материала со склада"
+        HeaderIcon={CloudUploadIcon}
+        setModalWindowIsOpen={setModalWindowIsOpen}
+        allMenuActions={allMenuActions}
+        EditDialog={EditVendorCodeDialog}
+        tableSchema={tableSchema}
+        dbSchema={dbSchema}
+      />
+    </>
   );
 }
 

@@ -8,7 +8,6 @@ import EditVendorCodePage from "./edit-vendor-code-page";
 import StockPage from "./stock-page";
 import EditStockMatarialsPage from "./edit-stock-materials-page";
 import QuickSearchForm from "../forms/quick-search-vendor-code-and-material-form";
-import AddMaterialDialog from "../dialogs/add-material-to-document-dialog";
 import { setModalWindowIsOpen } from "../Store/Slices/slice-inStock";
 
 import {
@@ -17,9 +16,6 @@ import {
 } from "../components/quickSearchFilterArr";
 
 export default function EditDocumentsPage({ page }) {
-  const modalWindowIsOpen = useSelector(
-    (store) => store["inStock"].modalWindowIsOpen
-  );
   const height =
     page === "documentsInStock"
       ? "calc((100vh - 344px) / 2)"
@@ -28,34 +24,32 @@ export default function EditDocumentsPage({ page }) {
   const selectTablesForFilter =
     page === "documentsInStock" ? selectTables : [selectTables[1]];
 
-  return (
-    <>
-      <AddMaterialDialog modalWindowIsOpen={modalWindowIsOpen} />
+  const materialPage = page === "documentsInStock" ? "inStock" : "outStock";
 
-      <Grid container spacing={1} p="0">
-        <Grid xs={6}>
-          {page === "documentsInStock" ? (
-            <Box pb="45px" sx={{ height }}>
-              <EditVendorCodePage
-                headerText="Номенклатура"
-                setModalWindowAddingItemsIsOpen={setModalWindowIsOpen}
-              />
-            </Box>
-          ) : null}
-          <Box p="0 16px 5px 16px">
-            <QuickSearchForm
-              selectTables={selectTablesForFilter}
-              selectColumns={selectColumns}
+  return (
+    <Grid container spacing={1} p="0">
+      <Grid xs={6}>
+        {page === "documentsInStock" ? (
+          <Box pb="45px" sx={{ height }}>
+            <EditVendorCodePage
+              headerText="Номенклатура"
+              setModalWindowAddingItemsIsOpen={setModalWindowIsOpen}
             />
           </Box>
-          <Box sx={{ height }}>
-            <StockPage headerText="Материал на складе" />
-          </Box>
-        </Grid>
-        <Grid xs={6}>
-          <EditStockMatarialsPage page={page} />
-        </Grid>
+        ) : null}
+        <Box p="0 16px 5px 16px">
+          <QuickSearchForm
+            selectTables={selectTablesForFilter}
+            selectColumns={selectColumns}
+          />
+        </Box>
+        <Box sx={{ height }}>
+          <StockPage headerText="Материал на складе" />
+        </Box>
       </Grid>
-    </>
+      <Grid xs={6}>
+        <EditStockMatarialsPage page={materialPage} />
+      </Grid>
+    </Grid>
   );
 }

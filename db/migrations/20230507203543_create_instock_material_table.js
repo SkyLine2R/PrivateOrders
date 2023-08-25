@@ -10,6 +10,7 @@ exports.up = (knex) =>
       .references("inStockDocuments.id")
       .onDelete("RESTRICT");
     table.string("notes", 180);
+    table.integer("order").unsigned(); // на будущее сделать изменяемый порядок сортировки материала в документе
     table.timestamp("createdAt", { precision: 6 }).defaultTo(Date.now());
     table.integer("createdBy").unsigned().notNullable();
     table.foreign("createdBy").references("users.id").onDelete("RESTRICT"); // автор документа

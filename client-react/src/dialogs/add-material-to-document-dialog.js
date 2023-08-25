@@ -21,7 +21,7 @@ import dbSchema from "../../../components/db_schema_for_testing/db_schema-in-out
 
 export default function AddMaterialDialog({
   menuEditType = "add",
-  handleClickOpenClose,
+  windowOpenClose,
   handleAddNewItem,
   handleEditItem,
   modalWindowIsOpen,
@@ -32,7 +32,8 @@ export default function AddMaterialDialog({
     if (modalWindowIsOpen) {
       dispatch(fetchEntries({ api: "colors" }));
     }
-  }, []);
+  }, [dispatch, modalWindowIsOpen]);
+
   const colors = useSelector((store) => store.colors.catalog);
   const units = useSelector((store) => store.units.catalog);
 
@@ -49,6 +50,9 @@ export default function AddMaterialDialog({
     (store) => store.inStock.inputFields
   );
 
+  const unitsForFields = units.find((item) => item.id === vendorCodeUnit);
+
+  const handleClickOpenClose = () => dispatch(windowOpenClose());
   /*   const {
     vendorCode,
     vendorCodeName,
@@ -76,8 +80,8 @@ export default function AddMaterialDialog({
             menuEditType={menuEditType}
             IconNew={PostAddIcon}
             IconEdit={DriveFileRenameOutlineIcon}
-            titleNew="Добавить материал"
-            titleEdit="Изменить реквизиты"
+            titleNew="Добавить позицию"
+            titleEdit="Изменить позицию"
           />
           <DialogContent>
             <Grid container spacing={2} sx={{ pt: 2 }}>
@@ -113,7 +117,7 @@ export default function AddMaterialDialog({
                 <FieldForInput
                   id="vendorCodeUnit"
                   label="Ед. изм."
-                  value={vendorCodeUnit}
+                  value={unitsForFields?.name}
                   dbSchema={false}
                   variant="filled"
                 />
@@ -139,7 +143,9 @@ export default function AddMaterialDialog({
                   dbSchema={dbSchema}
                   InputProps={{
                     startAdornment: (
-                      <InputAdornment position="start">метры:</InputAdornment>
+                      <InputAdornment position="start">
+                        {unitsForFields?.notes.split(" / ")[0]}:
+                      </InputAdornment>
                     ),
                   }}
                 />
@@ -154,7 +160,9 @@ export default function AddMaterialDialog({
                   dbSchema={dbSchema}
                   InputProps={{
                     startAdornment: (
-                      <InputAdornment position="start">хлысты:</InputAdornment>
+                      <InputAdornment position="start">
+                        {unitsForFields?.notes.split(" / ")[1]}:
+                      </InputAdornment>
                     ),
                   }}
                 />

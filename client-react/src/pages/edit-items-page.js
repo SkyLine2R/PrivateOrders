@@ -29,13 +29,11 @@ export default function EditItemsPage({
   dbSchema,
 }) {
   const dispatch = useDispatch();
-  console.log("page");
-  console.log(page);
+
   const modalWindowIsOpen = useSelector(
     (store) => store[page].modalWindowIsOpen
   );
-  console.log("modalWindowIsOpen");
-  console.log(modalWindowIsOpen);
+
   const alertModalWindowIsOpen = useSelector(
     (store) => store.alert.modalWindowIsOpen
   );
@@ -158,7 +156,6 @@ export default function EditItemsPage({
       case "openForFill":
         return dispatch(openForFill(params));
       case "closeClick":
-        console.log(setModalWindowAddingItemsIsOpen);
         if (!params?.id || !setModalWindowAddingItemsIsOpen) return null;
         return dispatch(setModalWindowAddingItemsIsOpen(params));
       default:

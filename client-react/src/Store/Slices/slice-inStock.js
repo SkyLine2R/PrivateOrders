@@ -52,11 +52,13 @@ const inStock = createSlice({
 
   reducers: {
     setModalWindowIsOpen: (store, { payload }) => {
-      store.inputFields.vendorCodeId = payload.id;
-      store.inputFields.vendorCode = payload.vendorCode;
-      store.inputFields.vendorCodeName = payload.name;
-      store.inputFields.vendorCodeQuantity = payload.quantity;
-      store.inputFields.vendorCodeUnit = payload.unit;
+      store.inputFields.vendorCodeId = payload?.id || null;
+      store.inputFields.vendorCode = payload?.vendorCode || "";
+      store.inputFields.vendorCodeName = payload?.name || "";
+      store.inputFields.vendorCodeQuantity = payload?.quantity || null;
+      store.inputFields.vendorCodeUnit = payload?.unit || null;
+      store.inputFields.stockAmount = payload?.quantity || null;
+      store.inputFields.notes = payload?.notes || "";
       store.modalWindowIsOpen = !store.modalWindowIsOpen;
     },
 

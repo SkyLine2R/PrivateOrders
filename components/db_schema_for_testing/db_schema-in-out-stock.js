@@ -8,7 +8,7 @@ const inOutStockDbSchema = {
     description: "количество материала в базовых единицах",
     regularExp: "\\d+[.,]?\\d{0,3}",
   },
-  stockAmountInUnit: {
+  /*   stockAmountInUnit: {
     required: true,
     maxlength: 9,
     containsNumber: true,
@@ -16,7 +16,7 @@ const inOutStockDbSchema = {
     max: 1000000,
     description: "количество материала в сборных единицах",
     regularExp: "\\d+[.,]?\\d{0,3}",
-  },
+  }, */
   notes: {
     required: false,
     maxlength: 180,

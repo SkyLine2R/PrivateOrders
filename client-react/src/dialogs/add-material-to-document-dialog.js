@@ -8,8 +8,6 @@ import DialogContent from "@mui/material/DialogContent";
 import InputAdornment from "@mui/material/InputAdornment";
 
 import Grid from "@mui/material/Unstable_Grid2";
-import PostAddIcon from "@mui/icons-material/PostAdd";
-import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import { useSelector, useDispatch } from "react-redux";
 
 import FieldForInput from "../base-elements/field-for-input";
@@ -20,11 +18,11 @@ import { changeValue } from "../Store/Slices/slice-inStock";
 import dbSchema from "../../../components/db_schema_for_testing/db_schema-in-out-stock";
 
 export default function AddMaterialDialog({
-  menuEditType = "add",
-  windowOpenClose,
+  menuEditType,
   handleAddNewItem,
   handleEditItem,
   modalWindowIsOpen,
+  handleClickOpenClose,
 }) {
   const dispatch = useDispatch();
 
@@ -52,7 +50,6 @@ export default function AddMaterialDialog({
 
   const unitsForFields = units.find((item) => item.id === vendorCodeUnit);
 
-  const handleClickOpenClose = () => dispatch(windowOpenClose());
   /*   const {
     vendorCode,
     vendorCodeName,
@@ -78,8 +75,6 @@ export default function AddMaterialDialog({
         <Grid>
           <TitleDialog
             menuEditType={menuEditType}
-            IconNew={PostAddIcon}
-            IconEdit={DriveFileRenameOutlineIcon}
             titleNew="Добавить позицию"
             titleEdit="Изменить позицию"
           />

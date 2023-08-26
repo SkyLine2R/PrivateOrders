@@ -4,11 +4,13 @@ import * as React from "react";
 
 import DialogTitle from "@mui/material/DialogTitle";
 import Box from "@mui/material/Box";
+import PostAddIcon from "@mui/icons-material/PostAdd";
+import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 
 export default function TitleDialog({
   menuEditType,
-  IconNew,
-  IconEdit,
+  IconNew = PostAddIcon,
+  IconEdit = DriveFileRenameOutlineIcon,
   IconPass = null,
   titleNew,
   titleEdit,

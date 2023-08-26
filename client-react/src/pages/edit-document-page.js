@@ -2,13 +2,11 @@
 import * as React from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
-import { useSelector } from "react-redux";
 
 import EditVendorCodePage from "./edit-vendor-code-page";
 import StockPage from "./stock-page";
 import EditStockMatarialsPage from "./edit-stock-materials-page";
 import QuickSearchForm from "../forms/quick-search-vendor-code-and-material-form";
-import { setModalWindowIsOpen } from "../Store/Slices/slice-inStock";
 
 import {
   selectTables,
@@ -31,10 +29,7 @@ export default function EditDocumentsPage({ page }) {
       <Grid xs={6}>
         {page === "documentsInStock" ? (
           <Box pb="45px" sx={{ height }}>
-            <EditVendorCodePage
-              headerText="Номенклатура"
-              setModalWindowAddingItemsIsOpen={setModalWindowIsOpen}
-            />
+            <EditVendorCodePage headerText="Номенклатура" />
           </Box>
         ) : null}
         <Box p="0 16px 5px 16px">

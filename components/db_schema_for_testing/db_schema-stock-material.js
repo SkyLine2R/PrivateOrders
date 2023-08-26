@@ -1,19 +1,26 @@
 const stockMaterialsDbSchema = {
   vendorCodeId: {
-    required: true,
+    required: false,
     maxlength: 10,
     containsNumber: true,
     description: "id артикула",
     regularExp: "[0-9]+",
   },
-  colorId: {
+  stockId: {
+    required: false,
+    maxlength: 10,
+    containsNumber: true,
+    description: "id материала",
+    regularExp: "[0-9]+",
+  },
+  stockColor: {
     required: true,
     maxlength: 10,
     containsNumber: true,
     description: "id цвета",
     regularExp: "[0-9]+",
   },
-  amount: {
+  stockAmount: {
     required: true,
     maxlength: 10,
     containsNumber: true,
@@ -22,36 +29,18 @@ const stockMaterialsDbSchema = {
     description: "количество в базовых единицах",
     regularExp: "\\d+[.,]?\\d{0,3}",
   },
-  /*   amountInUnits: {
+  document: {
     required: true,
     maxlength: 10,
     containsNumber: true,
-    min: 0.001,
-    max: 999999,
-    description: "количество в условных единицах",
-    regularExp: "\\d+[.,]?\\d{0,3}",
-  }, */
-  /*   quantity: {
-    required: true,
-    maxlength: 6,
-    containsNumber: true,
-    min: 0.1,
-    max: 5000,
-    description: "количество единиц в хлысте или упаковке",
-    regularExp: "\\d+[.,]?\\d{0,3}",
-  }, */
-  /*   unit: {
-    required: true,
-    maxlength: 3,
-    containsNumber: true,
-    description: "единицы измерения",
+    description: "id документа",
     regularExp: "[0-9]+",
-  }, */
+  },
   notes: {
     required: false,
     maxlength: 180,
     containsNumber: false,
-    description: "примечания",
+    description: "примечания к материалу в документ",
     regularExp: '[а-яё\\-+#№/()%:;*.,?"\\d\\w\\s]*',
   },
 };

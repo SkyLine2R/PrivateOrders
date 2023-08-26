@@ -10,8 +10,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import CloseIcon from "@mui/icons-material/Close";
 import EditDocumentsPage from "./edit-document-page";
 import EditStockDocumentPage from "./edit-stock-documents-page";
-/* import AddMaterialDialog from "../dialogs/add-material-to-document-dialog";
- */ import {
+import {
   setActiveTab as inStockSetActiveTab,
   closeTab as inStockCloseTab,
 } from "../Store/Slices/slice-documents-instock";
@@ -19,6 +18,8 @@ import {
   setActiveTab as outStockSetActiveTab,
   closeTab as outStockCloseTab,
 } from "../Store/Slices/slice-documents-outstock";
+
+import { changeValue as changeValueInStock } from "../Store/Slices/slice-inStock";
 
 const mainTabs = {
   documentsInStock: "Документы о поступлении",
@@ -59,6 +60,8 @@ const createTabPanels = (doc, type) => (
 );
 
 export default function MovementOfMaterialsPage({ type }) {
+  const changeValueInOutStock = changeValueInStock;
+
   const dispatch = useDispatch();
 
   const setActiveTab =
@@ -73,6 +76,15 @@ export default function MovementOfMaterialsPage({ type }) {
   const openDocuments = useSelector((store) => store[type].opened);
   const catalog = useSelector((store) => store[type].catalog);
   const activeTab = useSelector((store) => store[type].activeTab);
+
+  React.useEffect(
+    // при смене вкладки, обновить активную и в документе
+    () =>
+      dispatch(
+        changeValueInOutStock({ fieldId: "document", value: activeTab })
+      ),
+    [dispatch, changeValueInOutStock, activeTab]
+  );
 
   const handleCloseTab = (e) => {
     const id = e.target?.closest("svg")?.getAttribute("id");

@@ -1,3 +1,11 @@
+// подготовка данных для записи в БД и отправка ответа сервера в Redux
+//
+// dbSchema - схема для проверки данных,
+// api - конечная точка маршрута,
+//       она же используется для извлечения отправляемых данных из хранилища
+//       и для записи полученных данных в хранилище
+// type - add, edit, delete и т.д. - необходимое действие с данными
+
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import testSendData from "../../../components/testing-data-from-input";
 import serverRequest from "./serverRequest";

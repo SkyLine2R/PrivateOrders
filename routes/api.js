@@ -19,5 +19,6 @@ router.post("/customers", customers);
 router.post("/stock", stock);
 router.post("/documentsInStock", attachCustomerAndTable, documentsStock);
 router.post("/documentsOutStock", attachCustomerAndTable, documentsStock);
+router.post("/inStock", (req) => console.log(req.body));
 
 module.exports = router;

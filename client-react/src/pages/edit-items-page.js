@@ -14,6 +14,7 @@ import sendEntryToDB from "../Store/sendEntryToDB";
 import fetchEntries from "../Store/fetchEntries";
 
 import { setModalWindowIsOpen as setAlertWindowIsOpen } from "../Store/Slices/slice-alert-dialog";
+import { setModalWindowIsOpen as setAdditionWindowIsOpen } from "../Store/Slices/slice-inStock";
 import { setWarningSnack } from "../Store/Slices/slice-snackbar";
 
 export default function EditItemsPage({
@@ -21,7 +22,6 @@ export default function EditItemsPage({
   headerText,
   HeaderIcon,
   setModalWindowIsOpen,
-  setModalWindowAddingItemsIsOpen = null,
   openForFill,
   allMenuActions,
   EditDialog,
@@ -46,6 +46,13 @@ export default function EditItemsPage({
 
   const catalog = useSelector((store) => store[page].catalog);
   const openedTab = useSelector((store) => store[page].opened);
+  /*   const docFirs = `documents${page[0].toUpperCase() + page.slice(1)}`;
+  console.log(docFirs);
+
+  const activeTab = useSelector((store) => store?.[docFirs]?.activeTab); */
+  /*   if (page==='inStock' || page==='outStock') {
+
+  } */
 
   React.useEffect(() => {
     if (!modalWindowIsOpen && !alertModalWindowIsOpen) {
@@ -153,11 +160,11 @@ export default function EditItemsPage({
           })
         );
         return dispatch(setModalWindowIsOpen());
-      case "openForFill":
+      case "openForFill": // открыть документ для заполнения
         return dispatch(openForFill(params));
-      case "closeClick":
-        if (!params?.id || !setModalWindowAddingItemsIsOpen) return null;
-        return dispatch(setModalWindowAddingItemsIsOpen(params));
+      case "closeClick": // клик по закрытию меню (используется для открытия дополнительного модального окна)
+        if (!params?.id || !setModalWindowIsOpen) return null;
+        return dispatch(setAdditionWindowIsOpen(params));
       default:
         return null;
     }
@@ -198,9 +205,9 @@ export default function EditItemsPage({
           {headerText}
         </Typography>
       </Box>
-      {modalWindowIsOpen && page !== "inStock" ? (
+      {modalWindowIsOpen ? (
         <EditDialog
-          menuEditType={menuEditType.current}
+          menuEditType={menuEditType.current ?? "add"}
           handleClickOpenClose={handleClickOpenClose}
           handleAddNewItem={handleAddNewItem}
           handleEditItem={handleEditItem}

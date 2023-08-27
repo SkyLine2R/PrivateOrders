@@ -61,30 +61,47 @@ async function add(req, res) {
     console.log(req.body.data);
 
     if (!req.body?.data?.stockId) {
-      const materialInDb = await DB.findEntries({
+      const materialInDb = (
+        await DB.findEntries({
+          table,
+          searchData: {
+            customer: req.body.customer,
+            vendorCode: req.body.data.vendorCodeId,
+            color: req.body.data.stockColor,
+          },
+          respCol: "id",
+        })
+      )[0];
+      console.log("materialInDb");
+      console.log(materialInDb);
+      if (materialInDb) req.body.data.stockId = materialInDb;
+    }
+    if (!req.body?.data?.stockId) {
+      const itemId = await DB.addEntry({
         table,
-        searchData: {
+        dataObj: {
           customer: req.body.customer,
           vendorCode: req.body.data.vendorCodeId,
           color: req.body.data.stockColor,
-        },
-        respCol: "id",
-      });
-    }
-
-    const item = (
-      await DB.addEntry({
-        table,
-        dataObj: {
-          ...itemData,
+          amount: req.body.data.stockAmount,
           createdBy: req.auth.id,
           updatedBy: req.auth.id,
         },
-        respCol: ["id", "vendorCode"],
-      })
-    )[0];
+        respCol: ["id"],
+      });
+      console.log("itemId");
+      console.log(itemId);
+      req.body.data.stockId = itemId;
+    } else {
+      const upd = await DB.changeAmount({
+        table,
+        id: req.body.data.stockId,
+        addAmount: req.body.data.amount,
+      });
+      console.log(upd);
+    }
 
-    return res.json(item);
+    return res.json("item");
   } catch (e) {
     console.log(e);
     res.status(400).json({ error: "Ошибка при добавлении материалов" });

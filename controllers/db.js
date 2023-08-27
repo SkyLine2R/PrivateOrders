@@ -89,6 +89,34 @@ module.exports = DB = {
       .update(dataObj);
   },
 
+  // обновить количество материала
+
+  async changeAmount({ table, id, addAmount, respCol }) {
+    db(table)
+      .select("amount")
+      .where("id", id)
+      .first()
+      .then((row) => {
+        if (row) {
+          const currentAmount = row.amount;
+          const updatedAmount = currentAmount + addAmount;
+          if (updatedAmount >= 0) {
+            return knex(table).where("id", id).update("amount", updatedAmount);
+          } else {
+            throw new Error("Недостаточно материала");
+          }
+        } else {
+          throw new Error("Запись с указанным идентификатором не найдена");
+        }
+      })
+      .then(() => {
+        console.log("Значение успешно обновлено");
+      })
+      .catch((error) => {
+        console.error("Ошибка при обновлении значения:", error);
+      });
+  },
+
   // получить все записи //
   async getAllEntries({ table, respCol, customer }) {
     const searchQuery = db(table).returning(respCol).select();

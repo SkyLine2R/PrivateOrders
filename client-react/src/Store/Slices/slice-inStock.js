@@ -20,7 +20,6 @@ const successSending = (state, payload) => {
     stock: {
       amount: null,
     },
-    document: null,
     notes: "",
   };
 };

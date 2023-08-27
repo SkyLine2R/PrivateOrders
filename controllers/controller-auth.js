@@ -19,11 +19,9 @@ async function logIn(req, res) {
 
     const [user] = await DB.findEntries({
       table: "users",
-      searchColumn: "login",
-      searchData: login,
+      searchData: { login },
       respCol: ["id", "login", "name", "pass", "accessLevel"],
     });
-
     if (!user?.id) {
       return res.json({
         error: "Неверная пара 'имя пользователя / пароль'",

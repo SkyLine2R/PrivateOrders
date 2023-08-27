@@ -24,8 +24,8 @@ async function add(req, res) {
 
     const candidate = await DB.findEntries({
       table,
-      searchColumn: "name",
-      searchData: itemData.name,
+      searchData: { name: itemData.name },
+      respCol: ["id", "name"],
     });
 
     if (candidate.length) {
@@ -65,8 +65,8 @@ async function edit(req, res) {
 
     const candidate = await DB.findEntries({
       table,
-      searchColumn: "name",
-      searchData: itemData.name,
+      searchData: { name: itemData.name },
+      respCol: ["id", "name"],
     });
 
     if (candidate.length && candidate[0].id !== itemData.id) {

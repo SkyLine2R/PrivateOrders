@@ -28,8 +28,8 @@ async function add(req, res) {
 
     const candidate = await DB.findEntries({
       table,
-      searchColumn: "login",
-      searchData: userData.login,
+      searchData: { login: userData.login },
+      respCol: ["id"],
     });
 
     if (candidate.length) {
@@ -75,8 +75,8 @@ async function edit(req, res) {
 
     const candidate = await DB.findEntries({
       table,
-      searchColumn: "login",
-      searchData: userData.login,
+      searchData: { login: userData.login },
+      respCol: "id",
     });
 
     if (candidate.length && candidate[0].id !== userData.id) {

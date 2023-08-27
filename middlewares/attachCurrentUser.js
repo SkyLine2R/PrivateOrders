@@ -7,8 +7,7 @@ const attachCurrentUser = async (req, res, next) => {
     const { accessLevel } = (
       await DB.findEntries({
         table: "users",
-        searchColumn: "id",
-        searchData: id,
+        searchData: { id },
         respCol: ["accessLevel"],
       })
     )[0];

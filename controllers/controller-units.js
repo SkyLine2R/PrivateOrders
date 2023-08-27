@@ -4,7 +4,6 @@ const table = "units";
 
 async function getAll(req, res) {
   try {
-    console.log(table);
     const resp = await DB.getAllEntries({
       table,
       respCol: ["id", "name", "notes"],

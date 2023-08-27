@@ -7,9 +7,8 @@ async function getAll(req, res) {
   try {
     const resp = await DB.findEntries({
       table: req.body.table,
+      searchData: { customer: req.body.customer },
       respCol: ["id", "name", "number", "date", "notes"],
-      searchColumn: "customer",
-      searchData: req.body.customer,
     });
 
     return res.json(resp);

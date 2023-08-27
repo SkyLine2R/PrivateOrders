@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 const DB = require("./db");
-const vendorCodesDbSchema = require("../components/db_schema_for_testing/db_schema-vendor-codes");
+const dbSchema = require("../components/db_schema_for_testing/db_schema-in-out-stock");
 const testingDataFromInput = require("../components/testing-data-from-input");
 
 const table = "stock";
@@ -54,8 +54,23 @@ async function getFiltered(req, res) {
 
 async function add(req, res) {
   try {
-    const itemData = testingDataFromInput(vendorCodesDbSchema, req.body.data);
+    const itemData = testingDataFromInput(dbSchema, req.body.data);
     if (itemData.error) return res.json(itemData.error);
+
+    console.log("stockController");
+    console.log(req.body.data);
+
+    if (!req.body?.data?.stockId) {
+      const materialInDb = await DB.findEntries({
+        table,
+        searchData: {
+          customer: req.body.customer,
+          vendorCode: req.body.data.vendorCodeId,
+          color: req.body.data.stockColor,
+        },
+        respCol: "id",
+      });
+    }
 
     const item = (
       await DB.addEntry({
@@ -71,6 +86,7 @@ async function add(req, res) {
 
     return res.json(item);
   } catch (e) {
+    console.log(e);
     res.status(400).json({ error: "Ошибка при добавлении материалов" });
   }
 }

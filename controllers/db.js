@@ -72,8 +72,8 @@ module.exports = DB = {
   },
 
   // строгий поиск записей по строке //
-  async findEntries({ table, searchColumn, searchData, respCol }) {
-    return db(table).select(respCol).where(searchColumn, searchData);
+  async findEntries({ table, searchData, respCol }) {
+    return db(table).where(searchData).select(respCol);
   },
 
   // добавить запись //

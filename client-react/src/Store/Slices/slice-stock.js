@@ -69,7 +69,13 @@ const stock = createSlice({
 
       .addCase(fetchEntries.fulfilled, (state, { payload }) => {
         if (payload.api !== api) return;
-        state.catalog = payload.data || [];
+        state.catalog =
+          payload.data?.map((item) => ({
+            ...item,
+            amountName: item.unit.split(" / ")[0],
+            amountInUnits: item.amount / item.quantity,
+            amountInUnitsName: item.unit.split(" / ")[1],
+          })) || [];
       })
 
       .addCase(sendEntryToDB.fulfilled, (state, { payload }) => {

@@ -9,22 +9,12 @@ const respCol = [
   "vendorCodes.vendorCode",
   "vendorCodes.name",
   "vendorCodes.unit",
-  "units.name as unit",
   "vendorCodes.quantity",
+  "units.name as unit",
   "stock.color",
   "stock.amount",
   "colors.name as colorName",
 ];
-const addCol = [
-  "vendorCodes.vendorCode",
-  "vendorCodes.name",
-  "vendorCodes.unit",
-  "vendorCodes.quantity",
-  "amount",
-  "notes",
-];
-
-const joinCol = [[]];
 
 async function getAll(req, res) {
   try {
@@ -41,10 +31,11 @@ async function getAll(req, res) {
 
 async function getFiltered(req, res) {
   try {
-    const resp = await DB.findEntriesForQuickFilter2({
+    const resp = await DB.findEntriesForQuickFilterForStock({
       ...req.body.data,
       table,
       respCol,
+      customer: req.body.customer,
     });
     return res.json(resp);
   } catch (e) {

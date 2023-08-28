@@ -25,11 +25,11 @@ query
 
 // проверка связанных колонок и замена данных (ID на текстовые значения)
 async function joinAdditionData({ respCol, table, searchQuery }) {
-  console.log(respCol);
   respCol.forEach(async (column) => {
     const tableName = column + "s";
-    const tableExists = await db.schema.hasTable(tableName);
-    if (tableExists && tableName !== table) {
+    const tableExists =
+      tableName !== table ? await db.schema.hasTable(tableName) : false;
+    if (tableExists) {
       searchQuery
         .join(tableName, function () {
           this.on(table + "." + column, "=", tableName + ".id");
@@ -40,51 +40,86 @@ async function joinAdditionData({ respCol, table, searchQuery }) {
   return searchQuery;
 }
 
-module.exports = DB = {
-  // выборка записей для автофильтра //
-  async findEntriesForQuickFilter({ table, columns, string, respCol }) {
-    const searchData = `%${string}%`.replace(regExpForFilter, "%");
-    const reverseSearchData = `${searchData.split("%").reverse().join("%")}`;
+// добавление нужного количества запросов like для нескольких колонок из массива
+function addingLikeQuerys({
+  table = "vendorCodes",
+  searchQuery,
+  columns,
+  string,
+}) {
+  const searchData = `%${string}%`.replace(regExpForFilter, "%");
+  const reverseSearchData = `${searchData.split("%").reverse().join("%")}`;
 
-    const searchQuery = db(table)
-      .returning(respCol)
-      .whereLike(`${table}.${columns[0]}`, searchData)
-      .orWhereLike(`${table}.${columns[0]}`, reverseSearchData);
-    // поиск в дополнительных колонках
-    if (columns.length >= 2) {
-      columns.slice(1).forEach((column) => {
-        searchQuery
-          .orWhereLike(`${table}.${column}`, searchData)
-          .orWhereLike(`${table}.${column}`, reverseSearchData);
-      });
-    }
-    // проверим наличие связанных колонок и заменим данные ID на текстовые значения
+  searchQuery
+    .whereLike(`${table}.${columns[0]}`, searchData)
+    .orWhereLike(`${table}.${columns[0]}`, reverseSearchData);
+
+  // поиск в дополнительных колонках
+  if (columns.length >= 2) {
+    columns.slice(1).forEach((column) => {
+      searchQuery
+        .orWhereLike(`${table}.${column}`, searchData)
+        .orWhereLike(`${table}.${column}`, reverseSearchData);
+    });
+  }
+  return searchQuery;
+}
+
+module.exports = DB = {
+  // выборка записей для автофильтра с подстановкой связанных данных
+  // если столбец называется color, а есть таблица colors - автоматически подтаскивается name и т.д.
+  async findEntriesForQuickFilter({ table, columns, string, respCol }) {
+    const searchQuery = db(table).returning(respCol);
+    addingLikeQuerys({ searchQuery, table, columns, string });
     joinAdditionData({ respCol, table, searchQuery });
 
     return searchQuery.orderBy(columns[0], "asc");
   },
 
-  // второй вариант для выборки записей для автофильтра //
-  async findEntriesForQuickFilter2({ table, columns, string, respCol }) {
-    const searchData = `%${string}%`.replace(regExpForFilter, "%");
-    const reverseSearchData = `${searchData.split("%").reverse().join("%")}`;
-
+  // автофильтр для выборки записей со склада с более сложной структурой
+  async findEntriesForQuickFilterForStock({
+    table,
+    columns,
+    string,
+    respCol,
+    customer,
+  }) {
     const searchQuery = db
       .select(respCol)
       .from(table)
+      .where({ customer })
       .leftJoin("vendorCodes", "stock.vendorCode", "vendorCodes.id")
-      .leftJoin("colors", "stock.color", "colors.id")
       .leftJoin("units", "vendorCodes.unit", "units.id")
-      .where(function () {
-        this.where("vendorCodes.name", "like", `%${searchData}%`).orWhere(
-          "vendorCodes.name",
-          "like",
-          `%${reverseSearchData}%`
-        );
-      });
+      .leftJoin("colors", "stock.color", "colors.id");
+    addingLikeQuerys({ searchQuery, columns, string });
 
     return searchQuery;
   },
+
+  // получить все записи //
+  async getAllEntries2({ table, respCol, customer }) {
+    try {
+      const searchQuery = db
+        .select(respCol)
+        .from(table)
+        .where({ customer })
+        .leftJoin("vendorCodes", "stock.vendorCode", "vendorCodes.id")
+        .leftJoin("units", "vendorCodes.unit", "units.id")
+        .leftJoin("colors", "stock.color", "colors.id");
+      return searchQuery;
+    } catch (e) {
+      console.log(e);
+    }
+    /*     if (customer) {
+          searchQuery.where({ customer });
+        }
+    
+        joinAdditionData({ respCol, table, searchQuery });
+        console.log("searchQuery");
+        console.log(await searchQuery); */
+    return searchQuery;
+  },
+
   // не строгий поиск записей по строке //
   async findLikeEntries({ table, searchColumn, searchData }) {
     return db(table).whereILike(searchColumn, searchData).orderBy(searchColumn);
@@ -146,31 +181,6 @@ module.exports = DB = {
 
     joinAdditionData({ respCol, table, searchQuery });
 
-    return searchQuery;
-  },
-
-  // получить все записи //
-  async getAllEntries2({ table, respCol, customer }) {
-    try {
-      const searchQuery = db
-        .select(respCol)
-        .from(table)
-        .where({ customer })
-        .leftJoin("vendorCodes", "stock.vendorCode", "vendorCodes.id")
-        .leftJoin("units", "vendorCodes.unit", "units.id")
-        .leftJoin("colors", "stock.color", "colors.id");
-      console.log(await searchQuery);
-      return searchQuery;
-    } catch (e) {
-      console.log(e);
-    }
-    /*     if (customer) {
-      searchQuery.where({ customer });
-    }
-
-    joinAdditionData({ respCol, table, searchQuery });
-    console.log("searchQuery");
-    console.log(await searchQuery); */
     return searchQuery;
   },
 

@@ -6,7 +6,7 @@ exports.up = (knex) =>
       .foreign("vendorCode")
       .references("vendorCodes.id")
       .onDelete("RESTRICT");
-    table.integer("color").unsigned();
+    table.integer("color").unsigned().nullable();
     table.foreign("color").references("colors.id").onDelete("RESTRICT");
     table.decimal("amount", 10, 3).unsigned().notNullable();
     table.integer("customer").unsigned().notNullable();

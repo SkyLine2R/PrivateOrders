@@ -10,11 +10,11 @@
 const stockMaterialsSchemaTable = {
   vendorCode: {
     headerName: "Артикул",
-    flex: 1,
+    flex: 0.5,
     editable: false,
     type: "string",
   },
-  itemName: {
+  name: {
     headerName: "Наименование",
     flex: 2,
     editable: false,
@@ -48,10 +48,10 @@ const stockMaterialsSchemaTable = {
     editable: false,
     type: "string",
   },
-  notes: {
+  /*   notes: {
     headerName: "Примечания",
     flex: 1,
     editable: false,
-  },
+  }, */
 };
 module.exports = stockMaterialsSchemaTable;

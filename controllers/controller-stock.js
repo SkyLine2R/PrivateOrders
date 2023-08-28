@@ -13,6 +13,7 @@ const respCol = [
   "vendorCodes.quantity",
   "stock.color",
   "stock.amount",
+  "colors.name as colorName",
 ];
 const addCol = [
   "vendorCodes.vendorCode",
@@ -23,16 +24,15 @@ const addCol = [
   "notes",
 ];
 
+const joinCol = [[]];
+
 async function getAll(req, res) {
   try {
-    console.log("DB.getAllEntries2");
     const resp = await DB.getAllEntries2({
       table,
       respCol,
       customer: req.body.customer,
     });
-    console.log("resp");
-    console.log(resp);
     return res.json(resp);
   } catch (e) {
     res.status(400).json({ error: "Ошибка БД при получении материалов" });
@@ -41,13 +41,14 @@ async function getAll(req, res) {
 
 async function getFiltered(req, res) {
   try {
-    const resp = await DB.__findEntriesForQuickFilter({
+    const resp = await DB.findEntriesForQuickFilter2({
       ...req.body.data,
       table,
       respCol,
     });
     return res.json(resp);
   } catch (e) {
+    console.log(e);
     res.status(400).json({ error: "Ошибка БД при получении материалов" });
   }
 }
@@ -67,7 +68,7 @@ async function add(req, res) {
           searchData: {
             customer: req.body.customer,
             vendorCode: req.body.data.vendorCodeId,
-            color: req.body.data.stockColor,
+            color: +req.body.data.stockColor || null,
           },
           respCol: "id",
         })
@@ -82,7 +83,7 @@ async function add(req, res) {
         dataObj: {
           customer: req.body.customer,
           vendorCode: req.body.data.vendorCodeId,
-          color: req.body.data.stockColor,
+          color: +req.body.data.stockColor || null,
           amount: req.body.data.stockAmount,
           createdBy: req.auth.id,
           updatedBy: req.auth.id,

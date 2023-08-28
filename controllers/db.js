@@ -37,8 +37,6 @@ async function joinAdditionData({ respCol, table, searchQuery }) {
         .select(`${table}.*`, `${tableName}.name as ${column}`);
     }
   });
-  console.log("searchQuery1");
-  console.log(await searchQuery);
   return searchQuery;
 }
 
@@ -66,6 +64,27 @@ module.exports = DB = {
     return searchQuery.orderBy(columns[0], "asc");
   },
 
+  // второй вариант для выборки записей для автофильтра //
+  async findEntriesForQuickFilter2({ table, columns, string, respCol }) {
+    const searchData = `%${string}%`.replace(regExpForFilter, "%");
+    const reverseSearchData = `${searchData.split("%").reverse().join("%")}`;
+
+    const searchQuery = db
+      .select(respCol)
+      .from(table)
+      .leftJoin("vendorCodes", "stock.vendorCode", "vendorCodes.id")
+      .leftJoin("colors", "stock.color", "colors.id")
+      .leftJoin("units", "vendorCodes.unit", "units.id")
+      .where(function () {
+        this.where("vendorCodes.name", "like", `%${searchData}%`).orWhere(
+          "vendorCodes.name",
+          "like",
+          `%${reverseSearchData}%`
+        );
+      });
+
+    return searchQuery;
+  },
   // не строгий поиск записей по строке //
   async findLikeEntries({ table, searchColumn, searchData }) {
     return db(table).whereILike(searchColumn, searchData).orderBy(searchColumn);
@@ -137,8 +156,9 @@ module.exports = DB = {
         .select(respCol)
         .from(table)
         .where({ customer })
-        .join("vendorCodes", "stock.vendorCode", "vendorCodes.id")
-        .join("units", "vendorCodes.unit", "units.id");
+        .leftJoin("vendorCodes", "stock.vendorCode", "vendorCodes.id")
+        .leftJoin("units", "vendorCodes.unit", "units.id")
+        .leftJoin("colors", "stock.color", "colors.id");
       console.log(await searchQuery);
       return searchQuery;
     } catch (e) {

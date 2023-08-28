@@ -8,37 +8,7 @@ const bcrypt = require("bcrypt");
 exports.seed = (knex) =>
   knex("vendorCodes")
     .del()
-    .then(() =>
-      knex("vendorCodes").insert([
-        {
-          id: 1,
-          vendorCode: "010703",
-          name: "Алюминиевый профиль закладная деталь для стойки",
-          unit: "1",
-          quantity: "6",
-          createdBy: "1",
-          updatedBy: 1,
-        },
-        {
-          id: 2,
-          vendorCode: "432254",
-          name: "Алюминиевый профиль стойка 149мм",
-          unit: "1",
-          quantity: "4.6",
-          createdBy: "1",
-          updatedBy: 1,
-        },
-        {
-          id: 3,
-          vendorCode: "990117",
-          name: "Саморез с пот. головкой 4,2*16 А2",
-          unit: "2",
-          quantity: "100",
-          createdBy: "1",
-          updatedBy: 1,
-        },
-      ])
-    )
+
     .then(() =>
       knex("users")
         .del()
@@ -100,4 +70,35 @@ exports.seed = (knex) =>
             updatedBy: 1,
           },
         ])
+    )
+    .then(() =>
+      knex("vendorCodes").insert([
+        {
+          id: 1,
+          vendorCode: "010703",
+          name: "Алюминиевый профиль закладная деталь для стойки",
+          unit: "1",
+          quantity: "6",
+          createdBy: "1",
+          updatedBy: 1,
+        },
+        {
+          id: 2,
+          vendorCode: "432254",
+          name: "Алюминиевый профиль стойка 149мм",
+          unit: "1",
+          quantity: "4.6",
+          createdBy: "1",
+          updatedBy: 1,
+        },
+        {
+          id: 3,
+          vendorCode: "990117",
+          name: "Саморез с пот. головкой 4,2*16 А2",
+          unit: "2",
+          quantity: "100",
+          createdBy: "1",
+          updatedBy: 1,
+        },
+      ])
     );

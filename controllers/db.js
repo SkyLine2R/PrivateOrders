@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 /* eslint-disable no-console */
 /* eslint-disable no-useless-concat */
 /* eslint-disable prefer-template */
@@ -23,8 +24,21 @@ query
   }); */
 // ------------
 
-// проверка связанных колонок и замена данных (ID на текстовые значения)
-async function joinAdditionData({ respCol, table, searchQuery }) {
+// База для поискового запроса по Stock
+//
+async function addBaseForStockSearchQuery({ searchQuery, respCol, customer }) {
+  return searchQuery
+    .select(respCol)
+    .where({ customer })
+    .leftJoin("vendorCodes", "stock.vendorCode", "vendorCodes.id")
+    .leftJoin("units", "vendorCodes.unit", "units.id")
+    .leftJoin("colors", "stock.color", "colors.id");
+}
+
+// проверка связанных колонок
+// и замена данных (ID на текстовые значения)
+//
+function joinAdditionData({ respCol, table, searchQuery }) {
   respCol.forEach(async (column) => {
     const tableName = column + "s";
     const tableExists =
@@ -40,8 +54,10 @@ async function joinAdditionData({ respCol, table, searchQuery }) {
   return searchQuery;
 }
 
-// добавление нужного количества запросов like для нескольких колонок из массива
-function addingLikeQuerys({
+// добавление нужного количества запросов like
+// для нескольких колонок из массива
+//
+async function addLikeInQuerys({
   table = "vendorCodes",
   searchQuery,
   columns,
@@ -53,8 +69,7 @@ function addingLikeQuerys({
   searchQuery
     .whereLike(`${table}.${columns[0]}`, searchData)
     .orWhereLike(`${table}.${columns[0]}`, reverseSearchData);
-
-  // поиск в дополнительных колонках
+  // если передано более 1 колонки - добавляются в поиск
   if (columns.length >= 2) {
     columns.slice(1).forEach((column) => {
       searchQuery
@@ -66,17 +81,29 @@ function addingLikeQuerys({
 }
 
 module.exports = DB = {
+  // получить все записи со склада
+  // + подставить данные со связанных колонок
+  //
+  async getAllEntries2({ table, respCol, customer }) {
+    const searchQuery = db(table);
+    addBaseForStockSearchQuery({ searchQuery, respCol, customer });
+    return searchQuery;
+  },
+
   // выборка записей для автофильтра с подстановкой связанных данных
-  // если столбец называется color, а есть таблица colors - автоматически подтаскивается name и т.д.
+  // если столбец называется color и в БД есть таблица colors -
+  // автоматически подтаскивается столбец colors.name и т.д.
+  //
   async findEntriesForQuickFilter({ table, columns, string, respCol }) {
     const searchQuery = db(table).returning(respCol);
-    addingLikeQuerys({ searchQuery, table, columns, string });
+    addLikeInQuerys({ searchQuery, table, columns, string });
     joinAdditionData({ respCol, table, searchQuery });
 
     return searchQuery.orderBy(columns[0], "asc");
   },
 
   // автофильтр для выборки записей со склада с более сложной структурой
+  //
   async findEntriesForQuickFilterForStock({
     table,
     columns,
@@ -84,58 +111,38 @@ module.exports = DB = {
     respCol,
     customer,
   }) {
-    const searchQuery = db
-      .select(respCol)
-      .from(table)
-      .where({ customer })
-      .leftJoin("vendorCodes", "stock.vendorCode", "vendorCodes.id")
-      .leftJoin("units", "vendorCodes.unit", "units.id")
-      .leftJoin("colors", "stock.color", "colors.id");
-    addingLikeQuerys({ searchQuery, columns, string });
+    const searchQuery = db(table);
+    addBaseForStockSearchQuery({
+      searchQuery,
+      respCol,
+      customer,
+    });
+
+    addLikeInQuerys({ searchQuery, columns, string });
 
     return searchQuery;
   },
 
-  // получить все записи //
-  async getAllEntries2({ table, respCol, customer }) {
-    try {
-      const searchQuery = db
-        .select(respCol)
-        .from(table)
-        .where({ customer })
-        .leftJoin("vendorCodes", "stock.vendorCode", "vendorCodes.id")
-        .leftJoin("units", "vendorCodes.unit", "units.id")
-        .leftJoin("colors", "stock.color", "colors.id");
-      return searchQuery;
-    } catch (e) {
-      console.log(e);
-    }
-    /*     if (customer) {
-          searchQuery.where({ customer });
-        }
-    
-        joinAdditionData({ respCol, table, searchQuery });
-        console.log("searchQuery");
-        console.log(await searchQuery); */
-    return searchQuery;
-  },
-
-  // не строгий поиск записей по строке //
+  // простой не строгий поиск записей по строке
+  //
   async findLikeEntries({ table, searchColumn, searchData }) {
     return db(table).whereILike(searchColumn, searchData).orderBy(searchColumn);
   },
 
-  // строгий поиск записей по строке //
+  // строгий поиск записей по строке
+  //
   async findEntries({ table, searchData, respCol }) {
     return db(table).where(searchData).select(respCol);
   },
 
-  // добавить запись //
+  // добавить запись
+  //
   async addEntry({ table, dataObj, respCol }) {
     return db(table).returning(respCol).insert(dataObj);
   },
 
-  // редактировать запись //
+  // редактировать запись
+  //
   async editEntry({ table, dataObj, respCol }) {
     return db(table)
       .returning(respCol)
@@ -144,7 +151,8 @@ module.exports = DB = {
   },
 
   // обновить количество материала
-
+  //
+  // eslint-disable-next-line no-unused-vars
   async changeAmount({ table, id, addAmount, respCol }) {
     db(table)
       .select("amount")

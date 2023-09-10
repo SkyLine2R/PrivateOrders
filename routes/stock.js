@@ -7,8 +7,6 @@ module.exports = (req, res) => {
       return accessDenied(req, res, 2) || stockController.getAll(req, res);
     case "getFiltered":
       return accessDenied(req, res, 2) || stockController.getFiltered(req, res);
-    case "add":
-      return accessDenied(req, res, 3) || stockController.add(req, res);
     case "edit":
       return accessDenied(req, res, 4) || stockController.edit(req, res);
     case "del":

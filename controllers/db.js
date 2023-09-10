@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 /* eslint-disable no-console */
 /* eslint-disable no-useless-concat */
 /* eslint-disable prefer-template */
@@ -146,29 +147,19 @@ module.exports = DB = {
   // обновить количество материала
 
   async changeAmount({ table, id, addAmount, respCol }) {
-    db(table)
+    return db(table)
       .select("amount")
       .where("id", id)
       .first()
       .then((row) => {
-        if (row) {
-          const currentAmount = row.amount;
-          const updatedAmount = currentAmount + addAmount;
-          if (updatedAmount >= 0) {
-            return knex(table).where("id", id).update("amount", updatedAmount);
-          } else {
-            throw new Error("Недостаточно материала");
-          }
-        } else {
-          throw new Error("Запись с указанным идентификатором не найдена");
-        }
+        if (!row) throw new Error("Произошла непредвиденная ошибка");
+        const updatedAmount = +row.amount + addAmount;
+        if (updatedAmount < 0)
+          throw new Error("Ошибка. Недостаточно материала");
+        return db(table).where("id", id).update("amount", updatedAmount);
       })
-      .then(() => {
-        console.log("Значение успешно обновлено");
-      })
-      .catch((error) => {
-        console.error("Ошибка при обновлении значения:", error);
-      });
+      .then(() => "Материал добавлен")
+      .catch((error) => ({ error }));
   },
 
   // получить все записи //

@@ -10,6 +10,7 @@ const colors = require("./colors");
 const documentsStock = require("./documentsStock");
 const stock = require("./stock");
 const units = require("./units");
+const inStock = require("./inStock");
 
 router.post("/users", users);
 router.post("/vendorCodes", vendorcodes);
@@ -19,6 +20,6 @@ router.post("/customers", customers);
 router.post("/stock", stock);
 router.post("/documentsInStock", attachCustomerAndTable, documentsStock);
 router.post("/documentsOutStock", attachCustomerAndTable, documentsStock);
-router.post("/inStock", stock, (req) => console.log(req.body));
+router.post("/inStock", attachCustomerAndTable, inStock);
 
 module.exports = router;

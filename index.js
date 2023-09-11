@@ -56,27 +56,6 @@ app.use((err, req, res, next) => {
   res.render("error");
 });
 
-app.post("/items", (req, res, next) => {
-  Item.create({
-    vendorСode: "333333",
-    name: "name content",
-    unit: "м",
-    length: 6.5,
-    notes: "поле для примечаний",
-  })
-    .then((resp) => {
-      console.log(resp);
-      res.send("Добавлено");
-    })
-    .catch((err) => {
-      console.error(err);
-      return res.json({
-        success: false,
-        message: "Ошибка при добавлении артикула...",
-      });
-    });
-}); // добавить артикул
-
 app.listen(app.get("port"), () => {
   console.log("App started on port", app.get("port"));
 });

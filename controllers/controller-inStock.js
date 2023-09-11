@@ -3,8 +3,8 @@ const DB = require("./db");
 const dbSchema = require("../components/db_schema_for_testing/db_schema-in-out-stock");
 const testingDataFromInput = require("../components/testing-data-from-input");
 
-const table = "stock";
-const respCol = [
+const table = "inStock";
+/* const respCol = [
   "stock.id",
   "vendorCodes.vendorCode",
   "vendorCodes.name",
@@ -14,10 +14,22 @@ const respCol = [
   "stock.color",
   "stock.amount",
   "colors.name as colorName",
+]; */
+const respCol = [
+  "inStock.id",
+  "vendorCodes.vendorCode",
+  "vendorCodes.name",
+  "vendorCodes.unit",
+  "vendorCodes.quantity",
+  "units.name as unit",
+  "stock.color",
+  "inStock.amount",
+  "colors.name as colorName",
 ];
 
 async function getAll(req, res) {
   try {
+    console.log(req.body);
     const resp = await DB.getAllEntries2({
       table,
       respCol,
@@ -89,13 +101,14 @@ async function add(req, res, next) {
         addAmount: +req.body.data.stockAmount,
       });
       if (upd?.error) throw new Error(upd.error);
-      addEntry({
+      console.log("req.body.data");
+      console.log(req.body.data);
+      DB.addEntry({
         table,
         dataObj: {
           material: req.body.data.stockId,
-          customer: req.body.customer,
           stock: req.body.stock,
-          document,
+          document: req.body.document,
           amount: +req.body.data.stockAmount,
           createdBy: req.auth.id,
           updatedBy: req.auth.id,

@@ -24,12 +24,56 @@ query
   }); */
 // ------------
 
+// Таблица зависимостей для автоматического подтаскивания
+// joinLeft значений из связанных колонок
+const tableDependencies = {
+  inStock: { next: "stock", dependencies: [["inStock.stock", "stock.id"]] },
+  outStock: { next: "stock", dependencies: [["outStock.stock", "stock.id"]] },
+  stock: {
+    next: "vendorCodes",
+    dependencies: [
+      ["stock.vendorCode", "vendorCodes.id"],
+      ["stock.color", "colors.id"],
+    ],
+  },
+  vendorCodes: {
+    next: "units",
+    dependencies: [["vendorCodes.unit", "units.id"]],
+  },
+};
+
+async function createBaseQueryWithLeftJoin({
+  searchQuery,
+  table,
+  respCol,
+  customer,
+}) {
+  const baseQuery = searchQuery.select(respCol).where({ customer });
+  /*   const startIndex = tableDependencies.findIndex((item) =>
+    Object.prototype.hasOwnProperty.call(item, table)
+  ); */
+  let current = table;
+  console.log("current");
+  console.log(current);
+  while (Object.prototype.hasOwnProperty.call(tableDependencies, current)) {
+    tableDependencies[current].dependencies.forEach((value) => {
+      baseQuery.leftJoin(value[0], value[1]);
+    });
+    current = tableDependencies[current].next;
+    console.log("current");
+    console.log(current);
+  }
+
+  return baseQuery;
+}
+
 // База для поискового запроса по Stock
 //
 async function addBaseForStockSearchQuery({ searchQuery, respCol, customer }) {
   return searchQuery
     .select(respCol)
     .where({ customer })
+    .leftJoin("stock", "inStock.stock", "stock.id")
     .leftJoin("vendorCodes", "stock.vendorCode", "vendorCodes.id")
     .leftJoin("units", "vendorCodes.unit", "units.id")
     .leftJoin("colors", "stock.color", "colors.id");
@@ -86,7 +130,8 @@ module.exports = DB = {
   //
   async getAllEntries2({ table, respCol, customer }) {
     const searchQuery = db(table);
-    addBaseForStockSearchQuery({ searchQuery, respCol, customer });
+    createBaseQueryWithLeftJoin({ searchQuery, table, respCol, customer });
+    // addBaseForStockSearchQuery({ searchQuery, respCol, customer });
     return searchQuery;
   },
 

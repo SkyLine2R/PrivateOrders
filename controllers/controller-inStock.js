@@ -43,6 +43,9 @@ async function getAll(req, res) {
 
 async function getFiltered(req, res) {
   try {
+    console.log("get filtered");
+    console.log("req.body");
+    console.log(req.body);
     const resp = await DB.findEntriesForQuickFilterForStock({
       ...req.body.data,
       table,

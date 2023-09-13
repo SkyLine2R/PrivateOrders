@@ -49,19 +49,16 @@ async function createBaseQueryWithLeftJoin({
   customer,
 }) {
   const baseQuery = searchQuery.select(respCol).where({ customer });
-  /*   const startIndex = tableDependencies.findIndex((item) =>
-    Object.prototype.hasOwnProperty.call(item, table)
-  ); */
+
   let current = table;
   console.log("current");
   console.log(current);
   while (Object.prototype.hasOwnProperty.call(tableDependencies, current)) {
+    const { next } = tableDependencies[current];
     tableDependencies[current].dependencies.forEach((value) => {
-      baseQuery.leftJoin(value[0], value[1]);
+      baseQuery.leftJoin(next, value[0], value[1]);
     });
-    current = tableDependencies[current].next;
-    console.log("current");
-    console.log(current);
+    current = next;
   }
 
   return baseQuery;

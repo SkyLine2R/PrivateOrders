@@ -30,11 +30,12 @@ const tableDependencies = {
   inStock: { next: "stock", dependencies: [["inStock.stock", "stock.id"]] },
   outStock: { next: "stock", dependencies: [["outStock.stock", "stock.id"]] },
   stock: {
+    next: "colors",
+    dependencies: [["stock.color", "colors.id"]],
+  },
+  colors: {
     next: "vendorCodes",
-    dependencies: [
-      ["stock.vendorCode", "vendorCodes.id"],
-      ["stock.color", "colors.id"],
-    ],
+    dependencies: [["stock.vendorCode", "vendorCodes.id"]],
   },
   vendorCodes: {
     next: "units",
@@ -42,38 +43,30 @@ const tableDependencies = {
   },
 };
 
+// База запроса по материалам Stock
+//
+
 async function createBaseQueryWithLeftJoin({
   searchQuery,
   table,
   respCol,
   customer,
 }) {
-  const baseQuery = searchQuery.select(respCol).where({ customer });
+  searchQuery.select(respCol);
+
+  if (customer) searchQuery.where({ customer });
 
   let current = table;
-  console.log("current");
-  console.log(current);
+
   while (Object.prototype.hasOwnProperty.call(tableDependencies, current)) {
     const { next } = tableDependencies[current];
     tableDependencies[current].dependencies.forEach((value) => {
-      baseQuery.leftJoin(next, value[0], value[1]);
+      searchQuery.leftJoin(next, value[0], value[1]);
     });
     current = next;
   }
 
-  return baseQuery;
-}
-
-// База для поискового запроса по Stock
-//
-async function addBaseForStockSearchQuery({ searchQuery, respCol, customer }) {
-  return searchQuery
-    .select(respCol)
-    .where({ customer })
-    .leftJoin("stock", "inStock.stock", "stock.id")
-    .leftJoin("vendorCodes", "stock.vendorCode", "vendorCodes.id")
-    .leftJoin("units", "vendorCodes.unit", "units.id")
-    .leftJoin("colors", "stock.color", "colors.id");
+  return searchQuery;
 }
 
 // проверка связанных колонок
@@ -137,6 +130,8 @@ module.exports = DB = {
   // автоматически подтаскивается столбец colors.name и т.д.
   //
   async findEntriesForQuickFilter({ table, columns, string, respCol }) {
+    console.log("запрос findEntriesForQuickFilter");
+    console.log("table в начале запроса: " + table);
     const searchQuery = db(table).returning(respCol);
     addLikeInQuerys({ searchQuery, table, columns, string });
     joinAdditionData({ respCol, table, searchQuery });
@@ -154,13 +149,8 @@ module.exports = DB = {
     customer,
   }) {
     const searchQuery = db(table);
-    addBaseForStockSearchQuery({
-      searchQuery,
-      respCol,
-      customer,
-    });
-
-    addLikeInQuerys({ searchQuery, columns, string });
+    createBaseQueryWithLeftJoin({ searchQuery, table, respCol, customer });
+    addLikeInQuerys({ searchQuery, /* table, */ columns, string });
 
     return searchQuery;
   },

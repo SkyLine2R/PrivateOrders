@@ -4,7 +4,14 @@ const vendorCodesDbSchema = require("../components/db_schema_for_testing/db_sche
 const testingDataFromInput = require("../components/testing-data-from-input");
 
 const table = "vendorCodes";
-const respCol = ["id", "vendorCode", "name", "unit", "quantity", "notes"];
+const respCol = [
+  "vendorCodes.id",
+  "vendorCodes.vendorCode",
+  "vendorCodes.name",
+  "units.name as unit",
+  "vendorCodes.quantity",
+  "vendorCodes.notes",
+];
 
 async function getAll(req, res) {
   try {
@@ -20,7 +27,7 @@ async function getAll(req, res) {
 
 async function getFiltered(req, res) {
   try {
-    const resp = await DB.findEntriesForQuickFilter({
+    const resp = await DB.findEntriesForQuickFilterForStock({
       ...req.body.data,
       table,
       respCol,

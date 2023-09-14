@@ -27,18 +27,19 @@ query
 // Таблица зависимостей для автоматического подтаскивания
 // joinLeft значений из связанных колонок
 const tableDependencies = {
-  inStock: { next: "stock", dependencies: [["inStock.stock", "stock.id"]] },
-  outStock: { next: "stock", dependencies: [["outStock.stock", "stock.id"]] },
+  inStock: { next: "stock", dependencies: ["inStock.stock", "stock.id"] },
+  outStock: { next: "stock", dependencies: ["outStock.stock", "stock.id"] },
   stock: {
+    next: "colors",
+    dependencies: ["stock.color", "colors.id"],
+  },
+  colors: {
     next: "vendorCodes",
-    dependencies: [
-      ["stock.vendorCode", "vendorCodes.id"],
-      ["stock.color", "colors.id"],
-    ],
+    dependencies: ["stock.vendorCode", "vendorCodes.id"],
   },
   vendorCodes: {
     next: "units",
-    dependencies: [["vendorCodes.unit", "units.id"]],
+    dependencies: ["vendorCodes.unit", "units.id"],
   },
 };
 
@@ -54,10 +55,13 @@ async function createBaseQueryWithLeftJoin({
   console.log("current");
   console.log(current);
   while (Object.prototype.hasOwnProperty.call(tableDependencies, current)) {
-    const { next } = tableDependencies[current];
-    tableDependencies[current].dependencies.forEach((value) => {
+    const { next, dependencies } = tableDependencies[current];
+
+    baseQuery.leftJoin(next, dependencies[0], dependencies[1]);
+
+    /*     tableDependencies[current].dependencies.forEach((value) => {
       baseQuery.leftJoin(next, value[0], value[1]);
-    });
+    }); */
     current = next;
   }
 
@@ -66,7 +70,7 @@ async function createBaseQueryWithLeftJoin({
 
 // База для поискового запроса по Stock
 //
-async function addBaseForStockSearchQuery({ searchQuery, respCol, customer }) {
+/* async function addBaseForStockSearchQuery({ searchQuery, respCol, customer }) {
   return searchQuery
     .select(respCol)
     .where({ customer })
@@ -74,12 +78,12 @@ async function addBaseForStockSearchQuery({ searchQuery, respCol, customer }) {
     .leftJoin("vendorCodes", "stock.vendorCode", "vendorCodes.id")
     .leftJoin("units", "vendorCodes.unit", "units.id")
     .leftJoin("colors", "stock.color", "colors.id");
-}
+} */
 
 // проверка связанных колонок
 // и замена данных (ID на текстовые значения)
 //
-function joinAdditionData({ respCol, table, searchQuery }) {
+/* function joinAdditionData({ respCol, table, searchQuery }) {
   respCol.forEach(async (column) => {
     const tableName = column + "s";
     const tableExists =
@@ -93,7 +97,7 @@ function joinAdditionData({ respCol, table, searchQuery }) {
     }
   });
   return searchQuery;
-}
+} */
 
 // добавление нужного количества запросов like
 // для нескольких колонок из массива
@@ -137,6 +141,8 @@ module.exports = DB = {
   // автоматически подтаскивается столбец colors.name и т.д.
   //
   async findEntriesForQuickFilter({ table, columns, string, respCol }) {
+    console.log("table");
+    console.log(table);
     const searchQuery = db(table).returning(respCol);
     addLikeInQuerys({ searchQuery, table, columns, string });
     joinAdditionData({ respCol, table, searchQuery });
@@ -154,11 +160,15 @@ module.exports = DB = {
     customer,
   }) {
     const searchQuery = db(table);
-    addBaseForStockSearchQuery({
+    createBaseQueryWithLeftJoin({ searchQuery, table, respCol, customer });
+
+    /*     addBaseForStockSearchQuery({
       searchQuery,
       respCol,
       customer,
-    });
+    }); */
+    console.log("findEntriesForQuickFilterForStock");
+    console.log("table: " + table);
 
     addLikeInQuerys({ searchQuery, columns, string });
 

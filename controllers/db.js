@@ -27,8 +27,8 @@ query
 // Таблица зависимостей для автоматического подтаскивания
 // joinLeft значений из связанных колонок
 const tableDependencies = {
-  inStock: { next: "stock", dependencies: [["inStock.stock", "stock.id"]] },
-  outStock: { next: "stock", dependencies: [["outStock.stock", "stock.id"]] },
+  inStock: { next: "stock", dependencies: ["inStock.stock", "stock.id"] },
+  outStock: { next: "stock", dependencies: ["outStock.stock", "stock.id"] },
   stock: {
     next: "colors",
     dependencies: [["stock.color", "colors.id"]],
@@ -39,7 +39,7 @@ const tableDependencies = {
   },
   vendorCodes: {
     next: "units",
-    dependencies: [["vendorCodes.unit", "units.id"]],
+    dependencies: ["vendorCodes.unit", "units.id"],
   },
 };
 
@@ -59,20 +59,35 @@ async function createBaseQueryWithLeftJoin({
   let current = table;
 
   while (Object.prototype.hasOwnProperty.call(tableDependencies, current)) {
-    const { next } = tableDependencies[current];
-    tableDependencies[current].dependencies.forEach((value) => {
-      searchQuery.leftJoin(next, value[0], value[1]);
-    });
+    const { next, dependencies } = tableDependencies[current];
+
+    baseQuery.leftJoin(next, dependencies[0], dependencies[1]);
+
+    /*     tableDependencies[current].dependencies.forEach((value) => {
+      baseQuery.leftJoin(next, value[0], value[1]);
+    }); */
     current = next;
   }
 
-  return searchQuery;
+  return baseQuery;
 }
+
+// База для поискового запроса по Stock
+//
+/* async function addBaseForStockSearchQuery({ searchQuery, respCol, customer }) {
+  return searchQuery
+    .select(respCol)
+    .where({ customer })
+    .leftJoin("stock", "inStock.stock", "stock.id")
+    .leftJoin("vendorCodes", "stock.vendorCode", "vendorCodes.id")
+    .leftJoin("units", "vendorCodes.unit", "units.id")
+    .leftJoin("colors", "stock.color", "colors.id");
+} */
 
 // проверка связанных колонок
 // и замена данных (ID на текстовые значения)
 //
-function joinAdditionData({ respCol, table, searchQuery }) {
+/* function joinAdditionData({ respCol, table, searchQuery }) {
   respCol.forEach(async (column) => {
     const tableName = column + "s";
     const tableExists =
@@ -86,7 +101,7 @@ function joinAdditionData({ respCol, table, searchQuery }) {
     }
   });
   return searchQuery;
-}
+} */
 
 // добавление нужного количества запросов like
 // для нескольких колонок из массива

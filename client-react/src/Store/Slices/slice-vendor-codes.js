@@ -6,30 +6,25 @@ import sendEntryToDB from "../sendEntryToDB";
 
 const api = "vendorCodes";
 
+const defaultInputFields = {
+  vendorCode: "",
+  name: "",
+  unit: "м / хл.",
+  quantity: 1,
+  notes: "",
+};
+
 const successSending = (state, payload) => {
   state.lastVendorCodeId = payload.data.id;
   state.modalWindowIsOpen = false;
-  state.inputFields = {
-    vendorCode: "",
-    name: "",
-    unit: "м / хл.",
-    quantity: 0,
-    notes: "",
-  };
+  state.inputFields = { ...defaultInputFields };
 };
 
 const vendorCodes = createSlice({
   name: api,
   initialState: {
     modalWindowIsOpen: false,
-    inputFields: {
-      id: null,
-      vendorCode: "",
-      name: "",
-      unit: "м / хл.",
-      quantity: "1",
-      notes: "",
-    },
+    inputFields: { ...defaultInputFields, id: null },
     catalog: [],
     request: {
       status: null,
@@ -53,12 +48,6 @@ const vendorCodes = createSlice({
     changeValue: ({ inputFields }, { payload }) => {
       inputFields[payload.fieldId] = payload.value;
     },
-
-    /*     copyPasteValue: ({ catalog, inputFields }, { payload }) => {
-      inputFields[payload.fieldId] = catalog.find(
-        (item) => item.id === payload.id
-      )[payload.fieldId];
-    }, */
   },
 
   extraReducers: (builder) => {

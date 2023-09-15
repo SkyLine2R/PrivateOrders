@@ -6,15 +6,19 @@ import sendEntryToDB from "../sendEntryToDB";
 
 const api = "users";
 
+const defaultInputFields = {
+  id: null,
+  login: "",
+  name: "",
+  pass: "",
+  accessLevel: 0,
+};
+
 const successSending = (state, payload) => {
   if (payload.api !== api) return;
   state.modalWindowIsOpen = false;
   state.inputFields = {
-    id: null,
-    login: "",
-    name: "",
-    pass: "",
-    accessLevel: 0,
+    ...defaultInputFields,
   };
 };
 
@@ -22,7 +26,7 @@ const users = createSlice({
   name: api,
   initialState: {
     modalWindowIsOpen: false,
-    inputFields: { id: null, login: "", name: "", pass: "", accessLevel: 0 },
+    inputFields: defaultInputFields,
     catalog: [],
     request: {
       status: null,

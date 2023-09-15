@@ -3,14 +3,16 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const api = "quickSearch";
 
+const defaultInputFields = {
+  quickSearchString: "",
+  tables: [],
+  columns: [],
+};
+
 const quickSearch = createSlice({
   name: api,
   initialState: {
-    inputFields: {
-      quickSearchString: "",
-      tables: [],
-      columns: [],
-    },
+    inputFields: defaultInputFields,
   },
   reducers: {
     changeValue: ({ inputFields }, { payload }) => {

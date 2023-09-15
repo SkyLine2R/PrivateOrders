@@ -6,17 +6,20 @@ import sendEntryToDB from "../sendEntryToDB";
 
 const api = "documentsInStock";
 
+const defaultInputFields = {
+  id: null,
+  date: null,
+  name: "",
+  number: "",
+  notes: "",
+};
+
 const successSending = (state, payload) => {
   if (payload.api !== api) return;
 
   state.modalWindowIsOpen = false;
-
   state.inputFields = {
-    id: null,
-    date: null,
-    name: "",
-    number: "",
-    notes: "",
+    ...defaultInputFields,
   };
 };
 
@@ -25,13 +28,7 @@ const documentsInStock = createSlice({
   initialState: {
     activeTab: 0,
     modalWindowIsOpen: false,
-    inputFields: {
-      id: null,
-      date: "",
-      name: "",
-      number: "",
-      notes: "",
-    },
+    inputFields: defaultInputFields,
     catalog: [],
     opened: [],
     request: {

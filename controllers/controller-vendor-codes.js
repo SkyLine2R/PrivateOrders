@@ -97,7 +97,13 @@ async function del(req, res) {
   } catch (e) {
     // eslint-disable-next-line no-console
     console.log(e);
-    res.status(400).json({ error: "Ошибка при удалении записи" });
+    const eMessage = {
+      error:
+        e.errno === 19
+          ? "Удаление невозможно. Артикул используется в товарообороте."
+          : "Ошибка при удалении записи",
+    };
+    res.status(400).json(eMessage);
   }
 }
 

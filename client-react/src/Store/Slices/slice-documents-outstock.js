@@ -5,19 +5,19 @@ import serverRequest from "../serverRequest";
 import sendEntryToDB from "../sendEntryToDB";
 
 const api = "documentsOutStock";
-
+const defaultInputFields = {
+  id: null,
+  date: null,
+  name: "",
+  number: "",
+  notes: "",
+};
 const successSending = (state, payload) => {
   if (payload.api !== api) return;
 
   state.modalWindowIsOpen = false;
 
-  state.inputFields = {
-    id: null,
-    date: null,
-    name: "",
-    number: "",
-    notes: "",
-  };
+  state.inputFields = { ...defaultInputFields };
 };
 
 const documentsOutStock = createSlice({
@@ -25,13 +25,7 @@ const documentsOutStock = createSlice({
   initialState: {
     activeTab: 0,
     modalWindowIsOpen: false,
-    inputFields: {
-      id: null,
-      date: "",
-      name: "",
-      number: "",
-      notes: "",
-    },
+    inputFields: defaultInputFields,
     catalog: [],
     opened: [],
     request: {

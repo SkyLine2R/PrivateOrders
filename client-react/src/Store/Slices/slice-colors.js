@@ -6,14 +6,18 @@ import sendEntryToDB from "../sendEntryToDB";
 
 const api = "colors";
 
+const defaultInputFields = {
+  id: null,
+  name: "",
+  notes: "",
+};
+
 const successSending = (state, payload) => {
   if (payload.api !== api) return;
 
   state.modalWindowIsOpen = false;
   state.inputFields = {
-    id: null,
-    name: "",
-    notes: "",
+    ...defaultInputFields,
   };
 };
 
@@ -21,19 +25,13 @@ const colors = createSlice({
   name: api,
   initialState: {
     modalWindowIsOpen: false,
-    inputFields: {
-      id: null,
-      name: "",
-      notes: "",
-    },
+    inputFields: defaultInputFields,
     catalog: [],
     request: {
       status: null,
       error: null,
       prevReq: {},
     },
-    /*     workCustomer: null,
-     */
   },
 
   reducers: {

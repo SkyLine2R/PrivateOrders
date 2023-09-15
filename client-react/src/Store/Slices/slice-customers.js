@@ -6,15 +6,17 @@ import sendEntryToDB from "../sendEntryToDB";
 
 const api = "customers";
 
+const defaultInputFields = {
+  id: null,
+  name: "",
+  notes: "",
+};
+
 const successSending = (state, payload) => {
   if (payload.api !== api) return;
 
   state.modalWindowIsOpen = false;
-  state.inputFields = {
-    id: null,
-    name: "",
-    notes: "",
-  };
+  state.inputFields = { ...defaultInputFields };
 };
 
 const customers = createSlice({
@@ -22,11 +24,7 @@ const customers = createSlice({
   initialState: {
     currentId: 1, // для отладки. Заменить на null
     modalWindowIsOpen: false,
-    inputFields: {
-      id: null,
-      name: "",
-      notes: "",
-    },
+    inputFields: defaultInputFields,
     catalog: [],
     request: {
       status: null,

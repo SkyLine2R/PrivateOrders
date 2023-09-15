@@ -6,26 +6,24 @@ import sendEntryToDB from "../sendEntryToDB";
 
 const api = "stock";
 
+const defaultInputFields = {
+  id: null,
+  name: "",
+  notes: "",
+};
+
 const successSending = (state, payload) => {
   if (payload.api !== api) return;
 
   state.modalWindowIsOpen = false;
-  state.inputFields = {
-    id: null,
-    name: "",
-    notes: "",
-  };
+  state.inputFields = { ...defaultInputFields };
 };
 
 const stock = createSlice({
   name: api,
   initialState: {
     modalWindowIsOpen: false,
-    inputFields: {
-      id: null,
-      name: "",
-      notes: "",
-    },
+    inputFields: { ...defaultInputFields },
     catalog: [],
     request: {
       status: null,

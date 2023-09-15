@@ -6,21 +6,27 @@ import sendEntryToDB from "../sendEntryToDB";
 
 const api = "inStock";
 
+const defaultInputFields = {
+  vendorCodeId: null,
+  vendorCode: "",
+  vendorCodeName: "",
+  vendorCodeQuantity: 6.8,
+  vendorCodeUnit: "",
+  stockId: null,
+  stockColor: "0",
+  stockAmount: null,
+  stockAmountInUnit: null,
+  document: null,
+  notes: "",
+};
+
 const successSending = (state, payload) => {
   if (payload.api !== api) return;
 
   state.modalWindowIsOpen = false;
   state.inputFields = {
-    vendorCodeId: null,
-    vendorCode: "",
-    vendorCodeName: "",
-    vendorCodeQuantity: null,
-    vendorCodeUnit: "",
-    stockId: null,
-    stockColor: "0",
-    stockAmount: null,
-    stockAmountInUnit: null,
-    notes: "",
+    ...defaultInputFields,
+    document: state.inputFields.document,
   };
 };
 
@@ -28,19 +34,7 @@ const inStock = createSlice({
   name: api,
   initialState: {
     modalWindowIsOpen: false,
-    inputFields: {
-      vendorCodeId: null,
-      vendorCode: "",
-      vendorCodeName: "",
-      vendorCodeQuantity: 6.8,
-      vendorCodeUnit: "",
-      stockId: null,
-      stockColor: "0",
-      stockAmount: 6.8,
-      stockAmountInUnit: 1,
-      document: null,
-      notes: "",
-    },
+    inputFields: defaultInputFields,
     catalog: [],
     request: {
       status: null,

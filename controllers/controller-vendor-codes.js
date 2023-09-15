@@ -42,7 +42,6 @@ async function add(req, res) {
   try {
     const itemData = testingDataFromInput(vendorCodesDbSchema, req.body.data);
     if (itemData.error) return res.json(itemData.error);
-
     const item = (
       await DB.addEntry({
         table,
@@ -51,7 +50,7 @@ async function add(req, res) {
           createdBy: req.auth.id,
           updatedBy: req.auth.id,
         },
-        respCol,
+        respCol: ["vendorCode"],
       })
     )[0];
 

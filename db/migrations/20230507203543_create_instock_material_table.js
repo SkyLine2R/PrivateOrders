@@ -7,7 +7,7 @@ exports.up = (knex) =>
     table.integer("document").unsigned().notNullable();
     table
       .foreign("document")
-      .references("inStockDocuments.id")
+      .references("documentsInStock.id")
       .onDelete("RESTRICT");
     table.string("notes", 180);
     table.integer("order").unsigned(); // на будущее сделать изменяемый порядок сортировки материала в документе

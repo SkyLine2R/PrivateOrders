@@ -4,17 +4,7 @@ const dbSchema = require("../components/db_schema_for_testing/db_schema-in-out-s
 const testingDataFromInput = require("../components/testing-data-from-input");
 
 const table = "inStock";
-/* const respCol = [
-  "stock.id",
-  "vendorCodes.vendorCode",
-  "vendorCodes.name",
-  "vendorCodes.unit",
-  "vendorCodes.quantity",
-  "units.name as unit",
-  "stock.color",
-  "stock.amount",
-  "colors.name as colorName",
-]; */
+
 const respCol = [
   "inStock.id",
   "vendorCodes.vendorCode",
@@ -29,8 +19,7 @@ const respCol = [
 
 async function getAll(req, res) {
   try {
-    console.log(req.body);
-    const resp = await DB.getAllEntries2({
+    const resp = await DB.getAllEntries({
       table,
       respCol,
       customer: req.body.customer,
@@ -43,9 +32,6 @@ async function getAll(req, res) {
 
 async function getFiltered(req, res) {
   try {
-    console.log("get filtered");
-    console.log("req.body");
-    console.log(req.body);
     const resp = await DB.findEntriesForQuickFilterForStock({
       ...req.body.data,
       table,
@@ -61,11 +47,15 @@ async function getFiltered(req, res) {
 
 async function add(req, res, next) {
   try {
+    console.log("Добавление");
+    console.log("req.body.data");
+    console.log(req.body.data);
     const itemData = testingDataFromInput(dbSchema, req.body.data);
-    if (itemData.error) throw new Error(res.json(itemData.error));
 
-    // если не указан id материала в таблице на складе
-    // найдём его по характеристикам и добавим id тело запроса
+    if (itemData?.error) throw new Error(itemData.error);
+
+    // если не указан id материала на складе
+    // найдём его по характеристикам и добавим id в тело запроса
     if (!req.body?.data?.stockId) {
       const materialInDb = (
         await DB.findEntries({
@@ -75,7 +65,6 @@ async function add(req, res, next) {
             vendorCode: req.body.data.vendorCodeId,
             color: +req.body.data.stockColor || null,
           },
-          respCol: "id",
         })
       )[0];
       if (materialInDb?.id) req.body.data.stockId = materialInDb.id;
@@ -106,12 +95,13 @@ async function add(req, res, next) {
       if (upd?.error) throw new Error(upd.error);
       console.log("req.body.data");
       console.log(req.body.data);
+      console.log(table);
+
       DB.addEntry({
         table,
         dataObj: {
-          material: req.body.data.stockId,
-          stock: req.body.stock,
-          document: req.body.document,
+          stock: req.body.data.stockId,
+          document: req.body.data.document,
           amount: +req.body.data.stockAmount,
           createdBy: req.auth.id,
           updatedBy: req.auth.id,
@@ -120,10 +110,12 @@ async function add(req, res, next) {
       return res.json(upd);
     }
   } catch (e) {
-    console.log(e);
-    res.status(400).json({ error: e });
+    console.log(e.message);
+    return res
+      .status(400)
+      .json({ error: `Ошибка при добавлении записи. \n ${e.message}` });
   }
-  return next(); /* res.json("item"); */
+  return next();
 }
 
 async function edit(req, res) {

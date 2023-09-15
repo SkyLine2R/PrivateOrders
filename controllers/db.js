@@ -7,45 +7,12 @@
 const knexConfig = require("../db/knexfile");
 // eslint-disable-next-line import/order
 const db = require("knex")(knexConfig[process.env.NODE_ENV]);
+const tableDependencies = require("./dependeciesTableDB");
+// регулярка для запроса быстрого фильтра по артикулам
+const regExpForFilter = /[^а-яё\d\w]/gi;
 
-const regExpForFilter = /[^а-яё\d\w]/gi; // регулярка для запроса быстрого фильтра по артикулам
-
-// -------- тестировщик запросов к БД
-/* const query = db("users").whereExists(function () {
-  this.select("login").where("login", "oleg");
-});
-query
-  .then((items) => {
-    console.log(items);
-    return items;
-  })
-  .catch((err) => {
-    console.log(`Ошибка при получении данных... ${err}`);
-  }); */
-// ------------
-
-// Таблица зависимостей для автоматического подтаскивания
-// joinLeft значений из связанных колонок
-const tableDependencies = {
-  inStock: { next: "stock", dependencies: ["inStock.stock", "stock.id"] },
-  outStock: { next: "stock", dependencies: ["outStock.stock", "stock.id"] },
-  stock: {
-    next: "colors",
-    dependencies: [["stock.color", "colors.id"]],
-  },
-  colors: {
-    next: "vendorCodes",
-    dependencies: [["stock.vendorCode", "vendorCodes.id"]],
-  },
-  vendorCodes: {
-    next: "units",
-    dependencies: ["vendorCodes.unit", "units.id"],
-  },
-};
-
-// База запроса по материалам Stock
+// База запроса по записям с подстановкой зависимых таблиц
 //
-
 async function createBaseQueryWithLeftJoin({
   searchQuery,
   table,
@@ -53,55 +20,17 @@ async function createBaseQueryWithLeftJoin({
   customer,
 }) {
   searchQuery.select(respCol);
-
   if (customer) searchQuery.where({ customer });
+  if (table === "colors") return searchQuery;
 
   let current = table;
-
   while (Object.prototype.hasOwnProperty.call(tableDependencies, current)) {
     const { next, dependencies } = tableDependencies[current];
-
-    baseQuery.leftJoin(next, dependencies[0], dependencies[1]);
-
-    /*     tableDependencies[current].dependencies.forEach((value) => {
-      baseQuery.leftJoin(next, value[0], value[1]);
-    }); */
+    searchQuery.leftJoin(next, dependencies[0], dependencies[1]);
     current = next;
   }
-
-  return baseQuery;
-}
-
-// База для поискового запроса по Stock
-//
-/* async function addBaseForStockSearchQuery({ searchQuery, respCol, customer }) {
-  return searchQuery
-    .select(respCol)
-    .where({ customer })
-    .leftJoin("stock", "inStock.stock", "stock.id")
-    .leftJoin("vendorCodes", "stock.vendorCode", "vendorCodes.id")
-    .leftJoin("units", "vendorCodes.unit", "units.id")
-    .leftJoin("colors", "stock.color", "colors.id");
-} */
-
-// проверка связанных колонок
-// и замена данных (ID на текстовые значения)
-//
-/* function joinAdditionData({ respCol, table, searchQuery }) {
-  respCol.forEach(async (column) => {
-    const tableName = column + "s";
-    const tableExists =
-      tableName !== table ? await db.schema.hasTable(tableName) : false;
-    if (tableExists) {
-      searchQuery
-        .join(tableName, function () {
-          this.on(table + "." + column, "=", tableName + ".id");
-        })
-        .select(`${table}.*`, `${tableName}.name as ${column}`);
-    }
-  });
   return searchQuery;
-} */
+}
 
 // добавление нужного количества запросов like
 // для нескольких колонок из массива
@@ -119,39 +48,24 @@ async function addLikeInQuerys({
     .whereLike(`${table}.${columns[0]}`, searchData)
     .orWhereLike(`${table}.${columns[0]}`, reverseSearchData);
   // если передано более 1 колонки - добавляются в поиск
-  if (columns.length >= 2) {
-    columns.slice(1).forEach((column) => {
-      searchQuery
-        .orWhereLike(`${table}.${column}`, searchData)
-        .orWhereLike(`${table}.${column}`, reverseSearchData);
-    });
-  }
+  if (columns.length < 2) return searchQuery;
+
+  columns.slice(1).forEach((column) => {
+    searchQuery
+      .orWhereLike(`${table}.${column}`, searchData)
+      .orWhereLike(`${table}.${column}`, reverseSearchData);
+  });
   return searchQuery;
 }
 
 module.exports = DB = {
-  // получить все записи со склада
-  // + подставить данные со связанных колонок
+  // получить все записи, при необходимости
+  // подставить данные со связанных колонок
   //
-  async getAllEntries2({ table, respCol, customer }) {
+  async getAllEntries({ table, respCol, customer }) {
     const searchQuery = db(table);
     createBaseQueryWithLeftJoin({ searchQuery, table, respCol, customer });
-    // addBaseForStockSearchQuery({ searchQuery, respCol, customer });
     return searchQuery;
-  },
-
-  // выборка записей для автофильтра с подстановкой связанных данных
-  // если столбец называется color и в БД есть таблица colors -
-  // автоматически подтаскивается столбец colors.name и т.д.
-  //
-  async findEntriesForQuickFilter({ table, columns, string, respCol }) {
-    console.log("запрос findEntriesForQuickFilter");
-    console.log("table в начале запроса: " + table);
-    const searchQuery = db(table).returning(respCol);
-    addLikeInQuerys({ searchQuery, table, columns, string });
-    joinAdditionData({ respCol, table, searchQuery });
-
-    return searchQuery.orderBy(columns[0], "asc");
   },
 
   // автофильтр для выборки записей со склада с более сложной структурой
@@ -184,7 +98,7 @@ module.exports = DB = {
 
   // добавить запись
   //
-  async addEntry({ table, dataObj, respCol }) {
+  async addEntry({ table, dataObj, respCol = ["id"] }) {
     return db(table).returning(respCol).insert(dataObj);
   },
 
@@ -214,19 +128,6 @@ module.exports = DB = {
       })
       .then(() => "Материал добавлен")
       .catch((error) => ({ error }));
-  },
-
-  // получить все записи //
-  async getAllEntries({ table, respCol, customer }) {
-    const searchQuery = db(table).returning(respCol).select();
-
-    if (customer) {
-      searchQuery.where({ customer });
-    }
-
-    joinAdditionData({ respCol, table, searchQuery });
-
-    return searchQuery;
   },
 
   // удалить запись //

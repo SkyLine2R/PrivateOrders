@@ -17,7 +17,7 @@ const respCol = [
 
 async function getAll(req, res) {
   try {
-    const resp = await DB.getAllEntries2({
+    const resp = await DB.getAllEntries({
       table,
       respCol,
       customer: req.body.customer,
@@ -43,33 +43,6 @@ async function getFiltered(req, res) {
   }
 }
 
-async function edit(req, res) {
-  try {
-    const itemData = testingDataFromInput(
-      { ...vendorCodesDbSchema, id: null },
-      req.body.data
-    );
-
-    if (itemData.error) return res.json(itemData.error);
-
-    const item = (
-      await DB.editEntry({
-        table,
-        dataObj: {
-          ...itemData,
-          updatedBy: req.auth.id,
-          updatedAt: Date.now(),
-        },
-        respCol: ["id", "vendorCode"],
-      })
-    )[0];
-
-    return res.json(item);
-  } catch (e) {
-    res.status(400).json({ error: "Ошибка при изменении данных артикула" });
-  }
-}
-
 async function del(req, res) {
   try {
     const item = await DB.delEntry({
@@ -87,6 +60,5 @@ async function del(req, res) {
 module.exports = {
   getFiltered,
   getAll,
-  edit,
   del,
 };

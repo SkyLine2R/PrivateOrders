@@ -7,7 +7,7 @@ exports.up = (knex) =>
     table.integer("document").unsigned().notNullable();
     table
       .foreign("document")
-      .references("outStockDocument.id")
+      .references("documentsOutStock.id")
       .onDelete("RESTRICT");
     table.string("notes", 180);
     table.timestamp("createdAt", { precision: 6 }).defaultTo(Date.now());

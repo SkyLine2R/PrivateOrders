@@ -11,15 +11,15 @@ const successSending = (state, payload) => {
 
   state.modalWindowIsOpen = false;
   state.inputFields = {
-    vendorCode: {
-      id: null,
-      name: "",
-      unit: "",
-      quantity: "",
-    },
-    stock: {
-      amount: null,
-    },
+    vendorCodeId: null,
+    vendorCode: "",
+    vendorCodeName: "",
+    vendorCodeQuantity: null,
+    vendorCodeUnit: "",
+    stockId: null,
+    stockColor: "0",
+    stockAmount: null,
+    stockAmountInUnit: null,
     notes: "",
   };
 };

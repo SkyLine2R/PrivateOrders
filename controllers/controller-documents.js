@@ -23,17 +23,15 @@ async function add(req, res) {
 
     if (itemData.error) return res.status(400).json({ error: itemData.error });
 
-    const item = (
-      await DB.addEntry({
-        table: req.body.table,
-        dataObj: {
-          ...itemData,
-          createdBy: req.auth.id,
-          updatedBy: req.auth.id,
-        },
-        respCol: ["id", "name"],
-      })
-    )[0];
+    const [item] = await DB.addEntry({
+      table: req.body.table,
+      dataObj: {
+        ...itemData,
+        createdBy: req.auth.id,
+        updatedBy: req.auth.id,
+      },
+      respCol: ["id", "name"],
+    });
     return res.json(item);
   } catch (e) {
     // eslint-disable-next-line no-console
@@ -51,18 +49,15 @@ async function edit(req, res) {
 
     if (itemData.error) return res.status(400).json({ error: itemData.error });
 
-    const item = (
-      await DB.editEntry({
-        table: req.body.table,
-        dataObj: {
-          ...itemData,
-          updatedBy: req.auth.id,
-          updatedAt: Date.now(),
-        },
-        respCol: ["id", "name"],
-      })
-    )[0];
-
+    const [item] = await DB.editEntry({
+      table: req.body.table,
+      dataObj: {
+        ...itemData,
+        updatedBy: req.auth.id,
+        updatedAt: Date.now(),
+      },
+      respCol: ["id", "name"],
+    });
     return res.json(item);
   } catch (e) {
     res

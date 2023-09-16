@@ -21,7 +21,7 @@ async function add(req, res) {
   try {
     const itemData = testingDataFromInput(itemsDbSchema, req.body.data);
     if (itemData.error) return res.json(itemData.error);
-    const item = (
+    const [item] = 
       await DB.addEntry({
         table,
         dataObj: {
@@ -31,7 +31,7 @@ async function add(req, res) {
         },
         respCol: ["id", "name"],
       })
-    )[0];
+   
 
     return res.json(item);
   } catch (e) {
@@ -48,7 +48,7 @@ async function edit(req, res) {
 
     if (itemData.error) return res.json(itemData.error);
 
-    const item = (
+    const [item] = 
       await DB.editEntry({
         table,
         dataObj: {
@@ -58,7 +58,7 @@ async function edit(req, res) {
         },
         respCol: ["id", "name"],
       })
-    )[0];
+    
 
     return res.json(item);
   } catch (e) {

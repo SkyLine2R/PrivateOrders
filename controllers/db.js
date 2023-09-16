@@ -18,9 +18,11 @@ async function createBaseQueryWithLeftJoin({
   table,
   respCol,
   customer,
+  document,
 }) {
   searchQuery.select(respCol);
   if (customer) searchQuery.where({ customer });
+  if (document) searchQuery.where({ document });
   if (table === "colors") return searchQuery;
 
   let current = table;
@@ -62,9 +64,15 @@ module.exports = DB = {
   // получить все записи, при необходимости
   // подставить данные со связанных колонок
   //
-  async getAllEntries({ table, respCol, customer }) {
+  async getAllEntries({ table, respCol, customer, document }) {
     const searchQuery = db(table);
-    createBaseQueryWithLeftJoin({ searchQuery, table, respCol, customer });
+    createBaseQueryWithLeftJoin({
+      searchQuery,
+      table,
+      respCol,
+      customer,
+      document,
+    });
     return searchQuery;
   },
 

@@ -46,13 +46,6 @@ export default function EditItemsPage({
 
   const catalog = useSelector((store) => store[page].catalog);
   const openedTab = useSelector((store) => store[page].opened);
-  /*   const docFirs = `documents${page[0].toUpperCase() + page.slice(1)}`;
-  console.log(docFirs);
-
-  const activeTab = useSelector((store) => store?.[docFirs]?.activeTab); */
-  /*   if (page==='inStock' || page==='outStock') {
-
-  } */
 
   React.useEffect(() => {
     if (!modalWindowIsOpen && !alertModalWindowIsOpen) {

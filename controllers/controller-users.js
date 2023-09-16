@@ -40,18 +40,17 @@ async function add(req, res) {
     }
     const hashPass = await bcrypt.hash(userData.pass, 10);
 
-    const login = (
-      await DB.addEntry({
-        table,
-        dataObj: {
-          ...userData,
-          pass: hashPass,
-          createdBy: req.auth.id,
-          updatedBy: req.auth.id,
-        },
-        respCol: "login",
-      })
-    )[0];
+    const [login] = await DB.addEntry({
+      table,
+      dataObj: {
+        ...userData,
+        pass: hashPass,
+        createdBy: req.auth.id,
+        updatedBy: req.auth.id,
+      },
+      respCol: "login",
+    });
+
     return res.json(login);
   } catch (e) {
     // eslint-disable-next-line no-console

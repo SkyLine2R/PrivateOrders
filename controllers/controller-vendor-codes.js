@@ -42,18 +42,15 @@ async function add(req, res) {
   try {
     const itemData = testingDataFromInput(vendorCodesDbSchema, req.body.data);
     if (itemData.error) return res.json(itemData.error);
-    const item = (
-      await DB.addEntry({
-        table,
-        dataObj: {
-          ...itemData,
-          createdBy: req.auth.id,
-          updatedBy: req.auth.id,
-        },
-        respCol: ["vendorCode"],
-      })
-    )[0];
-
+    const [item] = await DB.addEntry({
+      table,
+      dataObj: {
+        ...itemData,
+        createdBy: req.auth.id,
+        updatedBy: req.auth.id,
+      },
+      respCol: ["vendorCode"],
+    });
     return res.json(item);
   } catch (e) {
     res.status(400).json({ error: "Ошибка при добавлении артикула" });
@@ -69,17 +66,15 @@ async function edit(req, res) {
 
     if (itemData.error) return res.json(itemData.error);
 
-    const item = (
-      await DB.editEntry({
-        table,
-        dataObj: {
-          ...itemData,
-          updatedBy: req.auth.id,
-          updatedAt: Date.now(),
-        },
-        respCol,
-      })
-    )[0];
+    const [item] = await DB.editEntry({
+      table,
+      dataObj: {
+        ...itemData,
+        updatedBy: req.auth.id,
+        updatedAt: Date.now(),
+      },
+      respCol,
+    });
 
     return res.json(item);
   } catch (e) {

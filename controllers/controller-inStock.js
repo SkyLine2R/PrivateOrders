@@ -19,10 +19,12 @@ const respCol = [
 
 async function getAll(req, res) {
   try {
+    console.log(req.body);
     const resp = await DB.getAllEntries({
       table,
       respCol,
-      customer: req.body.customer,
+      /*       customer: req.body.customer,
+       */ document: req.body.document,
     });
     return res.json(resp);
   } catch (e) {
@@ -40,16 +42,14 @@ async function getFiltered(req, res) {
     });
     return res.json(resp);
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.log(e);
     res.status(400).json({ error: "Ошибка БД при получении материалов" });
   }
 }
 
-async function add(req, res, next) {
+async function add(req, res) {
   try {
-    console.log("Добавление");
-    console.log("req.body.data");
-    console.log(req.body.data);
     const itemData = testingDataFromInput(dbSchema, req.body.data);
 
     if (itemData?.error) throw new Error(itemData.error);
@@ -57,21 +57,19 @@ async function add(req, res, next) {
     // если не указан id материала на складе
     // найдём его по характеристикам и добавим id в тело запроса
     if (!req.body?.data?.stockId) {
-      const materialInDb = (
-        await DB.findEntries({
-          table: "stock",
-          searchData: {
-            customer: req.body.customer,
-            vendorCode: req.body.data.vendorCodeId,
-            color: +req.body.data.stockColor || null,
-          },
-        })
-      )[0];
+      const [materialInDb] = await DB.findEntries({
+        table: "stock",
+        searchData: {
+          customer: req.body.customer,
+          vendorCode: req.body.data.vendorCodeId,
+          color: +req.body.data.stockColor || null,
+        },
+      });
       if (materialInDb?.id) req.body.data.stockId = materialInDb.id;
     }
     // если такого материала ещё нет на складе - создадим новую запись
     if (!req.body?.data?.stockId) {
-      const itemId = await DB.addEntry({
+      const [itemId] = await DB.addEntry({
         table: "stock",
         dataObj: {
           customer: req.body.customer,
@@ -83,39 +81,35 @@ async function add(req, res, next) {
         },
         respCol: ["id"],
       });
-      if (itemId?.id) throw new Error("Ошибка при добавлении материала");
+      if (!itemId?.id) throw new Error("Ошибка при добавлении материала");
       req.body.data.stockId = itemId.id;
     } else {
       // если материал есть на складе - обновим количество
-      const upd = await DB.changeAmount({
+      const [upd] = await DB.changeAmount({
         table: "stock",
         id: req.body.data.stockId,
         addAmount: +req.body.data.stockAmount,
       });
       if (upd?.error) throw new Error(upd.error);
-      console.log("req.body.data");
-      console.log(req.body.data);
-      console.log(table);
-
-      DB.addEntry({
-        table,
-        dataObj: {
-          stock: req.body.data.stockId,
-          document: req.body.data.document,
-          amount: +req.body.data.stockAmount,
-          createdBy: req.auth.id,
-          updatedBy: req.auth.id,
-        },
-      });
-      return res.json(upd);
     }
+    // Добавим запись о приходе в БД документов
+    const [upd] = await DB.addEntry({
+      table,
+      dataObj: {
+        stock: req.body.data.stockId,
+        document: req.body.data.document,
+        amount: +req.body.data.stockAmount,
+        createdBy: req.auth.id,
+        updatedBy: req.auth.id,
+      },
+    });
+    return res.json(upd);
   } catch (e) {
-    console.log(e.message);
+    console.log(e);
     return res
       .status(400)
       .json({ error: `Ошибка при добавлении записи. \n ${e.message}` });
   }
-  return next();
 }
 
 async function edit(req, res) {

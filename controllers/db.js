@@ -134,7 +134,7 @@ module.exports = DB = {
           throw new Error("Ошибка. Недостаточно материала");
         return db(table).where("id", id).update("amount", updatedAmount);
       })
-      .then(() => "Материал добавлен")
+      .then(() => "Количество материала обновлено")
       .catch((error) => ({ error }));
   },
 

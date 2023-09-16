@@ -55,7 +55,7 @@ async function add(req, res) {
     if (itemData?.error) throw new Error(itemData.error);
 
     // если не указан id материала на складе
-    // найдём его по характеристикам и добавим id в тело запроса
+    // попробуем найти такой по характеристикам и добавим id в тело запроса
     if (!req.body?.data?.stockId) {
       const [materialInDb] = await DB.findEntries({
         table: "stock",
@@ -67,8 +67,8 @@ async function add(req, res) {
       });
       if (materialInDb?.id) req.body.data.stockId = materialInDb.id;
     }
-    // если такого материала ещё нет на складе - создадим новую запись
     if (!req.body?.data?.stockId) {
+      // если нужного материала нет на складе - создадим новую запись
       const [itemId] = await DB.addEntry({
         table: "stock",
         dataObj: {
@@ -141,6 +141,24 @@ async function edit(req, res) {
 
 async function del(req, res) {
   try {
+    console.log(req.body);
+    const [materialToChange] = await DB.findEntries({
+      table: "inStock",
+      searchData: {
+        id: req.body.data.id,
+      },
+      respCol: ["stock", "amount"],
+    });
+    console.log("materialToChange");
+    console.log(materialToChange);
+    const changeResult = await DB.changeAmount({
+      table: "stock",
+      id: materialToChange.stock,
+      addAmount: materialToChange.amount * -1,
+    });
+
+    if (changeResult.error) throw new Error(changeResult.error);
+
     const item = await DB.delEntry({
       table,
       id: req.body.data.id,

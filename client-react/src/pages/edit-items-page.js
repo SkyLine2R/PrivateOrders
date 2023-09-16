@@ -108,7 +108,6 @@ export default function EditItemsPage({
 
     const pressedButton =
       e.target.closest("button").getAttribute("pressed-button") ?? "closeClick";
-
     handleOffMenu();
     menuEditType.current = pressedButton;
 
